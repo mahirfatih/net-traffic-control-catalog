@@ -1,0 +1,229 @@
+[
+  {
+    "key": "akbank",
+    "name": "Akbank",
+    "domains": [
+      "akbank.com"
+    ]
+  },
+  {
+    "key": "amazon",
+    "name": "Amazon",
+    "domains": [
+      "amazon.com",
+      "amazonaws.com",
+      "media-amazon.com",
+      "amazon-adsystem.com",
+      "amazon.com.tr",
+      "amazon.de",
+      "amazon.co.uk"
+    ]
+  },
+  {
+    "key": "apple",
+    "name": "Apple",
+    "domains": [
+      "apple.com",
+      "icloud.com",
+      "mzstatic.com",
+      "me.com",
+      "appstore.com"
+    ]
+  },
+  {
+    "key": "bytedance",
+    "name": "ByteDance",
+    "domains": [
+      "tiktok.com",
+      "tiktokcdn.com",
+      "tiktokv.com",
+      "byteimg.com",
+      "byteoversea.com",
+      "musical.ly",
+      "douyin.com",
+      "capcut.com"
+    ]
+  },
+  {
+    "key": "cloudflare",
+    "name": "Cloudflare",
+    "domains": [
+      "cloudflare.com",
+      "cloudflare-dns.com",
+      "cdnjs.cloudflare.com",
+      "cloudflare.net"
+    ]
+  },
+  {
+    "key": "discord",
+    "name": "Discord",
+    "domains": [
+      "discord.com",
+      "discord.gg",
+      "discordapp.com",
+      "discordapp.net"
+    ]
+  },
+  {
+    "key": "facebook",
+    "name": "Facebook",
+    "domains": [
+      "facebook.com",
+      "fb.com",
+      "fbsbx.com",
+      "fbcdn.net",
+      "fb.gg",
+      "facebookmail.com"
+    ]
+  },
+  {
+    "key": "garantibbva",
+    "name": "Garanti BBVA",
+    "domains": [
+      "garantibbva.com.tr"
+    ]
+  },
+  {
+    "key": "google",
+    "name": "Google",
+    "domains": [
+      "google.com",
+      "googleapis.com",
+      "gstatic.com",
+      "googleusercontent.com",
+      "ggpht.com",
+      "googlesyndication.com",
+      "doubleclick.net",
+      "google-analytics.com",
+      "googletagmanager.com",
+      "google.com.tr",
+      "blogger.com",
+      "firebase.com"
+    ]
+  },
+  {
+    "key": "instagram",
+    "name": "Instagram",
+    "domains": [
+      "instagram.com",
+      "cdninstagram.com"
+    ]
+  },
+  {
+    "key": "microsoft",
+    "name": "Microsoft",
+    "domains": [
+      "microsoft.com",
+      "live.com",
+      "office.com",
+      "bing.com",
+      "msn.com",
+      "windows.net",
+      "office365.com",
+      "sharepoint.com",
+      "xbox.com"
+    ]
+  },
+  {
+    "key": "netflix",
+    "name": "Netflix",
+    "domains": [
+      "netflix.com",
+      "nflxvideo.net",
+      "nflximg.net",
+      "nflxso.net",
+      "nflximg.com"
+    ]
+  },
+  {
+    "key": "reddit",
+    "name": "Reddit",
+    "domains": [
+      "reddit.com",
+      "redd.it",
+      "redditstatic.com",
+      "redditmedia.com"
+    ]
+  },
+  {
+    "key": "spotify",
+    "name": "Spotify",
+    "domains": [
+      "spotify.com",
+      "scdn.co",
+      "spotifycdn.com"
+    ]
+  },
+  {
+    "key": "telegram",
+    "name": "Telegram",
+    "domains": [
+      "telegram.org",
+      "t.me",
+      "tdesktop.com"
+    ]
+  },
+  {
+    "key": "threads",
+    "name": "Threads",
+    "domains": [
+      "threads.net",
+      "threads.com"
+    ]
+  },
+  {
+    "key": "turkcell",
+    "name": "Turkcell",
+    "domains": [
+      "turkcell.com.tr"
+    ]
+  },
+  {
+    "key": "twitter",
+    "name": "Twitter / X",
+    "domains": [
+      "twitter.com",
+      "x.com",
+      "t.co",
+      "twimg.com",
+      "twttr.com"
+    ]
+  },
+  {
+    "key": "vodafone",
+    "name": "Vodafone",
+    "domains": [
+      "vodafone.com.tr",
+      "vodafone.com"
+    ]
+  },
+  {
+    "key": "whatsapp",
+    "name": "WhatsApp",
+    "domains": [
+      "whatsapp.com",
+      "whatsapp.net"
+    ]
+  },
+  {
+    "key": "yandex",
+    "name": "Yandex",
+    "domains": [
+      "yandex.com",
+      "yandex.ru",
+      "yandex.com.tr",
+      "yastatic.net"
+    ]
+  },
+  {
+    "key": "youtube",
+    "name": "YouTube",
+    "domains": [
+      "youtube.com",
+      "youtu.be",
+      "googlevideo.com",
+      "ytimg.com",
+      "youtube-nocookie.com"
+    ]
+  }
+]
