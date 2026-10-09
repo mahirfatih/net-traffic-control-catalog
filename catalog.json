@@ -1121,6 +1121,71 @@
   },
   "services": [
     {
+      "key": "akbank",
+      "name": "Akbank",
+      "domains": [
+        "akbank.com"
+      ]
+    },
+    {
+      "key": "amazon",
+      "name": "Amazon",
+      "domains": [
+        "amazon.com",
+        "amazonaws.com",
+        "media-amazon.com",
+        "amazon-adsystem.com",
+        "amazon.com.tr",
+        "amazon.de",
+        "amazon.co.uk"
+      ]
+    },
+    {
+      "key": "apple",
+      "name": "Apple",
+      "domains": [
+        "apple.com",
+        "icloud.com",
+        "mzstatic.com",
+        "me.com",
+        "appstore.com"
+      ]
+    },
+    {
+      "key": "bytedance",
+      "name": "ByteDance",
+      "domains": [
+        "tiktok.com",
+        "tiktokcdn.com",
+        "tiktokv.com",
+        "byteimg.com",
+        "byteoversea.com",
+        "musical.ly",
+        "douyin.com",
+        "capcut.com"
+      ]
+    },
+    {
+      "key": "cloudflare",
+      "name": "Cloudflare",
+      "domains": [
+        "cloudflare.com",
+        "cloudflare-dns.com",
+        "cdnjs.cloudflare.com",
+        "cloudflare.net"
+      ]
+    },
+    {
+      "key": "discord",
+      "name": "Discord",
+      "domains": [
+        "discord.com",
+        "discord.gg",
+        "discordapp.com",
+        "discordapp.net"
+      ]
+    },
+    {
       "key": "facebook",
       "name": "Facebook",
       "domains": [
@@ -1133,38 +1198,10 @@
       ]
     },
     {
-      "key": "instagram",
-      "name": "Instagram",
+      "key": "garantibbva",
+      "name": "Garanti BBVA",
       "domains": [
-        "instagram.com",
-        "cdninstagram.com"
-      ]
-    },
-    {
-      "key": "whatsapp",
-      "name": "WhatsApp",
-      "domains": [
-        "whatsapp.com",
-        "whatsapp.net"
-      ]
-    },
-    {
-      "key": "threads",
-      "name": "Threads",
-      "domains": [
-        "threads.net",
-        "threads.com"
-      ]
-    },
-    {
-      "key": "twitter",
-      "name": "Twitter / X",
-      "domains": [
-        "twitter.com",
-        "x.com",
-        "t.co",
-        "twimg.com",
-        "twttr.com"
+        "garantibbva.com.tr"
       ]
     },
     {
@@ -1186,25 +1223,11 @@
       ]
     },
     {
-      "key": "youtube",
-      "name": "YouTube",
+      "key": "instagram",
+      "name": "Instagram",
       "domains": [
-        "youtube.com",
-        "youtu.be",
-        "googlevideo.com",
-        "ytimg.com",
-        "youtube-nocookie.com"
-      ]
-    },
-    {
-      "key": "apple",
-      "name": "Apple",
-      "domains": [
-        "apple.com",
-        "icloud.com",
-        "mzstatic.com",
-        "me.com",
-        "appstore.com"
+        "instagram.com",
+        "cdninstagram.com"
       ]
     },
     {
@@ -1223,39 +1246,14 @@
       ]
     },
     {
-      "key": "bytedance",
-      "name": "ByteDance",
+      "key": "netflix",
+      "name": "Netflix",
       "domains": [
-        "tiktok.com",
-        "tiktokcdn.com",
-        "tiktokv.com",
-        "byteimg.com",
-        "byteoversea.com",
-        "musical.ly",
-        "douyin.com",
-        "capcut.com"
-      ]
-    },
-    {
-      "key": "amazon",
-      "name": "Amazon",
-      "domains": [
-        "amazon.com",
-        "amazonaws.com",
-        "media-amazon.com",
-        "amazon-adsystem.com",
-        "amazon.com.tr",
-        "amazon.de",
-        "amazon.co.uk"
-      ]
-    },
-    {
-      "key": "spotify",
-      "name": "Spotify",
-      "domains": [
-        "spotify.com",
-        "scdn.co",
-        "spotifycdn.com"
+        "netflix.com",
+        "nflxvideo.net",
+        "nflximg.net",
+        "nflxso.net",
+        "nflximg.com"
       ]
     },
     {
@@ -1269,14 +1267,12 @@
       ]
     },
     {
-      "key": "netflix",
-      "name": "Netflix",
+      "key": "spotify",
+      "name": "Spotify",
       "domains": [
-        "netflix.com",
-        "nflxvideo.net",
-        "nflximg.net",
-        "nflxso.net",
-        "nflximg.com"
+        "spotify.com",
+        "scdn.co",
+        "spotifycdn.com"
       ]
     },
     {
@@ -1289,23 +1285,45 @@
       ]
     },
     {
-      "key": "discord",
-      "name": "Discord",
+      "key": "threads",
+      "name": "Threads",
       "domains": [
-        "discord.com",
-        "discord.gg",
-        "discordapp.com",
-        "discordapp.net"
+        "threads.net",
+        "threads.com"
       ]
     },
     {
-      "key": "cloudflare",
-      "name": "Cloudflare",
+      "key": "turkcell",
+      "name": "Turkcell",
       "domains": [
-        "cloudflare.com",
-        "cloudflare-dns.com",
-        "cdnjs.cloudflare.com",
-        "cloudflare.net"
+        "turkcell.com.tr"
+      ]
+    },
+    {
+      "key": "twitter",
+      "name": "Twitter / X",
+      "domains": [
+        "twitter.com",
+        "x.com",
+        "t.co",
+        "twimg.com",
+        "twttr.com"
+      ]
+    },
+    {
+      "key": "vodafone",
+      "name": "Vodafone",
+      "domains": [
+        "vodafone.com.tr",
+        "vodafone.com"
+      ]
+    },
+    {
+      "key": "whatsapp",
+      "name": "WhatsApp",
+      "domains": [
+        "whatsapp.com",
+        "whatsapp.net"
       ]
     },
     {
@@ -1319,32 +1337,14 @@
       ]
     },
     {
-      "key": "turkcell",
-      "name": "Turkcell",
+      "key": "youtube",
+      "name": "YouTube",
       "domains": [
-        "turkcell.com.tr"
-      ]
-    },
-    {
-      "key": "vodafone",
-      "name": "Vodafone",
-      "domains": [
-        "vodafone.com.tr",
-        "vodafone.com"
-      ]
-    },
-    {
-      "key": "garantibbva",
-      "name": "Garanti BBVA",
-      "domains": [
-        "garantibbva.com.tr"
-      ]
-    },
-    {
-      "key": "akbank",
-      "name": "Akbank",
-      "domains": [
-        "akbank.com"
+        "youtube.com",
+        "youtu.be",
+        "googlevideo.com",
+        "ytimg.com",
+        "youtube-nocookie.com"
       ]
     }
   ]

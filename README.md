@@ -3,9 +3,14 @@
 Category and service data for **Net Traffic Control**.
 
 The app loads this file as a **Category Data source** (Settings → Category Data → Add
-source). It maps host names to a **category** and to the **service/product** they
-belong to, so the Live Traffic and Allowed Sites screens group and label domains
-correctly.
+source). It maps host names to a **category** (what a name is) and to the
+**service/product** it belongs to (whose it is), so the Live Traffic and Allowed
+Sites screens group and label domains correctly.
+
+## Contents
+
+- **1,116 categories** — `host → category`.
+- **22 services** — `product → hosts`.
 
 ## Format (v1)
 
@@ -20,13 +25,29 @@ correctly.
 }
 ```
 
-- `categories` — maps a host to one category. A host matches itself and all its
-  subdomains (`facebook.com` covers `*.facebook.com`).
-- `services` — one entry per **product**, not per company. Facebook, Instagram and
-  WhatsApp are separate entries on purpose: the app groups by the product a domain
-  belongs to, because a DNS filter sees domains, not apps.
+### Fields
 
-## Category vocabulary
+| Field | Type | Meaning |
+| :--- | :--- | :--- |
+| `version` | integer | Format version. Bumped only on a breaking change. |
+| `generated` | string | Date the file was produced. Informational. |
+| `categories` | object | `host → category` (a name from the vocabulary below). |
+| `services` | array | One object per product; see below. |
+| `services[].key` | string | Stable id the app may cache by. **Never renumber or reuse.** |
+| `services[].name` | string | Display name (a product, not a company). |
+| `services[].domains` | array | The hosts that belong to this product. |
+
+### Matching
+
+- A `categories` host matches itself **and every subdomain** — `facebook.com`
+  covers `*.facebook.com`, so listing the registrable domain is enough.
+- A `services` domain matches the same way — `microsoft.com` already covers
+  `teams.microsoft.com`, and you do not list it again.
+- Matching is case-insensitive.
+
+## Categories
+
+The vocabulary the app understands. A name outside this list is **ignored**.
 
 ```
 analytics, ads, social, messaging, cdn, crash, video, music, gaming, shopping,
@@ -35,7 +56,26 @@ transport, telecom, travel, education, sports, crypto, dating, maps, adult,
 gambling, other
 ```
 
-Category names outside this list are ignored by the app.
+`ipAddress` is also a category, but it is **not** a hostname category — it is what
+the app files a literal address under, so it does not belong in this file.
+
+## Services
+
+One entry per **product**, not per company: **Facebook**, **Instagram**,
+**WhatsApp** and **Threads** are separate entries on purpose. The app groups by the
+product a domain belongs to, because a DNS filter sees domains, not apps — and a
+product is what a person recognizes.
+
+Example:
+
+```json
+{ "key": "twitter", "name": "Twitter / X",
+  "domains": ["twitter.com", "x.com", "t.co", "twimg.com", "twttr.com"] }
+```
+
+A **role** (`api.`, `vpn.`, `dns.`) is *not* a service and does not belong here —
+the app derives roles from the hostname and shows them as badges, so a role never
+splits a product across groups.
 
 ## Precedence in the app
 
@@ -44,7 +84,12 @@ user correction  >  imported / remote data (this file)  >  bundled catalog
                  >  suffix rules  >  name patterns  >  "other"
 ```
 
-A failed or invalid download never replaces the last working data.
+## Validation
+
+- The app **tests a URL before adding it**: it fetches the file and runs the same
+  validation the store uses, then reports **Valid · N entries** or the exact reason
+  (not JSON, bad schema, empty, too large, 404, 5xx, no network).
+- A failed or invalid download **never replaces the last working data**.
 
 ## Raw URL
 
@@ -54,22 +99,27 @@ https://raw.githubusercontent.com/mahirfatih/net-traffic-control-catalog/main/ca
 
 ## Generating
 
-`catalog.json` is either maintained by hand or generated from a permitted source by
-a script. A generator lives **outside the app**, so that unshippable sources never
-reach this repository's shipped output.
-
-Example:
+`seeds/` is the source of truth (see [`scripts/`](scripts/README.md)); `catalog.json`
+is the build output. Regenerate and validate:
 
 ```sh
-python3 tools/generate.py --source <permitted-source> --out catalog.json
+python3 scripts/generate.py \
+    --categories seeds/categories.json \
+    --services   seeds/services.json \
+    --out        catalog.json
+python3 scripts/validate.py
 ```
+
+Do not edit `catalog.json` by hand — edit `seeds/` instead. A generator that pulls a
+permitted **external** source belongs outside the app, so that unshippable sources
+never reach this repository's shipped output.
 
 Rules for a generator:
 
 - **Output must use our vocabulary** (see above). Unknown categories are dropped.
 - **`key` must stay stable.** The app may cache by it; changing a key re-labels data.
 - **Only permitted sources.** If a source is NonCommercial, it must not be committed here.
-- **Deterministic output** (sorted keys) so diffs are reviewable and reviewable.
+- **Deterministic output** (sorted keys) so diffs stay reviewable.
 
 ## Contributing
 
