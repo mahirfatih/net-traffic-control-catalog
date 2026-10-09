@@ -29,9 +29,10 @@ correctly.
 ## Category vocabulary
 
 ```
-analytics, ads, social, messaging, cdn, crash, streaming, gaming, shopping,
+analytics, ads, social, messaging, cdn, crash, video, music, gaming, shopping,
 search, news, email, encyclopedia, software, ai, finance, government, health,
-transport, telecom, travel, education, sports, other
+transport, telecom, travel, education, sports, crypto, dating, maps, adult,
+gambling, other
 ```
 
 Category names outside this list are ignored by the app.
