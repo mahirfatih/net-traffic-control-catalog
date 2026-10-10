@@ -25,7 +25,6 @@ compile. No network, no build system.
 | [`sources.py`](sources.py) | The source registry, and the licence gate. `python3 scripts/sources.py` lists every source and its verdict; `--check` validates the registry; `--allowed` lists only what may be fetched. |
 | [`harvest.py`](harvest.py) | Fetches allowed sources, drops hosts the catalog already covers, applies `rules.json`, and reports what no rule matched. |
 | [`merge.py`](merge.py) | Applies harvested categories to `seeds/categories.json`. Refuses to overwrite an existing label. |
-| [`probe.py`](probe.py) | Optional. Asks an external categoriser for evidence and caches it. Sets no category. |
 
 ## Harvest workflow
 

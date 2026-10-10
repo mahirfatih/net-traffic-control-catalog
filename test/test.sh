@@ -162,21 +162,31 @@ fi
 step "8. Documentation describes the files that exist"
 node scripts/check-docs-fresh.mjs
 
-step "9. A blocked source is refused, not quietly skipped"
+step "9. The licence gate refuses, whatever the registry happens to list"
 python3 - <<'PY'
 import sys
 sys.path.insert(0, "scripts")
 import sources as registry
 
-reg = registry.load()
-blocked = [s for s in reg["sources"] if not registry.verdict(s)[0]]
-assert blocked, "no blocked source to test — the gate has nothing to prove"
+# Tested against synthetic records rather than against whatever the registry
+# happens to contain: every source in it may one day be allowed, and the gate
+# must still hold when that happens. A test that needs a real blocked source
+# to exist quietly stops proving anything once they are all gone.
+for licence in ("CC-BY-NC-SA-4.0", "CC-BY-NC-4.0", "CC-BY-SA-4.0"):
+    claimed = {"id": "synthetic", "license": licence, "allowed": True}
+    ok, reason = registry.verdict(claimed)
+    assert not ok, f"{licence} must be refused even when claimed allowed"
+    assert reason.strip(), f"{licence} was refused with no reason"
 
-for source in blocked:
+permitted = {"id": "synthetic", "license": "MIT", "allowed": True}
+assert registry.verdict(permitted)[0], "MIT must be allowed"
+
+for source in registry.load()["sources"]:
     ok, reason = registry.verdict(source)
-    assert not ok, f"{source['id']} should be blocked"
-    assert reason.strip(), f"{source['id']} is blocked with no reason"
-print(f"✓ {len(blocked)} blocked source(s), each with a stated reason")
+    if not ok:
+        assert reason.strip(), f"{source['id']} is blocked with no reason"
+print("✓ 3 blocking licences refused, MIT allowed — the gate does not depend "
+      "on a source being present")
 PY
 
 step "10. A malformed host is refused, a valid one accepted"

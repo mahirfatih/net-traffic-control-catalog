@@ -22,7 +22,6 @@ already decided, and refuses any category outside the vocabulary.
 | `anudeepnd-whitelist` | MIT | 186 hosts that overzealous blocklists catch. A good source for **finding gaps** in a catalog. |
 | `anudeepnd-optional` | MIT | 136 hosts after comments. Same maintainer, same purpose. |
 | `anudeepnd-referral` | MIT | 50 hosts. Affiliate and referral endpoints, which is most of what a blocklist misfires on. |
-| `umbrella-categorization` | Cisco terms | Evidence only, never a category. See the note below. |
 
 **On the anudeepND lists.** They are called *allowlists*, and this repository
 has no allowlist concept — the app decides a domain is allowed when no
@@ -33,32 +32,26 @@ is what `harvest.py` uses them for.
 
 ## Blocked
 
-| Source | Licence | Why not |
-| :--- | :--- | :--- |
-| `ddg-tracker-radar` | CC BY-NC-SA 4.0 | **NC** — a commercial app may not use it. **SA** — the derivative would stop being CC0. |
-| `disconnect-me` | CC BY-NC-SA 4.0 | Identical reasoning. |
-| `virustotal-categories` | proprietary API | Not a licence: the VT Public API must not be used in commercial products or services. |
+Nothing is listed here, and that is deliberate. A refusal nobody can rediscover
+becomes a rule people work around, so the refusal has to outlive the source
+name — which means it lives in a **table keyed on the licence**, not on a list
+of sources:
 
-These are **listed rather than absent**, on purpose. A refusal nobody can
-rediscover becomes a rule people work around; a refusal with the reason next to
-it can be argued with.
+| Licence | Verdict |
+| :--- | :--- |
+| CC0 / public domain, MIT, BSD, Apache-2.0, ISC | allowed |
+| CC BY (no NC, no SA) | allowed |
+| CC BY-**NC**-*, CC BY-NC-SA-* | **blocked** — commercial use forbidden |
+| CC BY-*-**SA** | **blocked** — the derivative inherits the term and stops being CC0 |
+| proprietary API whose terms forbid it | **blocked**, whatever its data licence says |
 
-### If you hold a VirusTotal Premium agreement
+So the next DuckDuckGo Tracker Radar — or any other `NC` list — is refused by
+name appearing nowhere in this repository.
+[`../scripts/sources.py`](../scripts/sources.py) is where that table lives, and
+`harvest.py` applies it before a byte is fetched.
 
-The `NC`-style restriction above is about the *free* tier. A Premium agreement
-may permit your use. Then change `allowed` to `true` in `sources.json` and say
-so in the `reason` field — do not edit `scripts/probe.py` to work around the
-gate.
-
-### Umbrella is on a clock
-
-Cisco announced **end of sale for Umbrella SIG / DNS on 1 September 2026**: last
-order 31 January 2027, support to 31 January 2029.
-
-`probe.py` therefore writes its answers to `evidence/probes.json` and never
-re-fetches a host it has already asked about. The cache is the artefact; the
-service is not. A rule written from cached evidence stays defensible after the
-service is gone — a rule written from a live dependency does not.
+If you hold an agreement that permits a use the free tier does not, record it
+in `sources.json` with a `reason` that says so. Do not edit the gate.
 
 ## Adding a source
 
@@ -85,6 +78,8 @@ service is gone — a rule written from a live dependency does not.
 
 The table in `scripts/sources.py` is the enforcement point; this table is the
 explanation of it. If the two disagree, the code is right and this file is stale.
+The suite checks the codes it can check, so a licence in the table but not in the
+code is not caught by a test — it is caught by the next source that tries it.
 
 ## What a source is not allowed to do
 

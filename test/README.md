@@ -25,7 +25,7 @@ step reporting a problem that an earlier one caused is noise.
 | 6 | Build fidelity | `catalog.json` differing from the seeds it was built from |
 | 7 | Docs current | a document that changed when regenerated — i.e. edited by hand |
 | 8 | Docs describe reality | broken links, renamed scripts, stale counts, a licence verdict that contradicts itself |
-| 9 | Gate refuses | a blocked source being skipped quietly rather than refused |
+| 9 | Licence gate | `NC` and `SA` licences refused even when a record claims `allowed` — tested against synthetic records, so it does not depend on a blocked source being present |
 | 10 | Host shape | 11 malformed names (`*.example.com`, `exa mple.com`, `exämple.com`, `example.com.`…) the app could never match |
 | 11 | Byte-compile | a script that no longer parses |
 

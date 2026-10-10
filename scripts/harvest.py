@@ -146,13 +146,6 @@ def main(argv):
     for source in chosen:
         source_id = source["id"]
 
-        # A record with a `provider` is an API used by probe.py for evidence,
-        # not a list of hosts to download. Its URL carries a `{host}` template,
-        # so fetching it as a file would ask for one literal domain.
-        if source.get("provider"):
-            print(f"· {source_id}: evidence provider, not a host list — use scripts/probe.py")
-            continue
-
         ok, reason = source_registry.verdict(source)
         if not ok:
             # Named explicitly: the user asked for this source, so say why it
