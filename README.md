@@ -9,8 +9,10 @@ Sites screens group and label domains correctly.
 
 ## Contents
 
-- **1,116 categories** — `host → category`.
+- **1,259 categories** — `host → category`.
 - **22 services** — `product → hosts`.
+
+See [`docs/CATALOG.md`](docs/CATALOG.md) for the breakdown by category.
 
 ## Format (v1)
 
@@ -81,8 +83,18 @@ splits a product across groups.
 
 ```
 user correction  >  imported / remote data (this file)  >  bundled catalog
-                 >  suffix rules  >  name patterns  >  "other"
+                 >  public-suffix rules  >  institutional label  >  name patterns
+                 >  "other"
 ```
+
+The **institutional-label** rule is the one between the suffix rules and the
+patterns: it reads the label in front of a real country-code domain and calls
+`ox.ac.uk` a university and `tokyo.lg.jp` a prefecture. It is a rule, not
+content, so it lives in the app — but it sits in the chain, and a name that has
+no row anywhere is decided by it before `"other"`.
+
+A **user correction** outranks everything, including this file: the user looked
+at the name and said otherwise, and the app treats that as a label, not a rule.
 
 ## Validation
 
@@ -110,16 +122,39 @@ python3 scripts/generate.py \
 python3 scripts/validate.py
 ```
 
-Do not edit `catalog.json` by hand — edit `seeds/` instead. A generator that pulls a
-permitted **external** source belongs outside the app, so that unshippable sources
-never reach this repository's shipped output.
+Do not edit `catalog.json` by hand — edit `seeds/` instead.
+
+Run everything — registry, schema, build, validator, docs, licence gate — with:
+
+```sh
+./test/test.sh
+```
+
+### Harvesting from an external source
+
+An external list can tell you that a host exists. It cannot tell you what the
+host *is*, so it never assigns a category: `harvest.py` proposes hosts and
+`rules.json` (or a person) labels them.
+
+```sh
+python3 scripts/harvest.py
+python3 scripts/merge.py evidence/harvested-categories.json --dry-run
+python3 scripts/merge.py evidence/harvested-categories.json
+```
 
 Rules for a generator:
 
-- **Output must use our vocabulary** (see above). Unknown categories are dropped.
+- **Output must use our vocabulary** (see above). An unknown category is not
+  reported by the app — it is silently ignored, so `validate.py` fails the
+  build instead.
 - **`key` must stay stable.** The app may cache by it; changing a key re-labels data.
-- **Only permitted sources.** If a source is NonCommercial, it must not be committed here.
 - **Deterministic output** (sorted keys) so diffs stay reviewable.
+- **Only permitted sources**, enforced in code rather than by convention: every
+  source lives in [`sources.json`](sources.json) with its licence, and
+  [`scripts/sources.py`](scripts/sources.py) refuses a non-commercial or
+  share-alike licence *before* fetching it. See
+  [`docs/SOURCES.md`](docs/SOURCES.md) for the reasoning, and
+  [`SECURITY.md`](SECURITY.md) for why it is a gate rather than a note.
 
 ## Contributing
 
@@ -129,10 +164,15 @@ Rules for a generator:
 - Category names must be from the vocabulary; anything else is ignored by the app.
 - Keep `services` at the **product** level (Facebook, Instagram, WhatsApp are
   separate), not the parent company.
-- Do **not** commit NonCommercial data. This includes DuckDuckGo Tracker Radar and
-  Disconnect.me, both licensed **CC BY-NC-SA 4.0**. Their `NC` and `ShareAlike`
-  terms are incompatible with shipping this catalog in a commercial/proprietary app.
 - Keep the file sorted by host so diffs stay small.
+- **Do not commit NonCommercial or share-alike data.** `NC` forbids use in a
+  commercial app and `SA` would stop the derivative being CC0 — the two terms in
+  `CC BY-NC-SA 4.0`. This is no longer a convention:
+  [`sources.json`](sources.json) records the licence of every source and
+  [`scripts/sources.py`](scripts/sources.py) refuses the blocked ones before
+  fetching, and `./test/test.sh` fails if a record claims otherwise.
+
+Full guide: [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Versioning
 

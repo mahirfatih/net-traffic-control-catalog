@@ -1,0 +1,9 @@
+# Written by scripts/harvest.py; the seeds are the source of truth.
+evidence/harvested-categories.json
+
+# Python bytecode — the scripts are run, not imported as a package.
+__pycache__/
+*.py[cod]
+
+# macOS
+.DS_Store

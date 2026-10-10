@@ -1,0 +1,31 @@
+{
+  "sources": [
+    {
+      "id": "anudeepnd-whitelist",
+      "name": "anudeepND whitelist",
+      "url": "https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Domains commonly caught by overzealous blocklists. Used only to find hosts that are missing from the catalog; the allowlist concept itself is not part of this repository."
+    },
+    {
+      "id": "anudeepnd-optional",
+      "name": "anudeepND optional",
+      "url": "https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/optional-list.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Second anudeepND list. Grouped under the same maintainer; both files are read so their coverage differences stay visible."
+    },
+    {
+      "id": "anudeepnd-referral",
+      "name": "anudeepND referral",
+      "url": "https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/referral-sites.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Third anudeepND list."
+    }
+  ]
+}

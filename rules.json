@@ -1,0 +1,85 @@
+{
+  "_comment": "Category rules, applied by scripts/harvest.py in the order given. A host is matched whole and its subdomains come with it, so a rule on `plex.tv` already covers `proxy.plex.tv`. The first matching rule wins, so put specific rules above general ones. `category` must be a name from the vocabulary in scripts/catalog-core.py; `service` is optional and names an entry in seeds/services.json.",
+  "rules": [
+    { "note": "Media servers and the *arr family: one product each, not one company.", "match": ["plex.tv", "plexapp.com", "plex.bz", "sonarr.tv", "libsyn.com", "embedly.com", "yoyo.org"], "category": "software", "service": "plex" },
+
+    { "note": "Linear TV platforms.", "match": ["pluto.tv"], "category": "video", "service": "pluto" },
+    { "note": "Video player vendors. Brightcove and Conviva are sold to broadcasters, but what a person sees is a video stream.", "match": ["brightcove.net", "brightcove.com", "conviva.com", "anvato.net", "vidible.tv"], "category": "video", "service": "brightcove" },
+    { "note": "Turner Broadcasting / CBS.", "match": ["turner.com", "cwtv.com", "cbsi.com", "cbsinteractive.com", "viacom.com"], "category": "video" },
+    { "note": "Directv.", "match": ["directvnow.com", "omtrdc.net"], "category": "video", "service": "directv" },
+
+    { "note": "Affiliate networks and ad servers. These are what an allowlist is mostly made of.", "match": ["tradedoubler.com", "linksynergy.com", "shareasale.com", "shareaholic.com", "shareasale-analytics.com", "commission-junction.com", "cj.com", "dotomi.com", "avantlink.com", "smartadserver.com", "adform.net", "webgains.com", "impactradius.com", "onenetworkdirect.net", "webmasterplan.com", "cc-dt.com", "tradetracker.net", "affiliatefuture.com", "refersion.com", "bfast.com", "adswizz.com", "atdmt.com", "dartsearch.net", "tradetracker.com"], "category": "ads" },
+    { "note": "Ad servers a person never meets by name. Deliberately ads, not analytics: a retargeting host is still an ad host.", "match": ["demdex.net", "optimizely.com", "adobedtm.com"], "category": "ads" },
+
+    { "note": "Microsoft identity, connectivity check and update hosts. The NCSI names answer 'is there internet' and belong to no product a person recognises.", "match": ["msftncsi.com", "msftconnecttest.com", "passport.net", "windowsupdate.com", "c.s-microsoft.com"], "category": "software" },
+    { "note": "Bing Maps tiles and the VirtualEarth endpoints behind them.", "match": ["virtualearth.net"], "category": "maps" },
+
+    { "note": "Amazon's own short domain and its OCSP responder.", "match": ["amzn.com", "amazontrust.com"], "category": "shopping" },
+
+    { "note": "Third-party CDN vendors whose names a person has never heard of.", "match": ["alicdn.com", "sascdn.com", "s.zkcdn.net", "akamaiedge.net", "aspnetcdn.com", "jwpcdn.com", "samsungcloudsolution.com"], "category": "cdn" },
+
+    { "note": "Media metadata and audience measurement: the databases and analytics a streaming app reads.", "match": ["themoviedb.com", "thetvdb.com", "auditude.com", "streamelements.com", "audioscrobbler.com", "lotustalk.com"], "category": "encyclopedia" },
+    { "note": "OneDrive, the product behind 1drv.com.", "match": ["1drv.com"], "category": "software", "service": "microsoft" },
+
+    { "note": "Developer and utility hosts that appear in real traffic and mean nothing to a user.", "match": ["github.io", "gravatar.com", "jquery.com", "maxmind.com", "no-ip.com", "dataplicity.com", "sysctl.org", "ipify.org", "placehold.it", "xkcd.com", "wordpress.com", "ntp.org"], "category": "software" },
+
+    { "note": "Marketing chat and support widgets.", "match": ["giphy.com", "intercom.io", "drift.com", "bazaarvoice.com", "surveymonkey.com", "rpxnow.com", "gigya.com"], "category": "software" },
+
+    { "note": "Broadcasters that are not one of the big five: SBS is an Australian public broadcaster, so its streams are video.", "match": ["sbs.com.au"], "category": "video" },
+    { "note": "ThePlatform and DigitalSmiths are video delivery vendors, sold to broadcasters.", "match": ["theplatform.com", "digitalsmiths.net"], "category": "video" },
+    { "note": "TED, including its own CDN.", "match": ["ted.com", "tedcdn.com"], "category": "education" },
+    { "note": "Spotify's own CDN, under both the .co and .com names.", "match": ["scdn.co", "scdn.com"], "category": "music" },
+
+    { "note": "Electric JCDecaux: transit advertising and real-time departure boards.", "match": ["jcdecaux.com", "emjcd.com"], "category": "transport" },
+    { "note": "WordPress.", "match": ["wordpress.com", "wp.com"], "category": "software" },
+    { "note": "abuse.ch malware trackers.", "match": ["abuse.ch"], "category": "software" },
+    { "note": "NVIDIA GeForce.", "match": ["geforce.com", "nvidia.com"], "category": "gaming" },
+    { "note": "The Android connectivity check answers 'is there internet' and belongs to no product.", "match": ["connectivitycheck.android.com"], "category": "software" },
+    { "note": "Amazon's link shortener; the destination is Amazon, so it files as shopping.", "match": ["amzn.to"], "category": "shopping" },
+    { "note": "Driftt is a travel operator, which is a different company from Drift, the chat widget.", "match": ["driftt.com"], "category": "travel" },
+
+    { "note": "URL shorteners. `other` is the honest answer: a shortener is not a thing a person uses on purpose.", "match": ["bit.ly", "tinyurl.com", "t.ly", "goo.gl", "ow.ly", "adf.ly", "redirect.at", "tawk.to"], "category": "other" }
+  ],
+  "drop": {
+    "_comment": "Hosts deliberately not added. A wrong label is worse than no label, because it looks authoritative; these are parked, thrown away, or are lists rather than services. Keep the reason — an unexplained drop is indistinguishable from an oversight.",
+    "hosts": {
+      "7eer.net": "parked; a numbered subdomain of a parked domain",
+      "anrdoezrs.net": "throwaway redirect host",
+      "apmebf.com": "throwaway",
+      "dpbolvw.net": "throwaway",
+      "evyy.net": "throwaway",
+      "go2jump.org": "shortener that resolves to nothing stable",
+      "gopjn.com": "throwaway",
+      "hosts-file.net": "a hosts file mirror, not a service",
+      "hostsfile.mine.nu": "a hosts file mirror, not a service",
+      "hostsfile.org": "a hosts file mirror, not a service",
+      "img.vidible.tv": "under vidible.tv, which the rule above already covers",
+      "imagesak.secureserver.net": "GoDaddy SecureSite infrastructure; no category of its own",
+      "jdoqocy.com": "throwaway",
+      "keystone.mwbsys.com": "throwaway",
+      "kqzyfj.com": "throwaway",
+      "ojrq.net": "throwaway",
+      "pgl.yoyo.io": "under yoyo.io, which the plex rule already covers",
+      "pixel.nymag.com": "third-party pixel under a publisher; no category of its own",
+      "pjatr.com": "throwaway",
+      "pjtra.com": "throwaway",
+      "pntra.com": "throwaway",
+      "pntrac.com": "throwaway",
+      "pntrack.com": "throwaway",
+      "qksrv.net": "throwaway",
+      "redirect.viglink.com": "affiliate redirector with no product",
+      "go.redirectingat.com": "redirector for redirectingat.com, which is dropped above",
+      "go.skimresources.com": "Skimresources is a dead link-shortening affiliate service",
+      "redirectingat.com": "throwaway",
+      "sa.symcb.com": "symantec infrastructure, folded into the wider domain",
+      "secure.avangate.com": "avangate is an old digicert brand; folded",
+      "someonewhocares.org": "a hosts file mirror, not a service",
+      "tkqlhce.com": "throwaway",
+      "track.ucas.com": "tracking under a university domain; folded",
+      "track.webgains.com": "under webgains.com, which the ads rule already covers",
+      "v.firebog.net": "an adblock filter list host",
+      "winhelp2002.mvps.org": "a troubleshooting site, not a service",
+      "5231.xg4ken.com": "a numbered subdomain on a parked domain"
+    }
+  }
+}
