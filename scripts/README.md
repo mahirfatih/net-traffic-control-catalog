@@ -33,6 +33,7 @@ compile. No network, no build system.
 | [`sources.py`](sources/sources.py) | The source registry, and the licence gate. `python3 scripts/sources/sources.py` lists every source and its verdict; `--check` validates the registry; `--allowed` lists only what may be fetched. |
 | [`harvest.py`](sources/harvest.py) | Fetches allowed sources, drops hosts the catalog already covers, applies `rules.json`, and reports what no rule matched. |
 | [`merge.py`](sources/merge.py) | Applies harvested categories to `seeds/categories.json`. Refuses to overwrite an existing label. |
+| [`harvest-public-institutions.py`](sources/harvest-public-institutions.py) | Fetches curated Turkish public-directory pages and merges closed-suffix hosts: `*.bel.tr` / `*.gov.tr` as `government`, `*.edu.tr` as `education`. Existing labels, explicit overrides and parked exclusions win. |
 
 ### Checks — [`checks/`](checks/)
 
@@ -59,6 +60,20 @@ python3 scripts/catalog/build-catalog-docs.py         # refresh docs/CATALOG.md
 
 `harvest.py` writes `evidence/harvested-categories.json`, which is gitignored: it is an
 intermediate, and the seeds are the source of truth.
+
+Public-institution directories are a narrower, curated path:
+
+```sh
+python3 scripts/sources/harvest-public-institutions.py --check # report only
+python3 scripts/sources/harvest-public-institutions.py --write # merge into seeds/categories.json
+python3 scripts/catalog/generate.py --categories seeds/categories.json --services seeds/services.json --out catalog.json
+python3 scripts/catalog/build-catalog-docs.py
+./test/test.sh
+```
+
+That script only trusts closed Turkish public suffixes. It never overwrites a
+seeded label, preserves explicit overrides such as `saglik.gov.tr` → `health`,
+and skips parked names that the iOS catalog builder rejects via `excluded.csv`.
 
 ### What the harvest will not do
 

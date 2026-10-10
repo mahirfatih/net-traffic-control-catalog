@@ -65,6 +65,31 @@ in `sources.json` with a `reason` that says so. Do not edit the gate.
    domains so `harvest.py` can drop them with a reason instead of guessing.
 4. Open a pull request. The gate runs there too.
 
+## Turkish public directories
+
+Some sources are not broad blocklists; they are curated public directories whose
+hosts are already scoped by closed Turkish public suffixes. Use
+[`../scripts/sources/harvest-public-institutions.py`](../scripts/sources/harvest-public-institutions.py)
+for those pages:
+
+```sh
+python3 scripts/sources/harvest-public-institutions.py --check
+python3 scripts/sources/harvest-public-institutions.py --write
+```
+
+The harvester reads the Turkey Municipalities Union, e-Şehir, AG Çevre, CCIFT and
+YÖK pages that have already fed this catalog. It accepts only:
+
+- `*.bel.tr` and `*.gov.tr` as `government`
+- `*.edu.tr` as `education`
+
+It does **not** overwrite existing labels. Explicit human overrides such as
+`saglik.gov.tr` → `health`, `tcmb.gov.tr` → `finance`, `tdk.gov.tr` →
+`encyclopedia`, and `meb.gov.tr` / `osym.gov.tr` → `education` win over the
+suffix. Parked names listed in the iOS `ReferenceData/excluded.csv` are skipped,
+because the app's bundle generator rejects them even though suffix rules can
+still classify them at runtime.
+
 ### Licence verdicts
 
 | Licence | Verdict |
