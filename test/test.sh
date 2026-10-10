@@ -57,6 +57,37 @@ if os.path.exists("seeds/services.json"):
 print(f"✓ {len(categories)} categories, {len(services)} services, vocabulary clean")
 PY
 
+step "2b. Every service domain is a category or carries one"
+python3 - <<'PY'
+import json, sys
+sys.path.insert(0, "scripts")
+import catalog_lib
+
+categories = catalog_lib.load("seeds/categories.json")
+services = catalog_lib.load("seeds/services.json")
+
+
+def explained(host):
+    """The listed name that gives this host its category, or None."""
+    parts = host.split(".")
+    for index in range(len(parts) - 1):
+        ancestor = ".".join(parts[index:])
+        if ancestor in categories:
+            return ancestor
+    return None
+
+
+orphans = [(d, s["key"]) for s in services for d in s["domains"] if not explained(d)]
+if orphans:
+    for domain, key in orphans:
+        print(f"✗ {domain!r} is in service {key!r} but has no category anywhere",
+              file=sys.stderr)
+    print("\nThe app would group it under the right product and label it 'other'.",
+          file=sys.stderr)
+    raise SystemExit(1)
+print(f"✓ {sum(len(s['domains']) for s in services)} service domain(s), none unlabelled")
+PY
+
 step "3. Was catalog.json hand-edited?"
 # This runs *before* the build, because the build overwrites the file and would
 # silently repair a hand edit — which is exactly the mistake it should report.

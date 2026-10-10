@@ -38,6 +38,11 @@ not for the data: `version` is bumped only on a breaking format change.
   subdomains by suffix, with no glob and no IDNA decoding. Such a row would sit
   in the catalog and never match anything. `test/test.sh` step 10 proves each
   refusal, so the rule cannot quietly stop working.
+- **A service-domain check in `test/test.sh`.** Step 2b fails when a domain in
+  `seeds/services.json` has no category of its own and none from an ancestor.
+  That is exactly the state the thirteen above were in: grouped under the right
+  product, counted as `"other"`. The check has teeth — remove `threads.com` from
+  the seeds and it goes red.
 
 ### Changed
 
