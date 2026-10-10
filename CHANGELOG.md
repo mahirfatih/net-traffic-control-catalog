@@ -10,7 +10,7 @@ not for the data: `version` is bumped only on a breaking format change.
 ### Added
 
 - **A source registry, and a gate that enforces it.** `sources.json` records
-  every external list with its licence and a verdict; `scripts/sources.py`
+  every external list with its licence and a verdict; `scripts/sources/sources.py`
   refuses a non-commercial or share-alike source before it is fetched. The
   README already said not to commit NC data — this makes it true without
   somebody having to remember.

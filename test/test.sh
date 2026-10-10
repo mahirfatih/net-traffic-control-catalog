@@ -25,7 +25,7 @@ done
 step() { printf '\n\033[1m== %s\033[0m\n' "$1"; }
 
 step "1. Source registry — licences and verdicts"
-python3 scripts/sources.py --check
+python3 scripts/sources/sources.py --check
 
 step "2. Seeds parse and use the vocabulary"
 python3 - <<'PY'
@@ -33,7 +33,7 @@ import importlib.util, os, sys
 
 # The hyphen in the filename is legal on disk but not in an `import` statement.
 _spec = importlib.util.spec_from_file_location(
-    "catalog_core", "scripts/catalog-core.py"
+    "catalog_core", "scripts/catalog/catalog-core.py"
 )
 catalog_core = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(catalog_core)
@@ -68,7 +68,7 @@ import importlib.util, sys
 
 # The hyphen in the filename is legal on disk but not in an `import` statement.
 _spec = importlib.util.spec_from_file_location(
-    "catalog_core", "scripts/catalog-core.py"
+    "catalog_core", "scripts/catalog/catalog-core.py"
 )
 catalog_core = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(catalog_core)
@@ -104,7 +104,7 @@ step "3. Was catalog.json hand-edited?"
 if command -v git >/dev/null 2>&1 && git rev-parse --git-dir >/dev/null 2>&1; then
     if ! git diff --quiet -- catalog.json; then
         echo "✗ catalog.json differs from the committed build output." >&2
-        echo "  It is generated. Edit seeds/ and run scripts/generate.py instead:" >&2
+        echo "  It is generated. Edit seeds/ and run scripts/catalog/generate.py instead:" >&2
         git --no-pager diff --stat -- catalog.json >&2
         exit 1
     fi
@@ -114,13 +114,13 @@ else
 fi
 
 step "4. Build catalog.json from the seeds"
-python3 scripts/generate.py \
+python3 scripts/catalog/generate.py \
     --categories seeds/categories.json \
     --services seeds/services.json \
     --out catalog.json
 
 step "5. Validate the built catalog"
-python3 scripts/validate.py
+python3 scripts/catalog/validate.py
 
 step "6. catalog.json is what the seeds say it is"
 python3 - <<'PY'
@@ -147,7 +147,7 @@ print("✓ the built file matches its seeds — nobody hand-edited the output")
 PY
 
 step "7. Regenerate the documentation and confirm it is current"
-python3 scripts/build-catalog-docs.py
+python3 scripts/catalog/build-catalog-docs.py
 if command -v git >/dev/null 2>&1 && git rev-parse --git-dir >/dev/null 2>&1; then
     if ! git diff --quiet -- docs/CATALOG.md; then
         echo "✗ docs/CATALOG.md changed when regenerated — it was edited by hand" >&2
@@ -160,12 +160,12 @@ else
 fi
 
 step "8. Documentation describes the files that exist"
-node scripts/check-docs-fresh.mjs
+node scripts/checks/check-docs-fresh.mjs
 
 step "9. The licence gate refuses, whatever the registry happens to list"
 python3 - <<'PY'
 import sys
-sys.path.insert(0, "scripts")
+sys.path.insert(0, "scripts/sources")
 import sources as registry
 
 # Tested against synthetic records rather than against whatever the registry
@@ -195,7 +195,7 @@ import importlib.util, sys
 
 # The hyphen in the filename is legal on disk but not in an `import` statement.
 _spec = importlib.util.spec_from_file_location(
-    "catalog_core", "scripts/catalog-core.py"
+    "catalog_core", "scripts/catalog/catalog-core.py"
 )
 catalog_core = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(catalog_core)
@@ -225,7 +225,7 @@ PY
 
 if [ "$FAST" -eq 0 ]; then
     step "11. Every script compiles"
-    python3 -m py_compile scripts/*.py
+    python3 -m py_compile scripts/*/*.py
     echo "✓ scripts compile"
 fi
 

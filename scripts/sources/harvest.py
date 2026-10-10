@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Turn an external host list into category suggestions.
 
-    python3 scripts/harvest.py                 # fetch every allowed source
-    python3 scripts/harvest.py --source anudeepnd-whitelist
-    python3 scripts/harvest.py --dry-run       # print, do not write
-    python3 scripts/harvest.py --offline       # reuse evidence/, fetch nothing
+    python3 scripts/sources/harvest.py                 # fetch every allowed source
+    python3 scripts/sources/harvest.py --source anudeepnd-whitelist
+    python3 scripts/sources/harvest.py --dry-run       # print, do not write
+    python3 scripts/sources/harvest.py --offline       # reuse evidence/, fetch nothing
 
 The pipeline is: fetch -> parse -> drop what is already covered -> apply
 `rules.json` -> report what no rule matched.
@@ -36,13 +36,13 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # The module is named with a hyphen to match the other files here, which Python
 # cannot use in an `import` statement. It is loaded by path instead.
 _spec = importlib.util.spec_from_file_location(
-    "catalog_core", os.path.join(os.path.dirname(os.path.abspath(__file__)), "catalog-core.py")
+    "catalog_core", os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "catalog", "catalog-core.py")
 )
 catalog_core = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(catalog_core)
 import sources as source_registry  # noqa: E402
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 RULES = os.path.join(ROOT, "rules.json")
 EVIDENCE = os.path.join(ROOT, "evidence")
 SEEDS = os.path.join(ROOT, "seeds")
@@ -240,7 +240,7 @@ def main(argv):
         json.dump(payload, handle, ensure_ascii=False, indent=2, sort_keys=True)
         handle.write("\n")
     print(f"\n✓ wrote {out} ({len(payload)} hosts)")
-    print(f"  apply with: python3 scripts/merge.py {os.path.relpath(out, ROOT)}")
+    print(f"  apply with: python3 scripts/sources/merge.py {os.path.relpath(out, ROOT)}")
     print(f"  review {len(review)} hand-written entries in docs/NEEDS-REVIEW.md")
 
     # A run that categorised nothing is a no-op: every host it found is already

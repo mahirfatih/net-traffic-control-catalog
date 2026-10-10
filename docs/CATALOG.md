@@ -1,6 +1,6 @@
 # Catalog
 
-Generated from `catalog.json` by `scripts/build-catalog-docs.py`. **Do not
+Generated from `catalog.json` by `scripts/catalog/build-catalog-docs.py`. **Do not
 edit by hand** — edit `seeds/` and regenerate, or this file and the shipped
 data will disagree, which is the one thing a data file must never do.
 
