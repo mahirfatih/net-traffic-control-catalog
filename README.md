@@ -180,6 +180,22 @@ Full guide: [`CONTRIBUTING.md`](CONTRIBUTING.md).
 - Unknown fields and unknown category names are ignored, never fatal.
 - `version` is bumped only on a breaking format change.
 
+## Catalog Consistency Analysis
+
+A one-off analysis ([`docs/analysis/`](docs/analysis/)) fetches homepage text
+for catalog hosts, trains a TF-IDF + LinearSVC classifier on our labels, and
+renders a confusion matrix showing how consistently our labels agree with what
+a text model can recover.
+
+![Confusion matrix](docs/analysis/out/confusion-matrix.png)
+
+**Accuracy: 65.7%** (518/789, 19 classes, 5-fold CV). This measures
+*self-consistency*, not correctness — it shows whether our labels are
+predictable from page content. Low diagonal = label disagrees with the page
+(either the label is wrong, or the page is not representative).
+
+See [`docs/analysis/README.md`](docs/analysis/README.md) for methodology.
+
 ## License
 
 The data in this repository is dedicated to the public domain under **CC0 1.0

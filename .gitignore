@@ -5,5 +5,9 @@ evidence/harvested-categories.json
 __pycache__/
 *.py[cod]
 
+# Analysis cache and venv (docs/analysis/)
+docs/analysis/pages/
+docs/analysis/.venv/
+
 # macOS
 .DS_Store
