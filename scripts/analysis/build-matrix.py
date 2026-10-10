@@ -7,8 +7,9 @@ a text model can recover.
 
 Also produces:
 - Per-class precision/recall/F1 (classification_report)
-- Chi-squared correlated terms per category (what drives each class)
-- Calibrated probabilities -> high-confidence errors (likely mislabels)
+- Chi-squared correlated terms per category (what terms separate each class)
+- LinearSVC coefficient terms per category (what the fitted model weighs)
+- Calibrated top-3 predictions per host and high-confidence errors
 
 Usage:
     python3 build-matrix.py [--min-text 100] [--min-class 20] [--folds 5]
@@ -25,6 +26,14 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 PAGES = Path(__file__).resolve().parent / ".pages"
 OUT = ROOT / "docs" / "analysis" / "out"
 CATALOG = ROOT / "catalog.json"
+
+
+def top_predictions(classes: list[str], row, limit: int = 3) -> list[dict[str, object]]:
+    ranked = sorted(zip(classes, row), key=lambda item: item[1], reverse=True)[:limit]
+    return [
+        {"category": category, "probability": round(float(probability), 3)}
+        for category, probability in ranked
+    ]
 
 
 def load_pages(min_text: int) -> dict[str, str]:
@@ -72,7 +81,8 @@ def main() -> int:
     keep = {c for c, n in counts.items() if n >= args.min_class}
     mask = np.array([c in keep for c in y])
     X, y = X[mask], y[mask]
-    classes = sorted(set(y))
+    catalog_order = list(dict.fromkeys(labels.values()))
+    classes = [c for c in catalog_order if c in set(y)]
     kept_hosts = [h for h, m in zip(hosts, mask) if m]
 
     print(f"{len(hosts)} hosts with text -> {len(y)} after class filter")
@@ -108,8 +118,6 @@ def main() -> int:
     vectorizer = TfidfVectorizer(sublinear_tf=True, min_df=2, ngram_range=(1, 2), max_features=20000)
     X_vec = vectorizer.fit_transform(X)
     feature_names = np.array(vectorizer.get_feature_names_out())
-    chi2_scores, p_values = chi2(X_vec, y)
-
     correlated_terms: dict[str, list[tuple[str, float]]] = {}
     for i, c in enumerate(classes):
         class_mask = y == c
@@ -117,6 +125,17 @@ def main() -> int:
         top_indices = np.argsort(chi2_class)[-10:][::-1]
         terms = [(feature_names[j], float(chi2_class[j])) for j in top_indices]
         correlated_terms[c] = terms
+        print(f"  {c:14} {', '.join(t for t, _ in terms[:5])}")
+
+    # --- 2b. LinearSVC model terms per category ---
+    print("\nLinearSVC weighted terms (top 10 per class):")
+    term_model = LinearSVC(C=1.0, class_weight="balanced", max_iter=5000)
+    term_model.fit(X_vec, y)
+    model_terms: dict[str, list[tuple[str, float]]] = {}
+    for class_index, c in enumerate(term_model.classes_):
+        top_indices = np.argsort(term_model.coef_[class_index])[-10:][::-1]
+        terms = [(feature_names[j], float(term_model.coef_[class_index][j])) for j in top_indices]
+        model_terms[c] = terms
         print(f"  {c:14} {', '.join(t for t, _ in terms[:5])}")
 
     # --- 3. Calibrated probabilities -> high-confidence errors ---
@@ -132,21 +151,33 @@ def main() -> int:
     cal_pipe.fit(X, y)
     proba = cal_pipe.predict_proba(X)
     cal_pred = cal_pipe.predict(X)
+    probability_classes = list(cal_pipe.classes_)
 
     # High-confidence errors: model is confident but wrong
     high_conf_errors: list[dict] = []
+    predictions: list[dict] = []
     for i, host in enumerate(kept_hosts):
         true_label = y[i]
         pred_label = cal_pred[i]
+        top3 = top_predictions(probability_classes, proba[i], limit=3)
+        confidence = float(top3[0]["probability"])
+        predictions.append({
+            "host": host,
+            "catalog_label": true_label,
+            "predicted": pred_label,
+            "confidence": round(confidence, 3),
+            "top_predictions": top3,
+        })
         if true_label != pred_label:
-            confidence = float(proba[i][classes.index(pred_label)])
             high_conf_errors.append({
                 "host": host,
                 "true": true_label,
                 "predicted": pred_label,
                 "confidence": round(confidence, 3),
+                "top_predictions": top3,
             })
     high_conf_errors.sort(key=lambda x: -x["confidence"])
+    predictions.sort(key=lambda x: (x["catalog_label"], x["host"]))
 
     print(f"\nHigh-confidence errors (confidence >= 0.7, first 30):")
     hce_strong = [e for e in high_conf_errors if e["confidence"] >= 0.7]
@@ -175,15 +206,27 @@ def main() -> int:
 
     # --- 5. Write correlated-terms.md ---
     lines = ["# Correlated Terms per Category", ""]
-    lines.append("Chi-squared test: which terms most strongly predict each category.")
+    lines.append("Two signals are shown for each category:")
+    lines.append("")
+    lines.append("- **Chi-squared** terms are the words/bigrams most statistically associated with the category.")
+    lines.append("- **Model weight** terms are the words/bigrams the fitted LinearSVC model weighs most positively.")
     lines.append("")
     for c in classes:
         lines.append(f"## {c}")
         lines.append("")
-        lines.append("| Term | Chi2 score |")
+        lines.append("### Chi-squared")
+        lines.append("")
+        lines.append("| Term | Score |")
         lines.append("| :--- | ---: |")
         for term, score in correlated_terms[c]:
             lines.append(f"| {term} | {score:.1f} |")
+        lines.append("")
+        lines.append("### Model weight")
+        lines.append("")
+        lines.append("| Term | Weight |")
+        lines.append("| :--- | ---: |")
+        for term, score in model_terms.get(c, []):
+            lines.append(f"| {term} | {score:.3f} |")
         lines.append("")
     (OUT / "correlated-terms.md").write_text("\n".join(lines), encoding="utf-8")
     print(f"Saved {OUT / 'correlated-terms.md'}")
@@ -196,10 +239,13 @@ def main() -> int:
     lines.append("")
     lines.append(f"Total: {len(hce_strong)} hosts")
     lines.append("")
-    lines.append("| Host | Catalog label | Predicted | Confidence |")
-    lines.append("| :--- | :--- | :--- | ---: |")
+    lines.append("| Host | Catalog label | Predicted | Confidence | Top 3 predictions |")
+    lines.append("| :--- | :--- | :--- | ---: | :--- |")
     for e in hce_strong:
-        lines.append(f"| {e['host']} | {e['true']} | {e['predicted']} | {e['confidence']:.0%} |")
+        top3 = ", ".join(
+            f"{p['category']} {p['probability']:.0%}" for p in e.get("top_predictions", [])
+        )
+        lines.append(f"| {e['host']} | {e['true']} | {e['predicted']} | {e['confidence']:.0%} | {top3} |")
     lines.append("")
     (OUT / "high-confidence-errors.md").write_text("\n".join(lines), encoding="utf-8")
     print(f"Saved {OUT / 'high-confidence-errors.md'}")
@@ -218,6 +264,8 @@ def main() -> int:
         "macro_avg": report["macro avg"],
         "weighted_avg": report["weighted avg"],
         "correlated_terms": {c: correlated_terms[c] for c in classes},
+        "model_terms": {c: model_terms.get(c, []) for c in classes},
+        "predictions": predictions,
         "high_confidence_errors": hce_strong,
     }
     (OUT / "matrix-data.json").write_text(json.dumps(report_data, indent=2), encoding="utf-8")

@@ -20,6 +20,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 CATALOG = os.path.join(ROOT, "catalog.json")
 RULES = os.path.join(ROOT, "rules.json")
 OUT = os.path.join(ROOT, "docs", "CATALOG.md")
+ANALYSIS = os.path.join(ROOT, "docs", "analysis", "out", "matrix-data.json")
 
 
 def other_from_rules():
@@ -165,6 +166,34 @@ def main(argv):
     add("is either a rule in `rules.json` or a person with a reason.")
     add("")
     add("Hosts still missing a label are in [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md).")
+
+    if os.path.exists(ANALYSIS):
+        with open(ANALYSIS, encoding="utf-8") as handle:
+            analysis = json.load(handle)
+        if analysis.get("total_hosts") == total:
+            accuracy = analysis.get("accuracy", 0.0)
+            classes = analysis.get("classes", [])
+            hosts = analysis.get("hosts_after_filter", 0)
+            add("")
+            add("## Reliability")
+            add("")
+            add("An audit trains a text classifier on the labels above (TF-IDF +")
+            add("LinearSVC, 5-fold cross-validation) and asks how reliably each label")
+            add(f"can be recovered from the host's own page: **accuracy {accuracy:.0%}**")
+            add(f"over {hosts} hosts across {len(classes)} categories.")
+            add("")
+            add("This measures *self-consistency*, not correctness — there is no independent")
+            add("ground truth, so a low figure means a label disagrees with its page, not")
+            add("that the label is wrong.")
+            add("")
+            if analysis.get("predictions"):
+                add("The audit output also records each host's top three predicted categories")
+                add("and confidence score, and the correlated-terms report shows both")
+                add("chi-squared terms and the fitted LinearSVC weights.")
+                add("")
+            add("![Confusion matrix](analysis/out/confusion-matrix.png)")
+            add("")
+            add("Methodology, per-class metrics and the error list: [`analysis/`](analysis/README.md).")
 
     with open(OUT, "w", encoding="utf-8") as handle:
         handle.write("\n".join(lines) + "\n")
