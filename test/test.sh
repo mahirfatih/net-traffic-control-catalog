@@ -29,16 +29,27 @@ python3 scripts/sources.py --check
 
 step "2. Seeds parse and use the vocabulary"
 python3 - <<'PY'
-import json, sys, os
-sys.path.insert(0, "scripts")
-import catalog_lib
+import importlib.util, os, sys
 
-categories = catalog_lib.load("seeds/categories.json")
-services = catalog_lib.load("seeds/services.json")
+# The hyphen in the filename is legal on disk but not in an `import` statement.
+_spec = importlib.util.spec_from_file_location(
+    "catalog_core", "scripts/catalog-core.py"
+)
+catalog_core = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(catalog_core)
 
-bad = {c for c in categories.values() if c not in catalog_lib.VOCABULARY}
+categories = catalog_core.load("seeds/categories.json")
+services = catalog_core.load("seeds/services.json")
+
+bad = {c for c in categories.values() if c not in catalog_core.VOCABULARY}
 if bad:
     print("✗ category outside the vocabulary:", ", ".join(sorted(bad)), file=sys.stderr)
+    raise SystemExit(1)
+bad_hosts = [(h, catalog_core.host_problems(h)) for h in categories]
+bad_hosts = [(h, why) for h, why in bad_hosts if why]
+if bad_hosts:
+    for host, why in bad_hosts:
+        print(f"✗ host {host!r} {why}", file=sys.stderr)
     raise SystemExit(1)
 if list(categories) != sorted(categories):
     print("✗ seeds/categories.json is not sorted by host", file=sys.stderr)
@@ -49,6 +60,42 @@ if os.path.exists("seeds/services.json"):
         print("✗ duplicate service key in seeds/services.json", file=sys.stderr)
         raise SystemExit(1)
 print(f"✓ {len(categories)} categories, {len(services)} services, vocabulary clean")
+PY
+
+step "2b. Every service domain is a category or carries one"
+python3 - <<'PY'
+import importlib.util, sys
+
+# The hyphen in the filename is legal on disk but not in an `import` statement.
+_spec = importlib.util.spec_from_file_location(
+    "catalog_core", "scripts/catalog-core.py"
+)
+catalog_core = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(catalog_core)
+
+categories = catalog_core.load("seeds/categories.json")
+services = catalog_core.load("seeds/services.json")
+
+
+def explained(host):
+    """The listed name that gives this host its category, or None."""
+    parts = host.split(".")
+    for index in range(len(parts) - 1):
+        ancestor = ".".join(parts[index:])
+        if ancestor in categories:
+            return ancestor
+    return None
+
+
+orphans = [(d, s["key"]) for s in services for d in s["domains"] if not explained(d)]
+if orphans:
+    for domain, key in orphans:
+        print(f"✗ {domain!r} is in service {key!r} but has no category anywhere",
+              file=sys.stderr)
+    print("\nThe app would group it under the right product and label it 'other'.",
+          file=sys.stderr)
+    raise SystemExit(1)
+print(f"✓ {sum(len(s['domains']) for s in services)} service domain(s), none unlabelled")
 PY
 
 step "3. Was catalog.json hand-edited?"
@@ -132,8 +179,42 @@ for source in blocked:
 print(f"✓ {len(blocked)} blocked source(s), each with a stated reason")
 PY
 
+step "10. A malformed host is refused, a valid one accepted"
+python3 - <<'PY'
+import importlib.util, sys
+
+# The hyphen in the filename is legal on disk but not in an `import` statement.
+_spec = importlib.util.spec_from_file_location(
+    "catalog_core", "scripts/catalog-core.py"
+)
+catalog_core = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(catalog_core)
+
+# Each of these is a name the app could never match: it matches a host whole
+# and by suffix, with no glob and no IDNA. The validator must refuse all of
+# them, or one becomes a silent dead row nobody ever notices.
+bad = [
+    "*.example.com", "http://example.com", "exa mple.com", "example..com",
+    "-bad.com", "bad-.com", "exämple.com", "example.com.", "localhost",
+    "example.com/path", "EXAMPLE.com",
+]
+for host in bad:
+    document = {"version": 1, "categories": {host: "ads"}, "services": []}
+    if not catalog_core.validate(document):
+        print(f"✗ the validator accepted {host!r}", file=sys.stderr)
+        raise SystemExit(1)
+
+good = {"version": 1, "categories": {"example.com": "ads", "t.co": "social"},
+        "services": []}
+problems = catalog_core.validate(good)
+if problems:
+    print("✗ the validator rejected a valid host:", problems, file=sys.stderr)
+    raise SystemExit(1)
+print(f"✓ {len(bad)} malformed host(s) refused, a valid one accepted")
+PY
+
 if [ "$FAST" -eq 0 ]; then
-    step "10. Every script compiles"
+    step "11. Every script compiles"
     python3 -m py_compile scripts/*.py
     echo "✓ scripts compile"
 fi

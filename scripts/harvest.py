@@ -24,6 +24,7 @@ NonCommercial or ShareAlike data into this CC0 catalog is refused before a
 byte is downloaded.
 """
 import argparse
+import importlib.util
 import json
 import os
 import sys
@@ -31,7 +32,14 @@ import urllib.request
 from datetime import date
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import catalog_lib  # noqa: E402
+
+# The module is named with a hyphen to match the other files here, which Python
+# cannot use in an `import` statement. It is loaded by path instead.
+_spec = importlib.util.spec_from_file_location(
+    "catalog_core", os.path.join(os.path.dirname(os.path.abspath(__file__)), "catalog-core.py")
+)
+catalog_core = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(catalog_core)
 import sources as source_registry  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -101,10 +109,10 @@ def load_known():
     known = set()
     for path in (os.path.join(SEEDS, "categories.json"),):
         if os.path.exists(path):
-            known |= set(catalog_lib.load(path))
+            known |= set(catalog_core.load(path))
     services = os.path.join(SEEDS, "services.json")
     if os.path.exists(services):
-        for service in catalog_lib.load(services) or []:
+        for service in catalog_core.load(services) or []:
             known |= {str(d).lower() for d in service.get("domains", [])}
     return known
 
@@ -121,7 +129,7 @@ def main(argv):
     args = parser.parse_args(argv[1:])
 
     registry = source_registry.load()
-    rules = catalog_lib.load(RULES)
+    rules = catalog_core.load(RULES)
     drop = rules.get("drop", {}).get("hosts", {})
     os.makedirs(EVIDENCE, exist_ok=True)
 

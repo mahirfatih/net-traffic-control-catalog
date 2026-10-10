@@ -5,6 +5,7 @@ and anything `generate.py` writes is checkable by `validate.py` — a generated
 file can never be valid to the writer and invalid to the checker.
 """
 import json
+import re
 
 # The category vocabulary. This is the contract with the app: a name outside
 # this list is ignored on device, so it must fail here instead.
@@ -15,6 +16,38 @@ VOCABULARY = {
     "education", "sports", "crypto", "dating", "maps", "adult", "gambling",
     "other",
 }
+
+# One DNS label: letters, digits and interior hyphens, 1–63 characters.
+HOST_LABEL = re.compile(r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?")
+
+
+def host_problems(host):
+    """Why `host` is not a name the app can match; `None` when it is fine.
+
+    The app matches a listed host *whole*, and every subdomain of it by suffix.
+    It does not glob, does not decode IDNA, and lowercases nothing on the
+    device. So a wildcard (`*.example.com`), a unicode label, a URL, a trailing
+    dot or a stray space is a name nothing will ever ask about — it would sit in
+    the catalog and never match. Catching that here is the difference between a
+    rejected pull request and a silent dead row.
+    """
+    if not isinstance(host, str) or not host:
+        return "is empty"
+    if host != host.strip():
+        return "has surrounding whitespace"
+    if host != host.lower():
+        return "is not lowercase"
+    if not host.isascii():
+        return "is not ASCII (the matcher does not decode IDNA)"
+    if len(host) > 253:
+        return "is longer than 253 characters"
+    labels = host.split(".")
+    if len(labels) < 2:
+        return "is not qualified (needs at least one dot)"
+    for label in labels:
+        if not HOST_LABEL.fullmatch(label):
+            return f"has an invalid label {label!r}"
+    return None
 
 
 def load(path):
@@ -59,10 +92,11 @@ def validate(doc):
         categories = {}
     else:
         for host, category in categories.items():
+            host_problem = host_problems(host)
+            if host_problem:
+                problems.append(f"host {host!r} {host_problem}")
             if category not in VOCABULARY:
                 problems.append(f"category {category!r} for {host!r} is not in the vocabulary")
-            if host != host.lower():
-                problems.append(f"host {host!r} is not lowercase")
         if list(categories) != sorted(categories):
             problems.append("categories are not sorted by host")
 
@@ -90,10 +124,9 @@ def validate(doc):
             problems.append(f"services[{index}].domains is missing")
         else:
             for domain in domains:
-                if not isinstance(domain, str) or not domain:
-                    problems.append(f"{key!r} has an empty domain")
-                elif domain != domain.lower():
-                    problems.append(f"{key!r} domain {domain!r} is not lowercase")
+                domain_problem = host_problems(domain)
+                if domain_problem:
+                    problems.append(f"{key!r} domain {domain!r} {domain_problem}")
 
     if not categories and not services:
         problems.append("catalog has no categories and no services")
