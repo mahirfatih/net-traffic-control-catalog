@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Apply harvested categories to `seeds/categories.json`.
 
-    python3 scripts/merge.py harvested-categories.json
-    python3 scripts/merge.py harvested-categories.json --dry-run
+    python3 scripts/merge.py evidence/harvested-categories.json
+    python3 scripts/merge.py evidence/harvested-categories.json --dry-run
 
 Two things this will not do, because both would hide a decision:
 

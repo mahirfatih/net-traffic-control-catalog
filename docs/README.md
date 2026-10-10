@@ -1,0 +1,55 @@
+# docs
+
+Three documents, and the difference between them is who is allowed to write
+them.
+
+| Document | Written by | Edit it? |
+| :--- | :--- | :--- |
+| [`CATALOG.md`](CATALOG.md) | `scripts/build-catalog-docs.py` | **No.** Regenerate it. |
+| [`SOURCES.md`](SOURCES.md) | a person | Yes |
+| [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md) | a person | Yes |
+
+## `CATALOG.md` — what is in the data
+
+Counts per category, the `other` list, the service table. Generated from
+`catalog.json` because a hand-written copy of a data file is a second copy to
+keep in step, and the first harvest would have made it quietly wrong.
+
+```sh
+python3 scripts/build-catalog-docs.py
+```
+
+`./test/test.sh` regenerates it and fails if it differs, so a hand edit is
+caught rather than tolerated.
+
+## `SOURCES.md` — why each source is allowed or refused
+
+Every external list, its licence, and the verdict on it. The machine-readable
+version is [`../sources.json`](../sources.json).
+
+It exists because a refusal nobody can rediscover becomes a rule people work
+around. DuckDuckGo Tracker Radar and Disconnect.me are recorded as **blocked,
+with the NC and ShareAlike reasoning next to the verdict** — not omitted.
+
+## `NEEDS-REVIEW.md` — what is still open
+
+Hosts a source listed that no rule in [`../rules.json`](../rules.json) matched.
+They are in neither the seeds nor `catalog.json`.
+
+That is the point. A host with no category is an open question; writing it as
+`other` would turn the question into a claim, and `other` on screen looks like
+an answer. Each entry says what was tried, so the next person does not repeat
+the work.
+
+A host leaves this file by getting a rule with a reason, or a `drop.hosts`
+entry with a reason.
+
+## Which one do I want?
+
+| You are asking… | Read |
+| :--- | :--- |
+| "how many hosts, and in what categories?" | [`CATALOG.md`](CATALOG.md) |
+| "why is DuckDuckGo Tracker Radar not in here?" | [`SOURCES.md`](SOURCES.md) |
+| "what is `api.rlje.net`?" | [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md) |
+| "how do I add a host?" | [`../CONTRIBUTING.md`](../CONTRIBUTING.md) |
+| "why is non-commercial data refused?" | [`../SECURITY.md`](../SECURITY.md) |

@@ -138,8 +138,8 @@ host *is*, so it never assigns a category: `harvest.py` proposes hosts and
 
 ```sh
 python3 scripts/harvest.py
-python3 scripts/merge.py harvested-categories.json --dry-run
-python3 scripts/merge.py harvested-categories.json
+python3 scripts/merge.py evidence/harvested-categories.json --dry-run
+python3 scripts/merge.py evidence/harvested-categories.json
 ```
 
 Rules for a generator:
