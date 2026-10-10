@@ -6,11 +6,11 @@ be edited by hand — the next `generate.py` run overwrites the edit.
 Two files, both plain JSON, both read by one command:
 
 ```sh
-python3 scripts/generate.py \
+python3 scripts/catalog/generate.py \
     --categories seeds/categories.json \
     --services   seeds/services.json \
     --out        catalog.json
-python3 scripts/validate.py
+python3 scripts/catalog/validate.py
 ```
 
 ## `categories.json`
@@ -27,7 +27,7 @@ A flat `{host: category}` object. Sorted by host — `generate.py` sorts it, and
 ```
 
 Category names must come from the vocabulary in
-[`../schema.json`](../schema.json) (`scripts/catalog-core.py` holds the same
+[`../schema.json`](../schema.json) (`scripts/catalog/catalog-core.py` holds the same
 list for the validator). **A name outside it is not reported by the app — it is
 ignored on device.** `validate.py` turns that silent no-op into a build failure,
 which is the only reason the vocabulary is enforced here rather than there.

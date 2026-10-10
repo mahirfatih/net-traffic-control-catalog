@@ -21,11 +21,11 @@ repository, and that is deliberate: `NC` forbids use in a commercial app and
 
 The rule applies to **any** source carrying those terms, not to those two by
 name. Nothing here needs to name a source for the gate to work — see
-[`scripts/sources.py`](scripts/sources.py).
+[`scripts/sources/sources.py`](scripts/sources/sources.py).
 
 ### Where the check lives
 
-`scripts/sources.py` holds the blocking-licence table. `scripts/harvest.py`
+`scripts/sources/sources.py` holds the blocking-licence table. `scripts/sources/harvest.py`
 refuses a blocked source **before it fetches a byte**, and `test/test.sh` step 1
 fails the build if a record claims `allowed: true` on a blocking licence.
 

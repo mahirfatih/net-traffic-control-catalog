@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate `docs/CATALOG.md` from `catalog.json`.
 
-    python3 scripts/build-catalog-docs.py
+    python3 scripts/catalog/build-catalog-docs.py
 
 The catalog ships as a binary-ish JSON blob, so a prose summary of it would be
 a second copy to keep in step. This writes that copy on purpose, from the same
@@ -16,10 +16,11 @@ import os
 import sys
 from collections import Counter
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CATALOG = os.path.join(ROOT, "catalog.json")
 RULES = os.path.join(ROOT, "rules.json")
 OUT = os.path.join(ROOT, "docs", "CATALOG.md")
+ANALYSIS = os.path.join(ROOT, "docs", "analysis", "out", "matrix-data.json")
 
 
 def other_from_rules():
@@ -102,7 +103,7 @@ def main(argv):
     add = lines.append
     add("# Catalog")
     add("")
-    add("Generated from `catalog.json` by `scripts/build-catalog-docs.py`. **Do not")
+    add("Generated from `catalog.json` by `scripts/catalog/build-catalog-docs.py`. **Do not")
     add("edit by hand** — edit `seeds/` and regenerate, or this file and the shipped")
     add("data will disagree, which is the one thing a data file must never do.")
     add("")
@@ -165,6 +166,34 @@ def main(argv):
     add("is either a rule in `rules.json` or a person with a reason.")
     add("")
     add("Hosts still missing a label are in [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md).")
+
+    if os.path.exists(ANALYSIS):
+        with open(ANALYSIS, encoding="utf-8") as handle:
+            analysis = json.load(handle)
+        if analysis.get("total_hosts") == total:
+            accuracy = analysis.get("accuracy", 0.0)
+            classes = analysis.get("classes", [])
+            hosts = analysis.get("hosts_after_filter", 0)
+            add("")
+            add("## Reliability")
+            add("")
+            add("An audit compares TF-IDF text classifiers, keeps LinearSVC for")
+            add("the detailed 5-fold cross-validation, and asks how reliably each label")
+            add(f"can be recovered from the host's own page: **accuracy {accuracy:.0%}**")
+            add(f"over {hosts} hosts across {len(classes)} categories.")
+            add("")
+            add("This measures *self-consistency*, not correctness — there is no independent")
+            add("ground truth, so a low figure means a label disagrees with its page, not")
+            add("that the label is wrong.")
+            add("")
+            if analysis.get("predictions"):
+                add("The audit output also records each host's top three predicted categories")
+                add("and confidence score, and the correlated-terms report shows both")
+                add("chi-squared terms and the fitted LinearSVC weights.")
+                add("")
+            add("![Confusion matrix](analysis/out/confusion-matrix.png)")
+            add("")
+            add("Methodology, per-class metrics and the error list: [`analysis/`](analysis/README.md).")
 
     with open(OUT, "w", encoding="utf-8") as handle:
         handle.write("\n".join(lines) + "\n")

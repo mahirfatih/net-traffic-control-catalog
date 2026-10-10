@@ -9,8 +9,71 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Added
 
+- **Turkish public institution domains.** Harvested ~1,060 `gov.tr` / `bel.tr` /
+  `edu.tr` domains and categorised them via `rules.json` (`government`,
+  `education`). Catalog grows **1,259 → 2,551 categories** (+1,292).
+- **Turkish news domains.** ~70 news hosts (`aa.com.tr`, `haber.com.tr`,
+  `cnnturk.com`, etc.) added via `rules.json` → `news` category.
+- **Catalog reliability audit enhancements** (`scripts/analysis/`):
+  - **Model comparison** across TF-IDF + LinearSVC, logistic regression, and
+    multinomial naive Bayes before keeping LinearSVC for the detailed audit.
+  - **LinearSVC model-weight terms** per category (complements chi-squared).
+  - **Calibrated top-3 predictions** per host (in `matrix-data.json` and
+    `high-confidence-errors.md`).
+  - **Catalog-order class sorting** so output tables match the catalogue
+    vocabulary order.
+- **`docs/CATALOG.md` "Reliability" section** — auto-generated from
+  `matrix-data.json` by `build-catalog-docs.py`, showing accuracy, host count,
+  and link to analysis outputs.
+- **Confusion matrix PNG** committed to `docs/analysis/out/confusion-matrix.png`
+  (was generated locally only).
+
+### Changed
+
+- **Catalog size: 1,259 → 2,551 categories** (+1,292). Breakdown of major
+  changes:
+  - `government`: 60 → 1,112 (+1,052)
+  - `education`: 36 → 214 (+178)
+  - `news`: 69 → 131 (+62)
+  - All other categories unchanged.
+- **Analysis accuracy: 66% → 84%** (hosts with text 823 → 1,916, filtered
+  823 → 1,844) after re-running `fetch-pages.py` against the expanded
+  catalogue.
+- **Per-class F1 shifts:** `government` 0.80 → 0.97 (support 55 → 883),
+  `education` 0.53 → 0.93 (26 → 161), `news` 0.77 → 0.91 (57 → 115).
+  Infrastructure classes (`cdn`, `social`, `travel`, `encyclopedia`) remain
+  low-F1 due to minimal page text.
+- **README counts updated** to 2,551 categories, 22 services.
+- **`docs/CATALOG.md` category table regenerated** with new counts.
+
+### Fixed
+
+- **The reliability headline quoted the wrong number of correct hosts.**
+  `README.md` and `docs/analysis/README.md` said **1,553/1,844**; the
+  confusion matrix diagonal is **1,545/1,844** (83.79% → still 84%). The
+  percentage was right, the numerator was not.
+- **`build-catalog-docs.py`**: corrected a garbled sentence in the
+  auto-generated Reliability section ("page, not / that the label is wrong"
+  → "chi-squared terms and the fitted LinearSVC weights").
+
+### Added (checks)
+
+- **`check-docs-fresh.mjs` now verifies the audit figures** against
+  `docs/analysis/out/matrix-data.json` instead of trusting the prose: the
+  headline accuracy, correct/total, class count, the whole per-class metric
+  table, the model-comparison table, and every `` `class` 0.xx `` F1 quoted in
+  the Highest/Lowest lists.
+  The two wrong numbers above sat through eleven test runs because nothing
+  compared them to the data they claimed to summarise. The check is skipped,
+  with a note, when no analysis output is present.
+- **`check-overlaps.py` catalog quality report** added to `test/test.sh` step
+  10.5. It prints category distribution, deliberate category overrides, and
+  redundant subdomains that are already covered by a same-category ancestor.
+
+### Added (earlier)
+
 - **A source registry, and a gate that enforces it.** `sources.json` records
-  every external list with its licence and a verdict; `scripts/sources.py`
+  every external list with its licence and a verdict; `scripts/sources/sources.py`
   refuses a non-commercial or share-alike source before it is fetched. The
   README already said not to commit NC data — this makes it true without
   somebody having to remember.
@@ -44,7 +107,7 @@ not for the data: `version` is bumped only on a breaking format change.
   product, counted as `"other"`. The check has teeth — remove `threads.com` from
   the seeds and it goes red.
 
-### Changed
+### Changed (earlier)
 
 - **1,272 → 1,259 categories.** Two corrections in one pass:
   - **26 rows went that only repeated their parent.** A row like
@@ -69,7 +132,7 @@ not for the data: `version` is bumped only on a breaking format change.
   because the app may cache by it, so they are not added here. They are noted
   in `rules.json` and can be added in a release with a migration note.
 
-### Fixed
+### Fixed (earlier)
 
 - **The README's precedence chain skipped a step.** It listed *suffix rules →
   name patterns*, but the app decides a name with an **institutional-label**

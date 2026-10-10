@@ -7,9 +7,9 @@ so that a rule is not a thing a contributor has to remember: `harvest.py`
 refuses to download a source whose licence would put non-commercial or
 share-alike data into a CC0 catalog that ships inside a commercial app.
 
-    python3 scripts/sources.py               # list every source and its verdict
-    python3 scripts/sources.py --allowed     # only the ones that may be fetched
-    python3 scripts/sources.py --check       # validate the registry itself
+    python3 scripts/sources/sources.py               # list every source and its verdict
+    python3 scripts/sources/sources.py --allowed     # only the ones that may be fetched
+    python3 scripts/sources/sources.py --check       # validate the registry itself
 
 The `--check` mode is what CI runs. It is deliberately cheap and offline: a
 typo in the registry is a build failure, not a bad download.
@@ -18,7 +18,7 @@ import json
 import os
 import sys
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DEFAULT = os.path.join(ROOT, "sources.json")
 
 # Licences that must never reach the shipped catalog, with the reason stated

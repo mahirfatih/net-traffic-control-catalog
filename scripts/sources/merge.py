@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Apply harvested categories to `seeds/categories.json`.
 
-    python3 scripts/merge.py evidence/harvested-categories.json
-    python3 scripts/merge.py evidence/harvested-categories.json --dry-run
+    python3 scripts/sources/merge.py evidence/harvested-categories.json
+    python3 scripts/sources/merge.py evidence/harvested-categories.json --dry-run
 
 Two things this will not do, because both would hide a decision:
 
@@ -26,12 +26,12 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # The module is named with a hyphen to match the other files here, which Python
 # cannot use in an `import` statement. It is loaded by path instead.
 _spec = importlib.util.spec_from_file_location(
-    "catalog_core", os.path.join(os.path.dirname(os.path.abspath(__file__)), "catalog-core.py")
+    "catalog_core", os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "catalog", "catalog-core.py")
 )
 catalog_core = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(catalog_core)
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 SEED = os.path.join(ROOT, "seeds", "categories.json")
 
 
@@ -114,8 +114,8 @@ def main(argv):
         json.dump(ordered, handle, ensure_ascii=False, indent=2)
         handle.write("\n")
     print(f"✓ wrote seeds/categories.json: {len(ordered)} categories")
-    print("  next: python3 scripts/generate.py --categories seeds/categories.json \\")
-    print("          --services seeds/services.json --out catalog.json && python3 scripts/validate.py")
+    print("  next: python3 scripts/catalog/generate.py --categories seeds/categories.json \\")
+    print("          --services seeds/services.json --out catalog.json && python3 scripts/catalog/validate.py")
     return 0
 
 
