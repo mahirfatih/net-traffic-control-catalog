@@ -1,0 +1,65 @@
+{
+  "sources": [
+    {
+      "id": "anudeepnd-whitelist",
+      "name": "anudeepND whitelist",
+      "url": "https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Domains commonly caught by overzealous blocklists. Used only to find hosts that are missing from the catalog; the allowlist concept itself is not part of this repository."
+    },
+    {
+      "id": "anudeepnd-optional",
+      "name": "anudeepND optional",
+      "url": "https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/optional-list.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Second anudeepND list. Grouped under the same maintainer; both files are read so their coverage differences stay visible."
+    },
+    {
+      "id": "anudeepnd-referral",
+      "name": "anudeepND referral",
+      "url": "https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/referral-sites.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Third anudeepND list."
+    },
+    {
+      "id": "ddg-tracker-radar",
+      "name": "DuckDuckGo Tracker Radar",
+      "url": "https://raw.githubusercontent.com/duckduckgo/tracker-radar-data/main/data/domains.csv",
+      "license": "CC-BY-NC-SA-4.0",
+      "allowed": false,
+      "reason": "NC: a commercial app may not use it. SA: the derivative would stop being CC0, which is what this repository offers. Listed so the decision stays visible rather than being rediscovered."
+    },
+    {
+      "id": "disconnect-me",
+      "name": "Disconnect.me",
+      "url": "https://github.com/disconnectme/disconnect-tracking",
+      "license": "CC-BY-NC-SA-4.0",
+      "allowed": false,
+      "reason": "Same as DuckDuckGo Tracker Radar: NC and ShareAlike both conflict with shipping CC0 data inside a commercial app."
+    },
+    {
+      "id": "virustotal-categories",
+      "name": "VirusTotal domain categories",
+      "provider": "virustotal",
+      "url": "https://www.virustotal.com/api/v3/domains/{host}",
+      "license": "proprietary-api",
+      "allowed": false,
+      "reason": "Not a licence problem: the VT Public API must not be used in commercial products or services, and this catalog ships inside one. The Premium API is a different commercial agreement, not a free tier. If you hold a Premium agreement that permits this use, change this record to allowed: true and say so in the reason."
+    },
+    {
+      "id": "umbrella-categorization",
+      "name": "Cisco Umbrella Investigate — domain categorization",
+      "provider": "umbrella",
+      "url": "https://investigate.api.umbrella.com/domains/categorization/{host}",
+      "license": "proprietary-api",
+      "allowed": true,
+      "reason": "Usable for evidence gathering: the endpoint returns a label under Cisco's own terms, not a dataset we redistribute. Cisco announced end of sale for Umbrella SIG/DNS on 2026-09-01, so treat cached evidence as the durable artefact rather than the service."
+    }
+  ]
+}
