@@ -10,7 +10,6 @@ Nothing here is hand-written. `scripts/harvest.py` writes it all.
 | `anudeepnd-<id>.txt` | The raw source file exactly as downloaded, comments and all. |
 | `harvest-summary.json` | What the last run did: which hosts it categorised, which were already covered, which were dropped **and why**, and which still need a decision. |
 | `harvested-categories.json` | The proposed `{host: category}` mapping, ready for `merge.py`. Gitignored — regenerate it with `python3 scripts/harvest.py`. |
-| `probes.json` | Optional. Answers from `scripts/probe.py`, if an API key is configured. |
 
 ## Why the raw files are committed
 

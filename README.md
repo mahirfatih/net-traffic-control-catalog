@@ -165,12 +165,12 @@ Rules for a generator:
 - Keep `services` at the **product** level (Facebook, Instagram, WhatsApp are
   separate), not the parent company.
 - Keep the file sorted by host so diffs stay small.
-- **Do not commit NonCommercial or share-alike data.** This includes DuckDuckGo
-  Tracker Radar and Disconnect.me, both **CC BY-NC-SA 4.0**: `NC` forbids use in a
-  commercial app and `SA` would stop the derivative being CC0. This is no longer
-  a convention — [`sources.json`](sources.json) records the licence of every
-  source and [`scripts/sources.py`](scripts/sources.py) refuses the blocked ones
-  before fetching, and `./test/test.sh` fails if a record claims otherwise.
+- **Do not commit NonCommercial or share-alike data.** `NC` forbids use in a
+  commercial app and `SA` would stop the derivative being CC0 — the two terms in
+  `CC BY-NC-SA 4.0`. This is no longer a convention:
+  [`sources.json`](sources.json) records the licence of every source and
+  [`scripts/sources.py`](scripts/sources.py) refuses the blocked ones before
+  fetching, and `./test/test.sh` fails if a record claims otherwise.
 
 Full guide: [`CONTRIBUTING.md`](CONTRIBUTING.md).
 

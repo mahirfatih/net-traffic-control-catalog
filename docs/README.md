@@ -28,8 +28,9 @@ Every external list, its licence, and the verdict on it. The machine-readable
 version is [`../sources.json`](../sources.json).
 
 It exists because a refusal nobody can rediscover becomes a rule people work
-around. DuckDuckGo Tracker Radar and Disconnect.me are recorded as **blocked,
-with the NC and ShareAlike reasoning next to the verdict** — not omitted.
+around — so the refusal is a table keyed on the **licence**, not a list of
+source names. The next `NC` list is refused without anybody having to add it
+to a list first.
 
 ## `NEEDS-REVIEW.md` — what is still open
 
@@ -49,7 +50,7 @@ entry with a reason.
 | You are asking… | Read |
 | :--- | :--- |
 | "how many hosts, and in what categories?" | [`CATALOG.md`](CATALOG.md) |
-| "why is DuckDuckGo Tracker Radar not in here?" | [`SOURCES.md`](SOURCES.md) |
+| "why can't we use a CC BY-NC-SA list?" | [`SOURCES.md`](SOURCES.md) |
 | "what is `api.rlje.net`?" | [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md) |
 | "how do I add a host?" | [`../CONTRIBUTING.md`](../CONTRIBUTING.md) |
 | "why is non-commercial data refused?" | [`../SECURITY.md`](../SECURITY.md) |

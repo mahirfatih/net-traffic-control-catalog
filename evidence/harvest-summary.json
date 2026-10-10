@@ -3,11 +3,7 @@
   "sources": [
     "anudeepnd-whitelist",
     "anudeepnd-optional",
-    "anudeepnd-referral",
-    "ddg-tracker-radar",
-    "disconnect-me",
-    "virustotal-categories",
-    "umbrella-categorization"
+    "anudeepnd-referral"
   ],
   "categorized": [
     "1drv.com",

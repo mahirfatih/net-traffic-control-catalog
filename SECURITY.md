@@ -14,10 +14,14 @@ breaks this repository:
 - **SA** — the derivative inherits the share-alike term and stops being CC0,
   which is what the [`LICENSE`](LICENSE) promises everyone who takes the data.
 
-Two well-known tracking lists are refused for exactly this reason —
-DuckDuckGo Tracker Radar and Disconnect.me. They are **recorded as blocked**
-rather than omitted, in [`sources.json`](sources.json), with the reasoning next
-to the verdict, so the decision can be argued with instead of rediscovered.
+Two well-known tracking lists are refused for exactly this reason — DuckDuckGo
+Tracker Radar and Disconnect.me, both **CC BY-NC-SA 4.0**. They are not in this
+repository, and that is deliberate: `NC` forbids use in a commercial app and
+`SA` would make the derivative stop being CC0.
+
+The rule applies to **any** source carrying those terms, not to those two by
+name. Nothing here needs to name a source for the gate to work — see
+[`scripts/sources.py`](scripts/sources.py).
 
 ### Where the check lives
 
@@ -39,35 +43,22 @@ by review and by [`rules.json`](rules.json), not by this file.
 
 ## API terms
 
-An API that forbids the intended use is refused even though its data might be
-freely licensed:
+A source whose **provider's terms** forbid the intended use is refused on the
+same grounds, whatever its data licence says: the VirusTotal Public API, for
+instance, states it must not be used in commercial products or services.
 
-| Source | Verdict |
-| :--- | :--- |
-| VirusTotal Public API | **blocked** — must not be used in commercial products or services |
-| Cisco Umbrella Investigate | allowed for **evidence only**, never a category |
-
-If you hold a VirusTotal Premium agreement that permits your use, change the
-record in `sources.json` and say so in its `reason` field. Do not edit
-`scripts/probe.py` to route around the gate.
-
-## A dependency with a clock
-
-Cisco announced **end of sale for Umbrella SIG / DNS on 1 September 2026** (last
-order 31 January 2027, support to 31 January 2029).
-
-`scripts/probe.py` caches every answer in `evidence/probes.json` and never
-re-asks. The cache is the artefact; the service is not. A rule justified by
-cached evidence stays defensible after the service disappears — one justified
-by a live dependency does not.
+If you hold an agreement that permits your use, change the record in
+[`sources.json`](sources.json) and say so in its `reason` field. Do not edit the
+gate to route around it.
 
 ## Reporting a problem
 
-Open an issue, or a pull request if it has a fix. Three things are worth
-raising above the rest:
+Write to **`irtibat@mahirfatih.com`**, or open an issue if it can be public.
+Three things are worth raising above the rest:
 
 - a source that should be blocked and is not, or vice versa
 - a host labelled with a category it plainly is not
 - an entry that could mislead a user about what they are connecting to
 
-There is no security contact for this repository beyond its issue tracker.
+A report about conduct rather than data belongs under
+[`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), which has its own reporting route.
