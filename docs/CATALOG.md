@@ -6,7 +6,7 @@ data will disagree, which is the one thing a data file must never do.
 
 ## Totals
 
-**1,272 names** across **27 categories**, plus **22 services**.
+**1,259 names** across **27 categories**, plus **22 services**.
 
 The app loads `catalog.json` as a Category Data source and matches a host
 whole, so `facebook.com` covers `graph.facebook.com` without listing it.
@@ -15,33 +15,33 @@ whole, so `facebook.com` covers `graph.facebook.com` without listing it.
 
 | Category | Hosts | What it means |
 | :--- | --: | :--- |
-| `software` | 164 | a tool, a platform, a developer utility |
+| `software` | 160 | a tool, a platform, a developer utility |
 | `shopping` | 101 | a store, a marketplace, a payment provider |
-| `video` | 93 | streaming, live TV, a broadcaster |
+| `video` | 88 | streaming, live TV, a broadcaster |
 | `finance` | 80 | banks, cards, trading, markets |
-| `news` | 71 | press, and the reporting it depends on |
-| `health` | 68 | hospitals, pharmacies, health apps |
-| `ai` | 66 | model providers and the products built on them |
-| `ads` | 65 | ad networks, affiliate platforms, retargeting |
-| `government` | 62 | ministries, municipalities, agencies |
-| `cdn` | 55 | delivery networks carrying somebody else's bytes |
-| `social` | 53 | where people talk to each other |
+| `news` | 69 | press, and the reporting it depends on |
+| `health` | 67 | hospitals, pharmacies, health apps |
+| `ai` | 65 | model providers and the products built on them |
+| `ads` | 63 | ad networks, affiliate platforms, retargeting |
+| `government` | 60 | ministries, municipalities, agencies |
+| `cdn` | 57 | delivery networks carrying somebody else's bytes |
+| `social` | 58 | where people talk to each other |
 | `travel` | 46 | airlines, booking, ground transport |
-| `gaming` | 44 | stores, launchers, and the games |
+| `gaming` | 43 | stores, launchers, and the games |
 | `transport` | 42 | shipping, driving, ride and rail |
 | `encyclopedia` | 40 | reference, metadata, documentation |
-| `education` | 37 | schools, universities, courses |
+| `education` | 36 | schools, universities, courses |
 | `analytics` | 33 | measurement, crash reporting, experimentation |
-| `search` | 29 | search engines and search portals |
+| `search` | 28 | search engines and search portals |
 | `messaging` | 27 | chat, mail, messaging |
-| `email` | 25 | mailbox providers |
-| `telecom` | 15 | carriers and network operators |
+| `email` | 24 | mailbox providers |
+| `telecom` | 16 | carriers and network operators |
 | `other` | 14 | deliberately a last resort, not a fallback |
 | `crash` | 12 | crash and error reporting |
 | `crypto` | 10 | exchanges, wallets, chains |
-| `music` | 9 | streaming and audio |
+| `music` | 10 | streaming and audio |
 | `sports` | 7 | leagues, scores, fixtures |
-| `maps` | 4 | map tiles and geocoding |
+| `maps` | 3 | map tiles and geocoding |
 
 ### `other` is a decision
 

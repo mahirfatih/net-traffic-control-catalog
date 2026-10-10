@@ -40,6 +40,12 @@ bad = {c for c in categories.values() if c not in catalog_lib.VOCABULARY}
 if bad:
     print("✗ category outside the vocabulary:", ", ".join(sorted(bad)), file=sys.stderr)
     raise SystemExit(1)
+bad_hosts = [(h, catalog_lib.host_problems(h)) for h in categories]
+bad_hosts = [(h, why) for h, why in bad_hosts if why]
+if bad_hosts:
+    for host, why in bad_hosts:
+        print(f"✗ host {host!r} {why}", file=sys.stderr)
+    raise SystemExit(1)
 if list(categories) != sorted(categories):
     print("✗ seeds/categories.json is not sorted by host", file=sys.stderr)
     raise SystemExit(1)
@@ -132,8 +138,37 @@ for source in blocked:
 print(f"✓ {len(blocked)} blocked source(s), each with a stated reason")
 PY
 
+step "10. A malformed host is refused, a valid one accepted"
+python3 - <<'PY'
+import sys
+sys.path.insert(0, "scripts")
+import catalog_lib
+
+# Each of these is a name the app could never match: it matches a host whole
+# and by suffix, with no glob and no IDNA. The validator must refuse all of
+# them, or one becomes a silent dead row nobody ever notices.
+bad = [
+    "*.example.com", "http://example.com", "exa mple.com", "example..com",
+    "-bad.com", "bad-.com", "exämple.com", "example.com.", "localhost",
+    "example.com/path", "EXAMPLE.com",
+]
+for host in bad:
+    document = {"version": 1, "categories": {host: "ads"}, "services": []}
+    if not catalog_lib.validate(document):
+        print(f"✗ the validator accepted {host!r}", file=sys.stderr)
+        raise SystemExit(1)
+
+good = {"version": 1, "categories": {"example.com": "ads", "t.co": "social"},
+        "services": []}
+problems = catalog_lib.validate(good)
+if problems:
+    print("✗ the validator rejected a valid host:", problems, file=sys.stderr)
+    raise SystemExit(1)
+print(f"✓ {len(bad)} malformed host(s) refused, a valid one accepted")
+PY
+
 if [ "$FAST" -eq 0 ]; then
-    step "10. Every script compiles"
+    step "11. Every script compiles"
     python3 -m py_compile scripts/*.py
     echo "✓ scripts compile"
 fi
