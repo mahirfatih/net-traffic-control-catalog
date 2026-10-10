@@ -22,8 +22,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
-PAGES = Path(__file__).resolve().parent / "pages"
-OUT = Path(__file__).resolve().parent / "out"
+PAGES = Path(__file__).resolve().parent / ".pages"
+OUT = ROOT / "docs" / "analysis" / "out"
 CATALOG = ROOT / "catalog.json"
 
 

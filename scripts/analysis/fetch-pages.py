@@ -5,7 +5,7 @@ text. Title + meta + headings are placed first because they carry the
 strongest category signal (a page's own description of what it is).
 Body text follows as supporting evidence.
 
-Results are cached under ``pages/<host>.txt`` so re-runs cost nothing.
+Results are cached under ``.pages/<host>.txt`` so re-runs cost nothing.
 
 Usage:
     python3 fetch-pages.py [--workers 12] [--timeout 12]
@@ -23,7 +23,7 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
-PAGES = Path(__file__).resolve().parent / "pages"
+PAGES = Path(__file__).resolve().parent / ".pages"
 CATALOG = ROOT / "catalog.json"
 
 USER_AGENT = "net-traffic-control-catalog/1.0 (+https://github.com/mahirfatih/net-traffic-control-catalog)"

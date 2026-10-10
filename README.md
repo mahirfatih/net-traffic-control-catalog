@@ -182,10 +182,11 @@ Full guide: [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Catalog Consistency Analysis
 
-A one-off analysis ([`docs/analysis/`](docs/analysis/)) fetches homepage text
-for catalog hosts, trains a TF-IDF + LinearSVC classifier on our labels, and
-renders a confusion matrix showing how consistently our labels agree with what
-a text model can recover.
+A one-off analysis ([`scripts/analysis/`](scripts/analysis/), results in
+[`docs/analysis/`](docs/analysis/)) fetches homepage text for catalog hosts,
+trains a TF-IDF + LinearSVC classifier on our labels, and renders a confusion
+matrix showing how consistently our labels agree with what a text model can
+recover.
 
 ![Confusion matrix](docs/analysis/out/confusion-matrix.png)
 

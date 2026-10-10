@@ -1,25 +1,22 @@
 # Analysis: catalog consistency
 
-This directory holds a one-off analysis that fetches homepage text for the
-hosts in `catalog.json`, trains a text classifier (TF-IDF + LinearSVC) on
-our labels, and produces a confusion matrix showing how consistently our
-labels agree with what a text model can recover.
+This directory holds the results and methodology of an audit that fetches
+homepage text for the hosts in `catalog.json`, trains a text classifier
+(TF-IDF + LinearSVC) on our labels, and produces a confusion matrix showing how
+consistently our labels agree with what a text model can recover.
 
-**Not part of the shipped catalog pipeline.** The catalog repo's `scripts/`
-are standard-library-only; this analysis needs `scikit-learn` and
-`matplotlib`. It is excluded from `test/test.sh`.
+**The tool lives in [`scripts/analysis/`](../../scripts/analysis/); its output
+lands here.** It is not part of the shipped catalog pipeline — the rest of
+`scripts/` is standard-library-only, while the audit needs `scikit-learn` and
+`matplotlib`, and `test/test.sh` does not run it.
 
 ## Usage
 
 ```bash
-# 1. Install deps (arm64 wheels for Python 3.11+)
-pip3 install scikit-learn matplotlib
-
-# 2. Fetch pages (~3 min, cached under pages/)
-python3 fetch-pages.py
-
-# 3. Train + render matrix
-python3 build-matrix.py
+cd scripts/analysis
+python3 -m venv .venv && .venv/bin/pip install scikit-learn matplotlib
+.venv/bin/python fetch-pages.py     # cache each host's homepage (~3 min)
+.venv/bin/python build-matrix.py    # ← writes docs/analysis/out/
 ```
 
 Outputs land in `out/`:
