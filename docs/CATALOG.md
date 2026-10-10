@@ -6,7 +6,7 @@ data will disagree, which is the one thing a data file must never do.
 
 ## Totals
 
-**2,396 names** across **27 categories**, plus **22 services**.
+**2,489 names** across **27 categories**, plus **22 services**.
 
 The app loads `catalog.json` as a Category Data source and matches a host
 whole, so `facebook.com` covers `graph.facebook.com` without listing it.
@@ -30,7 +30,7 @@ whole, so `facebook.com` covers `graph.facebook.com` without listing it.
 | `gaming` | 43 | stores, launchers, and the games |
 | `transport` | 42 | shipping, driving, ride and rail |
 | `encyclopedia` | 40 | reference, metadata, documentation |
-| `education` | 121 | schools, universities, courses |
+| `education` | 214 | schools, universities, courses |
 | `analytics` | 33 | measurement, crash reporting, experimentation |
 | `search` | 28 | search engines and search portals |
 | `messaging` | 27 | chat, mail, messaging |
