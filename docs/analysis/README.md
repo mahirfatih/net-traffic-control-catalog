@@ -31,6 +31,17 @@ Outputs land in `out/`:
 
 **Accuracy: 65.7%** (518/789, 19 classes, 5-fold CV).
 
+Read this number correctly:
+
+- **It is consistency, not accuracy.** The model learns how well our own
+  labels can be recovered from page text. 65.7% means about two-thirds of our
+  labels are predictable from the page.
+- **Highest:** `government` 92%, `messaging` 85% — categories that separate
+  cleanly from page content.
+- **Lowest:** `cdn` 35%, `social` 38%, `search` 42%, `transport` 43% — some
+  of these are infrastructure (page text is meaningless). But examples like
+  `apple.com → cdn` and `booking.com → search` may be real catalog errors.
+
 Per-class accuracy ranges from 35% (`cdn`) to 92% (`government`). The
 weakest classes are infrastructure categories whose page text is not
 representative of the category. Notable off-diagonal predictions include

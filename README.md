@@ -194,6 +194,12 @@ a text model can recover.
 predictable from page content. Low diagonal = label disagrees with the page
 (either the label is wrong, or the page is not representative).
 
+- **Highest:** `government` 92%, `messaging` 85% — categories that separate
+  cleanly from page content.
+- **Lowest:** `cdn` 35%, `social` 38%, `search` 42%, `transport` 43% — some
+  of these are infrastructure (page text is meaningless). But examples like
+  `apple.com → cdn` and `booking.com → search` may be real catalog errors.
+
 See [`docs/analysis/README.md`](docs/analysis/README.md) for methodology.
 
 ## License
