@@ -190,7 +190,7 @@ recover.
 
 ![Confusion matrix](docs/analysis/out/confusion-matrix.png)
 
-**Accuracy: 84%** (1,553/1,844, 19 classes, 5-fold CV). This measures
+**Accuracy: 84%** (1,545/1,844, 19 classes, 5-fold CV). This measures
 *self-consistency*, not correctness — it shows whether our labels are
 predictable from page content. High diagonal = our labels are predictable from
 page text. Off-diagonal = our label disagrees with what the text suggests

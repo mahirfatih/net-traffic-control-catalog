@@ -28,7 +28,7 @@ Outputs land in `out/`:
 
 ## Result
 
-**Accuracy: 84%** (1,553/1,844, 19 classes, 5-fold CV).
+**Accuracy: 84%** (1,545/1,844, 19 classes, 5-fold CV).
 
 Read this number correctly:
 
