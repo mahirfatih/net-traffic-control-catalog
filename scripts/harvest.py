@@ -240,7 +240,9 @@ def main(argv):
         return 0
 
     payload = {row["host"]: row["category"] for row in kept}
-    out = os.path.join(ROOT, "harvested-categories.json")
+    # Into evidence/, not the repository root: it is a generated intermediate,
+    # and a root-level file nobody recognises reads like something that matters.
+    out = os.path.join(EVIDENCE, "harvested-categories.json")
     with open(out, "w", encoding="utf-8") as handle:
         json.dump(payload, handle, ensure_ascii=False, indent=2, sort_keys=True)
         handle.write("\n")
@@ -248,7 +250,16 @@ def main(argv):
     print(f"  apply with: python3 scripts/merge.py {os.path.relpath(out, ROOT)}")
     print(f"  review {len(review)} hand-written entries in docs/NEEDS-REVIEW.md")
 
-    with open(os.path.join(EVIDENCE, "harvest-summary.json"), "w", encoding="utf-8") as handle:
+    # A run that categorised nothing is a no-op: every host it found is already
+    # in the seeds. Overwriting the summary would erase the record of the run
+    # that *did* add hosts — and that record is the evidence for the labels now
+    # in the catalog. So a no-op leaves it alone and says so.
+    summary_path = os.path.join(EVIDENCE, "harvest-summary.json")
+    if not kept and os.path.exists(summary_path):
+        print(f"  nothing new to categorise; {os.path.relpath(summary_path, ROOT)} left as it was")
+        return 0
+
+    with open(summary_path, "w", encoding="utf-8") as handle:
         json.dump({
             "generated": date.today().isoformat(),
             "sources": [s["id"] for s in chosen],

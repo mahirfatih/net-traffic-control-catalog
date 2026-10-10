@@ -31,13 +31,13 @@ compile. No network, no build system.
 
 ```sh
 python3 scripts/harvest.py                    # fetch, filter, apply rules
-python3 scripts/merge.py harvested-categories.json --dry-run
-python3 scripts/merge.py harvested-categories.json
+python3 scripts/merge.py evidence/harvested-categories.json --dry-run
+python3 scripts/merge.py evidence/harvested-categories.json
 python3 scripts/build-catalog-docs.py         # refresh docs/CATALOG.md
 ./test/test.sh
 ```
 
-`harvest.py` writes `harvested-categories.json`, which is gitignored: it is an
+`harvest.py` writes `evidence/harvested-categories.json`, which is gitignored: it is an
 intermediate, and the seeds are the source of truth.
 
 ### What the harvest will not do

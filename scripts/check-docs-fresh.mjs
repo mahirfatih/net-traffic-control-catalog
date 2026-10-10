@@ -160,6 +160,29 @@ function checkLicenseGate() {
   notes.push(`checked ${sources.sources.length} licence verdict(s)`);
 }
 
+/** 7. Every directory that holds files has a README. */
+function checkDirectoryReadmes() {
+  const skip = new Set(["__pycache__"]);
+  const dirs = [];
+  const walk = (rel) => {
+    for (const name of readdirSync(join(ROOT, rel))) {
+      if (name.startsWith(".") || skip.has(name)) continue;
+      const child = rel ? `${rel}/${name}` : name;
+      if (!statSync(join(ROOT, child)).isDirectory()) continue;
+      dirs.push(child);
+      walk(child);
+    }
+  };
+  walk("");
+
+  for (const dir of dirs) {
+    if (!existsSync(join(ROOT, dir, "README.md"))) {
+      problems.push(`${dir}/ holds files but has no README.md — say what belongs in it`);
+    }
+  }
+  notes.push(`checked ${dirs.length} director(ies) for a README`);
+}
+
 for (const check of [
   checkLinks,
   checkScriptNames,
@@ -167,6 +190,7 @@ for (const check of [
   checkGeneratedDocs,
   checkCategoryTable,
   checkLicenseGate,
+  checkDirectoryReadmes,
 ]) {
   try {
     check();

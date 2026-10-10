@@ -27,8 +27,8 @@ For finding hosts that are missing rather than guessing them:
 
 ```sh
 python3 scripts/harvest.py                 # fetch allowed sources, apply rules
-python3 scripts/merge.py harvested-categories.json --dry-run
-python3 scripts/merge.py harvested-categories.json
+python3 scripts/merge.py evidence/harvested-categories.json --dry-run
+python3 scripts/merge.py evidence/harvested-categories.json
 ```
 
 The pipeline is fetch → parse → drop what the catalog already covers → apply
