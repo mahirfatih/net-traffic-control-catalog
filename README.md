@@ -190,23 +190,25 @@ recover.
 
 ![Confusion matrix](docs/analysis/out/confusion-matrix.png)
 
-**Accuracy: 66%** (543/823, 19 classes, 5-fold CV). This measures
+**Accuracy: 84%** (1,553/1,844, 19 classes, 5-fold CV). This measures
 *self-consistency*, not correctness — it shows whether our labels are
-predictable from page content. Low diagonal = label disagrees with the page
-(either the label is wrong, or the page is not representative).
+predictable from page content. High diagonal = our labels are predictable from
+page text. Off-diagonal = our label disagrees with what the text suggests
+(either the label is wrong, or the page is not representative of the category).
 
-- **Highest F1:** `ai`, `finance`, `government`, `health`, `messaging` — all
-  0.80. These categories have strong, distinctive page signals.
-- **Lowest F1:** `travel` 0.41, `cdn` 0.43, `social` 0.44 — some of these
-  are infrastructure (page text is meaningless). But correlated terms reveal
-  potential miscategorizations (e.g. `search` correlates with "gmail
-  rseller" — Google services, not search engines).
+- **Highest F1:** `education` 0.93, `government` 0.97, `news` 0.91, `health`
+  0.81, `messaging` 0.87. These categories have strong, distinctive page
+  signals.
+- **Lowest F1:** `cdn` 0.44, `social` 0.40, `travel` 0.44, `encyclopedia` 0.42 —
+  some of these are infrastructure (page text is meaningless or ambiguous).
+  Correlated terms and model-weight terms reveal potential miscategorizations.
 - **High-confidence errors:** only 1 host (`googlesyndication.com`, labeled
-  `ads` but predicted `search` at 77% confidence — Google's ad infra,
-  debatable label).
+  `ads` but predicted `search` at 80% confidence — Google's ad serving
+  infrastructure, debatable label).
 
 See [`docs/analysis/README.md`](docs/analysis/README.md) for full methodology,
-per-class metrics, correlated terms, and the error list.
+per-class metrics, correlated terms (chi-squared + LinearSVC weights), and the
+error list.
 
 ## License
 

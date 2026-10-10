@@ -6,6 +6,6 @@ mislabeled entries.
 
 Total: 1 hosts
 
-| Host | Catalog label | Predicted | Confidence |
-| :--- | :--- | :--- | ---: |
-| googlesyndication.com | ads | search | 77% |
+| Host | Catalog label | Predicted | Confidence | Top 3 predictions |
+| :--- | :--- | :--- | ---: | :--- |
+| googlesyndication.com | ads | search | 80% | search 80%, ads 4%, government 2% |

@@ -4,7 +4,8 @@ The catalog reliability audit — a maintainer tool, not a check. It fetches eac
 catalog host's homepage, extracts the title, meta description/keywords, headings
 and body, trains a TF-IDF + LinearSVC classifier on the labels and
 cross-validates it, then writes the confusion matrix, per-class metrics,
-chi-squared correlated terms and high-confidence errors to
+**chi-squared correlated terms**, **LinearSVC model-weight terms**, **calibrated
+top-3 predictions per host**, and high-confidence errors to
 [`docs/analysis/out/`](../../docs/analysis/out/).
 
 This is the one directory under `scripts/` that needs an install step:
