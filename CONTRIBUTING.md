@@ -26,9 +26,9 @@ failure.
 For finding hosts that are missing rather than guessing them:
 
 ```sh
-python3 scripts/harvest.py                 # fetch allowed sources, apply rules
-python3 scripts/merge.py evidence/harvested-categories.json --dry-run
-python3 scripts/merge.py evidence/harvested-categories.json
+python3 scripts/sources/harvest.py                 # fetch allowed sources, apply rules
+python3 scripts/sources/merge.py evidence/harvested-categories.json --dry-run
+python3 scripts/sources/merge.py evidence/harvested-categories.json
 ```
 
 The pipeline is fetch → parse → drop what the catalog already covers → apply
@@ -61,7 +61,7 @@ What `harvest.py` will not do, on purpose:
 ## Adding a source
 
 See [`docs/SOURCES.md`](docs/SOURCES.md). In short: append to `sources.json`
-with a licence and an `allowed` verdict, then run `python3 scripts/sources.py
+with a licence and an `allowed` verdict, then run `python3 scripts/sources/sources.py
 --check`.
 
 A blocking licence (`NC`, `SA`) with `allowed: true` is a hard error. That is

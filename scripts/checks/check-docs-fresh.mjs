@@ -2,7 +2,7 @@
 /**
  * Static checks: do the documents still describe the files they name?
  *
- *   node scripts/check-docs-fresh.mjs
+ *   node scripts/checks/check-docs-fresh.mjs
  *
  * This catches the drift that a data repository accumulates quietly — a file
  * renamed without the README noticing, a document quoting a count the catalog
@@ -13,7 +13,7 @@ import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const problems = [];
 const notes = [];
 
@@ -51,15 +51,22 @@ function checkLinks() {
 
 /** 2. Every script named in a document must exist. */
 function checkScriptNames() {
-  const known = new Set(
-    readdirSync(join(ROOT, "scripts"))
-      .filter((n) => n.endsWith(".py") || n.endsWith(".mjs"))
-      .map((n) => `scripts/${n}`)
-  );
+  // `scripts/` is grouped into subfolders, so walk it; a document may name a
+  // script by its grouped path.
+  const known = new Set();
+  const walk = (rel) => {
+    for (const name of readdirSync(join(ROOT, rel))) {
+      if (name.startsWith(".") || name === "__pycache__") continue;
+      const child = `${rel}/${name}`;
+      if (statSync(join(ROOT, child)).isDirectory()) walk(child);
+      else if (name.endsWith(".py") || name.endsWith(".mjs")) known.add(child);
+    }
+  };
+  walk("scripts");
   for (const file of markdownFiles()) {
     const text = read(file);
     const named = new Set(
-      [...text.matchAll(/scripts\/([A-Za-z0-9_.-]+\.(?:py|mjs))/g)].map((m) => m[0])
+      [...text.matchAll(/scripts\/[A-Za-z0-9_./-]+\.(?:py|mjs)/g)].map((m) => m[0])
     );
     for (const name of named) {
       if (!known.has(name)) {
@@ -88,7 +95,7 @@ function checkSourceIds() {
 function checkGeneratedDocs() {
   const docPath = join(ROOT, "docs", "CATALOG.md");
   if (!existsSync(docPath)) {
-    problems.push("docs/CATALOG.md is missing — run scripts/build-catalog-docs.py");
+    problems.push("docs/CATALOG.md is missing — run scripts/catalog/build-catalog-docs.py");
     return;
   }
   const catalog = json("catalog.json");
@@ -141,7 +148,7 @@ function checkCategoryTable() {
 /** 6. A source may not claim to be allowed when its licence blocks it. */
 function checkLicenseGate() {
   const sources = json("sources.json");
-  // The same table scripts/sources.py enforces, so this check and the gate can
+  // The same table scripts/sources/sources.py enforces, so this check and the gate can
   // never disagree. Proprietary APIs are deliberately absent: terms differ per
   // provider, so those records carry their own verdict and reason.
   const blocking = ["CC-BY-NC-SA", "CC-BY-NC-", "CC-BY-SA-"];

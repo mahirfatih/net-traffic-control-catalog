@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate `docs/CATALOG.md` from `catalog.json`.
 
-    python3 scripts/build-catalog-docs.py
+    python3 scripts/catalog/build-catalog-docs.py
 
 The catalog ships as a binary-ish JSON blob, so a prose summary of it would be
 a second copy to keep in step. This writes that copy on purpose, from the same
@@ -16,7 +16,7 @@ import os
 import sys
 from collections import Counter
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CATALOG = os.path.join(ROOT, "catalog.json")
 RULES = os.path.join(ROOT, "rules.json")
 OUT = os.path.join(ROOT, "docs", "CATALOG.md")
@@ -102,7 +102,7 @@ def main(argv):
     add = lines.append
     add("# Catalog")
     add("")
-    add("Generated from `catalog.json` by `scripts/build-catalog-docs.py`. **Do not")
+    add("Generated from `catalog.json` by `scripts/catalog/build-catalog-docs.py`. **Do not")
     add("edit by hand** — edit `seeds/` and regenerate, or this file and the shipped")
     add("data will disagree, which is the one thing a data file must never do.")
     add("")

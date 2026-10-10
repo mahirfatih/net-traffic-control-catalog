@@ -47,7 +47,7 @@ of sources:
 
 So the next DuckDuckGo Tracker Radar — or any other `NC` list — is refused by
 name appearing nowhere in this repository.
-[`../scripts/sources.py`](../scripts/sources.py) is where that table lives, and
+[`../scripts/sources/sources.py`](../scripts/sources/sources.py) is where that table lives, and
 `harvest.py` applies it before a byte is fetched.
 
 If you hold an agreement that permits a use the free tier does not, record it
@@ -57,7 +57,7 @@ in `sources.json` with a `reason` that says so. Do not edit the gate.
 
 1. Append a record to `sources.json` with `id`, `name`, `url`, `license`,
    `allowed` and, if not allowed, a `reason`.
-2. Run `python3 scripts/sources.py --check`. A blocking licence with
+2. Run `python3 scripts/sources/sources.py --check`. A blocking licence with
    `allowed: true` is an **error**, not a warning — that is the mistake this
    registry exists to catch.
 3. If it is a list rather than a categoriser, add a note in `rules.json` saying
@@ -76,7 +76,7 @@ in `sources.json` with a `reason` that says so. Do not edit the gate.
 | CC BY-*-**SA** | **blocked** — the derivative inherits the share-alike term and stops being CC0 |
 | proprietary API | blocked unless the registry record says otherwise, in writing |
 
-The table in `scripts/sources.py` is the enforcement point; this table is the
+The table in `scripts/sources/sources.py` is the enforcement point; this table is the
 explanation of it. If the two disagree, the code is right and this file is stale.
 The suite checks the codes it can check, so a licence in the table but not in the
 code is not caught by a test — it is caught by the next source that tries it.

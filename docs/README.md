@@ -5,7 +5,7 @@ them.
 
 | Document | Written by | Edit it? |
 | :--- | :--- | :--- |
-| [`CATALOG.md`](CATALOG.md) | `scripts/build-catalog-docs.py` | **No.** Regenerate it. |
+| [`CATALOG.md`](CATALOG.md) | `scripts/catalog/build-catalog-docs.py` | **No.** Regenerate it. |
 | [`SOURCES.md`](SOURCES.md) | a person | Yes |
 | [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md) | a person | Yes |
 
@@ -16,7 +16,7 @@ Counts per category, the `other` list, the service table. Generated from
 keep in step, and the first harvest would have made it quietly wrong.
 
 ```sh
-python3 scripts/build-catalog-docs.py
+python3 scripts/catalog/build-catalog-docs.py
 ```
 
 `./test/test.sh` regenerates it and fails if it differs, so a hand edit is

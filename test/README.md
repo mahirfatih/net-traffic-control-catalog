@@ -41,9 +41,9 @@ There is no per-step flag on purpose: the steps are fast enough that selecting
 among them costs more than running them. To run one script directly:
 
 ```sh
-python3 scripts/validate.py
-python3 scripts/sources.py --check
-node scripts/check-docs-fresh.mjs
+python3 scripts/catalog/validate.py
+python3 scripts/sources/sources.py --check
+node scripts/checks/check-docs-fresh.mjs
 ```
 
 ## Where output goes

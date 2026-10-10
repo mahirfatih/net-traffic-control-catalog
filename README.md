@@ -115,11 +115,11 @@ https://raw.githubusercontent.com/mahirfatih/net-traffic-control-catalog/main/ca
 is the build output. Regenerate and validate:
 
 ```sh
-python3 scripts/generate.py \
+python3 scripts/catalog/generate.py \
     --categories seeds/categories.json \
     --services   seeds/services.json \
     --out        catalog.json
-python3 scripts/validate.py
+python3 scripts/catalog/validate.py
 ```
 
 Do not edit `catalog.json` by hand — edit `seeds/` instead.
@@ -137,9 +137,9 @@ host *is*, so it never assigns a category: `harvest.py` proposes hosts and
 `rules.json` (or a person) labels them.
 
 ```sh
-python3 scripts/harvest.py
-python3 scripts/merge.py evidence/harvested-categories.json --dry-run
-python3 scripts/merge.py evidence/harvested-categories.json
+python3 scripts/sources/harvest.py
+python3 scripts/sources/merge.py evidence/harvested-categories.json --dry-run
+python3 scripts/sources/merge.py evidence/harvested-categories.json
 ```
 
 Rules for a generator:
@@ -151,7 +151,7 @@ Rules for a generator:
 - **Deterministic output** (sorted keys) so diffs stay reviewable.
 - **Only permitted sources**, enforced in code rather than by convention: every
   source lives in [`sources.json`](sources.json) with its licence, and
-  [`scripts/sources.py`](scripts/sources.py) refuses a non-commercial or
+  [`scripts/sources/sources.py`](scripts/sources/sources.py) refuses a non-commercial or
   share-alike licence *before* fetching it. See
   [`docs/SOURCES.md`](docs/SOURCES.md) for the reasoning, and
   [`SECURITY.md`](SECURITY.md) for why it is a gate rather than a note.
@@ -169,7 +169,7 @@ Rules for a generator:
   commercial app and `SA` would stop the derivative being CC0 — the two terms in
   `CC BY-NC-SA 4.0`. This is no longer a convention:
   [`sources.json`](sources.json) records the licence of every source and
-  [`scripts/sources.py`](scripts/sources.py) refuses the blocked ones before
+  [`scripts/sources/sources.py`](scripts/sources/sources.py) refuses the blocked ones before
   fetching, and `./test/test.sh` fails if a record claims otherwise.
 
 Full guide: [`CONTRIBUTING.md`](CONTRIBUTING.md).

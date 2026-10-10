@@ -21,7 +21,7 @@ forgot, so `rules.json` asks for one.
 Regenerate this section with:
 
 ```sh
-python3 scripts/harvest.py
+python3 scripts/sources/harvest.py
 ```
 
 | Host | Source | Notes |
