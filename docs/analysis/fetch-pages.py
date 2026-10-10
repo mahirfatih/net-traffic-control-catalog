@@ -1,5 +1,10 @@
 """Fetch homepage text for every host in the catalog.
 
+Extracts <title>, meta description/keywords, headings (h1-h6), and body
+text. Title + meta + headings are placed first because they carry the
+strongest category signal (a page's own description of what it is).
+Body text follows as supporting evidence.
+
 Results are cached under ``pages/<host>.txt`` so re-runs cost nothing.
 
 Usage:
@@ -11,7 +16,6 @@ import argparse
 import concurrent.futures
 import html
 import json
-import os
 import re
 import subprocess
 import sys
@@ -27,13 +31,56 @@ USER_AGENT = "net-traffic-control-catalog/1.0 (+https://github.com/mahirfatih/ne
 _SCRIPT_STYLE = re.compile(r"(?is)<(script|style).*?</\1>")
 _TAG = re.compile(r"<[^>]+>")
 _WS = re.compile(r"\s+")
+_TITLE = re.compile(r"(?is)<title[^>]*>(.*?)</title>")
+_META_DESC = re.compile(
+    r'(?is)<meta[^>]+name=["\']description["\'][^>]+content=["\']([^"\']*)["\']'
+)
+_META_KW = re.compile(
+    r'(?is)<meta[^>]+name=["\']keywords["\'][^>]+content=["\']([^"\']*)["\']'
+)
+_HEADINGS = re.compile(r"(?is)<h[1-6][^>]*>(.*?)</h[1-6]>")
 
 
-def clean_text(raw: str) -> str:
-    """Strip tags and collapse whitespace to plain text."""
-    text = _SCRIPT_STYLE.sub(" ", raw)
-    text = _TAG.sub(" ", text)
-    return _WS.sub(" ", html.unescape(text)).strip()
+def _strip_tags(s: str) -> str:
+    """Remove tags and collapse whitespace."""
+    return _WS.sub(" ", html.unescape(_TAG.sub(" ", s))).strip()
+
+
+def extract_text(raw: str) -> str:
+    """Extract page text with title/meta/headings first, body last.
+
+    Order: title -> meta description -> meta keywords -> headings -> body.
+    This mirrors the reference repo's insight that a page's own metadata
+    and structure are stronger category signals than body copy.
+    """
+    # Title
+    title_match = _TITLE.search(raw)
+    title = _strip_tags(title_match.group(1)) if title_match else ""
+
+    # Meta description and keywords
+    desc_match = _META_DESC.search(raw)
+    desc = html.unescape(desc_match.group(1)).strip() if desc_match else ""
+    kw_match = _META_KW.search(raw)
+    kw = html.unescape(kw_match.group(1)).strip() if kw_match else ""
+
+    # Headings
+    headings = [_strip_tags(h) for h in _HEADINGS.findall(raw)]
+    headings = [h for h in headings if h]
+
+    # Body: strip script/style, then all tags
+    body_raw = _SCRIPT_STYLE.sub(" ", raw)
+    body_text = _strip_tags(body_raw)
+    # Remove the parts we already extracted from body to avoid duplication
+    for part in [title, desc, kw, " ".join(headings)]:
+        if part:
+            body_text = body_text.replace(part, " ")
+    body_text = _WS.sub(" ", body_text).strip()
+
+    # Assemble: title + meta + headings first, body last
+    parts = [title, desc, kw]
+    parts.extend(headings)
+    parts.append(body_text)
+    return " ".join(p for p in parts if p)
 
 
 def fetch(host: str) -> tuple[str, int, float, str]:
@@ -52,7 +99,7 @@ def fetch(host: str) -> tuple[str, int, float, str]:
             capture_output=True,
             timeout=18,
         )
-        text = clean_text(proc.stdout.decode("utf-8", "replace"))
+        text = extract_text(proc.stdout.decode("utf-8", "replace"))
         out.write_text(text, encoding="utf-8")
         return host, len(text), time.time() - t0, "" if text else "empty"
     except Exception as exc:

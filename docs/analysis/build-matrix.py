@@ -5,6 +5,11 @@ cross-validated (5-fold) so every host receives an out-of-fold prediction.
 The confusion matrix then shows how consistently our labels agree with what
 a text model can recover.
 
+Also produces:
+- Per-class precision/recall/F1 (classification_report)
+- Chi-squared correlated terms per category (what drives each class)
+- Calibrated probabilities -> high-confidence errors (likely mislabels)
+
 Usage:
     python3 build-matrix.py [--min-text 100] [--min-class 20] [--folds 5]
 """
@@ -42,8 +47,14 @@ def main() -> int:
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     import numpy as np
+    from sklearn.calibration import CalibratedClassifierCV
     from sklearn.feature_extraction.text import TfidfVectorizer
-    from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+    from sklearn.feature_selection import chi2
+    from sklearn.metrics import (
+        classification_report,
+        confusion_matrix,
+        ConfusionMatrixDisplay,
+    )
     from sklearn.model_selection import cross_val_predict, StratifiedKFold
     from sklearn.pipeline import make_pipeline
     from sklearn.svm import LinearSVC
@@ -62,6 +73,7 @@ def main() -> int:
     mask = np.array([c in keep for c in y])
     X, y = X[mask], y[mask]
     classes = sorted(set(y))
+    kept_hosts = [h for h, m in zip(hosts, mask) if m]
 
     print(f"{len(hosts)} hosts with text -> {len(y)} after class filter")
     print(f"{len(classes)} classes: {', '.join(classes)}")
@@ -78,42 +90,137 @@ def main() -> int:
     print("\nConfusion matrix (rows=true, cols=predicted):")
     print(cm)
 
-    # Per-class accuracy
-    print("\nPer-class accuracy:")
+    # --- 1. Classification report (precision/recall/F1) ---
+    report = classification_report(y, pred, labels=classes, output_dict=True)
+    print("\nPer-class metrics:")
+    print(f"  {'class':14} {'prec':>6} {'rec':>6} {'f1':>6} {'support':>7}")
+    for c in classes:
+        r = report[c]
+        print(f"  {c:14} {r['precision']:6.2f} {r['recall']:6.2f} {r['f1-score']:6.2f} {r['support']:7.0f}")
+    print(f"  {'accuracy':14} {report['accuracy']:6.2f}")
+    print(f"  {'macro avg':14} {report['macro avg']['precision']:6.2f} "
+          f"{report['macro avg']['recall']:6.2f} {report['macro avg']['f1-score']:6.2f}")
+    print(f"  {'weighted avg':14} {report['weighted avg']['precision']:6.2f} "
+          f"{report['weighted avg']['recall']:6.2f} {report['weighted avg']['f1-score']:6.2f}")
+
+    # --- 2. Chi-squared correlated terms per category ---
+    print("\nChi-squared correlated terms (top 10 per class):")
+    vectorizer = TfidfVectorizer(sublinear_tf=True, min_df=2, ngram_range=(1, 2), max_features=20000)
+    X_vec = vectorizer.fit_transform(X)
+    feature_names = np.array(vectorizer.get_feature_names_out())
+    chi2_scores, p_values = chi2(X_vec, y)
+
+    correlated_terms: dict[str, list[tuple[str, float]]] = {}
     for i, c in enumerate(classes):
-        tp = cm[i, i]
-        total = cm[i].sum()
-        print(f"  {c:14} {tp:4}/{total:4}  {tp/total:.0%}")
+        class_mask = y == c
+        chi2_class, _ = chi2(X_vec, class_mask.astype(int))
+        top_indices = np.argsort(chi2_class)[-10:][::-1]
+        terms = [(feature_names[j], float(chi2_class[j])) for j in top_indices]
+        correlated_terms[c] = terms
+        print(f"  {c:14} {', '.join(t for t, _ in terms[:5])}")
 
-    # Off-diagonal examples
-    print("\nOff-diagonal predictions (first 40):")
-    kept_hosts = [h for h, m in zip(hosts, mask) if m]
-    shown = 0
+    # --- 3. Calibrated probabilities -> high-confidence errors ---
+    print("\nCalibrating for probability estimates...")
+    cal_pipe = make_pipeline(
+        TfidfVectorizer(sublinear_tf=True, min_df=2, ngram_range=(1, 2), max_features=20000),
+        CalibratedClassifierCV(
+            LinearSVC(C=1.0, class_weight="balanced", max_iter=5000),
+            cv=3,
+            method="sigmoid",
+        ),
+    )
+    cal_pipe.fit(X, y)
+    proba = cal_pipe.predict_proba(X)
+    cal_pred = cal_pipe.predict(X)
+
+    # High-confidence errors: model is confident but wrong
+    high_conf_errors: list[dict] = []
     for i, host in enumerate(kept_hosts):
-        if y[i] != pred[i] and shown < 40:
-            print(f"  {host:40} true={y[i]:12} pred={pred[i]}")
-            shown += 1
+        true_label = y[i]
+        pred_label = cal_pred[i]
+        if true_label != pred_label:
+            confidence = float(proba[i][classes.index(pred_label)])
+            high_conf_errors.append({
+                "host": host,
+                "true": true_label,
+                "predicted": pred_label,
+                "confidence": round(confidence, 3),
+            })
+    high_conf_errors.sort(key=lambda x: -x["confidence"])
 
-    # Plot
-    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=classes)
-    fig, ax = plt.subplots(figsize=(14, 12))
-    disp.plot(ax=ax, xticks_rotation=90, cmap="Blues", values_format="d")
-    ax.set_title("Catalog consistency: page-text classifier vs catalog labels")
+    print(f"\nHigh-confidence errors (confidence >= 0.7, first 30):")
+    hce_strong = [e for e in high_conf_errors if e["confidence"] >= 0.7]
+    for e in hce_strong[:30]:
+        print(f"  {e['host']:40} true={e['true']:12} pred={e['predicted']:12} conf={e['confidence']:.2f}")
+    print(f"  ... total high-confidence errors: {len(hce_strong)}")
+
+    # --- 4. Plot confusion matrix (raw + normalized side by side) ---
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 11))
+
+    disp1 = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=classes)
+    disp1.plot(ax=ax1, xticks_rotation=90, cmap="Blues", values_format="d")
+    ax1.set_title("Confusion Matrix (counts)")
+
+    cm_norm = cm.astype("float") / cm.sum(axis=1, keepdims=True)
+    cm_norm = np.nan_to_num(cm_norm)
+    disp2 = ConfusionMatrixDisplay(confusion_matrix=cm_norm, display_labels=classes)
+    disp2.plot(ax=ax2, xticks_rotation=90, cmap="Blues", values_format=".2f")
+    ax2.set_title("Confusion Matrix (row-normalized)")
+
+    fig.suptitle("Catalog consistency: page-text classifier vs catalog labels", fontsize=14)
     fig.tight_layout()
     OUT.mkdir(exist_ok=True)
     fig.savefig(OUT / "confusion-matrix.png", dpi=150)
     print(f"\nSaved {OUT / 'confusion-matrix.png'}")
 
-    # Save data for report
-    report = {
+    # --- 5. Write correlated-terms.md ---
+    lines = ["# Correlated Terms per Category", ""]
+    lines.append("Chi-squared test: which terms most strongly predict each category.")
+    lines.append("")
+    for c in classes:
+        lines.append(f"## {c}")
+        lines.append("")
+        lines.append("| Term | Chi2 score |")
+        lines.append("| :--- | ---: |")
+        for term, score in correlated_terms[c]:
+            lines.append(f"| {term} | {score:.1f} |")
+        lines.append("")
+    (OUT / "correlated-terms.md").write_text("\n".join(lines), encoding="utf-8")
+    print(f"Saved {OUT / 'correlated-terms.md'}")
+
+    # --- 6. Write high-confidence-errors.md ---
+    lines = ["# High-Confidence Errors", ""]
+    lines.append("Hosts where the model is confident (>=70%) but disagrees with")
+    lines.append("the catalog label. These are the strongest candidates for")
+    lines.append("mislabeled entries.")
+    lines.append("")
+    lines.append(f"Total: {len(hce_strong)} hosts")
+    lines.append("")
+    lines.append("| Host | Catalog label | Predicted | Confidence |")
+    lines.append("| :--- | :--- | :--- | ---: |")
+    for e in hce_strong:
+        lines.append(f"| {e['host']} | {e['true']} | {e['predicted']} | {e['confidence']:.0%} |")
+    lines.append("")
+    (OUT / "high-confidence-errors.md").write_text("\n".join(lines), encoding="utf-8")
+    print(f"Saved {OUT / 'high-confidence-errors.md'}")
+
+    # --- 7. Save matrix-data.json (extended) ---
+    report_data = {
         "total_hosts": len(labels),
         "hosts_with_text": len(hosts),
         "hosts_after_filter": int(len(y)),
         "classes": classes,
         "matrix": cm.tolist(),
+        "matrix_normalized": cm_norm.tolist(),
         "counts": {c: int(counts[c]) for c in classes},
+        "classification_report": {c: report[c] for c in classes},
+        "accuracy": report["accuracy"],
+        "macro_avg": report["macro avg"],
+        "weighted_avg": report["weighted avg"],
+        "correlated_terms": {c: correlated_terms[c] for c in classes},
+        "high_confidence_errors": hce_strong,
     }
-    (OUT / "matrix-data.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+    (OUT / "matrix-data.json").write_text(json.dumps(report_data, indent=2), encoding="utf-8")
     print(f"Saved {OUT / 'matrix-data.json'}")
     return 0
 

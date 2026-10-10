@@ -189,18 +189,23 @@ a text model can recover.
 
 ![Confusion matrix](docs/analysis/out/confusion-matrix.png)
 
-**Accuracy: 65.7%** (518/789, 19 classes, 5-fold CV). This measures
+**Accuracy: 66%** (543/823, 19 classes, 5-fold CV). This measures
 *self-consistency*, not correctness — it shows whether our labels are
 predictable from page content. Low diagonal = label disagrees with the page
 (either the label is wrong, or the page is not representative).
 
-- **Highest:** `government` 92%, `messaging` 85% — categories that separate
-  cleanly from page content.
-- **Lowest:** `cdn` 35%, `social` 38%, `search` 42%, `transport` 43% — some
-  of these are infrastructure (page text is meaningless). But examples like
-  `apple.com → cdn` and `booking.com → search` may be real catalog errors.
+- **Highest F1:** `ai`, `finance`, `government`, `health`, `messaging` — all
+  0.80. These categories have strong, distinctive page signals.
+- **Lowest F1:** `travel` 0.41, `cdn` 0.43, `social` 0.44 — some of these
+  are infrastructure (page text is meaningless). But correlated terms reveal
+  potential miscategorizations (e.g. `search` correlates with "gmail
+  rseller" — Google services, not search engines).
+- **High-confidence errors:** only 1 host (`googlesyndication.com`, labeled
+  `ads` but predicted `search` at 77% confidence — Google's ad infra,
+  debatable label).
 
-See [`docs/analysis/README.md`](docs/analysis/README.md) for methodology.
+See [`docs/analysis/README.md`](docs/analysis/README.md) for full methodology,
+per-class metrics, correlated terms, and the error list.
 
 ## License
 
