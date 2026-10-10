@@ -1,5 +1,5 @@
 {
-  "_comment": "Category rules, applied by scripts/harvest.py in the order given. A host is matched whole and its subdomains come with it, so a rule on `plex.tv` already covers `proxy.plex.tv`. The first matching rule wins, so put specific rules above general ones. `category` must be a name from the vocabulary in scripts/catalog_lib.py; `service` is optional and names an entry in seeds/services.json.",
+  "_comment": "Category rules, applied by scripts/harvest.py in the order given. A host is matched whole and its subdomains come with it, so a rule on `plex.tv` already covers `proxy.plex.tv`. The first matching rule wins, so put specific rules above general ones. `category` must be a name from the vocabulary in scripts/catalog-core.py; `service` is optional and names an entry in seeds/services.json.",
   "rules": [
     { "note": "Media servers and the *arr family: one product each, not one company.", "match": ["plex.tv", "plexapp.com", "plex.bz", "sonarr.tv", "libsyn.com", "embedly.com", "yoyo.org"], "category": "software", "service": "plex" },
 

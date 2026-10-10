@@ -17,11 +17,19 @@ a diff that suddenly drops two hundred rows is noticed immediately.
 """
 import argparse
 import json
+import importlib.util
 import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import catalog_lib  # noqa: E402
+
+# The module is named with a hyphen to match the other files here, which Python
+# cannot use in an `import` statement. It is loaded by path instead.
+_spec = importlib.util.spec_from_file_location(
+    "catalog_core", os.path.join(os.path.dirname(os.path.abspath(__file__)), "catalog-core.py")
+)
+catalog_core = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(catalog_core)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SEED = os.path.join(ROOT, "seeds", "categories.json")
@@ -35,8 +43,8 @@ def main(argv):
 
     path = args.infile if os.path.isabs(args.infile) else os.path.join(ROOT, args.infile)
     try:
-        harvested = catalog_lib.load(path)
-        seeds = catalog_lib.load(SEED)
+        harvested = catalog_core.load(path)
+        seeds = catalog_core.load(SEED)
     except (OSError, ValueError) as error:
         print(f"✗ cannot read: {error}", file=sys.stderr)
         return 1
@@ -45,7 +53,7 @@ def main(argv):
         print("✗ both files must be JSON objects {host: category}", file=sys.stderr)
         return 1
 
-    unknown = sorted({c for c in harvested.values() if c not in catalog_lib.VOCABULARY})
+    unknown = sorted({c for c in harvested.values() if c not in catalog_core.VOCABULARY})
     if unknown:
         print(f"✗ category outside the vocabulary: {', '.join(unknown)}", file=sys.stderr)
         print("  fix rules.json — the app ignores names it does not know, so this would", file=sys.stderr)
@@ -83,13 +91,13 @@ def main(argv):
 
     # The seed is a bare {host: category} map, not a catalog document, so it is
     # checked directly rather than through `validate()`. Writing goes through
-    # `json.dump` for the same reason: `catalog_lib.write()` normalises a whole
+    # `json.dump` for the same reason: `catalog_core.write()` normalises a whole
     # document and would wrap the seed in version/generated/categories keys.
     problems = []
     for host, category in ordered.items():
         if host != host.lower():
             problems.append(f"{host!r} is not lowercase")
-        if category not in catalog_lib.VOCABULARY:
+        if category not in catalog_core.VOCABULARY:
             problems.append(f"category {category!r} for {host!r} is not in the vocabulary")
         if list(ordered) != sorted(ordered):
             problems.append("hosts are not sorted")

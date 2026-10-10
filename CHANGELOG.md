@@ -32,7 +32,7 @@ not for the data: `version` is bumped only on a breaking format change.
 - **Documents** — [`docs/SOURCES.md`](docs/SOURCES.md),
   [`docs/NEEDS-REVIEW.md`](docs/NEEDS-REVIEW.md), [`CONTRIBUTING.md`](CONTRIBUTING.md),
   [`SECURITY.md`](SECURITY.md).
-- **A host-shape rule in the validator.** `catalog_lib.host_problems` refuses a
+- **A host-shape rule in the validator.** `catalog-core.py`'s `host_problems` refuses a
   wildcard (`*.example.com`), a URL, an IDNA label, a trailing dot, a stray
   space or a bad label — because the app matches a listed host *whole* and its
   subdomains by suffix, with no glob and no IDNA decoding. Such a row would sit
@@ -76,7 +76,7 @@ not for the data: `version` is bumped only on a breaking format change.
   rule in between (`ox.ac.uk` is a university, `tokyo.lg.jp` a prefecture) —
   a rule, so it lives in the app, but a reader of this contract could not see
   where it sat. The chain and a note on the override now match the code.
-- **`merge.py` no longer corrupts the seed file.** `catalog_lib.write()`
+- **`merge.py` no longer corrupts the seed file.** `catalog-core.py`'s `write()`
   normalises a whole catalog document; writing a bare `{host: category}` seed
   through it wrapped the file in `version`/`generated`/`categories` keys and
   made `generate.py` reject it. The seed is now written directly.

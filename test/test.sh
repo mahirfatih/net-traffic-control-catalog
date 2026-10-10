@@ -29,18 +29,23 @@ python3 scripts/sources.py --check
 
 step "2. Seeds parse and use the vocabulary"
 python3 - <<'PY'
-import json, sys, os
-sys.path.insert(0, "scripts")
-import catalog_lib
+import importlib.util, os, sys
 
-categories = catalog_lib.load("seeds/categories.json")
-services = catalog_lib.load("seeds/services.json")
+# The hyphen in the filename is legal on disk but not in an `import` statement.
+_spec = importlib.util.spec_from_file_location(
+    "catalog_core", "scripts/catalog-core.py"
+)
+catalog_core = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(catalog_core)
 
-bad = {c for c in categories.values() if c not in catalog_lib.VOCABULARY}
+categories = catalog_core.load("seeds/categories.json")
+services = catalog_core.load("seeds/services.json")
+
+bad = {c for c in categories.values() if c not in catalog_core.VOCABULARY}
 if bad:
     print("✗ category outside the vocabulary:", ", ".join(sorted(bad)), file=sys.stderr)
     raise SystemExit(1)
-bad_hosts = [(h, catalog_lib.host_problems(h)) for h in categories]
+bad_hosts = [(h, catalog_core.host_problems(h)) for h in categories]
 bad_hosts = [(h, why) for h, why in bad_hosts if why]
 if bad_hosts:
     for host, why in bad_hosts:
@@ -59,12 +64,17 @@ PY
 
 step "2b. Every service domain is a category or carries one"
 python3 - <<'PY'
-import json, sys
-sys.path.insert(0, "scripts")
-import catalog_lib
+import importlib.util, sys
 
-categories = catalog_lib.load("seeds/categories.json")
-services = catalog_lib.load("seeds/services.json")
+# The hyphen in the filename is legal on disk but not in an `import` statement.
+_spec = importlib.util.spec_from_file_location(
+    "catalog_core", "scripts/catalog-core.py"
+)
+catalog_core = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(catalog_core)
+
+categories = catalog_core.load("seeds/categories.json")
+services = catalog_core.load("seeds/services.json")
 
 
 def explained(host):
@@ -171,9 +181,14 @@ PY
 
 step "10. A malformed host is refused, a valid one accepted"
 python3 - <<'PY'
-import sys
-sys.path.insert(0, "scripts")
-import catalog_lib
+import importlib.util, sys
+
+# The hyphen in the filename is legal on disk but not in an `import` statement.
+_spec = importlib.util.spec_from_file_location(
+    "catalog_core", "scripts/catalog-core.py"
+)
+catalog_core = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(catalog_core)
 
 # Each of these is a name the app could never match: it matches a host whole
 # and by suffix, with no glob and no IDNA. The validator must refuse all of
@@ -185,13 +200,13 @@ bad = [
 ]
 for host in bad:
     document = {"version": 1, "categories": {host: "ads"}, "services": []}
-    if not catalog_lib.validate(document):
+    if not catalog_core.validate(document):
         print(f"✗ the validator accepted {host!r}", file=sys.stderr)
         raise SystemExit(1)
 
 good = {"version": 1, "categories": {"example.com": "ads", "t.co": "social"},
         "services": []}
-problems = catalog_lib.validate(good)
+problems = catalog_core.validate(good)
 if problems:
     print("✗ the validator rejected a valid host:", problems, file=sys.stderr)
     raise SystemExit(1)

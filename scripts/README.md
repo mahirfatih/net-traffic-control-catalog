@@ -21,7 +21,7 @@ compile. No network, no build system.
 | [`validate.py`](validate.py) | Checks a `catalog.json` against the format and the category vocabulary. Exits non-zero on any problem. |
 | [`build-catalog-docs.py`](build-catalog-docs.py) | Generates `docs/CATALOG.md` from `catalog.json`, so the counts in the prose cannot drift from the shipped data. |
 | [`check-docs-fresh.mjs`](check-docs-fresh.mjs) | Static drift check: broken links, renamed scripts, stale counts, a licence verdict that contradicts itself. |
-| [`catalog_lib.py`](catalog_lib.py) | Shared load / normalise / validate / write logic. Not run on its own. |
+| [`catalog-core.py`](catalog-core.py) | Shared load / normalise / validate / write logic. Not run on its own. |
 | [`sources.py`](sources.py) | The source registry, and the licence gate. `python3 scripts/sources.py` lists every source and its verdict; `--check` validates the registry; `--allowed` lists only what may be fetched. |
 | [`harvest.py`](harvest.py) | Fetches allowed sources, drops hosts the catalog already covers, applies `rules.json`, and reports what no rule matched. |
 | [`merge.py`](merge.py) | Applies harvested categories to `seeds/categories.json`. Refuses to overwrite an existing label. |
