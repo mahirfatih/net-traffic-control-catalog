@@ -60,17 +60,30 @@ def main(argv):
         print("  ship a label that silently does nothing on device.", file=sys.stderr)
         return 1
 
-    added, conflicts = {}, []
+    added, conflicts, redundant = {}, [], []
     for host, category in sorted(harvested.items()):
         host = host.strip().lower()
         if host in seeds:
             if seeds[host] != category:
                 conflicts.append((host, seeds[host], category))
             continue
+        parent = next(
+            (
+                ".".join(host.split(".")[i:])
+                for i in range(1, len(host.split(".")) - 1)
+                if seeds.get(".".join(host.split(".")[i:])) == category
+            ),
+            None,
+        )
+        if parent:
+            redundant.append((host, parent, category))
+            continue
         added[host] = category
 
     for host, existing, proposed in conflicts:
         print(f"! {host}: seed says {existing!r}, harvest says {proposed!r} — seed kept")
+    for host, parent, category in redundant:
+        print(f"· {host}: skipped; {parent} already covers it as {category}")
 
     if not added:
         print("nothing to add")
@@ -81,6 +94,7 @@ def main(argv):
     ordered = {host: merged[host] for host in sorted(merged)}
 
     print(f"\n{len(added)} host(s) to add, {len(conflicts)} conflict(s), "
+          f"{len(redundant)} redundant subdomain(s), "
           f"{len(seeds)} → {len(ordered)} total")
 
     if args.dry_run:

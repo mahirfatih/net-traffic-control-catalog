@@ -24,9 +24,11 @@ NonCommercial or ShareAlike data into this CC0 catalog is refused before a
 byte is downloaded.
 """
 import argparse
+from collections import Counter
 import importlib.util
 import json
 import os
+import re
 import sys
 import urllib.request
 from datetime import date
@@ -51,6 +53,61 @@ REVIEW = os.path.join(ROOT, "docs", "NEEDS-REVIEW.md")
 USER_AGENT = "net-traffic-control-catalog/1.0 (catalog harvest; +https://github.com/mahirfatih/net-traffic-control-catalog)"
 TIMEOUT = 30
 
+HOST_RE = re.compile(r"^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$")
+
+
+def looks_like_ip(host):
+    parts = host.split(".")
+    return len(parts) == 4 and all(part.isdigit() and 0 <= int(part) <= 255 for part in parts)
+
+
+def clean_host(value):
+    """Normalize one host-ish token, or return `(None, reason)` if unusable."""
+    host = value.strip().lower()
+    if not host:
+        return None, "empty"
+    if "#" in host:
+        host = host.split("#", 1)[0].strip()
+    if host.startswith("||"):
+        host = host[2:]
+    if host.endswith("^"):
+        host = host[:-1]
+    host = host.strip("*.[]").rstrip(".")
+    if host.startswith("http://") or host.startswith("https://"):
+        host = host.split("://", 1)[1].split("/", 1)[0]
+    if not host or "/" in host or " " in host:
+        return None, "not a bare host"
+    if host in {"localhost", "example.com", "example.org", "example.net", "pi.hole"}:
+        return None, "sample or local name"
+    if looks_like_ip(host):
+        return None, "ip address"
+    if not HOST_RE.match(host):
+        return None, "not a hostname"
+    return host, ""
+
+
+def parse_proxy_exceptions_yaml(text):
+    hosts, unparsed = [], []
+    in_domains = False
+    for line in text.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        if stripped == "domains:":
+            in_domains = True
+            continue
+        if stripped and not line.startswith(" ") and not stripped.startswith("-"):
+            in_domains = False
+        if not in_domains or not stripped.startswith("-"):
+            continue
+        token = stripped[1:].strip().strip('"\'')
+        host, reason = clean_host(token)
+        if host:
+            hosts.append(host)
+        else:
+            unparsed.append(f"{token} ({reason})")
+    return hosts, unparsed
+
 
 def fetch(url):
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
@@ -65,19 +122,22 @@ def parse(text, fmt="plain"):
     guessed at: a line that parses as neither is reported rather than dropped,
     because silently losing hosts is how a catalog goes quietly wrong.
     """
+    if fmt == "proxy-exceptions-yaml":
+        return parse_proxy_exceptions_yaml(text)
+
     hosts, unparsed = [], []
     for line in text.splitlines():
         line = line.strip()
         if not line or line.startswith("#") or line.startswith("!"):
             continue
-        if line.startswith("||") and line.endswith("^"):
-            line = line[2:-1]
-        elif line.startswith("||"):
-            line = line[2:]
-        if not line or "/" in line:
+        if fmt == "ultimate-whitelist" and line.split(None, 1)[0] in {"ALL", "REG", "RZD"}:
             unparsed.append(line)
             continue
-        hosts.append(line.lower().strip("*.").rstrip("."))
+        host, reason = clean_host(line)
+        if host:
+            hosts.append(host)
+        else:
+            unparsed.append(f"{line} ({reason})")
     return hosts, unparsed
 
 
@@ -214,6 +274,10 @@ def main(argv):
         unique.append(row)
     kept = unique
 
+    already = sorted(set(already))
+    dropped = sorted(set(dropped))
+    review = sorted(set(review))
+
     print(f"\n{len(kept)} host(s) categorised, {len(already)} already covered, "
           f"{len(dropped)} dropped, {len(review)} need review")
 
@@ -256,10 +320,19 @@ def main(argv):
         json.dump({
             "generated": date.today().isoformat(),
             "sources": [s["id"] for s in chosen],
-            "categorized": sorted(payload),
-            "already_covered": sorted(h for h, _ in already),
+            "categorized": kept,
+            "category_counts": dict(sorted(Counter(row["category"] for row in kept).items())),
+            "source_counts": dict(sorted(Counter(row["source"] for row in kept).items())),
+            "already_covered": [
+                {"host": h, "covered_by": parent}
+                for h, parent in already
+            ],
             "dropped": {h: r for h, r in sorted(dropped) if h},
-            "needs_review": sorted(h for h, _ in review),
+            "needs_review": [
+                {"host": h, "source": source_id}
+                for h, source_id in review
+            ],
+            "review_source_counts": dict(sorted(Counter(source_id for _, source_id in review).items())),
         }, handle, ensure_ascii=False, indent=2)
         handle.write("\n")
     return 0

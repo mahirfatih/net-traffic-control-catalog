@@ -26,6 +26,60 @@
       "allowed": true,
       "format": "plain",
       "note": "Third anudeepND list."
+    },
+    {
+      "id": "hotcakex-microsoft-domains",
+      "name": "HotCakeX Microsoft Domains",
+      "url": "https://raw.githubusercontent.com/HotCakeX/MicrosoftDomains/main/Microsoft%20Domains.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Root Microsoft-owned domains. Used to find service/product gaps; categories are assigned by rules or review, not by the source."
+    },
+    {
+      "id": "omaskery-proxy-exceptions",
+      "name": "proxy-exception-whitelists",
+      "url": "https://raw.githubusercontent.com/omaskery/proxy-exception-whitelists/master/exceptions.yml",
+      "license": "MIT",
+      "allowed": true,
+      "format": "proxy-exceptions-yaml",
+      "note": "Developer tooling domains documented for corporate proxy exceptions. Used only to find software-category catalog gaps."
+    },
+    {
+      "id": "goodnessjson-whitelist",
+      "name": "GoodnessJSON PiHole whitelist",
+      "url": "https://raw.githubusercontent.com/GoodnessJSON/PiHole-Whitelist/master/lists/whitelist.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Community allowlist forked from anudeepND. Used only for delta/gap discovery."
+    },
+    {
+      "id": "goodnessjson-optional",
+      "name": "GoodnessJSON PiHole optional list",
+      "url": "https://raw.githubusercontent.com/GoodnessJSON/PiHole-Whitelist/master/lists/optional-list.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Optional community allowlist entries; expected to overlap heavily with existing sources."
+    },
+    {
+      "id": "goodnessjson-referral",
+      "name": "GoodnessJSON PiHole referral list",
+      "url": "https://raw.githubusercontent.com/GoodnessJSON/PiHole-Whitelist/master/lists/referral-sites.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Referral and affiliate allowlist entries."
+    },
+    {
+      "id": "ultimate-hosts-whitelist",
+      "name": "Ultimate Hosts Blacklist whitelist",
+      "url": "https://raw.githubusercontent.com/Ultimate-Hosts-Blacklist/whitelist/master/domains.list",
+      "license": "MIT",
+      "allowed": true,
+      "format": "ultimate-whitelist",
+      "note": "Mixed whitelist syntax; parser deliberately ignores ALL/REG/RZD rules, IPs and sample/local names."
     }
   ]
 }

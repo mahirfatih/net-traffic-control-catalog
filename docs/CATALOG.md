@@ -6,7 +6,7 @@ data will disagree, which is the one thing a data file must never do.
 
 ## Totals
 
-**2,551 names** across **27 categories**, plus **22 services**.
+**2,715 names** across **27 categories**, plus **22 services**.
 
 The app loads `catalog.json` as a Category Data source and matches a host
 whole, so `facebook.com` covers `graph.facebook.com` without listing it.
@@ -15,33 +15,33 @@ whole, so `facebook.com` covers `graph.facebook.com` without listing it.
 
 | Category | Hosts | What it means |
 | :--- | --: | :--- |
-| `software` | 160 | a tool, a platform, a developer utility |
+| `software` | 247 | a tool, a platform, a developer utility |
 | `shopping` | 101 | a store, a marketplace, a payment provider |
-| `video` | 88 | streaming, live TV, a broadcaster |
+| `video` | 89 | streaming, live TV, a broadcaster |
 | `finance` | 80 | banks, cards, trading, markets |
-| `news` | 131 | press, and the reporting it depends on |
+| `news` | 130 | press, and the reporting it depends on |
 | `health` | 67 | hospitals, pharmacies, health apps |
-| `ai` | 65 | model providers and the products built on them |
-| `ads` | 63 | ad networks, affiliate platforms, retargeting |
-| `government` | 1112 | ministries, municipalities, agencies |
-| `cdn` | 57 | delivery networks carrying somebody else's bytes |
-| `social` | 58 | where people talk to each other |
+| `ai` | 68 | model providers and the products built on them |
+| `ads` | 73 | ad networks, affiliate platforms, retargeting |
+| `government` | 1106 | ministries, municipalities, agencies |
+| `cdn` | 67 | delivery networks carrying somebody else's bytes |
+| `social` | 65 | where people talk to each other |
 | `travel` | 46 | airlines, booking, ground transport |
-| `gaming` | 43 | stores, launchers, and the games |
+| `gaming` | 66 | stores, launchers, and the games |
 | `transport` | 42 | shipping, driving, ride and rail |
 | `encyclopedia` | 40 | reference, metadata, documentation |
-| `education` | 214 | schools, universities, courses |
-| `analytics` | 33 | measurement, crash reporting, experimentation |
-| `search` | 28 | search engines and search portals |
+| `education` | 213 | schools, universities, courses |
+| `analytics` | 40 | measurement, crash reporting, experimentation |
+| `search` | 44 | search engines and search portals |
 | `messaging` | 27 | chat, mail, messaging |
-| `email` | 24 | mailbox providers |
+| `email` | 34 | mailbox providers |
 | `telecom` | 16 | carriers and network operators |
 | `other` | 14 | deliberately a last resort, not a fallback |
 | `crash` | 12 | crash and error reporting |
 | `crypto` | 10 | exchanges, wallets, chains |
 | `music` | 10 | streaming and audio |
 | `sports` | 7 | leagues, scores, fixtures |
-| `maps` | 3 | map tiles and geocoding |
+| `maps` | 1 | map tiles and geocoding |
 
 ### `other` is a decision
 
@@ -101,22 +101,3 @@ External sources propose hosts; **no source assigns a category**. A category
 is either a rule in `rules.json` or a person with a reason.
 
 Hosts still missing a label are in [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md).
-
-## Reliability
-
-An audit compares TF-IDF text classifiers, keeps LinearSVC for
-the detailed 5-fold cross-validation, and asks how reliably each label
-can be recovered from the host's own page: **accuracy 84%**
-over 1844 hosts across 19 categories.
-
-This measures *self-consistency*, not correctness — there is no independent
-ground truth, so a low figure means a label disagrees with its page, not
-that the label is wrong.
-
-The audit output also records each host's top three predicted categories
-and confidence score, and the correlated-terms report shows both
-chi-squared terms and the fitted LinearSVC weights.
-
-![Confusion matrix](analysis/out/confusion-matrix.png)
-
-Methodology, per-class metrics and the error list: [`analysis/`](analysis/README.md).
