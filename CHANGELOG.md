@@ -54,6 +54,16 @@ not for the data: `version` is bumped only on a breaking format change.
   auto-generated Reliability section ("page, not / that the label is wrong"
   → "chi-squared terms and the fitted LinearSVC weights").
 
+### Added (checks)
+
+- **`check-docs-fresh.mjs` now verifies the audit figures** against
+  `docs/analysis/out/matrix-data.json` instead of trusting the prose: the
+  headline accuracy, correct/total, class count, the whole per-class metric
+  table, and every `` `class` 0.xx `` F1 quoted in the Highest/Lowest lists.
+  The two wrong numbers above sat through eleven test runs because nothing
+  compared them to the data they claimed to summarise. The check is skipped,
+  with a note, when no analysis output is present.
+
 ### Added (earlier)
 
 - **A source registry, and a gate that enforces it.** `sources.json` records

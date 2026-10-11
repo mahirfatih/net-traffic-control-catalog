@@ -190,6 +190,113 @@ function checkDirectoryReadmes() {
   notes.push(`checked ${dirs.length} director(ies) for a README`);
 }
 
+/** 8. Figures quoted from the reliability audit must come from its own output. */
+function checkAnalysisFigures() {
+  const dataPath = "docs/analysis/out/matrix-data.json";
+  if (!existsSync(join(ROOT, dataPath))) {
+    notes.push("no analysis output present — skipped the reliability figures");
+    return;
+  }
+  const data = json(dataPath);
+  const matrix = data.matrix || [];
+  const total = matrix.reduce((sum, row) => sum + row.reduce((a, b) => a + b, 0), 0);
+  const correct = matrix.reduce(
+    (sum, row, i) => sum + (row[i] || 0),
+    0
+  );
+  const classes = (data.classes || []).length;
+  const accuracy = Math.round((correct / total) * 100);
+  const fmt = (n) => n.toLocaleString("en-US");
+  const report = data.classification_report || {};
+
+  // "**Accuracy: 84%** (1,553/1,844, 19 classes, 5-fold CV)"
+  const headline = /\*\*Accuracy: (\d+)%\*\*\s*\((\d[\d,]*)\/(\d[\d,]*),\s*(\d+) classes/;
+  for (const file of ["README.md", "docs/analysis/README.md"]) {
+    const m = read(file).match(headline);
+    if (!m) {
+      problems.push(`${file}: no accuracy headline found — is it hand-written now?`);
+      continue;
+    }
+    const [, pct, num, den, cls] = m;
+    const claims = [
+      [`accuracy ${pct}%`, Number(pct), accuracy],
+      [`${num} correct`, Number(num.replace(/,/g, "")), correct],
+      [`${den} hosts`, Number(den.replace(/,/g, "")), total],
+      [`${cls} classes`, Number(cls), classes],
+    ];
+    for (const [label, quoted, actual] of claims) {
+      if (quoted !== actual) {
+        problems.push(
+          `${file}: says ${label}, ${dataPath} has ${fmt(actual)} — rerun build-matrix.py`
+        );
+      }
+    }
+  }
+
+  // "accuracy 84% over 1844 hosts across 19 categories"
+  const catalogDoc = "docs/CATALOG.md";
+  const summary = read(catalogDoc).match(
+    /\*\*accuracy (\d+)%\*\*\s*over (\d+) hosts across (\d+) categories/
+  );
+  if (summary) {
+    const [, pct, hosts, cls] = summary;
+    if (Number(pct) !== accuracy || Number(hosts) !== total || Number(cls) !== classes) {
+      problems.push(
+        `${catalogDoc}: reliability summary is stale — ${dataPath} reports ${accuracy}% over ${total} hosts across ${classes} categories`
+      );
+    }
+  }
+
+  // The per-class table and the F1 quotes must be the report's own numbers.
+  const f1 = (c) => (report[c] ? Number(report[c]["f1-score"].toFixed(2)) : null);
+  const tableRow = /^\| ([a-z]+) \| ([\d.]+) \| ([\d.]+) \| ([\d.]+) \| (\d+) \|$/;
+  let rows = 0;
+  const text = read("docs/analysis/README.md");
+  for (const line of text.split("\n")) {
+    const m = line.match(tableRow);
+    if (!m || !(m[1] in report)) continue;
+    rows++;
+    const [, c, precision, recall, score, support] = m;
+    const actual = report[c];
+    for (const [field, quoted] of [
+      ["precision", precision],
+      ["recall", recall],
+      ["f1-score", score],
+      ["support", support],
+    ]) {
+      const want = field === "support" ? actual.support : Number(actual[field].toFixed(2));
+      if (Number(quoted) !== want) {
+        problems.push(
+          `docs/analysis/README.md: \`${c}\` ${field} says ${quoted}, ${dataPath} has ${want}`
+        );
+      }
+    }
+  }
+
+  // "**Highest F1:** `education` 0.93, `government` 0.97, ..."
+  const quote = /`([a-z]+)` ([\d.]+)/g;
+  const lines = (text + read("README.md")).split("\n");
+  let quotes = 0;
+  for (const line of lines) {
+    if (!/Highest F1|Lowest F1/.test(line)) continue;
+    for (const m of line.matchAll(quote)) {
+      const [, c, value] = m;
+      const want = f1(c);
+      if (want === null) {
+        problems.push(`an F1 quote names \`${c}\`, which is not a class in ${dataPath}`);
+      } else if (Number(value) !== want) {
+        problems.push(`an F1 quote says \`${c}\` ${value}, ${dataPath} has ${want}`);
+      } else {
+        quotes++;
+      }
+    }
+  }
+
+  notes.push(
+    `checked reliability figures against ${dataPath}: ${accuracy}% / ${correct} of ${total} / ${classes} classes, ${rows} metric row(s), ${quotes} F1 quote(s)`
+  );
+}
+
 for (const check of [
   checkLinks,
   checkScriptNames,
@@ -198,6 +305,7 @@ for (const check of [
   checkCategoryTable,
   checkLicenseGate,
   checkDirectoryReadmes,
+  checkAnalysisFigures,
 ]) {
   try {
     check();
