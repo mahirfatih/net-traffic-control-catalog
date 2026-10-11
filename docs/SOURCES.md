@@ -22,6 +22,33 @@ already decided, and refuses any category outside the vocabulary.
 | `anudeepnd-whitelist` | MIT | 186 hosts that overzealous blocklists catch. A good source for **finding gaps** in a catalog. |
 | `anudeepnd-optional` | MIT | 136 hosts after comments. Same maintainer, same purpose. |
 | `anudeepnd-referral` | MIT | 50 hosts. Affiliate and referral endpoints, which is most of what a blocklist misfires on. |
+| `hotcakex-microsoft-domains` | MIT | Root Microsoft-owned domains. Used as a vendor/service discovery list only; rules split them across `software`, `search`, `gaming`, `social`, `email`, `ads`, `analytics`, `cdn`, `ai`, etc. |
+| `hotcakex-microsoft-easm` | MIT | External attack surface inventory. Only exact-root brand/product matches (Activision-Blizzard-King, ZeniMax/Bethesda, GitHub/npm families) enter rules; the remaining ~2,600 defensive TLD variants stay in review evidence. |
+| `omaskery-proxy-exceptions` | MIT | Developer-tool proxy exception YAML. Useful for package registries, IDE/update endpoints and other `software` gaps. |
+| `goodnessjson-whitelist` | MIT | Community Pi-hole allowlist forked from anudeepND. Mostly overlap; retained as a delta source. |
+| `goodnessjson-optional` | MIT | Optional GoodnessJSON entries. Mostly overlap; retained as a delta source. |
+| `goodnessjson-referral` | MIT | GoodnessJSON referral/affiliate entries. Mostly overlap; retained as a delta source. |
+| `ultimate-hosts-whitelist` | MIT | Mixed-syntax whitelist. The parser ignores `ALL`, `REG`, `RZD`, IPs, local names and sample domains; only rule-matched hosts may enter the catalog. |
+| `keloran-pihole-whitelist` | MIT | Small Pi-hole whitelist in the anudeepND style. It currently contributes no new categories: almost all hosts are already covered, with one review item retained for evidence. |
+| `itsmingjie-inflight-allowlist` | MIT | Conservative in-flight Wi-Fi captive portal and provider domains. Mostly `travel`; provider roots like `viasat.com` are also `travel` in this context. |
+| `jayconius-gaming-whitelist` | MIT (README badge; LICENSE file missing) | Gaming platform whitelist. Contributes new roots for EA, Epic, GOG, Paradox, Unity, 2K; most subdomains are already covered by existing rules. |
+| `adguard-https-exclusions-banks` | NOASSERTION (no LICENSE file) | AdGuard HTTPS exclusions for banks and financial services. Used as a finance discovery source; IP rows are ignored, `www.` aliases are normalized, and redundant same-category subdomains are skipped. |
+
+Large imports are guarded by `scripts/sources/audit-source-import.py`, which checks
+source-specific false positives, same-category redundant subdomains, and review
+signals for weakly evidenced rows.
+
+For a new broad source, use this workflow instead of hand-checking every row:
+
+1. Add the source and conservative rules.
+2. Harvest and merge with `--dry-run` first.
+3. Add a source policy in `scripts/sources/source-policies.py`.
+4. Run `python3 scripts/sources/audit-source-import.py` for offline guardrails.
+5. Run `python3 scripts/sources/review-source-live.py --source <id> --only weak`
+   for DNS/HTTP evidence. The live review writes JSON and Markdown under
+   `evidence/` and never edits catalog data.
+6. Move confirmed mistakes to `rules.json` → `drop.hosts`, regenerate, and rerun
+   the checks.
 
 **On the anudeepND lists.** They are called *allowlists*, and this repository
 has no allowlist concept — the app decides a domain is allowed when no
@@ -29,6 +56,12 @@ enabled list contains it. The lists are used for the opposite of what their name
 suggests: they name hosts that are real, widely used, and easily caught by a
 rule meant for something else. That makes them a supply of *catalog gaps*, which
 is what `harvest.py` uses them for.
+
+**On the Microsoft list.** Ownership is not a category. The HotCakeX list is a
+source of names, not labels: `bing.com` is `search`, `xbox.com` is `gaming`,
+`linkedin.com` is `social`, `clarity.ms` is `analytics`, `msads.net` is `ads`,
+and broad platform names stay `software`. Anything not covered by an explicit
+rule remains in `docs/NEEDS-REVIEW.md`.
 
 ## Blocked
 

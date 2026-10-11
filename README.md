@@ -9,7 +9,7 @@ Sites screens group and label domains correctly.
 
 ## Contents
 
-- **2,551 categories** — `host → category`.
+- **7,177 categories** — `host → category`.
 - **22 services** — `product → hosts`.
 
 See [`docs/CATALOG.md`](docs/CATALOG.md) for the breakdown by category.
@@ -141,6 +141,20 @@ python3 scripts/sources/harvest.py
 python3 scripts/sources/merge.py evidence/harvested-categories.json --dry-run
 python3 scripts/sources/merge.py evidence/harvested-categories.json
 ```
+
+For broad imports, run the durable source audits before committing:
+
+```sh
+python3 scripts/sources/audit-source-import.py
+python3 scripts/sources/review-source-live.py --source adguard-https-exclusions-banks --only weak --limit 200
+```
+
+`audit-source-import.py` is offline and runs in the test suite. It catches known
+false positives and redundant same-category rows. `review-source-live.py` uses
+DNS/HTTP and writes evidence under `evidence/`; use it for spot-checking weak or
+new source rows. Source-specific review policies live in
+`scripts/sources/source-policies.py`; add new broad-source policies there, then
+move confirmed mistakes to `rules.json` → `drop.hosts`.
 
 Rules for a generator:
 

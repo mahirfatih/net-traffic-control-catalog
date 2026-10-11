@@ -26,6 +26,105 @@
       "allowed": true,
       "format": "plain",
       "note": "Third anudeepND list."
+    },
+    {
+      "id": "hotcakex-microsoft-domains",
+      "name": "HotCakeX Microsoft Domains",
+      "url": "https://raw.githubusercontent.com/HotCakeX/MicrosoftDomains/main/Microsoft%20Domains.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Root Microsoft-owned domains. Used to find service/product gaps; categories are assigned by rules or review, not by the source."
+    },
+    {
+      "id": "hotcakex-microsoft-easm",
+      "name": "HotCakeX Microsoft Domains - EASM",
+      "url": "https://raw.githubusercontent.com/HotCakeX/MicrosoftDomains/main/Microsoft%20Domains%20-%20EASM.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "External attack surface list including Microsoft-owned brands such as ZeniMax/Bethesda. Categories come from rules only; unmatched hosts go to review."
+    },
+    {
+      "id": "omaskery-proxy-exceptions",
+      "name": "proxy-exception-whitelists",
+      "url": "https://raw.githubusercontent.com/omaskery/proxy-exception-whitelists/master/exceptions.yml",
+      "license": "MIT",
+      "allowed": true,
+      "format": "proxy-exceptions-yaml",
+      "note": "Developer tooling domains documented for corporate proxy exceptions. Used only to find software-category catalog gaps."
+    },
+    {
+      "id": "goodnessjson-whitelist",
+      "name": "GoodnessJSON PiHole whitelist",
+      "url": "https://raw.githubusercontent.com/GoodnessJSON/PiHole-Whitelist/master/lists/whitelist.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Community allowlist forked from anudeepND. Used only for delta/gap discovery."
+    },
+    {
+      "id": "goodnessjson-optional",
+      "name": "GoodnessJSON PiHole optional list",
+      "url": "https://raw.githubusercontent.com/GoodnessJSON/PiHole-Whitelist/master/lists/optional-list.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Optional community allowlist entries; expected to overlap heavily with existing sources."
+    },
+    {
+      "id": "goodnessjson-referral",
+      "name": "GoodnessJSON PiHole referral list",
+      "url": "https://raw.githubusercontent.com/GoodnessJSON/PiHole-Whitelist/master/lists/referral-sites.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Referral and affiliate allowlist entries."
+    },
+    {
+      "id": "ultimate-hosts-whitelist",
+      "name": "Ultimate Hosts Blacklist whitelist",
+      "url": "https://raw.githubusercontent.com/Ultimate-Hosts-Blacklist/whitelist/master/domains.list",
+      "license": "MIT",
+      "allowed": true,
+      "format": "ultimate-whitelist",
+      "note": "Mixed whitelist syntax; parser deliberately ignores ALL/REG/RZD rules, IPs and sample/local names."
+    },
+    {
+      "id": "keloran-pihole-whitelist",
+      "name": "Keloran Pi-hole whitelist",
+      "url": "https://raw.githubusercontent.com/Keloran/pihole-whitelist/master/domains/whitelist.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Small Pi-hole whitelist derived from/an adjacent to anudeepND-style allowlists. Mostly overlap; retained as a delta source."
+    },
+    {
+      "id": "itsmingjie-inflight-allowlist",
+      "name": "In-Flight DNS Allowlist",
+      "url": "https://raw.githubusercontent.com/itsmingjie/dns-inflight-allowlist/main/dist/domains.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Conservative in-flight Wi-Fi captive portal and provider domains. Categories are assigned by rules only."
+    },
+    {
+      "id": "jayconius-gaming-whitelist",
+      "name": "Jayconius Pi-Hole Gaming Lists",
+      "url": "https://raw.githubusercontent.com/Jayconius/Pi-Hole-Gaming-Lists/main/Gaming-Whitelist.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Gaming platform whitelist. README declares MIT but LICENSE file is missing; accepted under no-license policy. Categories are assigned by rules only."
+    },
+    {
+      "id": "adguard-https-exclusions-banks",
+      "name": "AdGuard HTTPS exclusions - banks and financial services",
+      "url": "https://raw.githubusercontent.com/AdguardTeam/HttpsExclusions/master/exclusions/banks.txt",
+      "license": "NOASSERTION",
+      "allowed": true,
+      "format": "plain",
+      "note": "Banking and financial-service HTTPS-exclusion hosts. No LICENSE file is published for this repository; accepted under the no-license source policy. Categories are assigned by rules only."
     }
   ]
 }

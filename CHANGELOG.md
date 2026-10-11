@@ -9,6 +9,13 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Added
 
+- **HotCakeX Microsoft EASM list** as a separate MIT source (`hotcakex-microsoft-easm`). 529 exact-root gaming brand variants (Activision-Blizzard-King, ZeniMax/Bethesda, King) and developer-infrastructure hosts (GitHub, npm) were rule-matched and added; the remaining ~2,600 defensive TLD variants stay in harvest evidence as review-only.
+- **In-flight Wi-Fi allowlist** (`itsmingjie-inflight-allowlist`, MIT): airline captive-portal and connectivity domains → `travel`.
+- **Gaming platform whitelist** (`jayconius-gaming-whitelist`, MIT badge / no LICENSE file): new roots for EA, Epic, GOG, Paradox, Unity, 2K → `gaming`; ~40 subdomains were already covered by existing rules.
+- **AdGuard HTTPS exclusions banks list** (`adguard-https-exclusions-banks`, no LICENSE file): 3,810 finance-domain additions after `www.` normalization, IP rejection, redundant subdomain cleanup, and a manual drop for `qantas.com`.
+- **Source import quality audit** (`scripts/sources/audit-source-import.py`) wired into `test/test.sh` to keep broad-source imports reviewable and catch known false positives or redundant source rows.
+- **Live source review workflow** (`scripts/sources/review-source-live.py` and shared `scripts/sources/source-policies.py`) for DNS/HTTP evidence on broad imports without editing catalog data.
+- **Live review of the AdGuard banks import**: 1,565 weak-signal hosts checked over DNS/HTTP. Unreachable hosts are reported as `unresolved` (a blocked network is not evidence a bank is wrong); 5 confirmed non-finance false positives (`apsiyon.com`, `clhs.kiev.ua`, `datev.de`, `difi.no`, `pasientsky.no`) were moved to `rules.json` → `drop.hosts`.
 - **Turkish public institution domains.** Harvested ~1,060 `gov.tr` / `bel.tr` /
   `edu.tr` domains and categorised them via `rules.json` (`government`,
   `education`). Catalog grows **1,259 → 2,551 categories** (+1,292).
@@ -27,15 +34,36 @@ not for the data: `version` is bumped only on a breaking format change.
   and link to analysis outputs.
 - **Confusion matrix PNG** committed to `docs/analysis/out/confusion-matrix.png`
   (was generated locally only).
+- **Six MIT-licensed allowlist/discovery sources** added to `sources.json`:
+  HotCakeX Microsoft Domains, omaskery proxy exceptions, three GoodnessJSON
+  Pi-hole lists, and Ultimate Hosts whitelist.
+- **Keloran Pi-hole whitelist** added as a MIT delta source. It currently adds
+  no categories: 180 hosts are already covered, 5 are explicitly dropped, and 1
+  remains review-only.
+- **189 rule-categorised domains** harvested from the new sources while keeping
+  the existing 27-category / 22-service vocabulary fixed. Microsoft-owned names
+  are split by function (`software`, `search`, `gaming`, `social`, `email`,
+  `ads`, `analytics`, `cdn`, `ai`) rather than by owner.
+- **88 additional HotCakeX Microsoft Domains entries** added after a second
+  focused pass over clear Windows, Office, Azure, developer tooling, Xbox/Zune,
+  Bing/MSN and Microsoft Advertising names.
+- **Harvest parsers for structured/mixed allowlists**: a small YAML subset parser
+  for proxy exception lists and a stricter Ultimate whitelist parser that skips
+  `ALL`, `REG`, `RZD`, IP, local and sample-domain rows.
 
 ### Changed
 
-- **Catalog size: 1,259 → 2,551 categories** (+1,292). Breakdown of major
+- **Catalog size: 1,259 → 2,803 categories** (+1,544). Breakdown of major
   changes:
-  - `government`: 60 → 1,112 (+1,052)
-  - `education`: 36 → 214 (+178)
-  - `news`: 69 → 131 (+62)
-  - All other categories unchanged.
+  - `government`: 60 → 1,106 (+1,046)
+  - `education`: 36 → 213 (+177)
+  - `news`: 69 → 130 (+61)
+  - `software`: 160 → 299 (+139)
+  - `gaming`: 43 → 84 (+41)
+  - `search`: 28 → 59 (+31)
+  - `cdn`: 57 → 67 (+10)
+  - `ads`: 63 → 76 (+13)
+  - `email`: 24 → 34 (+10)
 - **Analysis accuracy: 66% → 84%** (hosts with text 823 → 1,916, filtered
   823 → 1,844) after re-running `fetch-pages.py` against the expanded
   catalogue.
@@ -43,11 +71,20 @@ not for the data: `version` is bumped only on a breaking format change.
   `education` 0.53 → 0.93 (26 → 161), `news` 0.77 → 0.91 (57 → 115).
   Infrastructure classes (`cdn`, `social`, `travel`, `encyclopedia`) remain
   low-F1 due to minimal page text.
-- **README counts updated** to 2,551 categories, 22 services.
+- **README counts updated** to 2,803 categories, 22 services.
 - **`docs/CATALOG.md` category table regenerated** with new counts.
+- **`merge.py` now skips redundant same-category subdomains** when a listed
+  ancestor already covers the host.
 
 ### Fixed
 
+- **Category boundary corrections for Microsoft-owned domains.** Skype, Lync and
+  GroupMe are now `messaging` instead of `email`; Bing Maps surfaces are `maps`
+  instead of `search`; HockeyApp is `crash` instead of `analytics`.
+- **Category consistency guardrail** added to `test/test.sh` via
+  `scripts/catalog/audit-category-consistency.py`, so future vendor-list imports
+  cannot quietly collapse ads, analytics, maps, messaging, mail, AI, gaming and
+  CDN/product infrastructure into the wrong category.
 - **The reliability headline quoted the wrong number of correct hosts.**
   `README.md` and `docs/analysis/README.md` said **1,553/1,844**; the
   confusion matrix diagonal is **1,545/1,844** (83.79% → still 84%). The
