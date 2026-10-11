@@ -184,9 +184,9 @@ Full guide: [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 A one-off analysis ([`scripts/analysis/`](scripts/analysis/), results in
 [`docs/analysis/`](docs/analysis/)) fetches homepage text for catalog hosts,
-trains a TF-IDF + LinearSVC classifier on our labels, and renders a confusion
-matrix showing how consistently our labels agree with what a text model can
-recover.
+compares TF-IDF text classifiers, keeps LinearSVC for the detailed audit, and
+renders a confusion matrix showing how consistently our labels agree with what a
+text model can recover.
 
 ![Confusion matrix](docs/analysis/out/confusion-matrix.png)
 
@@ -195,6 +195,9 @@ recover.
 predictable from page content. High diagonal = our labels are predictable from
 page text. Off-diagonal = our label disagrees with what the text suggests
 (either the label is wrong, or the page is not representative of the category).
+
+Model comparison: LinearSVC 0.838 / 0.840, LogisticRegression 0.825 / 0.832,
+MultinomialNB 0.647 / 0.585 (accuracy / weighted F1).
 
 - **Highest F1:** `education` 0.93, `government` 0.97, `news` 0.91, `health`
   0.81, `messaging` 0.87. These categories have strong, distinctive page

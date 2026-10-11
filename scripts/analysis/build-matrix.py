@@ -5,7 +5,7 @@ cross-validated (5-fold) so every host receives an out-of-fold prediction.
 The confusion matrix then shows how consistently our labels agree with what
 a text model can recover.
 
-Also produces:
+- Model comparison across several text classifiers
 - Per-class precision/recall/F1 (classification_report)
 - Chi-squared correlated terms per category (what terms separate each class)
 - LinearSVC coefficient terms per category (what the fitted model weighs)
@@ -65,6 +65,8 @@ def main() -> int:
         ConfusionMatrixDisplay,
     )
     from sklearn.model_selection import cross_val_predict, StratifiedKFold
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.naive_bayes import MultinomialNB
     from sklearn.pipeline import make_pipeline
     from sklearn.svm import LinearSVC
 
@@ -94,6 +96,34 @@ def main() -> int:
     )
     cv = StratifiedKFold(n_splits=args.folds, shuffle=True, random_state=42)
     pred = cross_val_predict(pipe, X, y, cv=cv, n_jobs=-1)
+
+    # --- 0. Model comparison ---
+    print("\nModel comparison (5-fold CV):")
+    models = [
+        ("LinearSVC", LinearSVC(C=1.0, class_weight="balanced", max_iter=5000)),
+        ("LogisticRegression", LogisticRegression(C=4.0, class_weight="balanced", max_iter=1000)),
+        ("MultinomialNB", MultinomialNB()),
+    ]
+    model_comparison: list[dict[str, object]] = []
+    for name, model in models:
+        model_pipe = make_pipeline(
+            TfidfVectorizer(sublinear_tf=True, min_df=2, ngram_range=(1, 2), max_features=20000),
+            model,
+        )
+        model_pred = pred if name == "LinearSVC" else cross_val_predict(model_pipe, X, y, cv=cv, n_jobs=-1)
+        model_report = classification_report(y, model_pred, labels=classes, output_dict=True)
+        model_comparison.append({
+            "model": name,
+            "accuracy": float(model_report["accuracy"]),
+            "macro_f1": float(model_report["macro avg"]["f1-score"]),
+            "weighted_f1": float(model_report["weighted avg"]["f1-score"]),
+        })
+        print(
+            f"  {name:18} "
+            f"accuracy={model_report['accuracy']:.3f} "
+            f"macro_f1={model_report['macro avg']['f1-score']:.3f} "
+            f"weighted_f1={model_report['weighted avg']['f1-score']:.3f}"
+        )
 
     cm = confusion_matrix(y, pred, labels=classes)
     np.set_printoptions(linewidth=200)
@@ -259,6 +289,7 @@ def main() -> int:
         "matrix": cm.tolist(),
         "matrix_normalized": cm_norm.tolist(),
         "counts": {c: int(counts[c]) for c in classes},
+        "model_comparison": model_comparison,
         "classification_report": {c: report[c] for c in classes},
         "accuracy": report["accuracy"],
         "macro_avg": report["macro avg"],

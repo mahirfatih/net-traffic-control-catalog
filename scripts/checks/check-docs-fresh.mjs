@@ -273,6 +273,46 @@ function checkAnalysisFigures() {
     }
   }
 
+  // Model comparison rows must match the analysis output as well.
+  const comparison = data.model_comparison || [];
+  const comparisonByName = Object.fromEntries(comparison.map((row) => [row.model, row]));
+  const comparisonRow = /^\| ([A-Za-z]+) \| ([\d.]+) \| ([\d.]+) \| ([\d.]+) \|$/;
+  let comparisonRows = 0;
+  for (const line of text.split("\n")) {
+    const m = line.match(comparisonRow);
+    if (!m || !(m[1] in comparisonByName)) continue;
+    comparisonRows++;
+    const [, model, accuracyValue, macroF1Value, weightedF1Value] = m;
+    const actual = comparisonByName[model];
+    for (const [field, quoted] of [
+      ["accuracy", accuracyValue],
+      ["macro_f1", macroF1Value],
+      ["weighted_f1", weightedF1Value],
+    ]) {
+      const want = Number(actual[field].toFixed(3));
+      if (Number(quoted) !== want) {
+        problems.push(
+          `docs/analysis/README.md: ${model} ${field} says ${quoted}, ${dataPath} has ${want}`
+        );
+      }
+    }
+  }
+  if (comparison.length && comparisonRows !== comparison.length) {
+    problems.push(
+      `docs/analysis/README.md: model comparison has ${comparisonRows} row(s), ${dataPath} has ${comparison.length}`
+    );
+  }
+
+  const readmeComparison = read("README.md");
+  for (const row of comparison) {
+    const accuracyValue = row.accuracy.toFixed(3);
+    const weightedF1Value = row.weighted_f1.toFixed(3);
+    const needle = `${row.model} ${accuracyValue} / ${weightedF1Value}`;
+    if (!readmeComparison.includes(needle)) {
+      problems.push(`README.md: missing model comparison quote \`${needle}\``);
+    }
+  }
+
   // "**Highest F1:** `education` 0.93, `government` 0.97, ..."
   const quote = /`([a-z]+)` ([\d.]+)/g;
   const lines = (text + read("README.md")).split("\n");
@@ -293,7 +333,7 @@ function checkAnalysisFigures() {
   }
 
   notes.push(
-    `checked reliability figures against ${dataPath}: ${accuracy}% / ${correct} of ${total} / ${classes} classes, ${rows} metric row(s), ${quotes} F1 quote(s)`
+    `checked reliability figures against ${dataPath}: ${accuracy}% / ${correct} of ${total} / ${classes} classes, ${rows} metric row(s), ${quotes} F1 quote(s), ${comparisonRows} model row(s)`
   );
 }
 

@@ -24,11 +24,22 @@ Outputs land in `out/`:
 - `confusion-matrix.png` — the matrix (counts + row-normalized side by side)
 - `correlated-terms.md` — chi-squared **and** LinearSVC model-weight terms per category
 - `high-confidence-errors.md` — hosts where the model is confident but disagrees
-- `matrix-data.json` — raw numbers including per-host top-3 predictions
+- `matrix-data.json` — raw numbers including model comparison and per-host top-3 predictions
 
 ## Result
 
 **Accuracy: 84%** (1,545/1,844, 19 classes, 5-fold CV).
+
+### Model comparison
+
+The audit compares several TF-IDF classifiers before using LinearSVC for the
+confusion matrix, term weights and calibrated error review.
+
+| Model | Accuracy | Macro F1 | Weighted F1 |
+| :--- | ---: | ---: | ---: |
+| LinearSVC | 0.838 | 0.670 | 0.840 |
+| LogisticRegression | 0.825 | 0.662 | 0.832 |
+| MultinomialNB | 0.647 | 0.194 | 0.585 |
 
 Read this number correctly:
 
@@ -123,21 +134,24 @@ so they are naturally filtered out by `--min-text`.
    and body text. Title/meta/headings are placed first because they carry
    the strongest category signal.
 
-2. **Classification** (`build-matrix.py`): TF-IDF (1–2 grams, 20k features)
-   + LinearSVC with 5-fold stratified cross-validation. Every host receives
-   an out-of-fold prediction.
+2. **Model comparison** (`build-matrix.py`): TF-IDF (1–2 grams, 20k features)
+   is evaluated with LinearSVC, logistic regression and multinomial naive Bayes
+   using 5-fold stratified cross-validation.
 
-3. **Calibration**: `CalibratedClassifierCV` (sigmoid, 3-fold) provides
+3. **Classification**: LinearSVC is kept for the confusion matrix, term weights
+   and calibrated error review. Every host receives an out-of-fold prediction.
+
+4. **Calibration**: `CalibratedClassifierCV` (sigmoid, 3-fold) provides
    probability estimates, enabling identification of high-confidence errors.
 
-4. **Chi-squared test**: For each category, the 10 terms most strongly
+5. **Chi-squared test**: For each category, the 10 terms most strongly
    associated with that category are identified, revealing what drives
    each class and flagging potential miscategorizations.
 
-5. **Model weight terms**: The fitted LinearSVC coefficients show which
+6. **Model weight terms**: The fitted LinearSVC coefficients show which
    terms the model itself weighs most positively for each class — a
    complementary signal to chi-squared.
 
-6. **Per-host predictions**: Each host's top-3 predicted categories with
+7. **Per-host predictions**: Each host's top-3 predicted categories with
    calibrated probabilities are recorded in `matrix-data.json` and shown in
    the high-confidence errors table.
