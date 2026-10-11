@@ -34,22 +34,25 @@ not for the data: `version` is bumped only on a breaking format change.
   the existing 27-category / 22-service vocabulary fixed. Microsoft-owned names
   are split by function (`software`, `search`, `gaming`, `social`, `email`,
   `ads`, `analytics`, `cdn`, `ai`) rather than by owner.
+- **88 additional HotCakeX Microsoft Domains entries** added after a second
+  focused pass over clear Windows, Office, Azure, developer tooling, Xbox/Zune,
+  Bing/MSN and Microsoft Advertising names.
 - **Harvest parsers for structured/mixed allowlists**: a small YAML subset parser
   for proxy exception lists and a stricter Ultimate whitelist parser that skips
   `ALL`, `REG`, `RZD`, IP, local and sample-domain rows.
 
 ### Changed
 
-- **Catalog size: 1,259 → 2,715 categories** (+1,456). Breakdown of major
+- **Catalog size: 1,259 → 2,803 categories** (+1,544). Breakdown of major
   changes:
   - `government`: 60 → 1,106 (+1,046)
   - `education`: 36 → 213 (+177)
   - `news`: 69 → 130 (+61)
-  - `software`: 160 → 247 (+87)
-  - `gaming`: 43 → 66 (+23)
-  - `search`: 28 → 44 (+16)
+  - `software`: 160 → 299 (+139)
+  - `gaming`: 43 → 84 (+41)
+  - `search`: 28 → 59 (+31)
   - `cdn`: 57 → 67 (+10)
-  - `ads`: 63 → 73 (+10)
+  - `ads`: 63 → 76 (+13)
   - `email`: 24 → 34 (+10)
 - **Analysis accuracy: 66% → 84%** (hosts with text 823 → 1,916, filtered
   823 → 1,844) after re-running `fetch-pages.py` against the expanded
@@ -58,7 +61,7 @@ not for the data: `version` is bumped only on a breaking format change.
   `education` 0.53 → 0.93 (26 → 161), `news` 0.77 → 0.91 (57 → 115).
   Infrastructure classes (`cdn`, `social`, `travel`, `encyclopedia`) remain
   low-F1 due to minimal page text.
-- **README counts updated** to 2,715 categories, 22 services.
+- **README counts updated** to 2,803 categories, 22 services.
 - **`docs/CATALOG.md` category table regenerated** with new counts.
 - **`merge.py` now skips redundant same-category subdomains** when a listed
   ancestor already covers the host.

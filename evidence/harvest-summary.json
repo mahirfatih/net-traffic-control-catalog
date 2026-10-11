@@ -1,2612 +1,1291 @@
 {
   "generated": "2026-10-12",
   "sources": [
-    "hotcakex-microsoft-domains",
-    "omaskery-proxy-exceptions",
-    "goodnessjson-whitelist",
-    "goodnessjson-optional",
-    "goodnessjson-referral",
-    "ultimate-hosts-whitelist"
+    "hotcakex-microsoft-domains"
   ],
   "categorized": [
     {
-      "host": "a-msedge.net",
+      "host": "azure-e2e.com",
       "category": "software",
       "service": "microsoft",
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft application platform and developer infrastructure."
     },
     {
-      "host": "aadrm.com",
+      "host": "azure-intapp.net",
       "category": "software",
       "service": "microsoft",
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft application platform and developer infrastructure."
     },
     {
-      "host": "aadrm.us",
-      "category": "software",
-      "service": "microsoft",
+      "host": "bingmaps.com",
+      "category": "search",
+      "service": "bing",
       "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
+      "rule": "Bing search and Microsoft Start/news surfaces."
     },
     {
-      "host": "activisionblizzard.com",
-      "category": "gaming",
+      "host": "bingmapsportal.com",
+      "category": "search",
+      "service": "bing",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Bing search and Microsoft Start/news surfaces."
+    },
+    {
+      "host": "devtunnels.ms",
+      "category": "software",
       "service": null,
       "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft-owned games and game networks."
+      "rule": "Developer package registries and tool vendors from proxy exception lists."
     },
     {
-      "host": "adaptivecards.io",
-      "category": "software",
-      "service": "microsoft",
+      "host": "discoverbing.com",
+      "category": "search",
+      "service": "bing",
       "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
+      "rule": "Bing search and Microsoft Start/news surfaces."
     },
     {
-      "host": "adbureau.net",
+      "host": "fluentui.dev",
+      "category": "software",
+      "service": null,
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Developer package registries and tool vendors from proxy exception lists."
+    },
+    {
+      "host": "inst1-bing-int.com",
+      "category": "search",
+      "service": "bing",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Bing search and Microsoft Start/news surfaces."
+    },
+    {
+      "host": "madserver.net",
       "category": "ads",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Ad servers a person never meets by name. Deliberately ads, not analytics: a retargeting host is still an ad host."
     },
     {
-      "host": "adcentercommunity.com",
+      "host": "mgsgamesonline.com",
+      "category": "gaming",
+      "service": null,
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft-owned games and game networks."
+    },
+    {
+      "host": "microsoftadvertising.com",
       "category": "ads",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Ad servers a person never meets by name. Deliberately ads, not analytics: a retargeting host is still an ad host."
     },
     {
-      "host": "adcenterpages.com",
+      "host": "microsoftadvertisingdisplayconnect.com",
       "category": "ads",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Ad servers a person never meets by name. Deliberately ads, not analytics: a retargeting host is still an ad host."
     },
     {
-      "host": "adnxs-simple.com",
-      "category": "ads",
-      "service": null,
+      "host": "microsoftazure.de",
+      "category": "software",
+      "service": "microsoft",
       "source": "hotcakex-microsoft-domains",
-      "rule": "Ad servers a person never meets by name. Deliberately ads, not analytics: a retargeting host is still an ad host."
+      "rule": "Microsoft application platform and developer infrastructure."
     },
     {
-      "host": "adnxs.net",
-      "category": "ads",
-      "service": null,
+      "host": "microsoftazure.us",
+      "category": "software",
+      "service": "microsoft",
       "source": "hotcakex-microsoft-domains",
-      "rule": "Ad servers a person never meets by name. Deliberately ads, not analytics: a retargeting host is still an ad host."
+      "rule": "Microsoft application platform and developer infrastructure."
     },
     {
-      "host": "ageofempires.com",
+      "host": "microsoftcasualgames.com",
       "category": "gaming",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft-owned games and game networks."
     },
     {
-      "host": "ageofempiresonline.com",
-      "category": "gaming",
+      "host": "msdev.com",
+      "category": "software",
       "service": null,
       "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft-owned games and game networks."
+      "rule": "Developer package registries and tool vendors from proxy exception lists."
     },
     {
-      "host": "aka.ms",
+      "host": "msdn.com",
       "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "akadns.net",
-      "category": "cdn",
       "service": null,
       "source": "hotcakex-microsoft-domains",
-      "rule": "Third-party CDN vendors whose names a person has never heard of."
+      "rule": "Developer package registries and tool vendors from proxy exception lists."
     },
     {
-      "host": "akadns6.net",
-      "category": "cdn",
+      "host": "msdnbrasil.com.br",
+      "category": "software",
       "service": null,
       "source": "hotcakex-microsoft-domains",
-      "rule": "Third-party CDN vendors whose names a person has never heard of."
+      "rule": "Developer package registries and tool vendors from proxy exception lists."
     },
     {
-      "host": "applicationinsights.io",
-      "category": "analytics",
+      "host": "msdnevents.com",
+      "category": "software",
       "service": null,
       "source": "hotcakex-microsoft-domains",
-      "rule": "Measurement and product analytics endpoints."
+      "rule": "Developer package registries and tool vendors from proxy exception lists."
     },
     {
-      "host": "applicationinsights.us",
-      "category": "analytics",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Measurement and product analytics endpoints."
-    },
-    {
-      "host": "appnexus.com",
-      "category": "ads",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Ad servers a person never meets by name. Deliberately ads, not analytics: a retargeting host is still an ad host."
-    },
-    {
-      "host": "aquantive.com",
-      "category": "ads",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Ad servers a person never meets by name. Deliberately ads, not analytics: a retargeting host is still an ad host."
-    },
-    {
-      "host": "azconfig.io",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azmk8s.io",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azure-api.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azure-apihub.us",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azure-apim.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azure-automation.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azure-dns-1.cn",
-      "category": "cdn",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Third-party CDN vendors whose names a person has never heard of."
-    },
-    {
-      "host": "azure-dns.cn",
-      "category": "cdn",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Third-party CDN vendors whose names a person has never heard of."
-    },
-    {
-      "host": "azure-dns.com",
-      "category": "cdn",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Third-party CDN vendors whose names a person has never heard of."
-    },
-    {
-      "host": "azure-dns.info",
-      "category": "cdn",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Third-party CDN vendors whose names a person has never heard of."
-    },
-    {
-      "host": "azure-dns.net",
-      "category": "cdn",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Third-party CDN vendors whose names a person has never heard of."
-    },
-    {
-      "host": "azure-dns.org",
-      "category": "cdn",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Third-party CDN vendors whose names a person has never heard of."
-    },
-    {
-      "host": "azure-mobile.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azure-preview.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azure-stage.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azure-test.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azure.cn",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azure.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azure.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azure.us",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azureapp-int.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azurecontainer.io",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azurecr.io",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azureedge.us",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azurefd.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azurefd.us",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azuregov-dns.us",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azurelbs.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azurerms.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azuresynapse.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azuretrafficmanager.de",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azurewebsite.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "azurewebsites.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "b-msedge.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "b2clogin.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "banjo-kazooie.com",
-      "category": "gaming",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft-owned games and game networks."
-    },
-    {
-      "host": "bing-int1.com",
+      "host": "msn-int.com",
       "category": "search",
       "service": "bing",
       "source": "hotcakex-microsoft-domains",
       "rule": "Bing search and Microsoft Start/news surfaces."
     },
     {
-      "host": "bing.cn",
+      "host": "msn-ppe.com",
       "category": "search",
       "service": "bing",
       "source": "hotcakex-microsoft-domains",
       "rule": "Bing search and Microsoft Start/news surfaces."
     },
     {
-      "host": "bing.co",
+      "host": "msn-tst.com",
       "category": "search",
       "service": "bing",
       "source": "hotcakex-microsoft-domains",
       "rule": "Bing search and Microsoft Start/news surfaces."
     },
     {
-      "host": "bing.net",
+      "host": "msn.co.in",
       "category": "search",
       "service": "bing",
       "source": "hotcakex-microsoft-domains",
       "rule": "Bing search and Microsoft Start/news surfaces."
     },
     {
-      "host": "bingapis.com",
+      "host": "msn.co.jp",
       "category": "search",
       "service": "bing",
       "source": "hotcakex-microsoft-domains",
       "rule": "Bing search and Microsoft Start/news surfaces."
     },
     {
-      "host": "bingbusinessportal.com",
+      "host": "msn.it",
       "category": "search",
       "service": "bing",
       "source": "hotcakex-microsoft-domains",
       "rule": "Bing search and Microsoft Start/news surfaces."
     },
     {
-      "host": "bingforbusiness.com",
+      "host": "msn.se",
       "category": "search",
       "service": "bing",
       "source": "hotcakex-microsoft-domains",
       "rule": "Bing search and Microsoft Start/news surfaces."
     },
     {
-      "host": "binginternal.com",
+      "host": "msnmobile.in",
       "category": "search",
       "service": "bing",
       "source": "hotcakex-microsoft-domains",
       "rule": "Bing search and Microsoft Start/news surfaces."
     },
     {
-      "host": "bingparachute.com",
+      "host": "mywindowsmobile.co.uk",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "mywindowsmobile.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "office-int.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "office-int.net",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "office365.cn",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "office365.us",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "officeformac.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "officelabs-int.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "officelabs.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "officelivecontent.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "officeppe.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "officeppe.net",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "playmsn.com",
       "category": "search",
       "service": "bing",
       "source": "hotcakex-microsoft-domains",
       "rule": "Bing search and Microsoft Start/news surfaces."
     },
     {
-      "host": "bingplaces.com",
+      "host": "prodmirror1-bing-int1.com",
       "category": "search",
       "service": "bing",
       "source": "hotcakex-microsoft-domains",
       "rule": "Bing search and Microsoft Start/news surfaces."
     },
     {
-      "host": "bingviz.com",
+      "host": "sharepoint-df.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "sharepoint-mil.us",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "sharepoint.cn",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "sharepoint.de",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "sharepoint.us",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "sledgehammergames.com",
+      "category": "gaming",
+      "service": null,
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft-owned games and game networks."
+    },
+    {
+      "host": "sqlazurelabs.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "sqlazureservices.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "staging-bing-int.com",
       "category": "search",
       "service": "bing",
       "source": "hotcakex-microsoft-domains",
       "rule": "Bing search and Microsoft Start/news surfaces."
     },
     {
-      "host": "bizographics.com",
-      "category": "ads",
+      "host": "technetbrasil.com.br",
+      "category": "software",
       "service": null,
       "source": "hotcakex-microsoft-domains",
-      "rule": "Ad servers a person never meets by name. Deliberately ads, not analytics: a retargeting host is still an ad host."
+      "rule": "Developer package registries and tool vendors from proxy exception lists."
     },
     {
-      "host": "booksearch.org.uk",
-      "category": "search",
-      "service": "bing",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Bing search and Microsoft Start/news surfaces."
-    },
-    {
-      "host": "botframework.com",
+      "host": "tfsazure-qa.com",
       "category": "software",
       "service": "microsoft",
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft application platform and developer infrastructure."
     },
     {
-      "host": "callofdutyleague.com",
+      "host": "tm-azurefd.net",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "touchdevelop.com",
+      "category": "software",
+      "service": null,
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Developer package registries and tool vendors from proxy exception lists."
+    },
+    {
+      "host": "visualstudio.us",
+      "category": "software",
+      "service": null,
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Developer package registries and tool vendors from proxy exception lists."
+    },
+    {
+      "host": "vscode-unpkg.net",
+      "category": "software",
+      "service": null,
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Developer package registries and tool vendors from proxy exception lists."
+    },
+    {
+      "host": "vsmarketplacebadges.dev",
+      "category": "software",
+      "service": null,
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Developer package registries and tool vendors from proxy exception lists."
+    },
+    {
+      "host": "windows-int.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "windows-int.net",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "windows-ppe.net",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "windows-tst.net",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "windows.us",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "windowsandme.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "windowsazure.cn",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "windowsazure.us",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "windowshpc.net",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "windowslivehelp.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "windowsmarketplace.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "windowsmedia.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "windowsphone-int.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "windowsphone.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "windowsphone.net",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "windowsphoneexpert.com",
+      "category": "software",
+      "service": "microsoft",
+      "source": "hotcakex-microsoft-domains",
+      "rule": "Microsoft application platform and developer infrastructure."
+    },
+    {
+      "host": "xbox-ufc.com",
       "category": "gaming",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft-owned games and game networks."
     },
     {
-      "host": "clarity.ms",
-      "category": "analytics",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Measurement and product analytics endpoints."
-    },
-    {
-      "host": "cloud.microsoft",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "cloudapp.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "crates.io",
-      "category": "software",
-      "service": null,
-      "source": "omaskery-proxy-exceptions",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "customvision.ai",
-      "category": "ai",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft AI services and products."
-    },
-    {
-      "host": "dc-msedge.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "demonware.net",
+      "host": "xbox.jp",
       "category": "gaming",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft-owned games and game networks."
     },
     {
-      "host": "downloads.gradle.org",
-      "category": "software",
-      "service": null,
-      "source": "omaskery-proxy-exceptions",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "dynamics.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "e3489.cd.akamaiedge.net",
-      "category": "cdn",
-      "service": null,
-      "source": "ultimate-hosts-whitelist",
-      "rule": "Third-party CDN vendors whose names a person has never heard of."
-    },
-    {
-      "host": "edge-weighted.api.brightcove.com",
-      "category": "video",
-      "service": "brightcove",
-      "source": "ultimate-hosts-whitelist",
-      "rule": "Video player vendors. Brightcove and Conviva are sold to broadcasters, but what a person sees is a video stream."
-    },
-    {
-      "host": "exp-tas.com",
-      "category": "analytics",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Measurement and product analytics endpoints."
-    },
-    {
-      "host": "files.pythonhosted.org",
-      "category": "software",
-      "service": null,
-      "source": "omaskery-proxy-exceptions",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "footprintdns.com",
-      "category": "cdn",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Third-party CDN vendors whose names a person has never heard of."
-    },
-    {
-      "host": "forums.geforce.com",
-      "category": "gaming",
-      "service": null,
-      "source": "ultimate-hosts-whitelist",
-      "rule": "NVIDIA GeForce."
-    },
-    {
-      "host": "forza.net",
+      "host": "xbox360.com",
       "category": "gaming",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft-owned games and game networks."
     },
     {
-      "host": "forzamotorsport.net",
+      "host": "xboxcompetition.com",
       "category": "gaming",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft-owned games and game networks."
     },
     {
-      "host": "gamepass.com",
+      "host": "xboxemea.com",
       "category": "gaming",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft-owned games and game networks."
     },
     {
-      "host": "ghcr.io",
-      "category": "software",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "github.blog",
-      "category": "software",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "github.dev",
-      "category": "software",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "githubapp.com",
-      "category": "software",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "githubcopilot.com",
-      "category": "ai",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft AI services and products."
-    },
-    {
-      "host": "githubnext.com",
-      "category": "software",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "githubstatus.com",
-      "category": "software",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "groupme.com",
-      "category": "email",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft-owned communication and mailbox products."
-    },
-    {
-      "host": "halowaypoint.com",
+      "host": "xboxfriends.jp",
       "category": "gaming",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft-owned games and game networks."
     },
     {
-      "host": "hockeyapp.net",
-      "category": "analytics",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Measurement and product analytics endpoints."
-    },
-    {
-      "host": "hotmail.co.uk",
-      "category": "email",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft-owned communication and mailbox products."
-    },
-    {
-      "host": "hotmail.net",
-      "category": "email",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft-owned communication and mailbox products."
-    },
-    {
-      "host": "jwpcdn.com",
-      "category": "cdn",
-      "service": null,
-      "source": "ultimate-hosts-whitelist",
-      "rule": "Third-party CDN vendors whose names a person has never heard of."
-    },
-    {
-      "host": "jwt.ms",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "licdn.cn",
-      "category": "social",
-      "service": "linkedin",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "LinkedIn social graph and media hosts."
-    },
-    {
-      "host": "linkedin.at",
-      "category": "social",
-      "service": "linkedin",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "LinkedIn social graph and media hosts."
-    },
-    {
-      "host": "linkedin.cn",
-      "category": "social",
-      "service": "linkedin",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "LinkedIn social graph and media hosts."
-    },
-    {
-      "host": "linkedinmobileapp.com",
-      "category": "social",
-      "service": "linkedin",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "LinkedIn social graph and media hosts."
-    },
-    {
-      "host": "live.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "lnkd.in",
-      "category": "social",
-      "service": "linkedin",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "LinkedIn social graph and media hosts."
-    },
-    {
-      "host": "loganalytics.io",
-      "category": "analytics",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Measurement and product analytics endpoints."
-    },
-    {
-      "host": "loganalytics.us",
-      "category": "analytics",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Measurement and product analytics endpoints."
-    },
-    {
-      "host": "luis.ai",
-      "category": "ai",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft AI services and products."
-    },
-    {
-      "host": "lync.com",
-      "category": "email",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft-owned communication and mailbox products."
-    },
-    {
-      "host": "mgt.dev",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "microsoft.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "microsoft.org",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "microsoft365.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "microsoftapp.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "microsoftazuread-sso.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "microsoftcloud.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "microsoftonline.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "microsoftstart.com",
-      "category": "search",
-      "service": "bing",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Bing search and Microsoft Start/news surfaces."
-    },
-    {
-      "host": "microsofttranslator.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "midasplayer.cloud",
+      "host": "xboxlivetournament.com",
       "category": "gaming",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft-owned games and game networks."
     },
     {
-      "host": "midasplayer.com",
+      "host": "xboxone.eu",
       "category": "gaming",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft-owned games and game networks."
     },
     {
-      "host": "minecraft-services.net",
+      "host": "xboxtools.jp",
       "category": "gaming",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft-owned games and game networks."
     },
     {
-      "host": "minecraftservices.com",
+      "host": "xna.com",
       "category": "gaming",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft-owned games and game networks."
     },
     {
-      "host": "msads.net",
-      "category": "ads",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Ad servers a person never meets by name. Deliberately ads, not analytics: a retargeting host is still an ad host."
-    },
-    {
-      "host": "msauthimages.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "msedge.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "msft.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "msftauthimages.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "msftidentity.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "msftstatic.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "msgamestudios.com",
+      "host": "youvegotgamesweepstakes.com",
       "category": "gaming",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft-owned games and game networks."
     },
     {
-      "host": "mshome.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "msidentity.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "msn.ca",
-      "category": "search",
-      "service": "bing",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Bing search and Microsoft Start/news surfaces."
-    },
-    {
-      "host": "msn.de",
-      "category": "search",
-      "service": "bing",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Bing search and Microsoft Start/news surfaces."
-    },
-    {
-      "host": "msocdn.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "nuget.org",
-      "category": "software",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "onmicrosoft.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "onnxruntime.ai",
-      "category": "software",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "outlook.eu",
-      "category": "email",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft-owned communication and mailbox products."
-    },
-    {
-      "host": "outlookmobile.com",
-      "category": "email",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft-owned communication and mailbox products."
-    },
-    {
-      "host": "passport.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "playfab.com",
+      "host": "zune-ppe.net",
       "category": "gaming",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft-owned games and game networks."
     },
     {
-      "host": "playfabapi.com",
+      "host": "zune.com",
       "category": "gaming",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft-owned games and game networks."
     },
     {
-      "host": "playwright.dev",
-      "category": "software",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "plex.tv",
-      "category": "software",
-      "service": "plex",
-      "source": "ultimate-hosts-whitelist",
-      "rule": "Media servers and the *arr family: one product each, not one company."
-    },
-    {
-      "host": "powerapps.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "powerautomate.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "powerplatform.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "powershellgallery.com",
-      "category": "software",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "ransomwaretracker.abuse.ch",
-      "category": "software",
-      "service": null,
-      "source": "ultimate-hosts-whitelist",
-      "rule": "abuse.ch malware trackers."
-    },
-    {
-      "host": "repo.maven.apache.org",
-      "category": "software",
-      "service": null,
-      "source": "omaskery-proxy-exceptions",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "s-msft.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "s-msn.com",
-      "category": "search",
-      "service": "bing",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Bing search and Microsoft Start/news surfaces."
-    },
-    {
-      "host": "seaofthieves.com",
+      "host": "zune.net",
       "category": "gaming",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft-owned games and game networks."
     },
     {
-      "host": "services.gradle.org",
-      "category": "software",
-      "service": null,
-      "source": "omaskery-proxy-exceptions",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "sfx.ms",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "sharepointonline.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "skype.co",
-      "category": "email",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft-owned communication and mailbox products."
-    },
-    {
-      "host": "skype.co.uk",
-      "category": "email",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft-owned communication and mailbox products."
-    },
-    {
-      "host": "skype.net",
-      "category": "email",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft-owned communication and mailbox products."
-    },
-    {
-      "host": "skypeforbusiness.com",
-      "category": "email",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft-owned communication and mailbox products."
-    },
-    {
-      "host": "spo-msedge.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "spov-msedge.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "surveymonkey.com",
-      "category": "software",
-      "service": null,
-      "source": "ultimate-hosts-whitelist",
-      "rule": "Marketing chat and support widgets."
-    },
-    {
-      "host": "svc.ms",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "sysinternals.com",
-      "category": "software",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "t-msedge.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "translatoruser.net",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "urlhaus.abuse.ch",
-      "category": "software",
-      "service": null,
-      "source": "ultimate-hosts-whitelist",
-      "rule": "abuse.ch malware trackers."
-    },
-    {
-      "host": "virtualearth.net",
-      "category": "maps",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Bing Maps tiles and the VirtualEarth endpoints behind them."
-    },
-    {
-      "host": "visualstudio.net",
-      "category": "software",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "vsassets.io",
-      "category": "software",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "vscode-cdn.net",
-      "category": "software",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "vscode.dev",
-      "category": "software",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Developer package registries and tool vendors from proxy exception lists."
-    },
-    {
-      "host": "windows.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "windowsazure.com",
-      "category": "software",
-      "service": "microsoft",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft application platform and developer infrastructure."
-    },
-    {
-      "host": "windowsupdate.com",
-      "category": "software",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft identity, connectivity check and update hosts. The NCSI names answer 'is there internet' and belong to no product a person recognises."
-    },
-    {
-      "host": "xandr.com",
-      "category": "ads",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Ad servers a person never meets by name. Deliberately ads, not analytics: a retargeting host is still an ad host."
-    },
-    {
-      "host": "xbox.co",
+      "host": "zune.org",
       "category": "gaming",
       "service": null,
       "source": "hotcakex-microsoft-domains",
       "rule": "Microsoft-owned games and game networks."
-    },
-    {
-      "host": "xboxab.com",
-      "category": "gaming",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft-owned games and game networks."
-    },
-    {
-      "host": "xboxab.net",
-      "category": "gaming",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft-owned games and game networks."
-    },
-    {
-      "host": "xboxservices.com",
-      "category": "gaming",
-      "service": null,
-      "source": "hotcakex-microsoft-domains",
-      "rule": "Microsoft-owned games and game networks."
-    },
-    {
-      "host": "xkcd.com",
-      "category": "software",
-      "service": null,
-      "source": "ultimate-hosts-whitelist",
-      "rule": "Developer and utility hosts that appear in real traffic and mean nothing to a user."
-    },
-    {
-      "host": "yammer.com",
-      "category": "social",
-      "service": "linkedin",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "LinkedIn social graph and media hosts."
-    },
-    {
-      "host": "yammerusercontent.com",
-      "category": "social",
-      "service": "linkedin",
-      "source": "hotcakex-microsoft-domains",
-      "rule": "LinkedIn social graph and media hosts."
     }
   ],
   "category_counts": {
-    "ads": 10,
-    "ai": 3,
-    "analytics": 7,
-    "cdn": 11,
-    "email": 10,
-    "gaming": 23,
-    "maps": 1,
-    "search": 16,
-    "social": 7,
-    "software": 100,
-    "video": 1
+    "ads": 3,
+    "gaming": 18,
+    "search": 15,
+    "software": 52
   },
   "source_counts": {
-    "hotcakex-microsoft-domains": 175,
-    "omaskery-proxy-exceptions": 5,
-    "ultimate-hosts-whitelist": 9
+    "hotcakex-microsoft-domains": 88
   },
   "already_covered": [
-    {
-      "host": "0-edge-chat.facebook.com",
-      "covered_by": "facebook.com"
-    },
-    {
-      "host": "0.client-channel.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "1-edge-chat.facebook.com",
-      "covered_by": "facebook.com"
-    },
     {
       "host": "1drv.com",
       "covered_by": "1drv.com"
     },
     {
-      "host": "2-edge-chat.facebook.com",
-      "covered_by": "facebook.com"
+      "host": "a-msedge.net",
+      "covered_by": "a-msedge.net"
     },
     {
-      "host": "2.android.pool.ntp.org",
-      "covered_by": "2.android.pool.ntp.org"
+      "host": "aadrm.com",
+      "covered_by": "aadrm.com"
     },
     {
-      "host": "3-edge-chat.facebook.com",
-      "covered_by": "facebook.com"
-    },
-    {
-      "host": "4-edge-chat.facebook.com",
-      "covered_by": "facebook.com"
-    },
-    {
-      "host": "5-edge-chat.facebook.com",
-      "covered_by": "facebook.com"
-    },
-    {
-      "host": "6-edge-chat.facebook.com",
-      "covered_by": "facebook.com"
-    },
-    {
-      "host": "a1014.g.akamai.net",
-      "covered_by": "akamai.net"
-    },
-    {
-      "host": "a463.w10.akamai.net",
-      "covered_by": "akamai.net"
-    },
-    {
-      "host": "a790.w16.akamai.net",
-      "covered_by": "akamai.net"
-    },
-    {
-      "host": "accounts.binance.com",
-      "covered_by": "binance.com"
-    },
-    {
-      "host": "acdn.adnxs.com",
-      "covered_by": "adnxs.com"
-    },
-    {
-      "host": "activate.adobe.com",
-      "covered_by": "adobe.com"
+      "host": "aadrm.us",
+      "covered_by": "aadrm.us"
     },
     {
       "host": "activision.com",
       "covered_by": "activision.com"
     },
     {
-      "host": "ad.atdmt.com",
-      "covered_by": "ad.atdmt.com"
+      "host": "activisionblizzard.com",
+      "covered_by": "activisionblizzard.com"
     },
     {
-      "host": "ad.doubleclick.net",
-      "covered_by": "doubleclick.net"
+      "host": "adaptivecards.io",
+      "covered_by": "adaptivecards.io"
     },
     {
-      "host": "adf.ly",
-      "covered_by": "adf.ly"
+      "host": "adbureau.net",
+      "covered_by": "adbureau.net"
+    },
+    {
+      "host": "adcentercommunity.com",
+      "covered_by": "adcentercommunity.com"
+    },
+    {
+      "host": "adcenterpages.com",
+      "covered_by": "adcenterpages.com"
+    },
+    {
+      "host": "adnxs-simple.com",
+      "covered_by": "adnxs-simple.com"
     },
     {
       "host": "adnxs.com",
       "covered_by": "adnxs.com"
     },
     {
-      "host": "adwords.google.com",
-      "covered_by": "google.com"
+      "host": "adnxs.net",
+      "covered_by": "adnxs.net"
     },
     {
-      "host": "ae01.alicdn.com",
-      "covered_by": "ae01.alicdn.com"
+      "host": "ageofempires.com",
+      "covered_by": "ageofempires.com"
     },
     {
-      "host": "affiliatefuture.com",
-      "covered_by": "affiliatefuture.com"
+      "host": "ageofempiresonline.com",
+      "covered_by": "ageofempiresonline.com"
     },
     {
-      "host": "ajax.cloudflare.com",
-      "covered_by": "cloudflare.com"
+      "host": "aka.ms",
+      "covered_by": "aka.ms"
     },
     {
-      "host": "akamai-san24.exacttarget.com.edgekey.net",
-      "covered_by": "edgekey.net"
+      "host": "akadns.net",
+      "covered_by": "akadns.net"
     },
     {
-      "host": "akamaihd.net",
-      "covered_by": "akamaihd.net"
-    },
-    {
-      "host": "akamaitechnologies.com",
-      "covered_by": "akamaitechnologies.com"
+      "host": "akadns6.net",
+      "covered_by": "akadns6.net"
     },
     {
       "host": "akamaized.net",
       "covered_by": "akamaized.net"
     },
     {
-      "host": "amazonaws.com",
-      "covered_by": "amazonaws.com"
-    },
-    {
-      "host": "amd.cdn.turner.com",
-      "covered_by": "amd.cdn.turner.com"
-    },
-    {
-      "host": "amzn.com",
-      "covered_by": "amzn.com"
-    },
-    {
-      "host": "amzn.to",
-      "covered_by": "amzn.to"
-    },
-    {
-      "host": "android.clients.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "api-global.netflix.com",
-      "covered_by": "netflix.com"
-    },
-    {
-      "host": "api.github.com",
-      "covered_by": "github.com"
-    },
-    {
-      "host": "api.ipify.org",
-      "covered_by": "api.ipify.org"
-    },
-    {
-      "host": "api.pluto.tv",
-      "covered_by": "api.pluto.tv"
-    },
-    {
-      "host": "api.sbs.com.au",
-      "covered_by": "sbs.com.au"
-    },
-    {
-      "host": "api.vstusers.visualstudio.com",
-      "covered_by": "visualstudio.com"
-    },
-    {
-      "host": "apis.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "app-api.ted.com",
-      "covered_by": "ted.com"
-    },
-    {
-      "host": "app.vssps.visualstudio.com",
-      "covered_by": "visualstudio.com"
-    },
-    {
-      "host": "appboot.netflix.com",
-      "covered_by": "netflix.com"
-    },
-    {
       "host": "appcenter.ms",
       "covered_by": "appcenter.ms"
     },
     {
-      "host": "appengine.google.com",
-      "covered_by": "google.com"
+      "host": "applicationinsights.io",
+      "covered_by": "applicationinsights.io"
     },
     {
-      "host": "appleid.apple.com",
-      "covered_by": "apple.com"
+      "host": "applicationinsights.us",
+      "covered_by": "applicationinsights.us"
     },
     {
-      "host": "apps.skype.com",
-      "covered_by": "skype.com"
+      "host": "appnexus.com",
+      "covered_by": "appnexus.com"
     },
     {
-      "host": "appsbackup-pa.clients6.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "appsbackup-pa.googleapis.com",
-      "covered_by": "googleapis.com"
-    },
-    {
-      "host": "appspot-preview.l.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "apresolve.spotify.com",
-      "covered_by": "spotify.com"
-    },
-    {
-      "host": "apt.sonarr.tv",
-      "covered_by": "apt.sonarr.tv"
+      "host": "aquantive.com",
+      "covered_by": "aquantive.com"
     },
     {
       "host": "aspnetcdn.com",
       "covered_by": "aspnetcdn.com"
     },
     {
-      "host": "assets.adobedtm.com",
-      "covered_by": "assets.adobedtm.com"
+      "host": "azconfig.io",
+      "covered_by": "azconfig.io"
     },
     {
-      "host": "attestation.xboxlive.com",
-      "covered_by": "xboxlive.com"
+      "host": "azmk8s.io",
+      "covered_by": "azmk8s.io"
     },
     {
-      "host": "audible.com",
-      "covered_by": "audible.com"
+      "host": "azure-api.net",
+      "covered_by": "azure-api.net"
     },
     {
-      "host": "audio-ake.spotify.com.edgesuite.net",
-      "covered_by": "edgesuite.net"
+      "host": "azure-apihub.us",
+      "covered_by": "azure-apihub.us"
     },
     {
-      "host": "avantlink.com",
-      "covered_by": "avantlink.com"
+      "host": "azure-apim.net",
+      "covered_by": "azure-apim.net"
     },
     {
-      "host": "ax.phobos.apple.com.edgesuite.net",
-      "covered_by": "edgesuite.net"
+      "host": "azure-automation.net",
+      "covered_by": "azure-automation.net"
+    },
+    {
+      "host": "azure-dns-1.cn",
+      "covered_by": "azure-dns-1.cn"
+    },
+    {
+      "host": "azure-dns.cn",
+      "covered_by": "azure-dns.cn"
+    },
+    {
+      "host": "azure-dns.com",
+      "covered_by": "azure-dns.com"
+    },
+    {
+      "host": "azure-dns.info",
+      "covered_by": "azure-dns.info"
+    },
+    {
+      "host": "azure-dns.net",
+      "covered_by": "azure-dns.net"
+    },
+    {
+      "host": "azure-dns.org",
+      "covered_by": "azure-dns.org"
+    },
+    {
+      "host": "azure-mobile.net",
+      "covered_by": "azure-mobile.net"
+    },
+    {
+      "host": "azure-preview.com",
+      "covered_by": "azure-preview.com"
+    },
+    {
+      "host": "azure-stage.net",
+      "covered_by": "azure-stage.net"
+    },
+    {
+      "host": "azure-test.net",
+      "covered_by": "azure-test.net"
+    },
+    {
+      "host": "azure.cn",
+      "covered_by": "azure.cn"
+    },
+    {
+      "host": "azure.com",
+      "covered_by": "azure.com"
+    },
+    {
+      "host": "azure.net",
+      "covered_by": "azure.net"
+    },
+    {
+      "host": "azure.us",
+      "covered_by": "azure.us"
+    },
+    {
+      "host": "azureapp-int.net",
+      "covered_by": "azureapp-int.net"
+    },
+    {
+      "host": "azurecontainer.io",
+      "covered_by": "azurecontainer.io"
+    },
+    {
+      "host": "azurecr.io",
+      "covered_by": "azurecr.io"
     },
     {
       "host": "azureedge.net",
       "covered_by": "azureedge.net"
     },
     {
+      "host": "azureedge.us",
+      "covered_by": "azureedge.us"
+    },
+    {
+      "host": "azurefd.net",
+      "covered_by": "azurefd.net"
+    },
+    {
+      "host": "azurefd.us",
+      "covered_by": "azurefd.us"
+    },
+    {
+      "host": "azuregov-dns.us",
+      "covered_by": "azuregov-dns.us"
+    },
+    {
+      "host": "azurelbs.com",
+      "covered_by": "azurelbs.com"
+    },
+    {
+      "host": "azurerms.com",
+      "covered_by": "azurerms.com"
+    },
+    {
+      "host": "azuresynapse.net",
+      "covered_by": "azuresynapse.net"
+    },
+    {
+      "host": "azuretrafficmanager.de",
+      "covered_by": "azuretrafficmanager.de"
+    },
+    {
+      "host": "azurewebsite.net",
+      "covered_by": "azurewebsite.net"
+    },
+    {
+      "host": "azurewebsites.net",
+      "covered_by": "azurewebsites.net"
+    },
+    {
+      "host": "b-msedge.net",
+      "covered_by": "b-msedge.net"
+    },
+    {
+      "host": "b2clogin.com",
+      "covered_by": "b2clogin.com"
+    },
+    {
+      "host": "banjo-kazooie.com",
+      "covered_by": "banjo-kazooie.com"
+    },
+    {
       "host": "battle.net",
       "covered_by": "battle.net"
-    },
-    {
-      "host": "bbc.com",
-      "covered_by": "bbc.com"
-    },
-    {
-      "host": "bestbuy.com",
-      "covered_by": "bestbuy.com"
     },
     {
       "host": "bethesda.net",
       "covered_by": "bethesda.net"
     },
     {
-      "host": "bfast.com",
-      "covered_by": "bfast.com"
+      "host": "bing-int1.com",
+      "covered_by": "bing-int1.com"
+    },
+    {
+      "host": "bing.cn",
+      "covered_by": "bing.cn"
+    },
+    {
+      "host": "bing.co",
+      "covered_by": "bing.co"
     },
     {
       "host": "bing.com",
       "covered_by": "bing.com"
     },
     {
-      "host": "bit.ly",
-      "covered_by": "bit.ly"
+      "host": "bing.net",
+      "covered_by": "bing.net"
     },
     {
-      "host": "bitbucket.org",
-      "covered_by": "bitbucket.org"
+      "host": "bingapis.com",
+      "covered_by": "bingapis.com"
+    },
+    {
+      "host": "bingbusinessportal.com",
+      "covered_by": "bingbusinessportal.com"
+    },
+    {
+      "host": "bingforbusiness.com",
+      "covered_by": "bingforbusiness.com"
+    },
+    {
+      "host": "binginternal.com",
+      "covered_by": "binginternal.com"
+    },
+    {
+      "host": "bingparachute.com",
+      "covered_by": "bingparachute.com"
+    },
+    {
+      "host": "bingplaces.com",
+      "covered_by": "bingplaces.com"
+    },
+    {
+      "host": "bingviz.com",
+      "covered_by": "bingviz.com"
+    },
+    {
+      "host": "bizographics.com",
+      "covered_by": "bizographics.com"
     },
     {
       "host": "blizzard.com",
       "covered_by": "blizzard.com"
     },
     {
-      "host": "blogger.com",
-      "covered_by": "blogger.com"
+      "host": "booksearch.org.uk",
+      "covered_by": "booksearch.org.uk"
     },
     {
-      "host": "bloomberg.com",
-      "covered_by": "bloomberg.com"
-    },
-    {
-      "host": "books.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "brightcove.map.fastly.net",
-      "covered_by": "fastly.net"
-    },
-    {
-      "host": "brightcove.net",
-      "covered_by": "brightcove.net"
-    },
-    {
-      "host": "c.s-microsoft.com",
-      "covered_by": "c.s-microsoft.com"
+      "host": "botframework.com",
+      "covered_by": "botframework.com"
     },
     {
       "host": "callofduty.com",
       "covered_by": "callofduty.com"
     },
     {
-      "host": "cc-dt.com",
-      "covered_by": "cc-dt.com"
+      "host": "callofdutyleague.com",
+      "covered_by": "callofdutyleague.com"
     },
     {
-      "host": "cdn-mobile.api.pluto.tv",
-      "covered_by": "api.pluto.tv"
+      "host": "clarity.ms",
+      "covered_by": "clarity.ms"
     },
     {
-      "host": "cdn.cloudflare.net",
-      "covered_by": "cloudflare.net"
+      "host": "cloud.microsoft",
+      "covered_by": "cloud.microsoft"
     },
     {
-      "host": "cdn.discordapp.com",
-      "covered_by": "discordapp.com"
+      "host": "cloudapp.net",
+      "covered_by": "cloudapp.net"
     },
     {
-      "host": "cdn.edgesuite.net",
-      "covered_by": "edgesuite.net"
+      "host": "customvision.ai",
+      "covered_by": "customvision.ai"
     },
     {
-      "host": "cdn.embedly.com",
-      "covered_by": "cdn.embedly.com"
+      "host": "dc-msedge.net",
+      "covered_by": "dc-msedge.net"
     },
     {
-      "host": "cdn.fbsbx.com",
-      "covered_by": "fbsbx.com"
+      "host": "demonware.net",
+      "covered_by": "demonware.net"
     },
     {
-      "host": "cdn.jsdelivr.net",
-      "covered_by": "jsdelivr.net"
-    },
-    {
-      "host": "cdn.optimizely.com",
-      "covered_by": "optimizely.com"
-    },
-    {
-      "host": "cdn.refersion.com",
-      "covered_by": "refersion.com"
-    },
-    {
-      "host": "cdn.samsungcloudsolution.com",
-      "covered_by": "cdn.samsungcloudsolution.com"
-    },
-    {
-      "host": "cdn.vidible.tv",
-      "covered_by": "cdn.vidible.tv"
-    },
-    {
-      "host": "cdn1.smartadserver.com",
-      "covered_by": "cdn1.smartadserver.com"
-    },
-    {
-      "host": "cdn2.optimizely.com",
-      "covered_by": "optimizely.com"
-    },
-    {
-      "host": "cdn3.optimizely.com",
-      "covered_by": "optimizely.com"
-    },
-    {
-      "host": "cdninstagram.com",
-      "covered_by": "cdninstagram.com"
-    },
-    {
-      "host": "cdnjs.cloudflare.com",
-      "covered_by": "cdnjs.cloudflare.com"
-    },
-    {
-      "host": "cdns.gigya.com",
-      "covered_by": "cdns.gigya.com"
-    },
-    {
-      "host": "cert.mgt.xboxlive.com",
-      "covered_by": "xboxlive.com"
-    },
-    {
-      "host": "chrome.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "cj.com",
-      "covered_by": "cj.com"
-    },
-    {
-      "host": "cj.dotomi.com",
-      "covered_by": "cj.dotomi.com"
-    },
-    {
-      "host": "click.discord.com",
-      "covered_by": "discord.com"
-    },
-    {
-      "host": "click.linksynergy.com",
-      "covered_by": "linksynergy.com"
-    },
-    {
-      "host": "clickserve.cc-dt.com",
-      "covered_by": "cc-dt.com"
-    },
-    {
-      "host": "clickserve.dartsearch.net",
-      "covered_by": "clickserve.dartsearch.net"
-    },
-    {
-      "host": "clientconfig.passport.net",
-      "covered_by": "clientconfig.passport.net"
-    },
-    {
-      "host": "clients1.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "clients2.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "clients3.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "clients4.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "clients5.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "clients6.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "clk.tradedoubler.com",
-      "covered_by": "clk.tradedoubler.com"
-    },
-    {
-      "host": "cloudflare.com",
-      "covered_by": "cloudflare.com"
-    },
-    {
-      "host": "cnbc.com",
-      "covered_by": "cnbc.com"
-    },
-    {
-      "host": "cnn.com",
-      "covered_by": "cnn.com"
-    },
-    {
-      "host": "code.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "code.jquery.com",
-      "covered_by": "jquery.com"
-    },
-    {
-      "host": "codeorigin.jquery.com",
-      "covered_by": "jquery.com"
-    },
-    {
-      "host": "cognito-identity.us-east-1.amazonaws.com",
-      "covered_by": "amazonaws.com"
-    },
-    {
-      "host": "commission-junction.com",
-      "covered_by": "commission-junction.com"
-    },
-    {
-      "host": "connectivitycheck.android.com",
-      "covered_by": "connectivitycheck.android.com"
-    },
-    {
-      "host": "connectivitycheck.gstatic.com",
-      "covered_by": "gstatic.com"
-    },
-    {
-      "host": "console.cloud.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "continuum.dds.microsoft.com",
-      "covered_by": "microsoft.com"
-    },
-    {
-      "host": "cpms.spop10.ams.plex.bz",
-      "covered_by": "cpms.spop10.ams.plex.bz"
-    },
-    {
-      "host": "cpms35.spop10.ams.plex.bz",
-      "covered_by": "cpms35.spop10.ams.plex.bz"
-    },
-    {
-      "host": "creative.ak.fbcdn.net",
-      "covered_by": "fbcdn.net"
-    },
-    {
-      "host": "cse.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "ctldl.windowsupdate.com",
-      "covered_by": "ctldl.windowsupdate.com"
-    },
-    {
-      "host": "cws.conviva.com",
-      "covered_by": "cws.conviva.com"
-    },
-    {
-      "host": "cwtv-mrss-akamai.cwtv.com",
-      "covered_by": "cwtv-mrss-akamai.cwtv.com"
-    },
-    {
-      "host": "cwtv-prod-elb.digitalsmiths.net",
-      "covered_by": "cwtv-prod-elb.digitalsmiths.net"
-    },
-    {
-      "host": "d2c8v52ll5s99u.cloudfront.net",
-      "covered_by": "cloudfront.net"
-    },
-    {
-      "host": "d2gatte9o95jao.cloudfront.net",
-      "covered_by": "cloudfront.net"
-    },
-    {
-      "host": "dashboard.plex.tv",
-      "covered_by": "dashboard.plex.tv"
-    },
-    {
-      "host": "dataplicity.com",
-      "covered_by": "dataplicity.com"
-    },
-    {
-      "host": "dc.services.visualstudio.com",
-      "covered_by": "visualstudio.com"
-    },
-    {
-      "host": "dcs-vod.apis.anvato.net",
-      "covered_by": "dcs-vod.apis.anvato.net"
-    },
-    {
-      "host": "debian.org",
-      "covered_by": "debian.org"
-    },
-    {
-      "host": "def-vef.xboxlive.com",
-      "covered_by": "xboxlive.com"
-    },
-    {
-      "host": "delivery.vidible.tv",
-      "covered_by": "delivery.vidible.tv"
-    },
-    {
-      "host": "det-ta-g7g.amazon.com",
-      "covered_by": "amazon.com"
-    },
-    {
-      "host": "dev.virtualearth.net",
-      "covered_by": "dev.virtualearth.net"
-    },
-    {
-      "host": "developers.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "device-messaging-na.amazon.com",
-      "covered_by": "amazon.com"
-    },
-    {
-      "host": "device-metrics-us-2.amazon.com",
-      "covered_by": "amazon.com"
-    },
-    {
-      "host": "device-metrics-us.amazon.com",
-      "covered_by": "amazon.com"
-    },
-    {
-      "host": "device.auth.xboxlive.com",
-      "covered_by": "xboxlive.com"
-    },
-    {
-      "host": "dictionary.cambridge.org",
-      "covered_by": "cambridge.org"
-    },
-    {
-      "host": "directvapplications.hb.omtrdc.net",
-      "covered_by": "directvapplications.hb.omtrdc.net"
-    },
-    {
-      "host": "directvnow.com",
-      "covered_by": "directvnow.com"
-    },
-    {
-      "host": "display.ugc.bazaarvoice.com",
-      "covered_by": "display.ugc.bazaarvoice.com"
-    },
-    {
-      "host": "displaycatalog.mp.microsoft.com",
-      "covered_by": "microsoft.com"
-    },
-    {
-      "host": "dl.delivery.mp.microsoft.com",
-      "covered_by": "microsoft.com"
-    },
-    {
-      "host": "dl.dropbox.com",
-      "covered_by": "dropbox.com"
-    },
-    {
-      "host": "dl.dropboxusercontent.com",
-      "covered_by": "dropboxusercontent.com"
-    },
-    {
-      "host": "dns.msftncsi.com",
-      "covered_by": "msftncsi.com"
-    },
-    {
-      "host": "doubleclick.net",
-      "covered_by": "doubleclick.net"
-    },
-    {
-      "host": "download-cf.jetbrains.com",
-      "covered_by": "jetbrains.com"
-    },
-    {
-      "host": "download.jetbrains.com",
-      "covered_by": "jetbrains.com"
-    },
-    {
-      "host": "download.sonarr.tv",
-      "covered_by": "download.sonarr.tv"
-    },
-    {
-      "host": "download.visualstudio.microsoft.com",
-      "covered_by": "microsoft.com"
-    },
-    {
-      "host": "dpm.demdex.net",
-      "covered_by": "dpm.demdex.net"
-    },
-    {
-      "host": "drift.com",
-      "covered_by": "drift.com"
-    },
-    {
-      "host": "driftt.com",
-      "covered_by": "driftt.com"
-    },
-    {
-      "host": "dsms0mj1bbhn4.cloudfront.net",
-      "covered_by": "cloudfront.net"
-    },
-    {
-      "host": "dualstack.brightcove.map.fastly.net",
-      "covered_by": "fastly.net"
-    },
-    {
-      "host": "duckduckgo.com",
-      "covered_by": "duckduckgo.com"
-    },
-    {
-      "host": "dynupdate.no-ip.com",
-      "covered_by": "no-ip.com"
-    },
-    {
-      "host": "e7065.e2.akamaiedge.net",
-      "covered_by": "e7065.e2.akamaiedge.net"
-    },
-    {
-      "host": "ea.com",
-      "covered_by": "ea.com"
-    },
-    {
-      "host": "ec-ns.sascdn.com",
-      "covered_by": "ec-ns.sascdn.com"
-    },
-    {
-      "host": "ecn.dev.virtualearth.net",
-      "covered_by": "dev.virtualearth.net"
-    },
-    {
-      "host": "edge-chat.facebook.com",
-      "covered_by": "facebook.com"
-    },
-    {
-      "host": "edge-mqtt.facebook.com",
-      "covered_by": "facebook.com"
-    },
-    {
-      "host": "edge.api.brightcove.com",
-      "covered_by": "edge.api.brightcove.com"
+      "host": "dynamics.com",
+      "covered_by": "dynamics.com"
     },
     {
       "host": "edgesuite.net",
       "covered_by": "edgesuite.net"
     },
     {
-      "host": "eds.xboxlive.com",
-      "covered_by": "xboxlive.com"
+      "host": "exp-tas.com",
+      "covered_by": "exp-tas.com"
     },
     {
-      "host": "emjcd.com",
-      "covered_by": "emjcd.com"
+      "host": "footprintdns.com",
+      "covered_by": "footprintdns.com"
     },
     {
-      "host": "enterprise-support.nvidia.com",
-      "covered_by": "nvidia.com"
+      "host": "forza.net",
+      "covered_by": "forza.net"
     },
     {
-      "host": "entitlement.auth.adobe.com",
-      "covered_by": "adobe.com"
+      "host": "forzamotorsport.net",
+      "covered_by": "forzamotorsport.net"
     },
     {
-      "host": "espn.com",
-      "covered_by": "espn.com"
+      "host": "gamepass.com",
+      "covered_by": "gamepass.com"
     },
     {
-      "host": "eulatracking-public-service-prod.ol.epicgames.com",
-      "covered_by": "epicgames.com"
+      "host": "ghcr.io",
+      "covered_by": "ghcr.io"
     },
     {
-      "host": "events.gfe.nvidia.com",
-      "covered_by": "nvidia.com"
-    },
-    {
-      "host": "external-lhr0-1.xx.fbcdn.net",
-      "covered_by": "fbcdn.net"
-    },
-    {
-      "host": "external-lhr1-1.xx.fbcdn.net",
-      "covered_by": "fbcdn.net"
-    },
-    {
-      "host": "external-lhr10-1.xx.fbcdn.net",
-      "covered_by": "fbcdn.net"
-    },
-    {
-      "host": "external-lhr2-1.xx.fbcdn.net",
-      "covered_by": "fbcdn.net"
-    },
-    {
-      "host": "external-lhr3-1.xx.fbcdn.net",
-      "covered_by": "fbcdn.net"
-    },
-    {
-      "host": "external-lhr4-1.xx.fbcdn.net",
-      "covered_by": "fbcdn.net"
-    },
-    {
-      "host": "external-lhr5-1.xx.fbcdn.net",
-      "covered_by": "fbcdn.net"
-    },
-    {
-      "host": "external-lhr6-1.xx.fbcdn.net",
-      "covered_by": "fbcdn.net"
-    },
-    {
-      "host": "external-lhr7-1.xx.fbcdn.net",
-      "covered_by": "fbcdn.net"
-    },
-    {
-      "host": "external-lhr8-1.xx.fbcdn.net",
-      "covered_by": "fbcdn.net"
-    },
-    {
-      "host": "external-lhr9-1.xx.fbcdn.net",
-      "covered_by": "fbcdn.net"
-    },
-    {
-      "host": "f1.media.brightcove.com",
-      "covered_by": "f1.media.brightcove.com"
-    },
-    {
-      "host": "facebook.com",
-      "covered_by": "facebook.com"
-    },
-    {
-      "host": "facebook.net",
-      "covered_by": "facebook.net"
-    },
-    {
-      "host": "fbcdn-creative-a.akamaihd.net",
-      "covered_by": "akamaihd.net"
-    },
-    {
-      "host": "fbcdn.net",
-      "covered_by": "fbcdn.net"
-    },
-    {
-      "host": "feedproxy.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "fonts.gstatic.com",
-      "covered_by": "gstatic.com"
-    },
-    {
-      "host": "forbes.com",
-      "covered_by": "forbes.com"
-    },
-    {
-      "host": "forums.sonarr.tv",
-      "covered_by": "forums.sonarr.tv"
-    },
-    {
-      "host": "fpdownload.adobe.com",
-      "covered_by": "adobe.com"
-    },
-    {
-      "host": "g.live.com",
-      "covered_by": "live.com"
-    },
-    {
-      "host": "gan.doubleclick.net",
-      "covered_by": "doubleclick.net"
-    },
-    {
-      "host": "geo-prod.do.dsp.mp.microsoft.com",
-      "covered_by": "microsoft.com"
-    },
-    {
-      "host": "geo3.ggpht.com",
-      "covered_by": "ggpht.com"
-    },
-    {
-      "host": "get.adobe.com",
-      "covered_by": "adobe.com"
-    },
-    {
-      "host": "gfwsl.geforce.com",
-      "covered_by": "gfwsl.geforce.com"
-    },
-    {
-      "host": "giphy.com",
-      "covered_by": "giphy.com"
-    },
-    {
-      "host": "gist.github.com",
-      "covered_by": "github.com"
-    },
-    {
-      "host": "gist.githubusercontent.com",
-      "covered_by": "githubusercontent.com"
+      "host": "github.blog",
+      "covered_by": "github.blog"
     },
     {
       "host": "github.com",
       "covered_by": "github.com"
     },
     {
+      "host": "github.dev",
+      "covered_by": "github.dev"
+    },
+    {
       "host": "github.io",
       "covered_by": "github.io"
+    },
+    {
+      "host": "githubapp.com",
+      "covered_by": "githubapp.com"
     },
     {
       "host": "githubassets.com",
       "covered_by": "githubassets.com"
     },
     {
+      "host": "githubcopilot.com",
+      "covered_by": "githubcopilot.com"
+    },
+    {
+      "host": "githubnext.com",
+      "covered_by": "githubnext.com"
+    },
+    {
+      "host": "githubstatus.com",
+      "covered_by": "githubstatus.com"
+    },
+    {
       "host": "githubusercontent.com",
       "covered_by": "githubusercontent.com"
     },
     {
-      "host": "gitlab.com",
-      "covered_by": "gitlab.com"
+      "host": "groupme.com",
+      "covered_by": "groupme.com"
     },
     {
-      "host": "gmx.com",
-      "covered_by": "gmx.com"
+      "host": "halowaypoint.com",
+      "covered_by": "halowaypoint.com"
     },
     {
-      "host": "gmx.net",
-      "covered_by": "gmx.net"
+      "host": "hockeyapp.net",
+      "covered_by": "hockeyapp.net"
     },
     {
-      "host": "go.microsoft.com",
-      "covered_by": "microsoft.com"
-    },
-    {
-      "host": "goo.gl",
-      "covered_by": "goo.gl"
-    },
-    {
-      "host": "google-analytics.com",
-      "covered_by": "google-analytics.com"
-    },
-    {
-      "host": "googleapis.com",
-      "covered_by": "googleapis.com"
-    },
-    {
-      "host": "goto-target-com.customtraffic.impactradius.com",
-      "covered_by": "goto-target-com.customtraffic.impactradius.com"
-    },
-    {
-      "host": "goto.target.com",
-      "covered_by": "target.com"
-    },
-    {
-      "host": "graph.facebook.com",
-      "covered_by": "facebook.com"
-    },
-    {
-      "host": "graph.instagram.com",
-      "covered_by": "instagram.com"
-    },
-    {
-      "host": "gravatar.com",
-      "covered_by": "gravatar.com"
-    },
-    {
-      "host": "groups.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "gstatic.com",
-      "covered_by": "gstatic.com"
-    },
-    {
-      "host": "help.ui.xboxlive.com",
-      "covered_by": "xboxlive.com"
-    },
-    {
-      "host": "history.com",
-      "covered_by": "history.com"
-    },
-    {
-      "host": "hls.ted.com",
-      "covered_by": "ted.com"
+      "host": "hotmail.co.uk",
+      "covered_by": "hotmail.co.uk"
     },
     {
       "host": "hotmail.com",
       "covered_by": "hotmail.com"
     },
     {
-      "host": "hulu.com",
-      "covered_by": "hulu.com"
+      "host": "hotmail.net",
+      "covered_by": "hotmail.net"
     },
     {
-      "host": "i.cdn.turner.com",
-      "covered_by": "i.cdn.turner.com"
-    },
-    {
-      "host": "i.pinimg.com",
-      "covered_by": "pinimg.com"
-    },
-    {
-      "host": "i.ytimg.com",
-      "covered_by": "ytimg.com"
-    },
-    {
-      "host": "i1.ytimg.com",
-      "covered_by": "ytimg.com"
-    },
-    {
-      "host": "icloud.com",
-      "covered_by": "icloud.com"
-    },
-    {
-      "host": "ikea.com",
-      "covered_by": "ikea.com"
-    },
-    {
-      "host": "images.pluto.tv",
-      "covered_by": "images.pluto.tv"
-    },
-    {
-      "host": "imgix.net",
-      "covered_by": "imgix.net"
-    },
-    {
-      "host": "imgs.xkcd.com",
-      "covered_by": "imgs.xkcd.com"
-    },
-    {
-      "host": "instagram.c10r.facebook.com",
-      "covered_by": "facebook.com"
-    },
-    {
-      "host": "instagram.com",
-      "covered_by": "instagram.com"
-    },
-    {
-      "host": "instantmessaging-pa.googleapis.com",
-      "covered_by": "googleapis.com"
-    },
-    {
-      "host": "intercom.io",
-      "covered_by": "intercom.io"
-    },
-    {
-      "host": "jetbrains.com",
-      "covered_by": "jetbrains.com"
-    },
-    {
-      "host": "jquery.com",
-      "covered_by": "jquery.com"
-    },
-    {
-      "host": "js.maxmind.com",
-      "covered_by": "js.maxmind.com"
-    },
-    {
-      "host": "jsdelivr.net",
-      "covered_by": "jsdelivr.net"
+      "host": "jwt.ms",
+      "covered_by": "jwt.ms"
     },
     {
       "host": "king.com",
       "covered_by": "king.com"
     },
     {
-      "host": "lastfm-img2.akamaized.net",
-      "covered_by": "akamaized.net"
+      "host": "licdn.cn",
+      "covered_by": "licdn.cn"
     },
     {
       "host": "licdn.com",
       "covered_by": "licdn.com"
     },
     {
-      "host": "licensing.xboxlive.com",
-      "covered_by": "xboxlive.com"
+      "host": "linkedin.at",
+      "covered_by": "linkedin.at"
     },
     {
-      "host": "link.theplatform.com",
-      "covered_by": "link.theplatform.com"
+      "host": "linkedin.cn",
+      "covered_by": "linkedin.cn"
     },
     {
       "host": "linkedin.com",
       "covered_by": "linkedin.com"
     },
     {
-      "host": "linksynergy.com",
-      "covered_by": "linksynergy.com"
+      "host": "linkedinmobileapp.com",
+      "covered_by": "linkedinmobileapp.com"
     },
     {
       "host": "live.com",
       "covered_by": "live.com"
     },
     {
-      "host": "livepassdl.conviva.com",
-      "covered_by": "livepassdl.conviva.com"
+      "host": "live.net",
+      "covered_by": "live.net"
     },
     {
-      "host": "lm.licenses.adobe.com",
-      "covered_by": "adobe.com"
+      "host": "lnkd.in",
+      "covered_by": "lnkd.in"
     },
     {
-      "host": "login.live.com",
-      "covered_by": "live.com"
+      "host": "loganalytics.io",
+      "covered_by": "loganalytics.io"
     },
     {
-      "host": "login.microsoftonline.com",
-      "covered_by": "microsoftonline.com"
+      "host": "loganalytics.us",
+      "covered_by": "loganalytics.us"
     },
     {
-      "host": "login.teamviewer.com",
-      "covered_by": "teamviewer.com"
+      "host": "luis.ai",
+      "covered_by": "luis.ai"
     },
     {
-      "host": "logincdn.msauth.net",
-      "covered_by": "msauth.net"
+      "host": "lync.com",
+      "covered_by": "lync.com"
     },
     {
-      "host": "lotustalk.com",
-      "covered_by": "lotustalk.com"
-    },
-    {
-      "host": "m.weeklyad.target.com",
-      "covered_by": "target.com"
-    },
-    {
-      "host": "manifest.auditude.com",
-      "covered_by": "manifest.auditude.com"
-    },
-    {
-      "host": "manifest.googlevideo.com",
-      "covered_by": "googlevideo.com"
-    },
-    {
-      "host": "market.spotify.com",
-      "covered_by": "spotify.com"
-    },
-    {
-      "host": "marketplace.visualstudio.com",
-      "covered_by": "visualstudio.com"
-    },
-    {
-      "host": "marketwatch.com",
-      "covered_by": "marketwatch.com"
-    },
-    {
-      "host": "media.licdn.com",
-      "covered_by": "licdn.com"
-    },
-    {
-      "host": "media.sbs.com.au",
-      "covered_by": "sbs.com.au"
-    },
-    {
-      "host": "medium.com",
-      "covered_by": "medium.com"
-    },
-    {
-      "host": "merriam-webster.com",
-      "covered_by": "merriam-webster.com"
-    },
-    {
-      "host": "messenger.com",
-      "covered_by": "messenger.com"
-    },
-    {
-      "host": "meta-db-worker02.pop.ric.plex.bz",
-      "covered_by": "meta-db-worker02.pop.ric.plex.bz"
-    },
-    {
-      "host": "meta.plex.bz",
-      "covered_by": "meta.plex.bz"
-    },
-    {
-      "host": "meta.plex.tv",
-      "covered_by": "meta.plex.tv"
+      "host": "mgt.dev",
+      "covered_by": "mgt.dev"
     },
     {
       "host": "microsoft.com",
       "covered_by": "microsoft.com"
     },
     {
+      "host": "microsoft.net",
+      "covered_by": "microsoft.net"
+    },
+    {
+      "host": "microsoft.org",
+      "covered_by": "microsoft.org"
+    },
+    {
+      "host": "microsoft365.com",
+      "covered_by": "microsoft365.com"
+    },
+    {
+      "host": "microsoftapp.net",
+      "covered_by": "microsoftapp.net"
+    },
+    {
+      "host": "microsoftazuread-sso.com",
+      "covered_by": "microsoftazuread-sso.com"
+    },
+    {
+      "host": "microsoftcloud.com",
+      "covered_by": "microsoftcloud.com"
+    },
+    {
       "host": "microsoftonline.com",
       "covered_by": "microsoftonline.com"
+    },
+    {
+      "host": "microsoftonline.net",
+      "covered_by": "microsoftonline.net"
+    },
+    {
+      "host": "microsoftstart.com",
+      "covered_by": "microsoftstart.com"
+    },
+    {
+      "host": "microsofttranslator.com",
+      "covered_by": "microsofttranslator.com"
+    },
+    {
+      "host": "midasplayer.cloud",
+      "covered_by": "midasplayer.cloud"
+    },
+    {
+      "host": "midasplayer.com",
+      "covered_by": "midasplayer.com"
+    },
+    {
+      "host": "minecraft-services.net",
+      "covered_by": "minecraft-services.net"
     },
     {
       "host": "minecraft.net",
       "covered_by": "minecraft.net"
     },
     {
-      "host": "mobile-ap.spotify.com",
-      "covered_by": "spotify.com"
+      "host": "minecraftservices.com",
+      "covered_by": "minecraftservices.com"
     },
     {
       "host": "mojang.com",
       "covered_by": "mojang.com"
     },
     {
-      "host": "mqtt-mini.facebook.com",
-      "covered_by": "facebook.com"
+      "host": "msads.net",
+      "covered_by": "msads.net"
     },
     {
       "host": "msauth.net",
       "covered_by": "msauth.net"
     },
     {
+      "host": "msauthimages.net",
+      "covered_by": "msauthimages.net"
+    },
+    {
+      "host": "msedge.net",
+      "covered_by": "msedge.net"
+    },
+    {
+      "host": "msft.com",
+      "covered_by": "msft.com"
+    },
+    {
       "host": "msftauth.net",
       "covered_by": "msftauth.net"
+    },
+    {
+      "host": "msftauthimages.net",
+      "covered_by": "msftauthimages.net"
     },
     {
       "host": "msftconnecttest.com",
       "covered_by": "msftconnecttest.com"
     },
     {
+      "host": "msftidentity.com",
+      "covered_by": "msftidentity.com"
+    },
+    {
       "host": "msftncsi.com",
       "covered_by": "msftncsi.com"
+    },
+    {
+      "host": "msftstatic.com",
+      "covered_by": "msftstatic.com"
+    },
+    {
+      "host": "msgamestudios.com",
+      "covered_by": "msgamestudios.com"
+    },
+    {
+      "host": "mshome.net",
+      "covered_by": "mshome.net"
+    },
+    {
+      "host": "msidentity.com",
+      "covered_by": "msidentity.com"
+    },
+    {
+      "host": "msn.ca",
+      "covered_by": "msn.ca"
     },
     {
       "host": "msn.com",
       "covered_by": "msn.com"
     },
     {
-      "host": "my.plexapp.com",
-      "covered_by": "my.plexapp.com"
+      "host": "msn.de",
+      "covered_by": "msn.de"
     },
     {
-      "host": "nationalgeographic.com",
-      "covered_by": "nationalgeographic.com"
+      "host": "msocdn.com",
+      "covered_by": "msocdn.com"
     },
     {
-      "host": "netflix.com",
-      "covered_by": "netflix.com"
-    },
-    {
-      "host": "news.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "newslink.reuters.com",
-      "covered_by": "reuters.com"
-    },
-    {
-      "host": "nexusrules.officeapps.live.com",
-      "covered_by": "live.com"
-    },
-    {
-      "host": "nike.com",
-      "covered_by": "nike.com"
-    },
-    {
-      "host": "nine.plugins.plexapp.com",
-      "covered_by": "nine.plugins.plexapp.com"
-    },
-    {
-      "host": "no-ip.com",
-      "covered_by": "no-ip.com"
-    },
-    {
-      "host": "node.plexapp.com",
-      "covered_by": "node.plexapp.com"
-    },
-    {
-      "host": "nordvpn.com",
-      "covered_by": "nordvpn.com"
-    },
-    {
-      "host": "notify.xboxlive.com",
-      "covered_by": "xboxlive.com"
-    },
-    {
-      "host": "npr-news.streaming.adswizz.com",
-      "covered_by": "npr-news.streaming.adswizz.com"
-    },
-    {
-      "host": "ns1.dropbox.com",
-      "covered_by": "dropbox.com"
-    },
-    {
-      "host": "ns2.dropbox.com",
-      "covered_by": "dropbox.com"
-    },
-    {
-      "host": "nt3.ggpht.com",
-      "covered_by": "ggpht.com"
-    },
-    {
-      "host": "nytimes.com",
-      "covered_by": "nytimes.com"
-    },
-    {
-      "host": "o1.email.plex.tv",
-      "covered_by": "o1.email.plex.tv"
-    },
-    {
-      "host": "o2.sg0.plex.tv",
-      "covered_by": "o2.sg0.plex.tv"
-    },
-    {
-      "host": "ocsp.apple.com",
-      "covered_by": "apple.com"
-    },
-    {
-      "host": "ocsp.rootg2.amazontrust.com",
-      "covered_by": "ocsp.rootg2.amazontrust.com"
+      "host": "nuget.org",
+      "covered_by": "nuget.org"
     },
     {
       "host": "office.com",
@@ -2621,824 +1300,227 @@
       "covered_by": "office365.com"
     },
     {
-      "host": "officeclient.microsoft.com",
-      "covered_by": "microsoft.com"
-    },
-    {
-      "host": "om.cbsi.com",
-      "covered_by": "om.cbsi.com"
-    },
-    {
       "host": "onedrive.com",
       "covered_by": "onedrive.com"
     },
     {
-      "host": "onedrive.live.com",
-      "covered_by": "live.com"
+      "host": "onmicrosoft.com",
+      "covered_by": "onmicrosoft.com"
     },
     {
-      "host": "onenetworkdirect.net",
-      "covered_by": "onenetworkdirect.net"
-    },
-    {
-      "host": "ota-downloads.nvidia.com",
-      "covered_by": "nvidia.com"
+      "host": "onnxruntime.ai",
+      "covered_by": "onnxruntime.ai"
     },
     {
       "host": "outlook.com",
       "covered_by": "outlook.com"
     },
     {
-      "host": "outlook.live.com",
-      "covered_by": "live.com"
+      "host": "outlook.eu",
+      "covered_by": "outlook.eu"
     },
     {
-      "host": "outlook.office365.com",
-      "covered_by": "office365.com"
+      "host": "outlookmobile.com",
+      "covered_by": "outlookmobile.com"
     },
     {
-      "host": "ow.ly",
-      "covered_by": "ow.ly"
+      "host": "passport.net",
+      "covered_by": "passport.net"
     },
     {
-      "host": "partners.webmasterplan.com",
-      "covered_by": "partners.webmasterplan.com"
+      "host": "playfab.com",
+      "covered_by": "playfab.com"
     },
     {
-      "host": "paypal.com",
-      "covered_by": "paypal.com"
+      "host": "playfabapi.com",
+      "covered_by": "playfabapi.com"
     },
     {
-      "host": "pgl.yoyo.org",
-      "covered_by": "pgl.yoyo.org"
+      "host": "playwright.dev",
+      "covered_by": "playwright.dev"
     },
     {
-      "host": "pings.conviva.com",
-      "covered_by": "pings.conviva.com"
+      "host": "powerapps.com",
+      "covered_by": "powerapps.com"
     },
     {
-      "host": "pinimg.com",
-      "covered_by": "pinimg.com"
+      "host": "powerautomate.com",
+      "covered_by": "powerautomate.com"
     },
     {
-      "host": "pinterest.com",
-      "covered_by": "pinterest.com"
+      "host": "powerplatform.com",
+      "covered_by": "powerplatform.com"
     },
     {
-      "host": "placehold.it",
-      "covered_by": "placehold.it"
+      "host": "powershellgallery.com",
+      "covered_by": "powershellgallery.com"
     },
     {
-      "host": "placeholdit.imgix.net",
-      "covered_by": "imgix.net"
+      "host": "s-msft.com",
+      "covered_by": "s-msft.com"
     },
     {
-      "host": "platform.instagram.com",
-      "covered_by": "instagram.com"
+      "host": "s-msn.com",
+      "covered_by": "s-msn.com"
     },
     {
-      "host": "play.google.com",
-      "covered_by": "play.google.com"
+      "host": "seaofthieves.com",
+      "covered_by": "seaofthieves.com"
     },
     {
-      "host": "player.vimeo.com",
-      "covered_by": "vimeo.com"
-    },
-    {
-      "host": "players.brightcove.net",
-      "covered_by": "brightcove.net"
-    },
-    {
-      "host": "players.pluto.tv",
-      "covered_by": "players.pluto.tv"
-    },
-    {
-      "host": "playstation.com",
-      "covered_by": "playstation.com"
-    },
-    {
-      "host": "plugins.jetbrains.com",
-      "covered_by": "jetbrains.com"
-    },
-    {
-      "host": "plus.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "pmd.cdn.turner.com",
-      "covered_by": "pmd.cdn.turner.com"
-    },
-    {
-      "host": "pricelist.skype.com",
-      "covered_by": "skype.com"
-    },
-    {
-      "host": "prod.telemetry.ros.rockstargames.com",
-      "covered_by": "rockstargames.com"
-    },
-    {
-      "host": "products.office.com",
-      "covered_by": "office.com"
-    },
-    {
-      "host": "protonmail.com",
-      "covered_by": "protonmail.com"
-    },
-    {
-      "host": "proxy.novafusion.ea.com",
-      "covered_by": "ea.com"
-    },
-    {
-      "host": "proxy.plex.bz",
-      "covered_by": "proxy.plex.bz"
-    },
-    {
-      "host": "proxy.plex.tv",
-      "covered_by": "proxy.plex.tv"
-    },
-    {
-      "host": "proxy02.pop.ord.plex.bz",
-      "covered_by": "proxy02.pop.ord.plex.bz"
-    },
-    {
-      "host": "pubsub.plex.bz",
-      "covered_by": "pubsub.plex.bz"
-    },
-    {
-      "host": "pubsub.plex.tv",
-      "covered_by": "pubsub.plex.tv"
-    },
-    {
-      "host": "pypi.org",
-      "covered_by": "pypi.org"
-    },
-    {
-      "host": "raw.github.com",
-      "covered_by": "github.com"
-    },
-    {
-      "host": "raw.githubusercontent.com",
-      "covered_by": "githubusercontent.com"
-    },
-    {
-      "host": "reddit.com",
-      "covered_by": "reddit.com"
-    },
-    {
-      "host": "redirect.at",
-      "covered_by": "redirect.at"
-    },
-    {
-      "host": "redirector.googlevideo.com",
-      "covered_by": "googlevideo.com"
-    },
-    {
-      "host": "refersion.com",
-      "covered_by": "refersion.com"
-    },
-    {
-      "host": "registry.npmjs.org",
-      "covered_by": "npmjs.org"
-    },
-    {
-      "host": "res.cloudinary.com",
-      "covered_by": "cloudinary.com"
-    },
-    {
-      "host": "resources.sbs.com.au",
-      "covered_by": "sbs.com.au"
-    },
-    {
-      "host": "s-passets-cache-ak0.pinimg.com",
-      "covered_by": "pinimg.com"
-    },
-    {
-      "host": "s.cdn.turner.com",
-      "covered_by": "s.cdn.turner.com"
-    },
-    {
-      "host": "s.gateway.messenger.live.com",
-      "covered_by": "live.com"
-    },
-    {
-      "host": "s.marketwatch.com",
-      "covered_by": "marketwatch.com"
-    },
-    {
-      "host": "s.pinimg.com",
-      "covered_by": "pinimg.com"
-    },
-    {
-      "host": "s.youtube.com",
-      "covered_by": "youtube.com"
-    },
-    {
-      "host": "s.ytimg.com",
-      "covered_by": "ytimg.com"
-    },
-    {
-      "host": "s.zkcdn.net",
-      "covered_by": "s.zkcdn.net"
-    },
-    {
-      "host": "s1.wp.com",
-      "covered_by": "wp.com"
-    },
-    {
-      "host": "s2.youtube.com",
-      "covered_by": "youtube.com"
-    },
-    {
-      "host": "s3-eu-west-1.amazonaws.com",
-      "covered_by": "amazonaws.com"
-    },
-    {
-      "host": "s3.amazonaws.com",
-      "covered_by": "amazonaws.com"
-    },
-    {
-      "host": "samsung.com",
-      "covered_by": "samsung.com"
-    },
-    {
-      "host": "sbs.com.au",
-      "covered_by": "sbs.com.au"
-    },
-    {
-      "host": "sbsvodns-vh.akamaihd.net",
-      "covered_by": "akamaihd.net"
-    },
-    {
-      "host": "scontent-iad3-1.cdninstagram.com",
-      "covered_by": "cdninstagram.com"
-    },
-    {
-      "host": "scontent-lhr3-1.xx.fbcdn.net",
-      "covered_by": "fbcdn.net"
-    },
-    {
-      "host": "scontent.fgdl5-1.fna.fbcdn.net",
-      "covered_by": "fbcdn.net"
-    },
-    {
-      "host": "scontent.xx.fbcdn.net",
-      "covered_by": "fbcdn.net"
-    },
-    {
-      "host": "secure.brightcove.com",
-      "covered_by": "secure.brightcove.com"
-    },
-    {
-      "host": "secure.netflix.com",
-      "covered_by": "netflix.com"
-    },
-    {
-      "host": "secure.surveymonkey.com",
-      "covered_by": "secure.surveymonkey.com"
-    },
-    {
-      "host": "services.sonarr.tv",
-      "covered_by": "services.sonarr.tv"
-    },
-    {
-      "host": "shareaholic.com",
-      "covered_by": "shareaholic.com"
-    },
-    {
-      "host": "shareasale-analytics.com",
-      "covered_by": "shareasale-analytics.com"
-    },
-    {
-      "host": "shareasale.com",
-      "covered_by": "shareasale.com"
+      "host": "sfx.ms",
+      "covered_by": "sfx.ms"
     },
     {
       "host": "sharepoint.com",
       "covered_by": "sharepoint.com"
     },
     {
-      "host": "shop.samsung.com",
-      "covered_by": "samsung.com"
+      "host": "sharepointonline.com",
+      "covered_by": "sharepointonline.com"
     },
     {
-      "host": "silo.pluto.tv",
-      "covered_by": "silo.pluto.tv"
+      "host": "skype.co",
+      "covered_by": "skype.co"
     },
     {
-      "host": "siloh.pluto.tv",
-      "covered_by": "siloh.pluto.tv"
-    },
-    {
-      "host": "skyhook.sonarr.tv",
-      "covered_by": "skyhook.sonarr.tv"
+      "host": "skype.co.uk",
+      "covered_by": "skype.co.uk"
     },
     {
       "host": "skype.com",
       "covered_by": "skype.com"
     },
     {
-      "host": "snapchat.com",
-      "covered_by": "snapchat.com"
+      "host": "skype.net",
+      "covered_by": "skype.net"
     },
     {
-      "host": "spclient.wg.spotify.com",
-      "covered_by": "spotify.com"
+      "host": "skypeforbusiness.com",
+      "covered_by": "skypeforbusiness.com"
     },
     {
-      "host": "sqs.us-east-1.amazonaws.com",
-      "covered_by": "amazonaws.com"
+      "host": "spo-msedge.net",
+      "covered_by": "spo-msedge.net"
     },
     {
-      "host": "ssl.google-analytics.com",
-      "covered_by": "google-analytics.com"
+      "host": "spov-msedge.net",
+      "covered_by": "spov-msedge.net"
     },
     {
-      "host": "ssl.p.jwpcdn.com",
-      "covered_by": "ssl.p.jwpcdn.com"
+      "host": "svc.ms",
+      "covered_by": "svc.ms"
     },
     {
-      "host": "stackexchange.com",
-      "covered_by": "stackexchange.com"
+      "host": "sysinternals.com",
+      "covered_by": "sysinternals.com"
     },
     {
-      "host": "staging.plex.tv",
-      "covered_by": "staging.plex.tv"
+      "host": "t-msedge.net",
+      "covered_by": "t-msedge.net"
     },
     {
-      "host": "startpage.com",
-      "covered_by": "startpage.com"
+      "host": "translatoruser.net",
+      "covered_by": "translatoruser.net"
     },
     {
-      "host": "static.licdn.com",
-      "covered_by": "licdn.com"
-    },
-    {
-      "host": "static.www.odcdn.com.edgekey.net",
-      "covered_by": "edgekey.net"
-    },
-    {
-      "host": "stats.streamelements.com",
-      "covered_by": "stats.streamelements.com"
-    },
-    {
-      "host": "status.plex.tv",
-      "covered_by": "status.plex.tv"
-    },
-    {
-      "host": "steamcommunity.com",
-      "covered_by": "steamcommunity.com"
-    },
-    {
-      "host": "stitcher.pluto.tv",
-      "covered_by": "stitcher.pluto.tv"
-    },
-    {
-      "host": "store.steampowered.com",
-      "covered_by": "steampowered.com"
-    },
-    {
-      "host": "sysctl.org",
-      "covered_by": "sysctl.org"
-    },
-    {
-      "host": "t.co",
-      "covered_by": "t.co"
-    },
-    {
-      "host": "t.ly",
-      "covered_by": "t.ly"
-    },
-    {
-      "host": "t0.ssl.ak.dynamic.tiles.virtualearth.net",
-      "covered_by": "t0.ssl.ak.dynamic.tiles.virtualearth.net"
-    },
-    {
-      "host": "t0.ssl.ak.tiles.virtualearth.net",
-      "covered_by": "t0.ssl.ak.tiles.virtualearth.net"
-    },
-    {
-      "host": "target.com",
-      "covered_by": "target.com"
-    },
-    {
-      "host": "tawk.to",
-      "covered_by": "tawk.to"
-    },
-    {
-      "host": "tc.tradetracker.com",
-      "covered_by": "tc.tradetracker.com"
-    },
-    {
-      "host": "teamviewer.com",
-      "covered_by": "teamviewer.com"
-    },
-    {
-      "host": "tedcdn.com",
-      "covered_by": "tedcdn.com"
-    },
-    {
-      "host": "themoviedb.com",
-      "covered_by": "themoviedb.com"
-    },
-    {
-      "host": "thetvdb.com",
-      "covered_by": "thetvdb.com"
-    },
-    {
-      "host": "time.samsungcloudsolution.com",
-      "covered_by": "time.samsungcloudsolution.com"
-    },
-    {
-      "host": "tinyurl.com",
-      "covered_by": "tinyurl.com"
-    },
-    {
-      "host": "title.auth.xboxlive.com",
-      "covered_by": "xboxlive.com"
-    },
-    {
-      "host": "title.mgt.xboxlive.com",
-      "covered_by": "xboxlive.com"
-    },
-    {
-      "host": "todo-ta-g7g.amazon.com",
-      "covered_by": "amazon.com"
-    },
-    {
-      "host": "track.adform.net",
-      "covered_by": "track.adform.net"
-    },
-    {
-      "host": "track.aliexpress.com",
-      "covered_by": "aliexpress.com"
-    },
-    {
-      "host": "tradetracker.net",
-      "covered_by": "tradetracker.net"
-    },
-    {
-      "host": "traffic.libsyn.com",
-      "covered_by": "traffic.libsyn.com"
-    },
-    {
-      "host": "tumblr.com",
-      "covered_by": "tumblr.com"
-    },
-    {
-      "host": "tvdb2.plex.tv",
-      "covered_by": "tvdb2.plex.tv"
-    },
-    {
-      "host": "tvthemes.plexapp.com",
-      "covered_by": "tvthemes.plexapp.com"
-    },
-    {
-      "host": "tvthemes.plexapp.com.cdn.cloudflare.net",
-      "covered_by": "cloudflare.net"
-    },
-    {
-      "host": "twimg.com",
-      "covered_by": "twimg.com"
-    },
-    {
-      "host": "twitch.tv",
-      "covered_by": "twitch.tv"
-    },
-    {
-      "host": "ui.skype.com",
-      "covered_by": "skype.com"
-    },
-    {
-      "host": "unagi-na.amazon.com",
-      "covered_by": "amazon.com"
-    },
-    {
-      "host": "update.code.visualstudio.com",
-      "covered_by": "visualstudio.com"
-    },
-    {
-      "host": "upgrade.scdn.com",
-      "covered_by": "upgrade.scdn.com"
-    },
-    {
-      "host": "us-east-1.amazonaws.com",
-      "covered_by": "amazonaws.com"
-    },
-    {
-      "host": "v.pinimg.com",
-      "covered_by": "pinimg.com"
-    },
-    {
-      "host": "v10.events.data.microsoft.com",
-      "covered_by": "microsoft.com"
-    },
-    {
-      "host": "v20.events.data.microsoft.com",
-      "covered_by": "microsoft.com"
-    },
-    {
-      "host": "video-stats.l.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "videocdn-sbs.akamaized.net",
-      "covered_by": "akamaized.net"
-    },
-    {
-      "host": "videolan.org",
-      "covered_by": "videolan.org"
-    },
-    {
-      "host": "videos.vidible.tv",
-      "covered_by": "videos.vidible.tv"
-    },
-    {
-      "host": "vidtech.cbsinteractive.com",
-      "covered_by": "vidtech.cbsinteractive.com"
+      "host": "virtualearth.net",
+      "covered_by": "virtualearth.net"
     },
     {
       "host": "visualstudio.com",
       "covered_by": "visualstudio.com"
     },
     {
-      "host": "vk.com",
-      "covered_by": "vk.com"
+      "host": "visualstudio.net",
+      "covered_by": "visualstudio.net"
     },
     {
-      "host": "vsstartpage.blob.core.windows.net",
-      "covered_by": "windows.net"
+      "host": "vsassets.io",
+      "covered_by": "vsassets.io"
     },
     {
-      "host": "walmart.com",
-      "covered_by": "walmart.com"
+      "host": "vscode-cdn.net",
+      "covered_by": "vscode-cdn.net"
     },
     {
-      "host": "washingtonpost.com",
-      "covered_by": "washingtonpost.com"
+      "host": "vscode.dev",
+      "covered_by": "vscode.dev"
     },
     {
-      "host": "web.de",
-      "covered_by": "web.de"
-    },
-    {
-      "host": "weeklyad.target.com",
-      "covered_by": "target.com"
-    },
-    {
-      "host": "weeklyad.target.com.edgesuite.net",
-      "covered_by": "edgesuite.net"
-    },
-    {
-      "host": "widget-cdn.rpxnow.com",
-      "covered_by": "widget-cdn.rpxnow.com"
-    },
-    {
-      "host": "wikimedia.org",
-      "covered_by": "wikimedia.org"
-    },
-    {
-      "host": "win10.ipv6.microsoft.com",
-      "covered_by": "microsoft.com"
+      "host": "windows.com",
+      "covered_by": "windows.com"
     },
     {
       "host": "windows.net",
       "covered_by": "windows.net"
     },
     {
-      "host": "wp.com",
-      "covered_by": "wp.com"
+      "host": "windowsazure.com",
+      "covered_by": "windowsazure.com"
     },
     {
-      "host": "ws.audioscrobbler.com",
-      "covered_by": "ws.audioscrobbler.com"
+      "host": "windowsupdate.com",
+      "covered_by": "windowsupdate.com"
+    },
+    {
+      "host": "xandr.com",
+      "covered_by": "xandr.com"
+    },
+    {
+      "host": "xbox.co",
+      "covered_by": "xbox.co"
     },
     {
       "host": "xbox.com",
       "covered_by": "xbox.com"
     },
     {
-      "host": "xbox.ipv6.microsoft.com",
-      "covered_by": "microsoft.com"
+      "host": "xboxab.com",
+      "covered_by": "xboxab.com"
     },
     {
-      "host": "xboxexperiencesprod.experimentation.xboxlive.com",
-      "covered_by": "xboxlive.com"
+      "host": "xboxab.net",
+      "covered_by": "xboxab.net"
     },
     {
       "host": "xboxlive.com",
       "covered_by": "xboxlive.com"
     },
     {
-      "host": "xflight.xboxlive.com",
-      "covered_by": "xboxlive.com"
+      "host": "xboxservices.com",
+      "covered_by": "xboxservices.com"
     },
     {
-      "host": "xkms.xboxlive.com",
-      "covered_by": "xboxlive.com"
+      "host": "yammer.com",
+      "covered_by": "yammer.com"
     },
     {
-      "host": "xmpp-server.l.google.com",
-      "covered_by": "google.com"
-    },
-    {
-      "host": "xsts.auth.xboxlive.com",
-      "covered_by": "xboxlive.com"
-    },
-    {
-      "host": "youtu.be",
-      "covered_by": "youtu.be"
-    },
-    {
-      "host": "youtube-nocookie.com",
-      "covered_by": "youtube-nocookie.com"
-    },
-    {
-      "host": "yt3.ggpht.com",
-      "covered_by": "ggpht.com"
-    },
-    {
-      "host": "z.cdn.turner.com",
-      "covered_by": "z.cdn.turner.com"
-    },
-    {
-      "host": "zee.cws.conviva.com",
-      "covered_by": "cws.conviva.com"
-    },
-    {
-      "host": "zeustracker.abuse.ch",
-      "covered_by": "zeustracker.abuse.ch"
+      "host": "yammerusercontent.com",
+      "covered_by": "yammerusercontent.com"
     }
   ],
-  "dropped": {
-    "5231.xg4ken.com": "a numbered subdomain on a parked domain",
-    "7eer.net": "parked; a numbered subdomain of a parked domain",
-    "anrdoezrs.net": "throwaway redirect host",
-    "apmebf.com": "throwaway",
-    "dpbolvw.net": "throwaway",
-    "evyy.net": "throwaway",
-    "go.redirectingat.com": "redirector for redirectingat.com, which is dropped above",
-    "go.skimresources.com": "Skimresources is a dead link-shortening affiliate service",
-    "go2jump.org": "shortener that resolves to nothing stable",
-    "gopjn.com": "throwaway",
-    "hosts-file.net": "a hosts file mirror, not a service",
-    "hostsfile.mine.nu": "a hosts file mirror, not a service",
-    "hostsfile.org": "a hosts file mirror, not a service",
-    "imagesak.secureserver.net": "GoDaddy SecureSite infrastructure; no category of its own",
-    "img.vidible.tv": "under vidible.tv, which the rule above already covers",
-    "jdoqocy.com": "throwaway",
-    "keystone.mwbsys.com": "throwaway",
-    "kqzyfj.com": "throwaway",
-    "ojrq.net": "throwaway",
-    "pixel.nymag.com": "third-party pixel under a publisher; no category of its own",
-    "pjatr.com": "throwaway",
-    "pjtra.com": "throwaway",
-    "pntra.com": "throwaway",
-    "pntrac.com": "throwaway",
-    "pntrack.com": "throwaway",
-    "qksrv.net": "throwaway",
-    "redirect.viglink.com": "affiliate redirector with no product",
-    "redirectingat.com": "throwaway",
-    "sa.symcb.com": "symantec infrastructure, folded into the wider domain",
-    "secure.avangate.com": "avangate is an old digicert brand; folded",
-    "someonewhocares.org": "a hosts file mirror, not a service",
-    "tkqlhce.com": "throwaway",
-    "track.ucas.com": "tracking under a university domain; folded",
-    "track.webgains.com": "under webgains.com, which the ads rule already covers",
-    "v.firebog.net": "an adblock filter list host",
-    "winhelp2002.mvps.org": "a troubleshooting site, not a service"
-  },
+  "dropped": {},
   "needs_review": [
     {
       "host": "1drv.ms",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "1fichier.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "1und1.de",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "2shared.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "4shared.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "70i.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "abc.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "abcnews.go.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "accessvb.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "accuweather.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "acehardware.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "acikakademi.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "adaway.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "adb.juvander.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "adblock.dk",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "adblock.ee",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "adblock.mahakala.is",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "adblockplus.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "adecn.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "adidas.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "advanceautoparts.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "agecommunity.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "alexa.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "allegro.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "alluremedia.com.au",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "alternativeto.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "androidforums.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "answers.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "api.accuweather.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "api.picsart.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "api.rlje.net",
-      "source": "goodnessjson-whitelist"
-    },
-    {
-      "host": "apkaward.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "apkpure.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "apps.mil",
@@ -3453,184 +1535,36 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "archive.icann.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "arstechnica.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "articles.latimes.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "asics.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "ask.fm",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "askubuntu.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "aspnetboilerplate.com",
-      "source": "omaskery-proxy-exceptions"
-    },
-    {
       "host": "assets-yammer.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "auth.gfx.ms",
-      "source": "omaskery-proxy-exceptions"
-    },
-    {
-      "host": "authorisation.api.bunnings.com.au",
-      "source": "goodnessjson-whitelist"
-    },
-    {
-      "host": "avsforum.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "azure-e2e.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "azure-intapp.net",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "baltimore.cbslocal.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "bbs.archlinux.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "bcee.lu",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "bcentral.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "bedbathandbeyond.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "betanews.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "bgr.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "bhashaindia.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "bialystok.tvp.pl",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "bill.ms.net",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "billiger.de",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "bingmaps.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "bingmapsportal.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "bleacherreport.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "blocklist.kowabit.de",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "blz-contentstack.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "board.jdownloader.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "bokser.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "boston.cbslocal.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "bosxlab.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "bowercdn.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "boxrec.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "brakrock.be",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "breitbart.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "buildwindowscontest.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "businessfinder.nj.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "businessinsider.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "buzzfeed.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "bydgoszcz.tvp.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "ca-lb.ultimedia.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "cbecloud.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "ccleaner.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "ccsctp.com",
@@ -3641,78 +1575,6 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "cda.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cdn.datatables.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cdn.embed.ly",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cdn.fluidplayer.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cdn.fontawesome.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cdn.jscloudflare.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cdn.jwplayer.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cdn.plyr.io",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cdn.radiantmediatechs.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cdn.rawgit.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cdn.statically.io",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cdn.staticaly.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cdn.unpkg.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cdn.viblast.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cdn1.hubspot.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cdn2.hubspot.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cdpn.io",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "chicago.cbslocal.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "chinacloudapi.cn",
       "source": "hotcakex-microsoft-domains"
     },
@@ -3721,24 +1583,12 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "chomikuj.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "clicktoattend.ca",
       "source": "hotcakex-microsoft-domains"
     },
     {
       "host": "clicktoattend.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "client.px-cdn.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "client.px-cloud.net",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "clipchamp.com",
@@ -3769,72 +1619,20 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "code.createjs.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "code.responsivevoice.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "codeguru.pl",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "collegehumor.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "collegepuzzlechallenge.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "community.spiceworks.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "community.ukg.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "comnunidaddemadrid.solution.weborama.fr",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "content.jwplatform.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "cortana.ai",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "cosmopolitan.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "costco.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "crackdownoncrime.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "cracked.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cracovia.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "crateandbarrel.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "creativecommons.org",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "crmliveperf.com",
@@ -3845,14 +1643,6 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "crunchbase.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "cvs.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "d365ccafpi.com",
       "source": "hotcakex-microsoft-domains"
     },
@@ -3861,56 +1651,8 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "data.iana.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "datafilehost.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "datei.to",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "db.local.clamav.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "dell.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "demo-staging.jifflenow.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "demotywatory.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "denis-ovs.narod.ru",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "devtunnels.ms",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "di.com.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "digg.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "digitalcrimescommunity.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "digitaltrends.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "digitalwpc.com",
@@ -3921,48 +1663,12 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "disclose.tv",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "discoverbing.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "discovermagazine.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "disqus.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "distributions.crowdin.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "dl.free.fr",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "dlvr.it",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "dn.se",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "dnsdemo4.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
       "host": "docs.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "download.cnet.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "dpetopscore.net",
@@ -4021,46 +1727,6 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "easybytez.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "easylist-downloads.adblockplus.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "edit.telegra.ph",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "email-link.adtidy.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "email-link.adtidy.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "embed.flowplayer.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "en.bab.la",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "engadget.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "eonline.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "ew.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "exchangelabs.com",
       "source": "hotcakex-microsoft-domains"
     },
@@ -4081,28 +1747,8 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "express.co.uk",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "expressen.se",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "f003.backblazeb2.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "facultyresourcecenter.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "familydollar.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "fastmail.fm",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "fastsearch.net",
@@ -4113,176 +1759,20 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "feedly.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "feeds2.feedburner.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "fhp-xlsp.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "fiddle.jshell.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "filefactory.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "filesmonster.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "filmweb.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "filmyhd.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "filters.adtidy.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "fluentui.dev",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "fm.tuba.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "footlocker-inc.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "footlocker.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "fortune.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "forum.avast.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "forum.dobreprogramy.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "forum.doom9.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "forum.paradoxplaza.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "forum.xda-developers.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "forums.appleinsider.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "forums.ilounge.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "forums.linuxmint.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "forums.macrumors.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "forums.mozillazine.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "forums.roku.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "forums.techguy.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "forums.whirlpool.net.au",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "fr-lb.ultimedia.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "fr.osdn.net",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "frameit.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "freebsd.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "freenet.de",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "frontbridge.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "frys.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "ftp.chocolatey.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "ftp.heanet.ie",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "funnyordie.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "g.co",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "gaia.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "gamerm-xlsp.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "gap.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "gawker.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "gazeta.pl",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "getmicrosoftkey.com",
@@ -4293,280 +1783,56 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "gfycat.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "gh.io",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "gigaom.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "git.io",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "git.teknik.io",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "gitcdn.link",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "gitee.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "github.community",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "gitter.im",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "gizmodo.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "gizmodo.com.au",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "gmx.at",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "gmx.ch",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "gmx.de",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "gmx.es",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "godaddy.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "gp.se",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "greasyfork.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "groove.net",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "groupon.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "guru3d.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "halowars.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "hbogo.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "hbogo.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "healthvault.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "heavy.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "heise.de",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "hitfile.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "hm.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "hollywoodlife.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "homedepot.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "hoopshype.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "horseanswerstoday.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "hostedrms.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "houston.cbslocal.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "howtoforge.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "hulkshare.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "i.imgur.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "i2.paste.pics",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "ibmits.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "icanhazip.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "id.sonyentertainmentnetwork.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "identitystandards.io",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "idg.se",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "ifmo.ru",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "ilslabs.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "image.ibb.co",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "imagebam.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "images.performgroup.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "images2.imgbox.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "imaginecup.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "imeipro.info",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "img.ultimedia.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "imgbox.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "imgur.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "indeed.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "inquisitr.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "insiderare.net",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "insomniagamingfestival.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "inst1-bing-int.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "investorplace.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "ip-api.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "ipinfo.io",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "ipla.tv",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "iponet.net",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "ipv64.net",
-      "source": "goodnessjson-whitelist"
-    },
-    {
       "host": "irbi.de",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "is.gd",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "istockphoto.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "iwposa.com",
@@ -4577,52 +1843,8 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "j.mp",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "jabcreations.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "jarofawesomesauce.info",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "jcpenney.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "jdownloader.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "jobs.lifehacker.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "joemonster.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "joewein.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "jqueryscript.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "js.media-lab.ai",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "jsfiddle.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "jwpsrv.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "kaiza.la",
@@ -4633,92 +1855,8 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "katowice.tvp.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "kickstarter.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "kidsfootlocker.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "kinectshare.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "kingworldnews.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "kit-free.fontawesome.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "kit-pro.fontawesome.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "kit.fontawesome.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "kmart.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "kohls.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "komputerswiat.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "kotaku.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "krakow.tvp.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "kroger.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "ladyfootlocker.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "laposte.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "lasvegas.cbslocal.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "latimes.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "latimesblogs.latimes.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "letribunaldunet.fr",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "lifehacker.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "limtu.ifmo.ru",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "lionhead-int.com",
@@ -4781,152 +1919,16 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "livefilestore.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "livemeeting.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "livesstream.work.gd",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "livestream.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "load.to",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "lodz.tvp.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "losangeles.cbslocal.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "lowes.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "lublin.tvp.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "lwn.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "m.apkpure.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "m.gitee.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "macys.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "madserver.net",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "majorgeeks.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "malwaredomainlist.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "malwaredomains.lehigh.edu",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "malwareurls.joxeankoret.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "manifest.prod.boltdns.net",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "mappoint.net",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "margevicius.lt",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "mashable.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "maxcdn.bootstrapcdn.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "maxthon.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "mcxtest.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "media-lab.ai",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "media.architecturaldigest.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "medialb.ultimedia.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "mediamarkt.at",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "mediamarkt.de",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "mediamarkt.es",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "mediamarkt.ie",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "mediamarkt.nl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "mediamarkt.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "mega.co.nz",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "mega.nz",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "menshealth.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "mentmschennai.net",
@@ -4965,20 +1967,8 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "mesh.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "mgsgamesonline.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
       "host": "mgsuserresearch.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "miami.cbslocal.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "microsft.net",
@@ -5073,27 +2063,7 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "microsoftadvertising.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "microsoftadvertisingdisplayconnect.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
       "host": "microsoftaffiliates.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "microsoftazure.de",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "microsoftazure.us",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "microsoftcasualgames.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
@@ -5313,26 +2283,6 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "minnesota.cbslocal.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "mistrzowie.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "mix1065fm.cbslocal.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "mlb.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "mls.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "mocptest.com",
       "source": "hotcakex-microsoft-domains"
     },
@@ -5351,10 +2301,6 @@
     {
       "host": "mover.io",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "mozillazine.org",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "mpcuat.com",
@@ -5382,22 +2328,6 @@
     },
     {
       "host": "mscds.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "msdev.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "msdn.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "msdnbrasil.com.br",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "msdnevents.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
@@ -5473,38 +2403,6 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "msn-int.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "msn-ppe.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "msn-tst.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "msn.co.in",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "msn.co.jp",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "msn.it",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "msn.se",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "msnmobile.in",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
       "host": "msocdn.us",
       "source": "hotcakex-microsoft-domains"
     },
@@ -5541,10 +2439,6 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "multiup.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "musiwave.com",
       "source": "hotcakex-microsoft-domains"
     },
@@ -5557,128 +2451,16 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "mywindowsmobile.co.uk",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "mywindowsmobile.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "mywot.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "namecheap.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "narcity.com.cdn.rebelmouse.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "naszdziennik.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "nba.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "nbcnews.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "nbcnewyork.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "nelreports.net",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "neowin.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "nesn.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "netbsd.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "netdna.bootstrapcdn.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "newegg.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "newjobs.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "news.ebc.net.tw",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "news.ycombinator.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "newsday.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "newsmax.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "newyork.cbslocal.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "nexus.passport.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "nfl.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "ng2pvp.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "nhl.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "nitroflare.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "nj.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "nk.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "npr.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "nsatc.net",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "nsatc.net",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "nuance.com",
@@ -5687,26 +2469,6 @@
     {
       "host": "nuget.info",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "ny.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "ny1.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "nydailynews.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "nymag.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "nypost.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "o365filtering.com",
@@ -5718,58 +2480,6 @@
     },
     {
       "host": "obacentral.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "oboom.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "observer.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "odcdn.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "office-int.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "office-int.net",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "office365.cn",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "office365.us",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "officeformac.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "officelabs-int.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "officelabs.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "officelivecontent.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "officeppe.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "officeppe.net",
       "source": "hotcakex-microsoft-domains"
     },
     {
@@ -5809,48 +2519,8 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "onet.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "onmicrosoft.us",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "open-ai.sgp1.digitaloceanspaces.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "open.fm",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "openbsd.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "opensubtitles.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "openuserjs.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "opinion.latimes.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "orange.fr",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "osnews.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "ouo.io",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "outlook-int.com",
@@ -5859,26 +2529,6 @@
     {
       "host": "outlook.cn",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "p.imgur.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "packages.chocolatey.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "packages.linuxmint.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "pando.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "paper.li",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "partnermarketingcenter.com",
@@ -5901,24 +2551,8 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "pastebin.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "people.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "pfsense.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "pgrnations.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "philadelphia.cbslocal.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "phonefactor.net",
@@ -5929,60 +2563,12 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "pi-hole.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "pilkanozna.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "pittsburgh.cbslocal.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "pkobp.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "placeware.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "play.lego.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "player.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "player.radio.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "playmsn.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "plugins.longtailvideo.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "pmese.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "pochta.ru",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "pomf.se",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "postimage.org",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "powerapps.us",
@@ -6001,168 +2587,36 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "prisjakt.nu",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "prnt.sc",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "prodmirror1-bing-int1.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
       "host": "projectgothamracing3.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "promodj.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "publicsuffix.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "publix.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "py.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "radiostacja.pl",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "rangers.ms",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "rapidgator.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "rapidvideo.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "raw.githack.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "rawcdn.githack.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "rawgit.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "rdst-internal.net",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "real-debrid.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "realestate.nj.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "realites.com.tn",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "recaptcha.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "redfin.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "reebok.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "releases.flowplayer.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "road.adblock.ro",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "roboticsathome.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "roku.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "rsfshares.info",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "rt.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "rtcppe.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "rutube.ru",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "rzeszow.tvp.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "s-microsoft.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "s.yimg.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "s1.symcb.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "s2.symcb.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "s3.symcb.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "s4.symcb.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "s5.symcb.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "sacramento.cbslocal.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "sales-wissen.de",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "sanfrancisco.cbslocal.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "sapphiresvc-int.com",
@@ -6173,44 +2627,8 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "satkurier.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "screenshots.firefox.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "scribd.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "sdk.privacy-center.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "searchperks.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "sears.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "secure.dshield.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "secure.livechatinc.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "securel.longtailvideo.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "secureplugins.longtailvideo.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "seedpowered.com",
@@ -6219,10 +2637,6 @@
     {
       "host": "segjax.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "sendspace.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "server-summit.de",
@@ -6237,48 +2651,12 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "share-online.biz",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "sharepoint-df.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "sharepoint-mil.us",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "sharepoint.cn",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "sharepoint.de",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "sharepoint.us",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
       "host": "shogun-xlsp.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "shop.lego.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "siatka.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "signalr.net",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "siteassets.parastorage.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "skydrive.com",
@@ -6297,32 +2675,12 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "slashdot.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "slate.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "sledgehammergames.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "slickdeals.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "smbchanneldev.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
       "host": "smdisp.net",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "solidfiles.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "solutiondemo.net",
@@ -6333,20 +2691,12 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "spb.ru",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "spgrid.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
       "host": "spgridpro.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "spiceworks.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "spolabs.com",
@@ -6357,88 +2707,16 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "sport.onet.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "sport.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "sports.latimes.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "spov-dc-msedge.net",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "sqlazurelabs.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "sqlazureservices.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "st.mycdn.me",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "stackpath.bootstrapcdn.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "staffhub.ms",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "staging-bing-int.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "stanev.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "starbucks.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "static.fontawesome.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "static.kickstarter.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "static.microsoft",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "static.parastorage.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "static.rust-lang.org",
-      "source": "omaskery-proxy-exceptions"
-    },
-    {
-      "host": "static.wixstatic.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "stopklatka.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "strefa.fm",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "support.honeywellaidc.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "surface.com",
@@ -6461,44 +2739,12 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "sweclockers.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "swiftkey.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
       "host": "systemcenteradvisor.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "szczecin.tvp.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "t-online.at",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "t-online.de",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "t.umblr.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "tag.aticdn.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "tampa.cbslocal.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "tampermonkey.net",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "task.ms",
@@ -6513,32 +2759,12 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "techguy.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "technetbrasil.com.br",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
       "host": "techpolicy.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "techrepublic.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "techsupportmarketplace.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "techtarget.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "telegra.ph",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "testexchangeconnectivity.com",
@@ -6557,34 +2783,6 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "tfsazure-qa.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "thechive.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "thefreethoughtproject.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "thehill.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "thenextweb.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "thepiratebay.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "theregister.co.uk",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "theultimatesteal.co.uk",
       "source": "hotcakex-microsoft-domains"
     },
@@ -6597,66 +2795,6 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "theverge.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "thumbs.videopress.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "thumbs2.imgbox.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "time.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "tinypic.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "tlc.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "tld-list.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "tm-azurefd.net",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "tmblr.co",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "tmz.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "tofukko.r.ribbon.to",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "tomshardware.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "torrentfreak.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "touchdevelop.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "toysrus.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "trafficmanager.cn",
       "source": "hotcakex-microsoft-domains"
     },
@@ -6665,96 +2803,12 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "travel.latimes.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "treyarch.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "tuba.fm",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "tunein.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "tusfiles.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "tv.wp.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "tvn24.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "tvnstyle.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "tvp.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "ublock.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "ubuntuforums.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "ultimedia.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "unibytes.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "unix.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "unpkg.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "uploaded.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "uploaded.to",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "uptobox.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "use.fontawesome.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "use.typekit.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "usercontent.microsoft",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "userscloud.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "userscripts-mirror.org",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "usgovcloudapi.net",
@@ -6765,228 +2819,36 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "variety.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "verisign.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "vice.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "videocopilot.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "videoindexer.ai",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "videopress.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "videos.videopress.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "visitmix.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "visualstudio.us",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "vitalia.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "vivapinata.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "vjs.zencdn.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "vkontakte.ru",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "vod.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "vod.tvp.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "void.gr",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "vox.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "vr-ov-crl.thawte.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "vsallin.net",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "vscode-unpkg.net",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "vsmarketplacebadges.dev",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "vulcan.condenastdigital.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "wacom.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "walgreens.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "waserviceslabs.com",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "washington.cbslocal.com",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "wbd.ms",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "weather.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "web.archive.org",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "webmail.laposte.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "webmail.orange.fr",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "webtv.net",
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "wetransfer.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "wetter.de",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "whirlpool.net.au",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "whiteboard.ms",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "who.is",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "windows-int.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "windows-int.net",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "windows-ppe.net",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "windows-tst.net",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "windows.us",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "windowsandme.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "windowsazure.cn",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "windowsazure.us",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "windowshpc.net",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "windowslivehelp.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "windowsmarketplace.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "windowsmedia.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "windowsphone-int.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "windowsphone.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "windowsphone.net",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "windowsphoneexpert.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "windowsupdate.nsatc.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "wired.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "wirtualnemedia.pl",
-      "source": "ultimate-hosts-whitelist"
     },
     {
       "host": "wlxrs-int.com",
@@ -7001,134 +2863,15 @@
       "source": "hotcakex-microsoft-domains"
     },
     {
-      "host": "wnba.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
       "host": "wpc08commnet.com",
       "source": "hotcakex-microsoft-domains"
     },
     {
       "host": "wss.pl",
       "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "wtkr.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "www12.0zz0.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "www8.0zz0.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "wykop.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "wyspagier.pl",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "xbox-ufc.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "xbox.jp",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "xbox360.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "xboxcompetition.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "xboxemea.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "xboxfriends.jp",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "xboxlivetournament.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "xboxone.eu",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "xboxtools.jp",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "xda-developers.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "xna.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "youvegotgamesweepstakes.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "yunfile.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "zajefajna.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "zencdn.net",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "zippyshare.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "ziprecruiter.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "zoominfo.com",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "zoso.ro",
-      "source": "ultimate-hosts-whitelist"
-    },
-    {
-      "host": "zune-ppe.net",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "zune.com",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "zune.net",
-      "source": "hotcakex-microsoft-domains"
-    },
-    {
-      "host": "zune.org",
-      "source": "hotcakex-microsoft-domains"
     }
   ],
   "review_source_counts": {
-    "goodnessjson-whitelist": 3,
-    "hotcakex-microsoft-domains": 430,
-    "omaskery-proxy-exceptions": 3,
-    "ultimate-hosts-whitelist": 518
+    "hotcakex-microsoft-domains": 342
   }
 }
