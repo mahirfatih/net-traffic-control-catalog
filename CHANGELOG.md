@@ -71,6 +71,13 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Fixed
 
+- **Category boundary corrections for Microsoft-owned domains.** Skype, Lync and
+  GroupMe are now `messaging` instead of `email`; Bing Maps surfaces are `maps`
+  instead of `search`; HockeyApp is `crash` instead of `analytics`.
+- **Category consistency guardrail** added to `test/test.sh` via
+  `scripts/catalog/audit-category-consistency.py`, so future vendor-list imports
+  cannot quietly collapse ads, analytics, maps, messaging, mail, AI, gaming and
+  CDN/product infrastructure into the wrong category.
 - **The reliability headline quoted the wrong number of correct hosts.**
   `README.md` and `docs/analysis/README.md` said **1,553/1,844**; the
   confusion matrix diagonal is **1,545/1,844** (83.79% → still 84%). The

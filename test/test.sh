@@ -226,6 +226,9 @@ PY
 step "10.5. Catalog overlap and distribution check"
 python3 scripts/catalog/check-overlaps.py
 
+step "10.6. Category consistency guardrails"
+python3 scripts/catalog/audit-category-consistency.py
+
 if [ "$FAST" -eq 0 ]; then
     step "11. Every script compiles"
     python3 -m py_compile scripts/*/*.py

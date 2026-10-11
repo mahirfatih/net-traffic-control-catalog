@@ -31,17 +31,17 @@ whole, so `facebook.com` covers `graph.facebook.com` without listing it.
 | `transport` | 42 | shipping, driving, ride and rail |
 | `encyclopedia` | 40 | reference, metadata, documentation |
 | `education` | 213 | schools, universities, courses |
-| `analytics` | 40 | measurement, crash reporting, experimentation |
-| `search` | 59 | search engines and search portals |
-| `messaging` | 27 | chat, mail, messaging |
-| `email` | 34 | mailbox providers |
+| `analytics` | 39 | measurement, crash reporting, experimentation |
+| `search` | 57 | search engines and search portals |
+| `messaging` | 33 | chat, mail, messaging |
+| `email` | 28 | mailbox providers |
 | `telecom` | 16 | carriers and network operators |
 | `other` | 14 | deliberately a last resort, not a fallback |
-| `crash` | 12 | crash and error reporting |
+| `crash` | 13 | crash and error reporting |
 | `crypto` | 10 | exchanges, wallets, chains |
 | `music` | 10 | streaming and audio |
 | `sports` | 7 | leagues, scores, fixtures |
-| `maps` | 1 | map tiles and geocoding |
+| `maps` | 3 | map tiles and geocoding |
 
 ### `other` is a decision
 
