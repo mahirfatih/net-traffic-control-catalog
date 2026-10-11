@@ -104,8 +104,8 @@ Hosts still missing a label are in [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md).
 
 ## Reliability
 
-An audit trains a text classifier on the labels above (TF-IDF +
-LinearSVC, 5-fold cross-validation) and asks how reliably each label
+An audit compares TF-IDF text classifiers, keeps LinearSVC for
+the detailed 5-fold cross-validation, and asks how reliably each label
 can be recovered from the host's own page: **accuracy 84%**
 over 1844 hosts across 19 categories.
 

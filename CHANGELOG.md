@@ -15,6 +15,8 @@ not for the data: `version` is bumped only on a breaking format change.
 - **Turkish news domains.** ~70 news hosts (`aa.com.tr`, `haber.com.tr`,
   `cnnturk.com`, etc.) added via `rules.json` → `news` category.
 - **Catalog reliability audit enhancements** (`scripts/analysis/`):
+  - **Model comparison** across TF-IDF + LinearSVC, logistic regression, and
+    multinomial naive Bayes before keeping LinearSVC for the detailed audit.
   - **LinearSVC model-weight terms** per category (complements chi-squared).
   - **Calibrated top-3 predictions** per host (in `matrix-data.json` and
     `high-confidence-errors.md`).
@@ -59,10 +61,14 @@ not for the data: `version` is bumped only on a breaking format change.
 - **`check-docs-fresh.mjs` now verifies the audit figures** against
   `docs/analysis/out/matrix-data.json` instead of trusting the prose: the
   headline accuracy, correct/total, class count, the whole per-class metric
-  table, and every `` `class` 0.xx `` F1 quoted in the Highest/Lowest lists.
+  table, the model-comparison table, and every `` `class` 0.xx `` F1 quoted in
+  the Highest/Lowest lists.
   The two wrong numbers above sat through eleven test runs because nothing
   compared them to the data they claimed to summarise. The check is skipped,
   with a note, when no analysis output is present.
+- **`check-overlaps.py` catalog quality report** added to `test/test.sh` step
+  10.5. It prints category distribution, deliberate category overrides, and
+  redundant subdomains that are already covered by a same-category ancestor.
 
 ### Added (earlier)
 
