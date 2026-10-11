@@ -80,6 +80,15 @@
       "allowed": true,
       "format": "ultimate-whitelist",
       "note": "Mixed whitelist syntax; parser deliberately ignores ALL/REG/RZD rules, IPs and sample/local names."
+    },
+    {
+      "id": "keloran-pihole-whitelist",
+      "name": "Keloran Pi-hole whitelist",
+      "url": "https://raw.githubusercontent.com/Keloran/pihole-whitelist/master/domains/whitelist.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "Small Pi-hole whitelist derived from/an adjacent to anudeepND-style allowlists. Mostly overlap; retained as a delta source."
     }
   ]
 }

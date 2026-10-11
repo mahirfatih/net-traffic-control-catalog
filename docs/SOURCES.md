@@ -28,6 +28,7 @@ already decided, and refuses any category outside the vocabulary.
 | `goodnessjson-optional` | MIT | Optional GoodnessJSON entries. Mostly overlap; retained as a delta source. |
 | `goodnessjson-referral` | MIT | GoodnessJSON referral/affiliate entries. Mostly overlap; retained as a delta source. |
 | `ultimate-hosts-whitelist` | MIT | Mixed-syntax whitelist. The parser ignores `ALL`, `REG`, `RZD`, IPs, local names and sample domains; only rule-matched hosts may enter the catalog. |
+| `keloran-pihole-whitelist` | MIT | Small Pi-hole whitelist in the anudeepND style. It currently contributes no new categories: almost all hosts are already covered, with one review item retained for evidence. |
 
 **On the anudeepND lists.** They are called *allowlists*, and this repository
 has no allowlist concept — the app decides a domain is allowed when no

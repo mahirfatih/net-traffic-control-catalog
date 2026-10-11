@@ -30,6 +30,9 @@ not for the data: `version` is bumped only on a breaking format change.
 - **Six MIT-licensed allowlist/discovery sources** added to `sources.json`:
   HotCakeX Microsoft Domains, omaskery proxy exceptions, three GoodnessJSON
   Pi-hole lists, and Ultimate Hosts whitelist.
+- **Keloran Pi-hole whitelist** added as a MIT delta source. It currently adds
+  no categories: 180 hosts are already covered, 5 are explicitly dropped, and 1
+  remains review-only.
 - **189 rule-categorised domains** harvested from the new sources while keeping
   the existing 27-category / 22-service vocabulary fixed. Microsoft-owned names
   are split by function (`software`, `search`, `gaming`, `social`, `email`,
