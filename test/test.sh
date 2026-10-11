@@ -223,6 +223,9 @@ if problems:
 print(f"✓ {len(bad)} malformed host(s) refused, a valid one accepted")
 PY
 
+step "10.5. Catalog overlap and distribution check"
+python3 scripts/catalog/check-overlaps.py
+
 if [ "$FAST" -eq 0 ]; then
     step "11. Every script compiles"
     python3 -m py_compile scripts/*/*.py
