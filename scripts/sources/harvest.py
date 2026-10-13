@@ -128,7 +128,7 @@ def parse(text, fmt="plain"):
     hosts, unparsed = [], []
     for line in text.splitlines():
         line = line.strip()
-        if not line or line.startswith("#") or line.startswith("!"):
+        if not line or line.startswith("#") or line.startswith("!") or line.startswith("//"):
             continue
         if fmt == "ultimate-whitelist" and line.split(None, 1)[0] in {"ALL", "REG", "RZD"}:
             unparsed.append(line)

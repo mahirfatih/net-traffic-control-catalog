@@ -116,6 +116,15 @@
       "allowed": true,
       "format": "plain",
       "note": "Gaming platform whitelist. README declares MIT but LICENSE file is missing; accepted under no-license policy. Categories are assigned by rules only."
+    },
+    {
+      "id": "adguard-https-exclusions-banks",
+      "name": "AdGuard HTTPS exclusions - banks and financial services",
+      "url": "https://raw.githubusercontent.com/AdguardTeam/HttpsExclusions/master/exclusions/banks.txt",
+      "license": "NOASSERTION",
+      "allowed": true,
+      "format": "plain",
+      "note": "Banking and financial-service HTTPS-exclusion hosts. No LICENSE file is published for this repository; accepted under the no-license source policy. Categories are assigned by rules only."
     }
   ]
 }

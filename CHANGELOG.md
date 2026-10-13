@@ -12,6 +12,7 @@ not for the data: `version` is bumped only on a breaking format change.
 - **HotCakeX Microsoft EASM list** as a separate MIT source (`hotcakex-microsoft-easm`). 529 exact-root gaming brand variants (Activision-Blizzard-King, ZeniMax/Bethesda, King) and developer-infrastructure hosts (GitHub, npm) were rule-matched and added; the remaining ~2,600 defensive TLD variants stay in harvest evidence as review-only.
 - **In-flight Wi-Fi allowlist** (`itsmingjie-inflight-allowlist`, MIT): airline captive-portal and connectivity domains → `travel`.
 - **Gaming platform whitelist** (`jayconius-gaming-whitelist`, MIT badge / no LICENSE file): new roots for EA, Epic, GOG, Paradox, Unity, 2K → `gaming`; ~40 subdomains were already covered by existing rules.
+- **AdGuard HTTPS exclusions banks list** (`adguard-https-exclusions-banks`, no LICENSE file): 3,810 finance-domain additions after `www.` normalization, IP rejection, redundant subdomain cleanup, and a manual drop for `qantas.com`.
 - **Turkish public institution domains.** Harvested ~1,060 `gov.tr` / `bel.tr` /
   `edu.tr` domains and categorised them via `rules.json` (`government`,
   `education`). Catalog grows **1,259 → 2,551 categories** (+1,292).

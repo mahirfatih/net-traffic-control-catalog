@@ -32,6 +32,7 @@ already decided, and refuses any category outside the vocabulary.
 | `keloran-pihole-whitelist` | MIT | Small Pi-hole whitelist in the anudeepND style. It currently contributes no new categories: almost all hosts are already covered, with one review item retained for evidence. |
 | `itsmingjie-inflight-allowlist` | MIT | Conservative in-flight Wi-Fi captive portal and provider domains. Mostly `travel`; provider roots like `viasat.com` are also `travel` in this context. |
 | `jayconius-gaming-whitelist` | MIT (README badge; LICENSE file missing) | Gaming platform whitelist. Contributes new roots for EA, Epic, GOG, Paradox, Unity, 2K; most subdomains are already covered by existing rules. |
+| `adguard-https-exclusions-banks` | NOASSERTION (no LICENSE file) | AdGuard HTTPS exclusions for banks and financial services. Used as a finance discovery source; IP rows are ignored, `www.` aliases are normalized, and redundant same-category subdomains are skipped. |
 
 **On the anudeepND lists.** They are called *allowlists*, and this repository
 has no allowlist concept — the app decides a domain is allowed when no
