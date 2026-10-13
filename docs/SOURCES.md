@@ -30,6 +30,8 @@ already decided, and refuses any category outside the vocabulary.
 | `goodnessjson-referral` | MIT | GoodnessJSON referral/affiliate entries. Mostly overlap; retained as a delta source. |
 | `ultimate-hosts-whitelist` | MIT | Mixed-syntax whitelist. The parser ignores `ALL`, `REG`, `RZD`, IPs, local names and sample domains; only rule-matched hosts may enter the catalog. |
 | `keloran-pihole-whitelist` | MIT | Small Pi-hole whitelist in the anudeepND style. It currently contributes no new categories: almost all hosts are already covered, with one review item retained for evidence. |
+| `itsmingjie-inflight-allowlist` | MIT | Conservative in-flight Wi-Fi captive portal and provider domains. Mostly `travel`; provider roots like `viasat.com` are also `travel` in this context. |
+| `jayconius-gaming-whitelist` | MIT (README badge; LICENSE file missing) | Gaming platform whitelist. Contributes new roots for EA, Epic, GOG, Paradox, Unity, 2K; most subdomains are already covered by existing rules. |
 
 **On the anudeepND lists.** They are called *allowlists*, and this repository
 has no allowlist concept — the app decides a domain is allowed when no

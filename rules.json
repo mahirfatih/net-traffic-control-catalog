@@ -1122,6 +1122,16 @@
       "category": "software"
     },
     {
+      "note": "In-flight Wi-Fi captive portals and airline connectivity domains.",
+      "match": ["gogoinflight.com", "gogoinair.com", "wifilauncher.com", "flyfi.com", "fly-fi.com", "viasat.com", "viasat.io", "inflight.pacwisp.net", "inflightinternet.com", "wifionboard.com", "acwifi.com", "inflight-wifi.com", "deltawifi.com", "wifi.delta.com", "unitedwifi.com", "www.unitedwifi.com", "wifi.united.com", "wifigroundportal.united.com", "unitedprivatescreening.com", "aainflight.com", "southwestwifi.com", "alaskawifi.com", "aireuropa-ontheair.com", "www.aireuropa-ontheair.com", "connect.airfrance.com", "wifi.airfrance.com", "wifi.airnz.com", "wifi.finnair.com", "wifi.hawaiianairlines.com", "shop.iberia.com", "jal-wifi.com", "connect.klm.com", "lufthansa-flynet.com", "wifi.qantas.com", "kw.sq.com", "onboardwifi.flytap.com", "westjetconnect.com", "www.westjetconnect.com", "shop.ba.com"],
+      "category": "travel"
+    },
+    {
+      "note": "Gaming platform roots: EA, Epic, GOG, Nintendo, Riot, Roblox, Rockstar, Sony, Unity, Ubisoft, Bethesda, 2K.",
+      "match": ["2k.com", "bethesda.net", "ea.com", "origin.com", "epicgames.com", "unrealengine.com", "gog.com", "nintendo.com", "paradoxplaza.com", "riotgames.com", "roblox.com", "rockstargames.com", "playstation.com", "unity3d.com", "ubisoft.com"],
+      "category": "gaming"
+    },
+    {
       "note": "Electric JCDecaux: transit advertising and real-time departure boards.",
       "match": [
         "jcdecaux.com",
