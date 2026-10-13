@@ -34,6 +34,10 @@ already decided, and refuses any category outside the vocabulary.
 | `jayconius-gaming-whitelist` | MIT (README badge; LICENSE file missing) | Gaming platform whitelist. Contributes new roots for EA, Epic, GOG, Paradox, Unity, 2K; most subdomains are already covered by existing rules. |
 | `adguard-https-exclusions-banks` | NOASSERTION (no LICENSE file) | AdGuard HTTPS exclusions for banks and financial services. Used as a finance discovery source; IP rows are ignored, `www.` aliases are normalized, and redundant same-category subdomains are skipped. |
 
+Large imports are guarded by `scripts/sources/audit-source-import.py`, which checks
+source-specific false positives, same-category redundant subdomains, and review
+signals for weakly evidenced rows.
+
 **On the anudeepND lists.** They are called *allowlists*, and this repository
 has no allowlist concept — the app decides a domain is allowed when no
 enabled list contains it. The lists are used for the opposite of what their name
