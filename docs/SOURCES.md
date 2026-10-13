@@ -50,6 +50,24 @@ For a new broad source, use this workflow instead of hand-checking every row:
 6. Move confirmed mistakes to `rules.json` → `drop.hosts`, regenerate, and rerun
    the checks.
 
+## Correcting a single host
+
+When a category is wrong for one host and right for its neighbours, do not
+loosen the rule and do not edit the generated `catalog.json`. Record the
+decision in `rules.json` → `drop.override`:
+
+```json
+"override": {
+  "example.com": { "category": "shopping", "reason": "sells goods, not a bank" }
+}
+```
+
+The precedence is fixed: **`override` > `rules` > harvested source**.
+`generate.py` applies overrides after the rules, `merge.py` refuses to overwrite
+an overridden host, and the audits count an override as deliberate. A `reason`
+is mandatory — an override nobody can explain is indistinguishable from a
+mistake, the same rule `drop.hosts` follows.
+
 **On the anudeepND lists.** They are called *allowlists*, and this repository
 has no allowlist concept — the app decides a domain is allowed when no
 enabled list contains it. The lists are used for the opposite of what their name
@@ -62,6 +80,56 @@ source of names, not labels: `bing.com` is `search`, `xbox.com` is `gaming`,
 `linkedin.com` is `social`, `clarity.ms` is `analytics`, `msads.net` is `ads`,
 and broad platform names stay `software`. Anything not covered by an explicit
 rule remains in `docs/NEEDS-REVIEW.md`.
+
+## Removing a host that no longer exists
+
+A domain that stops resolving is not harmless dead weight. It can be bought by
+somebody else and it would keep the category the previous owner had, so a user
+who allows `finance` would be allowing whoever holds that name now. Removing one
+is a correctness fix.
+
+The catch is that this network cannot tell *dead* from *unreachable*: a firewall
+that drops NXDOMAIN-only names, a captive portal and a dead domain all look the
+same from inside a process. Nearly all of the AdGuard banks look unreachable
+from here, and 181 real banks were almost dropped on that evidence. So
+`scripts/catalog/probe-dead.py` asks the resolvers directly and reads the
+response code they return:
+
+    0  NOERROR   the name exists
+    3  NXDOMAIN  the name does not exist
+
+It asks Cloudflare and Google about A, AAAA and NS, so a host has six chances
+to prove it is alive and has to fail all six to be called dead. Then it has to
+do it twice — `--round 2` refuses to run until `--min-gap-minutes` has passed,
+because a resolver outage is a snapshot the same way a dead name is.
+
+```sh
+python3 scripts/catalog/probe-dead.py --self-test
+python3 scripts/catalog/probe-dead.py --round 1      # ~30 minutes
+python3 scripts/catalog/probe-dead.py --round 2      # 10 minutes later
+python3 scripts/catalog/probe-dead.py --summary
+```
+
+Evidence lands in `evidence/dead-domain-sweep.json` and
+`evidence/dead-domain-sweep.md`. The summary prints a **proposal**: the hosts
+both rounds independently called dead. It is a proposal, not a deletion. Applying
+it means adding the host to `rules.json` → `drop.hosts` with a reason that cites
+this evidence, then regenerating:
+
+```json
+"24banking.md": "NXDOMAIN from cloudflare+google on 2026-10-14 and 2026-10-15"
+```
+
+Two verdicts are deliberately never proposed for removal:
+
+- **`nodata`** — the name answers `NOERROR` with no address record. It exists;
+  it just has no A record, which is what a mail-only domain looks like.
+- **`servfail`** — every resolver says the zone is broken. That is usually a
+  name whose registration lapsed, so it is worth a person's attention, but a
+  broken zone is not proof of anything. It is reported under "Worth a look".
+
+The script is deliberately absent from `test/test.sh`. It needs the network, and
+CI must never depend on a network to tell a real bank it is dead.
 
 ## Blocked
 

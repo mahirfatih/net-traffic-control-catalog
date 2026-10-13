@@ -11,10 +11,18 @@
 import json
 import os
 import sys
+import importlib.util
 from collections import Counter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CATEGORIES_PATH = os.path.join(ROOT, "seeds", "categories.json")
+RULES = os.path.join(ROOT, "rules.json")
+
+_overrides_spec = importlib.util.spec_from_file_location(
+    "overrides", os.path.join(ROOT, "scripts", "catalog", "overrides.py")
+)
+overrides_module = importlib.util.module_from_spec(_overrides_spec)
+_overrides_spec.loader.exec_module(overrides_module)
 
 
 def main():
@@ -24,6 +32,11 @@ def main():
 
     with open(CATEGORIES_PATH, encoding="utf-8") as f:
         categories = json.load(f)
+
+    try:
+        manual = overrides_module.overrides(overrides_module.load_rules(RULES))
+    except (OSError, ValueError):
+        manual = {}
 
     hosts = sorted(categories.keys())
 
@@ -54,6 +67,13 @@ def main():
     print(f"\n--- Deliberate Overrides ({len(overrides)}) ---")
     for h, c_child, parent, c_parent in overrides:
         print(f"  {h} ({c_child}) overrides parent {parent} ({c_parent})")
+
+    print(f"\n--- Manual Overrides in rules.json ({len(manual)}) ---")
+    if manual:
+        for h, (cat, _reason) in sorted(manual.items()):
+            print(f"  {h} -> {cat}")
+    else:
+        print("  None found.")
 
     print(f"\n--- Redundant Subdomains with Same Category ({len(redundant)}) ---")
     if redundant:

@@ -16,6 +16,18 @@ not for the data: `version` is bumped only on a breaking format change.
 - **Source import quality audit** (`scripts/sources/audit-source-import.py`) wired into `test/test.sh` to keep broad-source imports reviewable and catch known false positives or redundant source rows.
 - **Live source review workflow** (`scripts/sources/review-source-live.py` and shared `scripts/sources/source-policies.py`) for DNS/HTTP evidence on broad imports without editing catalog data.
 - **Live review of the AdGuard banks import**: 1,565 weak-signal hosts checked over DNS/HTTP. Unreachable hosts are reported as `unresolved` (a blocked network is not evidence a bank is wrong); 5 confirmed non-finance false positives (`apsiyon.com`, `clhs.kiev.ua`, `datev.de`, `difi.no`, `pasientsky.no`) were moved to `rules.json` → `drop.hosts`.
+- **Category override layer** (`rules.json` → `drop.override`, managed by `scripts/catalog/overrides.py`): a per-host human decision that beats every rule and every source, with a mandatory reason. `generate.py` applies it last, `merge.py` never overwrites it, and the audits treat it as deliberate. Wired into `test/test.sh` step 10.8.
+- **Dead-domain sweep** (`scripts/catalog/probe-dead.py`): finds catalog hosts that
+  no longer exist, for the domain-recycling risk — a lapsed domain can be bought
+  by somebody else while keeping the old category. It asks Cloudflare and Google
+  directly about A/AAAA/NS and reads the response code, so it can tell `NXDOMAIN`
+  from "this network cannot reach it", which the system resolver cannot: nearly
+  all of the AdGuard banks are unreachable from here and 181 real banks were
+  almost dropped on that evidence. Two rounds at least ten minutes apart, six
+  questions per host, both rounds in agreement before anything is called dead.
+  `nodata` (name exists, no address record) and `servfail` (broken zone) are
+  reported but never proposed for removal. Its decision table is checked in
+  `test/test.sh` step 10.9; the script itself needs the network and stays out of CI.
 - **Turkish public institution domains.** Harvested ~1,060 `gov.tr` / `bel.tr` /
   `edu.tr` domains and categorised them via `rules.json` (`government`,
   `education`). Catalog grows **1,259 → 2,551 categories** (+1,292).

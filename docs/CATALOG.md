@@ -6,7 +6,7 @@ data will disagree, which is the one thing a data file must never do.
 
 ## Totals
 
-**7,177 names** across **27 categories**, plus **22 services**.
+**6,745 names** across **27 categories**, plus **22 services**.
 
 The app loads `catalog.json` as a Category Data source and matches a host
 whole, so `facebook.com` covers `graph.facebook.com` without listing it.
@@ -15,22 +15,22 @@ whole, so `facebook.com` covers `graph.facebook.com` without listing it.
 
 | Category | Hosts | What it means |
 | :--- | --: | :--- |
-| `software` | 484 | a tool, a platform, a developer utility |
+| `software` | 476 | a tool, a platform, a developer utility |
 | `shopping` | 101 | a store, a marketplace, a payment provider |
-| `video` | 89 | streaming, live TV, a broadcaster |
-| `finance` | 3885 | banks, cards, trading, markets |
+| `video` | 87 | streaming, live TV, a broadcaster |
+| `finance` | 3581 | banks, cards, trading, markets |
 | `news` | 130 | press, and the reporting it depends on |
 | `health` | 67 | hospitals, pharmacies, health apps |
 | `ai` | 68 | model providers and the products built on them |
-| `ads` | 76 | ad networks, affiliate platforms, retargeting |
-| `government` | 1106 | ministries, municipalities, agencies |
+| `ads` | 74 | ad networks, affiliate platforms, retargeting |
+| `government` | 1065 | ministries, municipalities, agencies |
 | `cdn` | 67 | delivery networks carrying somebody else's bytes |
 | `social` | 65 | where people talk to each other |
-| `travel` | 82 | airlines, booking, ground transport |
-| `gaming` | 432 | stores, launchers, and the games |
+| `travel` | 80 | airlines, booking, ground transport |
+| `gaming` | 360 | stores, launchers, and the games |
 | `transport` | 42 | shipping, driving, ride and rail |
 | `encyclopedia` | 40 | reference, metadata, documentation |
-| `education` | 213 | schools, universities, courses |
+| `education` | 212 | schools, universities, courses |
 | `analytics` | 39 | measurement, crash reporting, experimentation |
 | `search` | 57 | search engines and search portals |
 | `messaging` | 33 | chat, mail, messaging |
