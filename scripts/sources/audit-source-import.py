@@ -12,16 +12,20 @@ report for weakly signalled finance names.
 """
 import argparse
 from collections import Counter
+import importlib.util
 import json
 import os
 import sys
 
-from source_policies import SOURCE_POLICIES
-
-
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CATEGORIES = os.path.join(ROOT, "seeds", "categories.json")
 SUMMARY = os.path.join(ROOT, "evidence", "harvest-summary.json")
+POLICIES = os.path.join(ROOT, "scripts", "sources", "source-policies.py")
+
+_spec = importlib.util.spec_from_file_location("source_policies", POLICIES)
+source_policies = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(source_policies)
+SOURCE_POLICIES = source_policies.SOURCE_POLICIES
 
 
 def load_json(path):

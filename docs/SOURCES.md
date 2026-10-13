@@ -42,7 +42,7 @@ For a new broad source, use this workflow instead of hand-checking every row:
 
 1. Add the source and conservative rules.
 2. Harvest and merge with `--dry-run` first.
-3. Add a source policy in `scripts/sources/source_policies.py`.
+3. Add a source policy in `scripts/sources/source-policies.py`.
 4. Run `python3 scripts/sources/audit-source-import.py` for offline guardrails.
 5. Run `python3 scripts/sources/review-source-live.py --source <id> --only weak`
    for DNS/HTTP evidence. The live review writes JSON and Markdown under

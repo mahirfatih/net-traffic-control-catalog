@@ -13,6 +13,7 @@ import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date
 import html
+import importlib.util
 import json
 import os
 import socket
@@ -22,14 +23,18 @@ import time
 import urllib.error
 import urllib.request
 
-from source_policies import SOURCE_POLICIES
-
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CATEGORIES = os.path.join(ROOT, "seeds", "categories.json")
 SUMMARY = os.path.join(ROOT, "evidence", "harvest-summary.json")
 EVIDENCE = os.path.join(ROOT, "evidence")
+POLICIES = os.path.join(ROOT, "scripts", "sources", "source-policies.py")
 USER_AGENT = "net-traffic-control-catalog/1.0 (source live review)"
+
+_spec = importlib.util.spec_from_file_location("source_policies", POLICIES)
+source_policies = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(source_policies)
+SOURCE_POLICIES = source_policies.SOURCE_POLICIES
 
 
 def load_json(path):

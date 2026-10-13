@@ -152,7 +152,9 @@ python3 scripts/sources/review-source-live.py --source adguard-https-exclusions-
 `audit-source-import.py` is offline and runs in the test suite. It catches known
 false positives and redundant same-category rows. `review-source-live.py` uses
 DNS/HTTP and writes evidence under `evidence/`; use it for spot-checking weak or
-new source rows, then add confirmed mistakes to `rules.json` → `drop.hosts`.
+new source rows. Source-specific review policies live in
+`scripts/sources/source-policies.py`; add new broad-source policies there, then
+move confirmed mistakes to `rules.json` → `drop.hosts`.
 
 Rules for a generator:
 
