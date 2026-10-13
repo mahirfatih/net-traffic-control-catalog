@@ -37,6 +37,11 @@ SOURCE_POLICIES = {
         "expected_category": "finance",
         "known_false_positives": {
             "qantas.com": "airline/travel domain; not a finance service",
+            "apsiyon.com": "apartment/property management software; not a finance service",
+            "clhs.kiev.ua": "pages resolve to a casino brand; not a finance service",
+            "datev.de": "accounting/tax software vendor; not a finance service",
+            "difi.no": "Norwegian public-sector digitalisation agency; not a finance service",
+            "pasientsky.no": "healthcare journal software; not a finance service",
         },
         "weak_signal_re": FINANCE_SIGNAL_RE,
         "page_positive_re": FINANCE_PAGE_RE,

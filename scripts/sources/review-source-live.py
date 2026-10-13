@@ -136,11 +136,16 @@ def classify(host, policy, dns_addresses, dns_error, responses):
     if negative_re and negative_re.search(text) and not (positive_re and positive_re.search(text)):
         score -= 3
         reasons.append("page non-finance terms")
-    if not dns_addresses and not live:
-        score -= 2
-        reasons.append(f"not live: {dns_error or 'no response'}")
+    # "Could not reach it from here" is not evidence that it is wrong. This
+    # network may block or fail to resolve a bank for reasons that say nothing
+    # about the host, so unreachable rows are *unresolved*, never drop-review.
+    unreachable = not dns_addresses and not live
+    if unreachable:
+        reasons.append(f"unreachable from this network: {dns_error or 'no response'}")
 
-    if score >= 5:
+    if unreachable:
+        decision = "unresolved"
+    elif score >= 5:
         decision = "keep"
     elif score <= 0:
         decision = "drop-review"
