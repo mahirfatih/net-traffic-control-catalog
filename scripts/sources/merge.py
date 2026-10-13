@@ -33,6 +33,13 @@ _spec.loader.exec_module(catalog_core)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 SEED = os.path.join(ROOT, "seeds", "categories.json")
+RULES = os.path.join(ROOT, "rules.json")
+
+_overrides_spec = importlib.util.spec_from_file_location(
+    "overrides", os.path.join(ROOT, "scripts", "catalog", "overrides.py")
+)
+overrides_module = importlib.util.module_from_spec(_overrides_spec)
+_overrides_spec.loader.exec_module(overrides_module)
 
 
 def main(argv):
@@ -60,9 +67,20 @@ def main(argv):
         print("  ship a label that silently does nothing on device.", file=sys.stderr)
         return 1
 
-    added, conflicts, redundant = {}, [], []
+    try:
+        rules = overrides_module.load_rules(RULES)
+    except (OSError, ValueError) as error:
+        print(f"✗ cannot read rules: {error}", file=sys.stderr)
+        return 1
+    overridden = overrides_module.overrides(rules)
+
+    added, conflicts, redundant, protected = {}, [], [], []
     for host, category in sorted(harvested.items()):
         host = host.strip().lower()
+        if host in overridden:
+            # A human decided this one. A source has no standing against that.
+            protected.append((host, overridden[host][0], category))
+            continue
         if host in seeds:
             if seeds[host] != category:
                 conflicts.append((host, seeds[host], category))
@@ -82,6 +100,8 @@ def main(argv):
 
     for host, existing, proposed in conflicts:
         print(f"! {host}: seed says {existing!r}, harvest says {proposed!r} — seed kept")
+    for host, decided, proposed in protected:
+        print(f"· {host}: override keeps {decided!r}, harvest proposed {proposed!r}")
     for host, parent, category in redundant:
         print(f"· {host}: skipped; {parent} already covers it as {category}")
 

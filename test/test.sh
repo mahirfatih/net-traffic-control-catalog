@@ -232,6 +232,38 @@ python3 scripts/catalog/audit-category-consistency.py
 step "10.7. Source import quality guardrails"
 python3 scripts/sources/audit-source-import.py
 
+step "10.8. Category overrides are valid and beat rules"
+python3 scripts/catalog/overrides.py check
+python3 - <<'PY'
+import importlib.util, json, os, subprocess, sys, tempfile
+
+_spec = importlib.util.spec_from_file_location(
+    "overrides", "scripts/catalog/overrides.py"
+)
+overrides = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(overrides)
+
+# A synthetic rules document, so the test does not depend on the real override
+# map being empty or full: the precedence rule must hold either way.
+doc = {
+    "rules": [{"match": ["example.com"], "category": "finance"}],
+    "drop": {"hosts": {}, "override": {"example.com": {"category": "shopping", "reason": "sells goods"}}},
+}
+applied, problems = overrides.apply({"example.com": "finance", "other.com": "news"}, doc)
+assert not problems, problems
+assert applied["example.com"] == "shopping", applied["example.com"]
+assert applied["other.com"] == "news"
+
+# A bad override must be refused: category outside the vocabulary, and no reason.
+bad = {"drop": {"override": {"x.com": {"category": "not-a-category", "reason": "r"}}}}
+assert overrides.check(bad), "an unknown category must be reported"
+bad = {"drop": {"override": {"x.com": {"category": "news", "reason": ""}}}}
+assert overrides.check(bad), "a missing reason must be reported"
+both = {"drop": {"hosts": {"x.com": "why"}, "override": {"x.com": {"category": "news", "reason": "r"}}}}
+assert overrides.check(both), "a host in both drop and override must be reported"
+print("✓ override beats a rule; bad overrides are refused")
+PY
+
 if [ "$FAST" -eq 0 ]; then
     step "11. Every script compiles"
     python3 -m py_compile scripts/*/*.py

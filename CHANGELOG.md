@@ -16,6 +16,7 @@ not for the data: `version` is bumped only on a breaking format change.
 - **Source import quality audit** (`scripts/sources/audit-source-import.py`) wired into `test/test.sh` to keep broad-source imports reviewable and catch known false positives or redundant source rows.
 - **Live source review workflow** (`scripts/sources/review-source-live.py` and shared `scripts/sources/source-policies.py`) for DNS/HTTP evidence on broad imports without editing catalog data.
 - **Live review of the AdGuard banks import**: 1,565 weak-signal hosts checked over DNS/HTTP. Unreachable hosts are reported as `unresolved` (a blocked network is not evidence a bank is wrong); 5 confirmed non-finance false positives (`apsiyon.com`, `clhs.kiev.ua`, `datev.de`, `difi.no`, `pasientsky.no`) were moved to `rules.json` → `drop.hosts`.
+- **Category override layer** (`rules.json` → `drop.override`, managed by `scripts/catalog/overrides.py`): a per-host human decision that beats every rule and every source, with a mandatory reason. `generate.py` applies it last, `merge.py` never overwrites it, and the audits treat it as deliberate. Wired into `test/test.sh` step 10.8.
 - **Turkish public institution domains.** Harvested ~1,060 `gov.tr` / `bel.tr` /
   `edu.tr` domains and categorised them via `rules.json` (`government`,
   `education`). Catalog grows **1,259 → 2,551 categories** (+1,292).

@@ -50,6 +50,24 @@ For a new broad source, use this workflow instead of hand-checking every row:
 6. Move confirmed mistakes to `rules.json` → `drop.hosts`, regenerate, and rerun
    the checks.
 
+## Correcting a single host
+
+When a category is wrong for one host and right for its neighbours, do not
+loosen the rule and do not edit the generated `catalog.json`. Record the
+decision in `rules.json` → `drop.override`:
+
+```json
+"override": {
+  "example.com": { "category": "shopping", "reason": "sells goods, not a bank" }
+}
+```
+
+The precedence is fixed: **`override` > `rules` > harvested source**.
+`generate.py` applies overrides after the rules, `merge.py` refuses to overwrite
+an overridden host, and the audits count an override as deliberate. A `reason`
+is mandatory — an override nobody can explain is indistinguishable from a
+mistake, the same rule `drop.hosts` follows.
+
 **On the anudeepND lists.** They are called *allowlists*, and this repository
 has no allowlist concept — the app decides a domain is allowed when no
 enabled list contains it. The lists are used for the opposite of what their name

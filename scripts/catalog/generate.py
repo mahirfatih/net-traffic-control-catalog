@@ -30,12 +30,22 @@ _spec = importlib.util.spec_from_file_location(
 catalog_core = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(catalog_core)
 
+_overrides_spec = importlib.util.spec_from_file_location(
+    "overrides", os.path.join(os.path.dirname(os.path.abspath(__file__)), "overrides.py")
+)
+overrides_module = importlib.util.module_from_spec(_overrides_spec)
+_overrides_spec.loader.exec_module(overrides_module)
+
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+RULES = os.path.join(ROOT, "rules.json")
+
 
 def main(argv):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--categories", required=True, help="JSON {host: category}")
     parser.add_argument("--services", required=True, help="JSON [{key,name,domains}]")
     parser.add_argument("--out", default="catalog.json", help="output path")
+    parser.add_argument("--rules", default=RULES, help="rules.json holding overrides")
     args = parser.parse_args(argv[1:])
 
     try:
@@ -49,6 +59,26 @@ def main(argv):
         return 1
     if not isinstance(services, list):
         print("✗ --services must be an array", file=sys.stderr)
+        return 1
+
+    try:
+        rules = overrides_module.load_rules(args.rules)
+    except (OSError, ValueError) as error:
+        print(f"✗ cannot read rules: {error}", file=sys.stderr)
+        return 1
+
+    override_problems = overrides_module.check(rules)
+    if override_problems:
+        for problem in override_problems:
+            print(f"✗ {problem}", file=sys.stderr)
+        print("\nrefusing to write; fix rules.json drop.override first", file=sys.stderr)
+        return 1
+
+    categories, apply_problems = overrides_module.apply(categories, rules)
+    if apply_problems:
+        for problem in apply_problems:
+            print(f"✗ {problem}", file=sys.stderr)
+        print("\nrefusing to write; fix rules.json drop.override first", file=sys.stderr)
         return 1
 
     document = catalog_core.normalize({

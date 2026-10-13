@@ -156,6 +156,25 @@ new source rows. Source-specific review policies live in
 `scripts/sources/source-policies.py`; add new broad-source policies there, then
 move confirmed mistakes to `rules.json` → `drop.hosts`.
 
+### Correcting one host by hand
+
+A category that is wrong for a single host is a human decision, not a rule. Put
+it in `rules.json` → `drop.override`, which **beats every rule and every source**:
+
+```sh
+python3 scripts/catalog/overrides.py set example.com shopping --reason "sells goods, not a bank"
+python3 scripts/catalog/overrides.py list
+python3 scripts/catalog/overrides.py remove example.com
+python3 scripts/catalog/generate.py --categories seeds/categories.json --services seeds/services.json --out catalog.json
+```
+
+Precedence is fixed and enforced by code: **`override` > `rules` > harvested
+source**. `generate.py` applies overrides last, `merge.py` never overwrites an
+overridden host, and the audits treat an override as deliberate. Every override
+needs a `reason`; `scripts/catalog/overrides.py check` (run by the test suite)
+refuses one without it, one outside the vocabulary, or one that is also in
+`drop.hosts`.
+
 Rules for a generator:
 
 - **Output must use our vocabulary** (see above). An unknown category is not

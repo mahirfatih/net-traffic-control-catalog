@@ -5298,6 +5298,8 @@
       "track.webgains.com": "under webgains.com, which the ads rule already covers",
       "v.firebog.net": "an adblock filter list host",
       "winhelp2002.mvps.org": "a troubleshooting site, not a service"
-    }
+    },
+    "_override_comment": "Human decisions that beat every rule and every source. Schema: { host: { category, reason } }. `category` must be in the vocabulary; `reason` is mandatory. Applied last by generate.py, and merge.py never overwrites an overridden host. Use this to recategorise a single host (example.com is shopping, not finance) without touching a rule that would also move its subdomains.",
+    "override": {}
   }
 }
