@@ -37,6 +37,15 @@
       "note": "Root Microsoft-owned domains. Used to find service/product gaps; categories are assigned by rules or review, not by the source."
     },
     {
+      "id": "hotcakex-microsoft-easm",
+      "name": "HotCakeX Microsoft Domains - EASM",
+      "url": "https://raw.githubusercontent.com/HotCakeX/MicrosoftDomains/main/Microsoft%20Domains%20-%20EASM.txt",
+      "license": "MIT",
+      "allowed": true,
+      "format": "plain",
+      "note": "External attack surface list including Microsoft-owned brands such as ZeniMax/Bethesda. Categories come from rules only; unmatched hosts go to review."
+    },
+    {
       "id": "omaskery-proxy-exceptions",
       "name": "proxy-exception-whitelists",
       "url": "https://raw.githubusercontent.com/omaskery/proxy-exception-whitelists/master/exceptions.yml",

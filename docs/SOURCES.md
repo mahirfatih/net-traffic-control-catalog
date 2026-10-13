@@ -23,6 +23,7 @@ already decided, and refuses any category outside the vocabulary.
 | `anudeepnd-optional` | MIT | 136 hosts after comments. Same maintainer, same purpose. |
 | `anudeepnd-referral` | MIT | 50 hosts. Affiliate and referral endpoints, which is most of what a blocklist misfires on. |
 | `hotcakex-microsoft-domains` | MIT | Root Microsoft-owned domains. Used as a vendor/service discovery list only; rules split them across `software`, `search`, `gaming`, `social`, `email`, `ads`, `analytics`, `cdn`, `ai`, etc. |
+| `hotcakex-microsoft-easm` | MIT | External attack surface inventory. Only exact-root brand/product matches (Activision-Blizzard-King, ZeniMax/Bethesda, GitHub/npm families) enter rules; the remaining ~2,600 defensive TLD variants stay in review evidence. |
 | `omaskery-proxy-exceptions` | MIT | Developer-tool proxy exception YAML. Useful for package registries, IDE/update endpoints and other `software` gaps. |
 | `goodnessjson-whitelist` | MIT | Community Pi-hole allowlist forked from anudeepND. Mostly overlap; retained as a delta source. |
 | `goodnessjson-optional` | MIT | Optional GoodnessJSON entries. Mostly overlap; retained as a delta source. |

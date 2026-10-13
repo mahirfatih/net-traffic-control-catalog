@@ -9,7 +9,7 @@ Sites screens group and label domains correctly.
 
 ## Contents
 
-- **2,803 categories** — `host → category`.
+- **3,332 categories** — `host → category`.
 - **22 services** — `product → hosts`.
 
 See [`docs/CATALOG.md`](docs/CATALOG.md) for the breakdown by category.
