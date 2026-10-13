@@ -14,35 +14,14 @@ import argparse
 from collections import Counter
 import json
 import os
-import re
 import sys
+
+from source_policies import SOURCE_POLICIES
 
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CATEGORIES = os.path.join(ROOT, "seeds", "categories.json")
 SUMMARY = os.path.join(ROOT, "evidence", "harvest-summary.json")
-
-
-SOURCE_POLICIES = {
-    "adguard-https-exclusions-banks": {
-        "expected_category": "finance",
-        "known_false_positives": {
-            "qantas.com": "airline/travel domain; not a finance service",
-        },
-        "weak_signal_re": re.compile(
-            r"(bank|banc|banq|banque|banka|banco|banken|banking|credit|cred|"
-            r"financ|pay|pago|wallet|card|cash|loan|invest|broker|trade|"
-            r"securit|capital|asset|wealth|fund|mortgage|insurance|insur|"
-            r"lease|leasing|union|sparkasse|raiffeisen|volksbank|voba|"
-            r"vrbank|ziraat|akbank|alfa|hsbc|ing|seb|dbs|ubs|visa|"
-            r"mastercard|amex|paypal|stripe|adyen|skrill|venmo|westernunion|"
-            r"alipay|klarna|revolut|wise|monzo|n26|bbva|santander|barclays|"
-            r"lloyds|natwest|citi|chase|wellsfargo|fidelity|vanguard|"
-            r"robinhood|3ds|3dsecure|acs)",
-            re.IGNORECASE,
-        ),
-    }
-}
 
 
 def load_json(path):

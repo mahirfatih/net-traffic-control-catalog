@@ -38,6 +38,18 @@ Large imports are guarded by `scripts/sources/audit-source-import.py`, which che
 source-specific false positives, same-category redundant subdomains, and review
 signals for weakly evidenced rows.
 
+For a new broad source, use this workflow instead of hand-checking every row:
+
+1. Add the source and conservative rules.
+2. Harvest and merge with `--dry-run` first.
+3. Add a source policy in `scripts/sources/source_policies.py`.
+4. Run `python3 scripts/sources/audit-source-import.py` for offline guardrails.
+5. Run `python3 scripts/sources/review-source-live.py --source <id> --only weak`
+   for DNS/HTTP evidence. The live review writes JSON and Markdown under
+   `evidence/` and never edits catalog data.
+6. Move confirmed mistakes to `rules.json` → `drop.hosts`, regenerate, and rerun
+   the checks.
+
 **On the anudeepND lists.** They are called *allowlists*, and this repository
 has no allowlist concept — the app decides a domain is allowed when no
 enabled list contains it. The lists are used for the opposite of what their name

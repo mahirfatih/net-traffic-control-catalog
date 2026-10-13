@@ -14,6 +14,7 @@ not for the data: `version` is bumped only on a breaking format change.
 - **Gaming platform whitelist** (`jayconius-gaming-whitelist`, MIT badge / no LICENSE file): new roots for EA, Epic, GOG, Paradox, Unity, 2K → `gaming`; ~40 subdomains were already covered by existing rules.
 - **AdGuard HTTPS exclusions banks list** (`adguard-https-exclusions-banks`, no LICENSE file): 3,810 finance-domain additions after `www.` normalization, IP rejection, redundant subdomain cleanup, and a manual drop for `qantas.com`.
 - **Source import quality audit** (`scripts/sources/audit-source-import.py`) wired into `test/test.sh` to keep broad-source imports reviewable and catch known false positives or redundant source rows.
+- **Live source review workflow** (`scripts/sources/review-source-live.py` and shared `source_policies.py`) for DNS/HTTP evidence on broad imports without editing catalog data.
 - **Turkish public institution domains.** Harvested ~1,060 `gov.tr` / `bel.tr` /
   `edu.tr` domains and categorised them via `rules.json` (`government`,
   `education`). Catalog grows **1,259 → 2,551 categories** (+1,292).
