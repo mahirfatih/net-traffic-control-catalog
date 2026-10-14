@@ -105,7 +105,7 @@ because a resolver outage is a snapshot the same way a dead name is.
 
 ```sh
 python3 scripts/catalog/probe-dead.py --self-test
-python3 scripts/catalog/probe-dead.py --round 1      # ~30 minutes
+python3 scripts/catalog/probe-dead.py --round 1      # ~10 minutes
 python3 scripts/catalog/probe-dead.py --round 2      # 10 minutes later
 python3 scripts/catalog/probe-dead.py --summary
 ```

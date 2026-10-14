@@ -65,6 +65,14 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Changed
 
+- **Catalog size: 7,177 → 6,745 categories** (−432). 432 hosts that no longer
+  resolve were removed by the dead-domain sweep: two rounds ten minutes apart,
+  Cloudflare and Google both answering `NXDOMAIN` for A, AAAA and NS every time.
+  304 were stale bank domains from the AdGuard HTTPS exclusions list, 72 were
+  defensive TLD variants (`candycrush.club`, `bubblewitch.jp`) that were never
+  live, 41 were Turkish public-institution domains. Every removed host is in
+  `rules.json` → `drop.hosts` with the evidence that removed it. Full evidence
+  in `evidence/dead-domain-sweep.md`.
 - **Catalog size: 1,259 → 2,803 categories** (+1,544). Breakdown of major
   changes:
   - `government`: 60 → 1,106 (+1,046)
@@ -90,6 +98,11 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Fixed
 
+- **`check-overlaps.py` silently discarded the manual override list.** A dead
+  `manual = []` line ran after the overrides were loaded from `rules.json`, so
+  the "Manual Overrides" section always reported zero — and the report looked
+  correct while the override map was populated. It went unnoticed because the
+  map was empty at the time it shipped.
 - **Category boundary corrections for Microsoft-owned domains.** Skype, Lync and
   GroupMe are now `messaging` instead of `email`; Bing Maps surfaces are `maps`
   instead of `search`; HockeyApp is `crash` instead of `analytics`.

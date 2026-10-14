@@ -9,7 +9,7 @@ Sites screens group and label domains correctly.
 
 ## Contents
 
-- **7,177 categories** — `host → category`.
+- **6,745 categories** — `host → category`.
 - **22 services** — `product → hosts`.
 
 See [`docs/CATALOG.md`](docs/CATALOG.md) for the breakdown by category.
@@ -190,7 +190,7 @@ response code they return, which settles it:
 
 ```sh
 python3 scripts/catalog/probe-dead.py --self-test
-python3 scripts/catalog/probe-dead.py --round 1     # ~30 minutes, 7,177 hosts
+python3 scripts/catalog/probe-dead.py --round 1     # ~10 minutes, 6,745 hosts
 python3 scripts/catalog/probe-dead.py --round 2     # 10 minutes later, minimum enforced
 python3 scripts/catalog/probe-dead.py --summary
 ```
