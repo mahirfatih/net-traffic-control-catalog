@@ -65,6 +65,29 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Changed
 
+- **The reliability figures now say what they cover.** The audit measures 4,565
+  of the catalog's 6,745 hosts — 68%. The remaining 2,180 serve no usable page
+  text: 1,721 answer nothing at all and 459 return under 100 characters. The
+  failures are not spread evenly: `gaming` is measured on 69 hosts
+  of 360 (19%) and `software` on 168 of 476 (35%), while `government` (87%) and
+  `news` (88%) are nearly complete, because canvas/JS-heavy domains render no
+  HTML text and static ones do. A per-class F1 describes the hosts that produced
+  text, not the category, and the two were previously confused. `coverage` is
+  now recorded per category in `matrix-data.json`, printed by `build-matrix.py`,
+  tabulated in `docs/analysis/README.md`, and checked by `check-docs-fresh.mjs`
+  so the table cannot drift from the data. The reason breakdown (`unmeasured`)
+  is recorded alongside it and the parts are checked to add up, because the
+  first version of this paragraph quoted a **byte** count against a character
+  threshold: 445 where the answer is 459, leaving 14 hosts unaccounted for
+  between the parts and the total.
+- **Catalog size: 7,177 → 6,745 categories** (−432). 432 hosts that no longer
+  resolve were removed by the dead-domain sweep: two rounds ten minutes apart,
+  Cloudflare and Google both answering `NXDOMAIN` for A, AAAA and NS every time.
+  304 were stale bank domains from the AdGuard HTTPS exclusions list, 72 were
+  defensive TLD variants (`candycrush.club`, `bubblewitch.jp`) that were never
+  live, 41 were Turkish public-institution domains. Every removed host is in
+  `rules.json` → `drop.hosts` with the evidence that removed it. Full evidence
+  in `evidence/dead-domain-sweep.md`.
 - **Catalog size: 1,259 → 2,803 categories** (+1,544). Breakdown of major
   changes:
   - `government`: 60 → 1,106 (+1,046)
@@ -90,6 +113,62 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Fixed
 
+- **The audit was not reproducible: `LinearSVC` ran unseeded.** `random_state`
+  was `None`, so liblinear shuffled its dual coordinate descent from OS entropy
+  and two runs on identical input produced coefficient tables differing around
+  the sixth digit — 277 changed lines in a committed artifact, none of them a
+  finding, and no way for a reader to tell noise from a change. All four
+  `LinearSVC` instantiations now take the same seed; two full runs produce
+  byte-identical `matrix-data.json`, verified by diffing them.
+- **Nine of the catalog's 27 categories were never measured, and the cause was
+  a bug, not their size.** `fetch-pages.py` wrote an empty cache file the first
+  time a host returned nothing and never tried again, so a category was dropped
+  from the matrix whenever its first fetch attempt failed. `--retry-empty`
+  re-fetches those hosts and tries `www.` as well; it recovered 310 hosts
+  overall and took the previously unmeasurable categories from 90/168 to 157/168.
+  `sports` went from 0 examples to 7, `crash` from 2 to 11, `maps` from 1 to 3.
+- **All 27 categories are now in the matrix.** `--min-class` dropped from 20 to
+  2 and the fold count adapts to the smallest category, so `maps` with 3
+  examples forces a 3-fold matrix instead of being excluded from it. Eight
+  categories rest on under 20 examples and are recorded as `thin_classes` so
+  their F1 reads as indicative rather than measured. Accuracy falls from 0.902
+  to 0.886 and balanced accuracy from 0.672 to 0.595 — the task is harder now
+  that infrastructure categories are included, and that is the honest number.
+- **The reliability headline was measuring one category and calling it the
+  catalog.** `finance` is 53% of the catalog, so accuracy (0.902) and balanced
+  accuracy (0.672) differ by 23 points, and only the first was reported.
+  `build-matrix.py` now records balanced accuracy, every document quotes it
+  beside accuracy, and `check-docs-fresh.mjs` fails if a document drops it —
+  the gap is the finding, so a document that quotes accuracy alone is repeating
+  the error.
+- **The model comparison was not a fair comparison.** LinearSVC and
+  LogisticRegression were evaluated with `class_weight="balanced"` while
+  MultinomialNB got no reweighting at all, so two models were being judged on a
+  2,359-example class and the third was left to guess it. Naive Bayes rejects
+  the string `"balanced"` and accepts only an array, so the inverse-frequency
+  prior is now computed as sklearn documents it. The effect is the honest one:
+  naive Bayes' accuracy fell 0.792 → 0.734 while its macro F1 rose
+  0.197 → 0.259 — a model doing no better than the dominant class, shown
+  directly instead of inferred.
+- **Nine categories were silently unmeasured.** `maps` (2 examples), `music` (6),
+  `sports` (7), `crypto` (8), `other` (9), `telecom` (10), `crash` (11),
+  `email` (18) and `cdn` (19) fall below the 20-example class floor. The audit
+  reported none of it: `cdn` had already left the matrix once with nothing in
+  the output to explain it. Dropped classes are now printed, stored as
+  `dropped_classes`, and listed in `docs/CATALOG.md`.
+- **The documents quoted a sweep duration nobody had measured.** README, SOURCES,
+  CONTRIBUTING and `scripts/README.md` all said the dead-domain sweep takes
+  "~30 minutes". It takes about ten: 605 s and 583 s for the two real runs.
+  Nothing invalidates a guessed duration, so the three-fold error survived until
+  somebody read it. `probe-dead.py` now records `elapsed_seconds` in its
+  evidence, and `check-docs-fresh.mjs` compares every duration and host-count
+  claim a document makes about the sweep against that record, so the number a
+  reader plans around is the number the run actually took.
+- **`check-overlaps.py` silently discarded the manual override list.** A dead
+  `manual = []` line ran after the overrides were loaded from `rules.json`, so
+  the "Manual Overrides" section always reported zero — and the report looked
+  correct while the override map was populated. It went unnoticed because the
+  map was empty at the time it shipped.
 - **Category boundary corrections for Microsoft-owned domains.** Skype, Lync and
   GroupMe are now `messaging` instead of `email`; Bing Maps surfaces are `maps`
   instead of `search`; HockeyApp is `crash` instead of `analytics`.

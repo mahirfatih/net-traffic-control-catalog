@@ -9,7 +9,7 @@ Sites screens group and label domains correctly.
 
 ## Contents
 
-- **7,177 categories** — `host → category`.
+- **6,745 categories** — `host → category`.
 - **22 services** — `product → hosts`.
 
 See [`docs/CATALOG.md`](docs/CATALOG.md) for the breakdown by category.
@@ -190,7 +190,7 @@ response code they return, which settles it:
 
 ```sh
 python3 scripts/catalog/probe-dead.py --self-test
-python3 scripts/catalog/probe-dead.py --round 1     # ~30 minutes, 7,177 hosts
+python3 scripts/catalog/probe-dead.py --round 1     # ~10 minutes, 6,745 hosts
 python3 scripts/catalog/probe-dead.py --round 2     # 10 minutes later, minimum enforced
 python3 scripts/catalog/probe-dead.py --summary
 ```
@@ -262,24 +262,41 @@ text model can recover.
 
 ![Confusion matrix](docs/analysis/out/confusion-matrix.png)
 
-**Accuracy: 84%** (1,545/1,844, 19 classes, 5-fold CV). This measures
-*self-consistency*, not correctness — it shows whether our labels are
-predictable from page content. High diagonal = our labels are predictable from
-page text. Off-diagonal = our label disagrees with what the text suggests
+**Accuracy: 89%** (4,045/4,565, 27 classes, 3-fold CV) — **balanced accuracy
+60%**. `finance` is 53% of the catalog, so the two numbers differ by 29 points
+and the second is the meaningful one: roughly two of every three labels cannot
+be recovered from page text, which accuracy hides.
+
+This measures *self-consistency*, not correctness — it shows whether our labels
+are predictable from page content. High diagonal = our labels are predictable
+from page text. Off-diagonal = our label disagrees with what the text suggests
 (either the label is wrong, or the page is not representative of the category).
 
-Model comparison: LinearSVC 0.838 / 0.840, LogisticRegression 0.825 / 0.832,
-MultinomialNB 0.647 / 0.585 (accuracy / weighted F1).
+All 27 categories are measured, including the small ones. Model comparison:
+LinearSVC 0.886 / 0.595, LogisticRegression 0.862 / 0.576,
+MultinomialNB 0.605 / 0.166 (accuracy / balanced accuracy).
 
-- **Highest F1:** `education` 0.93, `government` 0.97, `news` 0.91, `health`
-  0.81, `messaging` 0.87. These categories have strong, distinctive page
-  signals.
-- **Lowest F1:** `cdn` 0.44, `social` 0.40, `travel` 0.44, `encyclopedia` 0.42 —
-  some of these are infrastructure (page text is meaningless or ambiguous).
-  Correlated terms and model-weight terms reveal potential miscategorizations.
-- **High-confidence errors:** only 1 host (`googlesyndication.com`, labeled
-  `ads` but predicted `search` at 80% confidence — Google's ad serving
-  infrastructure, debatable label).
+- **Highest F1:** `government` 0.97, `finance` 0.96, `education` 0.92, `news`
+  0.86, `email` 0.72. These categories have strong, distinctive page signals.
+- **Lowest F1:** `crypto` 0.19, `encyclopedia` 0.31, `cdn` 0.35, `music` 0.40,
+  `video` 0.41, `social` 0.41 — some of these are infrastructure (page text is
+  meaningless or ambiguous). Correlated terms and model-weight terms reveal
+  potential miscategorizations.
+- **Thin evidence:** eight categories have under 20 examples, so their F1 is
+  indicative rather than measured — `maps` 3, `sports` 7, `music` 8, `crypto` 8,
+  `other` 10, `crash` 11, `telecom` 11, `email` 19. This is why the matrix is
+  3-fold, not 5.
+- **Coverage is 68%, and unevenly spread:** 4,565 of 6,745 hosts yield usable
+  page text. The failures cluster in canvas/JS-heavy categories — `gaming` is
+  measured on 69 hosts of 360 (19%), `software` 168 of 476 (35%) — while
+  static ones do well (`government` 87%, `news` 88%). Every per-class score
+  describes the hosts that produced text, not the category. Full table in
+  [`docs/analysis/README.md`](docs/analysis/README.md).
+- **High-confidence errors:** 5 hosts, four of them labelled `finance` —
+  `guven.com.tr` (→ `health`, 87%), `display.ugc.bazaarvoice.com` (→ `finance`,
+  82%), `iqiyi.com` (→ `finance`, 82%), `ilbank.gov.tr` (→ `government`, 72%)
+  and `paypalobjects.com` (→ `music`, 71%). `finance` is over half the sample, so
+  it is both where the model falls back to and where it drifts from.
 
 See [`docs/analysis/README.md`](docs/analysis/README.md) for full methodology,
 per-class metrics, correlated terms (chi-squared + LinearSVC weights), and the

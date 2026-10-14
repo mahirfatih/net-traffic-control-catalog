@@ -21,6 +21,46 @@ A category name outside the vocabulary is **not** an error the app reports — i
 is silently ignored on device. `validate.py` is what turns that into a build
 failure.
 
+### Correcting a host you are not adding
+
+When one host is miscategorised but its neighbours are right, do not loosen the
+rule — that would move its subdomains too. Record the decision where it will
+outlive the next source refresh:
+
+```sh
+python3 scripts/catalog/overrides.py set example.com shopping --reason "sells goods"
+./test/test.sh
+```
+
+Precedence is **`override` > `rules` > source**: `generate.py` applies
+overrides last, and `merge.py` refuses to overwrite an overridden host. The
+reason is mandatory — an override nobody can explain is indistinguishable from a
+mistake, exactly like a `drop.hosts` entry.
+
+## Removing a host
+
+Two different removals, and they are not the same decision.
+
+**It is in the catalog but wrong or worthless** — a confirmed non-finance
+false positive, a throwaway host. Add it to `rules.json` → `drop.hosts` with a
+reason, and remove it from `seeds/categories.json`. The `drop.hosts` entry is
+what stops `harvest.py` importing it again.
+
+**It no longer exists** — do not decide that by hand. From this network *dead*
+and *unreachable* look identical, and 181 real banks were almost dropped on that
+evidence:
+
+```sh
+python3 scripts/catalog/probe-dead.py --round 1     # ~10 minutes
+python3 scripts/catalog/probe-dead.py --round 2     # 10 minutes later
+python3 scripts/catalog/probe-dead.py --summary     # proposal only, changes nothing
+python3 scripts/catalog/probe-dead.py --apply       # only after you read it
+```
+
+Read the proposal before applying it. A host is only proposed when all six DNS
+questions in **both** rounds answered `NXDOMAIN`; `nodata` and `servfail` are
+reported but never proposed.
+
 ## Bulk work: harvest
 
 For finding hosts that are missing rather than guessing them:
@@ -84,8 +124,10 @@ one re-labels data on somebody's device.
 ```
 
 which runs, in order: the source registry check, the schema check, the build,
-the validator, the documentation freshness check, and `python3 -m py_compile`
-over every script. All of it is Python 3 standard library — no dependencies, no
+the validator, the documentation freshness check, the catalog's own quality
+guardrails (overlaps, category boundaries, source-import quality, override
+validity, the dead-domain decision table), and `python3 -m py_compile` over
+every script. All of it is Python 3 standard library — no dependencies, no
 install step.
 
 If you changed a number that appears in a document, the freshness check will

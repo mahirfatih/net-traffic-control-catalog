@@ -172,20 +172,54 @@ def main(argv):
             analysis = json.load(handle)
         if analysis.get("total_hosts") == total:
             accuracy = analysis.get("accuracy", 0.0)
+            balanced = analysis.get("balanced_accuracy")
             classes = analysis.get("classes", [])
             hosts = analysis.get("hosts_after_filter", 0)
+            dropped = analysis.get("dropped_classes", {})
             add("")
             add("## Reliability")
             add("")
             add("An audit compares TF-IDF text classifiers, keeps LinearSVC for")
-            add("the detailed 5-fold cross-validation, and asks how reliably each label")
-            add(f"can be recovered from the host's own page: **accuracy {accuracy:.0%}**")
-            add(f"over {hosts} hosts across {len(classes)} categories.")
+            add(f"the detailed {analysis.get('folds', 5)}-fold cross-validation, and asks")
+            add(f"how reliably each label can be recovered from the host's own page:")
+            add(f"**accuracy {accuracy:.0%}** over {hosts:,} hosts across {len(classes)} categories.")
             add("")
+            if balanced is not None:
+                add(f"Balanced accuracy is **{balanced:.0%}**. `finance` is over half the catalog,")
+                add("so accuracy mostly reports how well the model predicts `finance`; the")
+                add("balanced figure weights every category equally and is the one that")
+                add("describes the labels as a whole.")
+                add("")
             add("This measures *self-consistency*, not correctness — there is no independent")
             add("ground truth, so a low figure means a label disagrees with its page, not")
             add("that the label is wrong.")
             add("")
+            if analysis.get("measured_hosts") and analysis.get("total_hosts"):
+                un = analysis.get("unmeasured", {})
+                add(f"The audit reaches {analysis['measured_hosts']:,} of the catalog's")
+                add(f"{analysis['total_hosts']:,} hosts; the rest serve no usable page text"
+                    + (f" — {un.get('no_response', 0):,} answer nothing at all and"
+                       f" {un.get('too_short', 0):,} return under {un.get('min_text', 100)}"
+                       " characters." if un else "."))
+                add("The failures are uneven — some categories are measured on a small")
+                add("fraction of their hosts. A per-class score describes the hosts that")
+                add("produced text, not the category. Per-category coverage is in")
+                add("[`analysis/README.md`](analysis/README.md).")
+                add("")
+            if dropped:
+                names = ", ".join(f"`{c}` {n}" for c, n in sorted(dropped.items(), key=lambda kv: -kv[1]))
+                add(f"{len(dropped)} further categories have too few labelled examples to")
+                add(f"be measured at all and are excluded: {names}. Nothing here says")
+                add("whether those labels are correct.")
+                add("")
+            if analysis.get("thin_classes"):
+                thin = analysis["thin_classes"]
+                names = ", ".join(f"`{c}` {n}" for c, n in sorted(thin.items(), key=lambda kv: kv[1]))
+                add(f"{len(thin)} categories rest on under 20 examples, so their scores are")
+                add(f"indicative rather than measured: {names}.")
+                add(f"The matrix uses {analysis.get('folds', 5)}-fold cross-validation because the")
+                add("smallest category cannot be split five ways.")
+                add("")
             if analysis.get("predictions"):
                 add("The audit output also records each host's top three predicted categories")
                 add("and confidence score, and the correlated-terms report shows both")

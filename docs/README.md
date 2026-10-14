@@ -42,8 +42,8 @@ That is the point. A host with no category is an open question; writing it as
 an answer. Each entry says what was tried, so the next person does not repeat
 the work.
 
-A host leaves this file by getting a rule with a reason, or a `drop.hosts`
-entry with a reason.
+A host leaves this file by getting a rule with a reason, an entry in
+`drop.override`, or a `drop.hosts` entry with a reason.
 
 ## Which one do I want?
 

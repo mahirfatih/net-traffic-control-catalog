@@ -20,17 +20,31 @@ const notes = [];
 const read = (p) => readFileSync(join(ROOT, p), "utf8");
 const json = (p) => JSON.parse(read(p));
 
-/** Every markdown in the repo, so a dangling link anywhere is found. */
+/**
+ * Every markdown in the repo, so a dangling link anywhere is found.
+ *
+ * This used to walk only the repository root and one level of `docs/`, which
+ * left fourteen documents unchecked — including `docs/analysis/README.md`,
+ * `scripts/README.md` and every subdirectory README. Drift was found hiding in
+ * exactly those files. Vendored and generated-noise directories are skipped.
+ */
+const SKIP_DIRS = new Set([".git", ".venv", "node_modules", ".pages", "__pycache__"]);
+
 function markdownFiles() {
-  const out = ["README.md", "CONTRIBUTING.md", "SECURITY.md", "CHANGELOG.md"];
-  for (const dir of ["docs"]) {
-    const full = join(ROOT, dir);
-    if (!existsSync(full)) continue;
-    for (const name of readdirSync(full)) {
-      if (name.endsWith(".md")) out.push(`${dir}/${name}`);
+  const out = [];
+  const walk = (rel) => {
+    const full = join(ROOT, rel);
+    for (const entry of readdirSync(full, { withFileTypes: true })) {
+      if (entry.isDirectory()) {
+        if (SKIP_DIRS.has(entry.name)) continue;
+        walk(rel ? `${rel}/${entry.name}` : entry.name);
+      } else if (entry.name.endsWith(".md")) {
+        out.push(rel ? `${rel}/${entry.name}` : entry.name);
+      }
     }
-  }
-  return out.filter((p) => existsSync(join(ROOT, p)));
+  };
+  walk("");
+  return out.sort().filter((p) => existsSync(join(ROOT, p)));
 }
 
 /** 1. Every relative link in every document must resolve. */
@@ -233,18 +247,40 @@ function checkAnalysisFigures() {
     }
   }
 
-  // "accuracy 84% over 1844 hosts across 19 categories"
+  // "accuracy 84% over 1,844 hosts across 19 categories"
   const catalogDoc = "docs/CATALOG.md";
   const summary = read(catalogDoc).match(
-    /\*\*accuracy (\d+)%\*\*\s*over (\d+) hosts across (\d+) categories/
+    /\*\*accuracy (\d+)%\*\*\s*over ([\d,]+) hosts across ([\d,]+) categories/
   );
   if (summary) {
     const [, pct, hosts, cls] = summary;
-    if (Number(pct) !== accuracy || Number(hosts) !== total || Number(cls) !== classes) {
+    if (
+      Number(pct) !== accuracy ||
+      Number(hosts.replace(/,/g, "")) !== total ||
+      Number(cls.replace(/,/g, "")) !== classes
+    ) {
       problems.push(
         `${catalogDoc}: reliability summary is stale — ${dataPath} reports ${accuracy}% over ${total} hosts across ${classes} categories`
       );
     }
+  }
+
+  // Every check above compares the documents to the report, and the report to
+  // itself. None of them asks whether the report is still about *this* catalog —
+  // so a figure can describe a catalog two and a half times smaller than the
+  // one shipped, and stay internally consistent while being wrong. `total_hosts`
+  // is the catalog size at the time of the audit, which makes the drift visible.
+  //
+  // A note rather than a failure: rerunning the audit needs the network and the
+  // analysis venv, and `test/test.sh` must never require either. Blocking here
+  // would only teach people to ignore the checker.
+  const catalogSize = Object.keys(json("catalog.json").categories || {}).length;
+  if (data.total_hosts && data.total_hosts !== catalogSize) {
+    notes.push(
+      `the reliability figures describe a ${fmt(data.total_hosts)}-host catalog, ` +
+        `but catalog.json now has ${fmt(catalogSize)} — rerun scripts/analysis/ ` +
+        `when convenient; the percentages are about the older catalog`
+    );
   }
 
   // The per-class table and the F1 quotes must be the report's own numbers.
@@ -273,19 +309,91 @@ function checkAnalysisFigures() {
     }
   }
 
+  // The coverage table says how much of each category a score actually covers.
+  // A per-class F1 describes the hosts that yielded text, and for `gaming` that
+  // is 69 of 360 - a fact worth failing a build over if it goes missing.
+  const coverage = data.coverage || {};
+  const covRow = /^\| ([a-z]+) \| (\d+) \| (\d+) \| (\d+)% \|$/;
+  let covRows = 0;
+  for (const line of text.split("\n")) {
+    const m = line.match(covRow);
+    if (!m) continue;
+    const [, category, inCatalog, measured, pct] = m;
+    const actual = coverage[category];
+    if (!actual) continue;
+    covRows++;
+    for (const [what, quoted, want] of [
+      ["in catalog", Number(inCatalog), actual.in_catalog],
+      ["measured", Number(measured), actual.measured],
+      ["coverage", Number(pct), Math.round((actual.measured / actual.in_catalog) * 100)],
+    ]) {
+      if (quoted !== want) {
+        problems.push(
+          `docs/analysis/README.md: ${category} ${what} says ${quoted}, ${dataPath} has ${want}`
+        );
+      }
+    }
+  }
+  if (Object.keys(coverage).length && covRows < Object.keys(coverage).length) {
+    problems.push(
+      `docs/analysis/README.md: coverage table has ${covRows} row(s), ` +
+        `${dataPath} covers ${Object.keys(coverage).length} categories`
+    );
+  }
+
+  // Why the unmeasured hosts are unmeasured has to add up. The three reasons
+  // plus the measured count must equal the catalog, or a document has a gap
+  // nobody can see: the first version of this paragraph said "445 return under
+  // 100 bytes" against a 1,721 that summed to 2,166 and not 2,180, and no check
+  // noticed the 14 hosts it had silently dropped.
+  const unmeasured = data.unmeasured;
+  if (unmeasured) {
+    const parts =
+      unmeasured.never_fetched +
+      unmeasured.no_response +
+      unmeasured.too_short +
+      unmeasured.dropped_by_class_filter;
+    if (parts + data.measured_hosts !== data.total_hosts) {
+      problems.push(
+        `${dataPath}: the unmeasured breakdown does not add up — ` +
+          `${parts} + ${data.measured_hosts} measured != ${data.total_hosts} hosts`
+      );
+    }
+    const num = (s) => Number(String(s).replace(/,/g, ""));
+    for (const [pattern, want, what] of [
+      [/([\d,]+) answer nothing at all/, unmeasured.no_response, "no response"],
+      [/([\d,]+) return under \d+\s+characters/, unmeasured.too_short, "under min_text"],
+    ]) {
+      if (data.total_hosts >= 2000) {
+        const m = text.match(pattern);
+        if (!m) {
+          problems.push(
+            `docs/analysis/README.md: must state the ${what} count (${want}) when ` +
+              `${dataPath} records it`
+          );
+        } else if (num(m[1]) !== want) {
+          problems.push(
+            `docs/analysis/README.md: says ${m[1]} hosts ${what}, ${dataPath} has ${want}`
+          );
+        }
+      }
+    }
+  }
+
   // Model comparison rows must match the analysis output as well.
   const comparison = data.model_comparison || [];
   const comparisonByName = Object.fromEntries(comparison.map((row) => [row.model, row]));
-  const comparisonRow = /^\| ([A-Za-z]+) \| ([\d.]+) \| ([\d.]+) \| ([\d.]+) \|$/;
+  const comparisonRow = /^\| ([A-Za-z]+) \| ([\d.]+) \| ([\d.]+) \| ([\d.]+) \| ([\d.]+) \|$/;
   let comparisonRows = 0;
   for (const line of text.split("\n")) {
     const m = line.match(comparisonRow);
     if (!m || !(m[1] in comparisonByName)) continue;
     comparisonRows++;
-    const [, model, accuracyValue, macroF1Value, weightedF1Value] = m;
+    const [, model, accuracyValue, balancedValue, macroF1Value, weightedF1Value] = m;
     const actual = comparisonByName[model];
     for (const [field, quoted] of [
       ["accuracy", accuracyValue],
+      ["balanced_accuracy", balancedValue],
       ["macro_f1", macroF1Value],
       ["weighted_f1", weightedF1Value],
     ]) {
@@ -306,10 +414,51 @@ function checkAnalysisFigures() {
   const readmeComparison = read("README.md");
   for (const row of comparison) {
     const accuracyValue = row.accuracy.toFixed(3);
-    const weightedF1Value = row.weighted_f1.toFixed(3);
-    const needle = `${row.model} ${accuracyValue} / ${weightedF1Value}`;
+    const balancedValue = row.balanced_accuracy.toFixed(3);
+    const needle = `${row.model} ${accuracyValue} / ${balancedValue}`;
     if (!readmeComparison.includes(needle)) {
       problems.push(`README.md: missing model comparison quote \`${needle}\``);
+    }
+  }
+
+  // The headline quotes balanced accuracy next to accuracy, because the gap is
+  // the finding. If the audit stops reporting it, the quote goes with it.
+  const balancedPct = Math.round(data.balanced_accuracy * 100);
+  const balancedQuote = `**balanced accuracy\n${balancedPct}%**`;
+  if (comparison.length && !readmeComparison.includes(balancedQuote)) {
+    problems.push(
+      `README.md: should quote \`${balancedPct}%\` balanced accuracy — it is ${Math.round(
+        data.balanced_accuracy * 100
+      )}% against ${Math.round(data.accuracy * 100)}% accuracy, and the gap is why ` +
+        `accuracy alone misleads`
+    );
+  }
+
+  // The fold count is data-dependent now: `maps` has three examples, so the
+  // matrix is 3-fold and a document saying 5 is describing a run that does not
+  // exist. It drifted exactly that way — build-catalog-docs.py printed "5-fold"
+  // while the same page's thin-class note printed "3-fold", and no check
+  // compared either against the data.
+  const folds = data.folds;
+  if (folds) {
+    // Every fold claim is checked, not only the ones phrased "N-fold
+    // cross-validation": a document saying "cross-validates it (5-fold)" is
+    // making the same claim and drifted the same way. The calibration step's
+    // own inner CV is a different quantity that happens to share the wording,
+    // so lines about it are named and skipped rather than left to pass by luck.
+    for (const file of markdownFiles()) {
+      const lines = read(file).split("\n");
+      for (let i = 0; i < lines.length; i++) {
+        if (/CalibratedClassifierCV|sigmoid/.test(lines[i])) continue;
+        for (const m of lines[i].matchAll(/(\d+)-fold/g)) {
+          if (Number(m[1]) !== folds) {
+            problems.push(
+              `${file}:${i + 1}: says ${m[1]}-fold cross-validation, ${dataPath} used ${folds} ` +
+                `(the fold count follows the smallest category)`
+            );
+          }
+        }
+      }
     }
   }
 
@@ -337,6 +486,72 @@ function checkAnalysisFigures() {
   );
 }
 
+/** 9. Durations the documents quote must be measured, not guessed. */
+function checkMeasuredRuntimes() {
+  // A quoted runtime is a claim that decays silently: nothing about the catalog
+  // changing invalidates "~30 minutes", so the wrong number survives until a
+  // person waits on it. The sweep records its own elapsed time, so the claim
+  // can be checked against the run that produced it instead of against taste.
+  const evidencePath = "evidence/dead-domain-sweep.json";
+  if (!existsSync(join(ROOT, evidencePath))) {
+    notes.push("no dead-domain sweep evidence — skipped the duration claims");
+    return;
+  }
+  const sweep = json(evidencePath);
+  const rounds = (sweep.rounds || []).filter((r) => r.complete && r.elapsed_seconds);
+  if (!rounds.length) {
+    problems.push(
+      `${evidencePath}: no complete round records elapsed_seconds, so the documents' ` +
+        `duration claims cannot be checked — rerun the sweep`
+    );
+    return;
+  }
+
+  // The slowest complete round is the number worth quoting: a reader planning
+  // the work is sizing the worst case, not the luckiest one.
+  const slowest = Math.max(...rounds.map((r) => r.elapsed_seconds));
+  const minutes = Math.round(slowest / 60);
+
+  let claims = 0;
+  for (const file of markdownFiles()) {
+    const text = read(file);
+    const lines = text.split("\n");
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      if (!/probe-dead\.py/.test(line)) continue;
+      // "# ~10 minutes" — an estimate attached to the sweep command. The
+      // round-2 lines say "10 minutes later", which is the enforced minimum
+      // gap, not a duration, and is checked separately below.
+      const claimed = line.match(/~\s*(\d+)\s*minutes?/);
+      if (claimed) {
+        claims++;
+        if (Number(claimed[1]) !== minutes) {
+          problems.push(
+            `${file}:${i + 1}: says the sweep takes ~${claimed[1]} minutes, ` +
+              `${evidencePath} measured ${slowest.toFixed(0)}s (${minutes} minutes) — ` +
+              `measure it, do not guess it`
+          );
+        }
+      }
+      // A host count on the same line must be the real catalog size.
+      const hosts = line.match(/([\d,]+)\s+hosts/);
+      if (hosts) {
+        claims++;
+        const total = Object.keys(json("catalog.json").categories || {}).length;
+        if (Number(hosts[1].replace(/,/g, "")) !== total) {
+          problems.push(
+            `${file}:${i + 1}: says the sweep covers ${hosts[1]} hosts, ` +
+              `catalog.json has ${total.toLocaleString("en-US")}`
+          );
+        }
+      }
+    }
+  }
+  notes.push(
+    `checked ${claims} duration/count claim(s) against ${evidencePath}: ${slowest.toFixed(0)}s slowest complete round`
+  );
+}
+
 for (const check of [
   checkLinks,
   checkScriptNames,
@@ -346,6 +561,7 @@ for (const check of [
   checkLicenseGate,
   checkDirectoryReadmes,
   checkAnalysisFigures,
+  checkMeasuredRuntimes,
 ]) {
   try {
     check();
