@@ -172,8 +172,10 @@ def main(argv):
             analysis = json.load(handle)
         if analysis.get("total_hosts") == total:
             accuracy = analysis.get("accuracy", 0.0)
+            balanced = analysis.get("balanced_accuracy")
             classes = analysis.get("classes", [])
             hosts = analysis.get("hosts_after_filter", 0)
+            dropped = analysis.get("dropped_classes", {})
             add("")
             add("## Reliability")
             add("")
@@ -182,10 +184,22 @@ def main(argv):
             add(f"can be recovered from the host's own page: **accuracy {accuracy:.0%}**")
             add(f"over {hosts} hosts across {len(classes)} categories.")
             add("")
+            if balanced is not None:
+                add(f"Balanced accuracy is **{balanced:.0%}**. `finance` is over half the catalog,")
+                add("so accuracy mostly reports how well the model predicts `finance`; the")
+                add("balanced figure weights every category equally and is the one that")
+                add("describes the labels as a whole.")
+                add("")
             add("This measures *self-consistency*, not correctness — there is no independent")
             add("ground truth, so a low figure means a label disagrees with its page, not")
             add("that the label is wrong.")
             add("")
+            if dropped:
+                names = ", ".join(f"`{c}` {n}" for c, n in sorted(dropped.items(), key=lambda kv: -kv[1]))
+                add(f"{len(dropped)} further categories have too few labelled examples to")
+                add(f"be measured at all and are excluded: {names}. Nothing here says")
+                add("whether those labels are correct.")
+                add("")
             if analysis.get("predictions"):
                 add("The audit output also records each host's top three predicted categories")
                 add("and confidence score, and the correlated-terms report shows both")

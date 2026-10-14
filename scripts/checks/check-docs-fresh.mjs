@@ -294,16 +294,17 @@ function checkAnalysisFigures() {
   // Model comparison rows must match the analysis output as well.
   const comparison = data.model_comparison || [];
   const comparisonByName = Object.fromEntries(comparison.map((row) => [row.model, row]));
-  const comparisonRow = /^\| ([A-Za-z]+) \| ([\d.]+) \| ([\d.]+) \| ([\d.]+) \|$/;
+  const comparisonRow = /^\| ([A-Za-z]+) \| ([\d.]+) \| ([\d.]+) \| ([\d.]+) \| ([\d.]+) \|$/;
   let comparisonRows = 0;
   for (const line of text.split("\n")) {
     const m = line.match(comparisonRow);
     if (!m || !(m[1] in comparisonByName)) continue;
     comparisonRows++;
-    const [, model, accuracyValue, macroF1Value, weightedF1Value] = m;
+    const [, model, accuracyValue, balancedValue, macroF1Value, weightedF1Value] = m;
     const actual = comparisonByName[model];
     for (const [field, quoted] of [
       ["accuracy", accuracyValue],
+      ["balanced_accuracy", balancedValue],
       ["macro_f1", macroF1Value],
       ["weighted_f1", weightedF1Value],
     ]) {
@@ -324,11 +325,24 @@ function checkAnalysisFigures() {
   const readmeComparison = read("README.md");
   for (const row of comparison) {
     const accuracyValue = row.accuracy.toFixed(3);
-    const weightedF1Value = row.weighted_f1.toFixed(3);
-    const needle = `${row.model} ${accuracyValue} / ${weightedF1Value}`;
+    const balancedValue = row.balanced_accuracy.toFixed(3);
+    const needle = `${row.model} ${accuracyValue} / ${balancedValue}`;
     if (!readmeComparison.includes(needle)) {
       problems.push(`README.md: missing model comparison quote \`${needle}\``);
     }
+  }
+
+  // The headline quotes balanced accuracy next to accuracy, because the gap is
+  // the finding. If the audit stops reporting it, the quote goes with it.
+  const balancedPct = Math.round(data.balanced_accuracy * 100);
+  const balancedQuote = `**balanced accuracy\n${balancedPct}%**`;
+  if (comparison.length && !readmeComparison.includes(balancedQuote)) {
+    problems.push(
+      `README.md: should quote \`${balancedPct}%\` balanced accuracy — it is ${Math.round(
+        data.balanced_accuracy * 100
+      )}% against ${Math.round(data.accuracy * 100)}% accuracy, and the gap is why ` +
+        `accuracy alone misleads`
+    );
   }
 
   // "**Highest F1:** `education` 0.93, `government` 0.97, ..."

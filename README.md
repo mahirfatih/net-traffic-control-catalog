@@ -262,14 +262,18 @@ text model can recover.
 
 ![Confusion matrix](docs/analysis/out/confusion-matrix.png)
 
-**Accuracy: 90%** (3,800/4,213, 18 classes, 5-fold CV). This measures
-*self-consistency*, not correctness — it shows whether our labels are
-predictable from page content. High diagonal = our labels are predictable from
-page text. Off-diagonal = our label disagrees with what the text suggests
+**Accuracy: 90%** (3,800/4,213, 18 classes, 5-fold CV) — **balanced accuracy
+67%**. `finance` is 53% of the catalog, so the two numbers differ by 23 points
+and the second is the meaningful one: about a third of our labels cannot be
+recovered from page text, which accuracy hides.
+
+This measures *self-consistency*, not correctness — it shows whether our labels
+are predictable from page content. High diagonal = our labels are predictable
+from page text. Off-diagonal = our label disagrees with what the text suggests
 (either the label is wrong, or the page is not representative of the category).
 
-Model comparison: LinearSVC 0.902 / 0.904, LogisticRegression 0.884 / 0.891,
-MultinomialNB 0.792 / 0.749 (accuracy / weighted F1).
+Model comparison: LinearSVC 0.902 / 0.672, LogisticRegression 0.884 / 0.668,
+MultinomialNB 0.734 / 0.263 (accuracy / balanced accuracy).
 
 - **Highest F1:** `government` 0.97, `finance` 0.96, `education` 0.91, `news`
   0.87, `messaging` 0.83. These categories have strong, distinctive page
@@ -277,6 +281,10 @@ MultinomialNB 0.792 / 0.749 (accuracy / weighted F1).
 - **Lowest F1:** `encyclopedia` 0.28, `video` 0.45, `social` 0.47, `transport`
   0.53 — some of these are infrastructure (page text is meaningless or ambiguous).
   Correlated terms and model-weight terms reveal potential miscategorizations.
+- **Not measured at all:** nine categories have fewer than 20 labelled examples
+  and are excluded — `maps` has 2, `music` 6, `sports` 7, `crypto` 8, `other` 9,
+  `telecom` 10, `crash` 11, `email` 18, `cdn` 19. The audit says nothing about
+  whether those labels are right.
 - **High-confidence errors:** 4 hosts — `guven.com.tr` (`finance` → `health`,
   88%), `display.ugc.bazaarvoice.com` (`software` → `finance`, 83%), `iqiyi.com`
   (`video` → `finance`, 83%) and `googlesyndication.com` (`ads` → `search`,

@@ -28,28 +28,66 @@ Outputs land in `out/`:
 
 ## Result
 
-**Accuracy: 90%** (3,800/4,213, 18 classes, 5-fold CV).
+**Accuracy: 90%** (3,800/4,213, 18 classes, 5-fold CV) — **balanced accuracy
+67%**. Both numbers are correct and the gap between them is the whole story.
 
 The audit covers every catalog host whose homepage yields usable text — 4,303 of
 6,745 — and keeps the 18 classes with at least 20 labelled examples.
+
+### The 23-point gap
+
+`finance` is 53.1% of the catalog, so it is 56% of the sample. Accuracy asks
+"how often is the model right", and the model is right about `finance` almost
+always. Balanced accuracy asks "how often is it right *per class*", weighting
+every category equally. LinearSVC scores 0.902 and 0.672.
+
+Read the first number alone and the catalog looks nearly perfect. Read the second
+and the real picture is that a third of our labels cannot be recovered from page
+text. The second number is the one that means something.
 
 ### Model comparison
 
 The audit compares several TF-IDF classifiers before using LinearSVC for the
 confusion matrix, term weights and calibrated error review.
 
-| Model | Accuracy | Macro F1 | Weighted F1 |
-| :--- | ---: | ---: | ---: |
-| LinearSVC | 0.902 | 0.674 | 0.904 |
-| LogisticRegression | 0.884 | 0.644 | 0.891 |
-| MultinomialNB | 0.792 | 0.197 | 0.749 |
+| Model | Accuracy | Balanced accuracy | Macro F1 | Weighted F1 |
+| :--- | ---: | ---: | ---: | ---: |
+| LinearSVC | 0.902 | 0.672 | 0.674 | 0.904 |
+| LogisticRegression | 0.884 | 0.668 | 0.644 | 0.891 |
+| MultinomialNB | 0.734 | 0.263 | 0.259 | 0.740 |
 
-The ranking is unchanged since the 2,551-host run, and the gap between the
-first two narrowed while naive Bayes gained most — 0.647 → 0.792 accuracy, but
-macro F1 barely moved (0.194 → 0.197). Accuracy rewards a model that is right
-about `finance` and `government`, which together are 77% of the sample.
-Macro F1 weights every class equally, and naive Bayes is close to worthless on
-the small ones.
+All three are reweighted toward the rare classes — `class_weight="balanced"` for
+the two linear models, and a hand-computed inverse-frequency prior for naive
+Bayes, which rejects the string `"balanced"` and only accepts an array. That
+last part matters: without it the comparison was not a comparison, because two
+models were being judged on how they handle a 2,359-example class while the
+third was left to guess it.
+
+The ranking is unchanged, and forcing naive Bayes off the dominant class shows
+exactly how weak it is: its accuracy *fell* (0.792 → 0.734) while its macro F1
+*rose* (0.197 → 0.259). A model that cannot do better than the dominant class
+loses overall accuracy the moment it is forced to try the rare ones. Its
+balanced accuracy of 0.263 is the honest summary.
+
+### What is not measured at all
+
+Nine of the 27 categories have fewer than 20 labelled examples and are dropped
+before the matrix is built. They are not scored, and nothing above says so:
+
+| Category | Examples | Category | Examples |
+| :--- | ---: | :--- | ---: |
+| `cdn` | 19 | `other` | 9 |
+| `email` | 18 | `crypto` | 8 |
+| `crash` | 11 | `sports` | 7 |
+| `telecom` | 10 | `music` | 6 |
+| | | `maps` | 2 |
+
+`maps` has two examples — the category is effectively untested, and a user
+routed by it gets no evidence at all that the label is right. The audit used to
+be silent about this; `cdn` vanished from the matrix at one point with no
+explanation, which is the kind of quiet change that is impossible to notice six
+months later. The dropped classes are now printed and stored in
+`matrix-data.json` as `dropped_classes`.
 
 Read this number correctly:
 
@@ -116,12 +154,19 @@ Read this number correctly:
 | social | random, vk, nba, happening, to share | match, nba, vk, com why, linkedin |
 | messaging | 새창열림, chats, messages, calls, meetings | 새창열림, ai, calls, talk, messages |
 
-**The chi-squared column degraded when the catalog grew, and it is worth knowing
+**The chi-squared column is unreliable on large classes, and it is worth knowing
 why.** `finance` used to be 68 examples with discriminative terms; at 2,359 it
 is 56% of the sample, and chi-squared ranks by raw frequency association, so the
 words that win are simply the common ones — `ve`, `und`, `sie`. The model-weight
-column is unaffected and still reads `bank`, `banking`, `financial`. So: for
-`finance` and `government`, trust the model weights, not the chi-squared terms.
+column is unaffected and still reads `bank`, `banking`, `financial`.
+
+Capping each class before the test was tried and **reverted**. It does fix
+`finance`, and it wrecks everything else: shrinking a class to the size of a
+rare one lets a bigram appearing in two small-class documents outscore a term
+that actually characterises the class (`belediye, meclis, belediyesi` became
+`oprocentowanie, karriere bvr`). The test is a frequency statistic, which makes
+it readable on a large class and noisy on a small one — the opposite of what
+this column needs. **Read the model-weight column.**
 
 ### High-confidence errors
 

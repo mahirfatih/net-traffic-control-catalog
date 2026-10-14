@@ -98,6 +98,28 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Fixed
 
+- **The reliability headline was measuring one category and calling it the
+  catalog.** `finance` is 53% of the catalog, so accuracy (0.902) and balanced
+  accuracy (0.672) differ by 23 points, and only the first was reported.
+  `build-matrix.py` now records balanced accuracy, every document quotes it
+  beside accuracy, and `check-docs-fresh.mjs` fails if a document drops it —
+  the gap is the finding, so a document that quotes accuracy alone is repeating
+  the error.
+- **The model comparison was not a fair comparison.** LinearSVC and
+  LogisticRegression were evaluated with `class_weight="balanced"` while
+  MultinomialNB got no reweighting at all, so two models were being judged on a
+  2,359-example class and the third was left to guess it. Naive Bayes rejects
+  the string `"balanced"` and accepts only an array, so the inverse-frequency
+  prior is now computed as sklearn documents it. The effect is the honest one:
+  naive Bayes' accuracy fell 0.792 → 0.734 while its macro F1 rose
+  0.197 → 0.259 — a model doing no better than the dominant class, shown
+  directly instead of inferred.
+- **Nine categories were silently unmeasured.** `maps` (2 examples), `music` (6),
+  `sports` (7), `crypto` (8), `other` (9), `telecom` (10), `crash` (11),
+  `email` (18) and `cdn` (19) fall below the 20-example class floor. The audit
+  reported none of it: `cdn` had already left the matrix once with nothing in
+  the output to explain it. Dropped classes are now printed, stored as
+  `dropped_classes`, and listed in `docs/CATALOG.md`.
 - **The documents quoted a sweep duration nobody had measured.** README, SOURCES,
   CONTRIBUTING and `scripts/README.md` all said the dead-domain sweep takes
   "~30 minutes". It takes about ten: 605 s and 583 s for the two real runs.

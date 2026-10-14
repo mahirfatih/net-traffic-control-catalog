@@ -109,9 +109,18 @@ the detailed 5-fold cross-validation, and asks how reliably each label
 can be recovered from the host's own page: **accuracy 90%**
 over 4213 hosts across 18 categories.
 
+Balanced accuracy is **67%**. `finance` is over half the catalog,
+so accuracy mostly reports how well the model predicts `finance`; the
+balanced figure weights every category equally and is the one that
+describes the labels as a whole.
+
 This measures *self-consistency*, not correctness — there is no independent
 ground truth, so a low figure means a label disagrees with its page, not
 that the label is wrong.
+
+9 further categories have too few labelled examples to
+be measured at all and are excluded: `cdn` 19, `email` 18, `crash` 11, `telecom` 10, `other` 9, `crypto` 8, `sports` 7, `music` 6, `maps` 2. Nothing here says
+whether those labels are correct.
 
 The audit output also records each host's top three predicted categories
 and confidence score, and the correlated-terms report shows both

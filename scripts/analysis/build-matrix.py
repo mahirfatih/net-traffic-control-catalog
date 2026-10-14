@@ -60,6 +60,7 @@ def main() -> int:
     from sklearn.feature_extraction.text import TfidfVectorizer
     from sklearn.feature_selection import chi2
     from sklearn.metrics import (
+        balanced_accuracy_score,
         classification_report,
         confusion_matrix,
         ConfusionMatrixDisplay,
@@ -81,6 +82,16 @@ def main() -> int:
 
     counts = collections.Counter(y)
     keep = {c for c, n in counts.items() if n >= args.min_class}
+    # A class that drops below the floor leaves the matrix silently, and a
+    # reader comparing two runs sees a lower class count with no explanation.
+    # `cdn` disappeared this way once already: 20 examples when the catalog was
+    # half the size, under the floor once it grew. Record it, print it, ship it.
+    dropped = {c: n for c, n in counts.items() if n < args.min_class}
+    if dropped:
+        print(
+            f"dropped below --min-class {args.min_class}: "
+            + ", ".join(f"{c} ({n} examples)" for c, n in sorted(dropped.items()))
+        )
     mask = np.array([c in keep for c in y])
     X, y = X[mask], y[mask]
     catalog_order = list(dict.fromkeys(labels.values()))
@@ -99,10 +110,20 @@ def main() -> int:
 
     # --- 0. Model comparison ---
     print("\nModel comparison (5-fold CV):")
+    # All three are reweighted toward the rare classes. LinearSVC and logistic
+    # regression get it through class_weight; naive Bayes has no such parameter
+    # and — checked against sklearn 1.9 — does not accept the "balanced" string
+    # for class_prior either, only an array. So the balanced prior is computed
+    # the way sklearn documents it: inversely proportional to class frequency.
+    # Without this the comparison is not a comparison: the other two were being
+    # judged on how well they handle the 2,359-example finance class while naive
+    # Bayes was left to guess it.
+    balanced_prior = np.array([1.0 / counts[c] for c in classes], dtype=float)
+    balanced_prior = balanced_prior / balanced_prior.sum()
     models = [
         ("LinearSVC", LinearSVC(C=1.0, class_weight="balanced", max_iter=5000)),
         ("LogisticRegression", LogisticRegression(C=4.0, class_weight="balanced", max_iter=1000)),
-        ("MultinomialNB", MultinomialNB()),
+        ("MultinomialNB", MultinomialNB(class_prior=balanced_prior)),
     ]
     model_comparison: list[dict[str, object]] = []
     for name, model in models:
@@ -115,12 +136,16 @@ def main() -> int:
         model_comparison.append({
             "model": name,
             "accuracy": float(model_report["accuracy"]),
+            # The honest number. finance is 56% of the sample, so accuracy
+            # mostly reports how well a model predicts finance.
+            "balanced_accuracy": float(balanced_accuracy_score(y, model_pred)),
             "macro_f1": float(model_report["macro avg"]["f1-score"]),
             "weighted_f1": float(model_report["weighted avg"]["f1-score"]),
         })
         print(
             f"  {name:18} "
             f"accuracy={model_report['accuracy']:.3f} "
+            f"balanced={balanced_accuracy_score(y, model_pred):.3f} "
             f"macro_f1={model_report['macro avg']['f1-score']:.3f} "
             f"weighted_f1={model_report['weighted avg']['f1-score']:.3f}"
         )
@@ -149,7 +174,16 @@ def main() -> int:
     X_vec = vectorizer.fit_transform(X)
     feature_names = np.array(vectorizer.get_feature_names_out())
     correlated_terms: dict[str, list[tuple[str, float]]] = {}
-    for i, c in enumerate(classes):
+    # Chi-squared is kept uncapped. Capping oversized classes was tried to stop
+    # finance returning stopwords once it reached 2,359 examples, and it does
+    # fix that class - but it wrecks the rest, because shrinking a class to the
+    # same size as a rare one lets a bigram appearing in two small-class
+    # documents outscore a term that actually characterises government
+    # (`belediye, meclis, belediyesi` became `oprocentowanie, karriere bvr`).
+    # The test is a frequency statistic; it is readable on a large class and
+    # noisy on a small one, which is the opposite of what this column needs.
+    # Read the model-weight column instead when a class is big.
+    for c in classes:
         class_mask = y == c
         chi2_class, _ = chi2(X_vec, class_mask.astype(int))
         top_indices = np.argsort(chi2_class)[-10:][::-1]
@@ -286,12 +320,17 @@ def main() -> int:
         "hosts_with_text": len(hosts),
         "hosts_after_filter": int(len(y)),
         "classes": classes,
+        "dropped_classes": dropped,
         "matrix": cm.tolist(),
         "matrix_normalized": cm_norm.tolist(),
         "counts": {c: int(counts[c]) for c in classes},
         "model_comparison": model_comparison,
         "classification_report": {c: report[c] for c in classes},
         "accuracy": report["accuracy"],
+        # finance is 56% of the sample, so accuracy and balanced accuracy differ
+        # by 23 points. Quoting only the first is how a catalog gets told its
+        # labels are 90% recoverable when per-class they are about 67%.
+        "balanced_accuracy": float(balanced_accuracy_score(y, pred)),
         "macro_avg": report["macro avg"],
         "weighted_avg": report["weighted avg"],
         "correlated_terms": {c: correlated_terms[c] for c in classes},
