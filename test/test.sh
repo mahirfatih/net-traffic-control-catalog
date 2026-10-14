@@ -264,6 +264,64 @@ assert overrides.check(both), "a host in both drop and override must be reported
 print("✓ override beats a rule; bad overrides are refused")
 PY
 
+step "10.9. A dead-domain sweep keeps what it cannot prove"
+python3 - <<'PY'
+import importlib.util
+
+_spec = importlib.util.spec_from_file_location("probe_dead", "scripts/catalog/probe-dead.py")
+probe_dead = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(probe_dead)
+
+# No network in CI, so the decision table is checked directly. This is the part
+# that must never regress: a wrong "dead" here would delete a real bank, on the
+# strength of a firewall answer that said nothing about the host.
+def statuses(cloudflare, google):
+    return {
+        "cloudflare": {rrtype: cloudflare for rrtype in ("A", "AAAA", "NS")},
+        "google": {rrtype: google for rrtype in ("A", "AAAA", "NS")},
+    }
+
+RC_NOERROR, RC_SERVFAIL, RC_NXDOMAIN, RC_UNREACHED = 0, 2, 3, None
+
+cases = [
+    ("every question says NXDOMAIN", statuses(RC_NXDOMAIN, RC_NXDOMAIN), 0, "dead"),
+    ("records come back", statuses(RC_NOERROR, RC_NOERROR), 12, "alive"),
+    ("a record type answers", statuses(RC_NXDOMAIN, RC_NOERROR), 1, "alive"),
+    ("NOERROR with no address record", statuses(RC_NOERROR, RC_NOERROR), 0, "nodata"),
+    ("NOERROR from one, nothing from the other", statuses(RC_NOERROR, RC_UNREACHED), 0, "nodata"),
+    ("every resolver says SERVFAIL", statuses(RC_SERVFAIL, RC_SERVFAIL), 0, "servfail"),
+    ("NXDOMAIN and SERVFAIL disagree", statuses(RC_NXDOMAIN, RC_SERVFAIL), 0, "unknown"),
+    ("NXDOMAIN and a network failure", statuses(RC_NXDOMAIN, RC_UNREACHED), 0, "unknown"),
+    ("all three unroutable", statuses(RC_UNREACHED, RC_UNREACHED), 0, "unknown"),
+]
+for name, seen, answers, expected in cases:
+    actual = probe_dead.classify(seen, answers)
+    assert actual == expected, f"{name}: expected {expected}, got {actual}"
+    print(f"  ✓ {name:44} -> {actual}")
+
+# The proposal is the intersection of the rounds, so a host one round could not
+# speak for is never a candidate for removal.
+state = {
+    "rounds": [
+        {"round": 1, "counts": {}, "results": {
+            "dead-both.test": {"decision": "dead"},
+            "dead-once.test": {"decision": "dead"},
+            "servfail.test": {"decision": "servfail"},
+            "nodata.test": {"decision": "nodata"},
+        }},
+        {"round": 2, "counts": {}, "results": {
+            "dead-both.test": {"decision": "dead"},
+            "unknown.test": {"decision": "unknown"},
+            "servfail.test": {"decision": "servfail"},
+            "nodata.test": {"decision": "nodata"},
+        }},
+    ]
+}
+proposal = probe_dead.build_proposal(state)
+assert proposal == ["dead-both.test"], proposal
+print("  ✓ only a host both rounds called dead is proposed")
+PY
+
 if [ "$FAST" -eq 0 ]; then
     step "11. Every script compiles"
     python3 -m py_compile scripts/*/*.py

@@ -175,6 +175,45 @@ needs a `reason`; `scripts/catalog/overrides.py check` (run by the test suite)
 refuses one without it, one outside the vocabulary, or one that is also in
 `drop.hosts`.
 
+### Removing a host that no longer exists
+
+A domain that stops resolving is not harmless dead weight: it can be bought by
+somebody else and keep the category the previous owner had. Removing one is a
+correctness fix. The hard part is that *unreachable* and *dead* look identical
+from inside this network — a firewall that drops NXDOMAIN-only names, a captive
+portal and a lapsed domain all answer the same way. Nearly all of the AdGuard
+banks look unreachable from here, and 181 real banks were almost dropped on
+that evidence.
+
+So `scripts/catalog/probe-dead.py` asks the resolvers directly and reads the
+response code they return, which settles it:
+
+```sh
+python3 scripts/catalog/probe-dead.py --self-test
+python3 scripts/catalog/probe-dead.py --round 1     # ~30 minutes, 7,177 hosts
+python3 scripts/catalog/probe-dead.py --round 2     # 10 minutes later, minimum enforced
+python3 scripts/catalog/probe-dead.py --summary
+```
+
+Cloudflare and Google are each asked about A, AAAA and NS, so a host has six
+chances to prove it is alive and has to fail all six to be called dead — in
+**both** rounds. Round 2 refuses to run until the minimum gap has passed,
+because a resolver outage is a snapshot the same way a dead name is.
+
+The summary prints a **proposal**. It is not a deletion: applying it means adding
+the host to `rules.json` → `drop.hosts` with a reason that cites the evidence.
+Two verdicts are never proposed for removal, by design:
+
+- **`nodata`** — `NOERROR` with no address record. The name exists; a mail-only
+  domain looks exactly like this.
+- **`servfail`** — every resolver says the zone is broken. Usually a lapsed
+  registration, so it is reported under "Worth a look", but a broken zone is not
+  proof of anything.
+
+The script is deliberately absent from `test/test.sh`: it needs the network, and
+CI must never depend on a network to tell a real bank it is dead. See
+`docs/SOURCES.md` for the full workflow.
+
 Rules for a generator:
 
 - **Output must use our vocabulary** (see above). An unknown category is not
