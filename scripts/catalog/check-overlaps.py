@@ -42,7 +42,6 @@ def main():
 
     redundant = []
     overrides = []
-    manual = [] 
 
     for h in hosts:
         parts = h.split(".")
