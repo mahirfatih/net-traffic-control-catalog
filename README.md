@@ -262,24 +262,26 @@ text model can recover.
 
 ![Confusion matrix](docs/analysis/out/confusion-matrix.png)
 
-**Accuracy: 84%** (1,545/1,844, 19 classes, 5-fold CV). This measures
+**Accuracy: 90%** (3,800/4,213, 18 classes, 5-fold CV). This measures
 *self-consistency*, not correctness — it shows whether our labels are
 predictable from page content. High diagonal = our labels are predictable from
 page text. Off-diagonal = our label disagrees with what the text suggests
 (either the label is wrong, or the page is not representative of the category).
 
-Model comparison: LinearSVC 0.838 / 0.840, LogisticRegression 0.825 / 0.832,
-MultinomialNB 0.647 / 0.585 (accuracy / weighted F1).
+Model comparison: LinearSVC 0.902 / 0.904, LogisticRegression 0.884 / 0.891,
+MultinomialNB 0.792 / 0.749 (accuracy / weighted F1).
 
-- **Highest F1:** `education` 0.93, `government` 0.97, `news` 0.91, `health`
-  0.81, `messaging` 0.87. These categories have strong, distinctive page
+- **Highest F1:** `government` 0.97, `finance` 0.96, `education` 0.91, `news`
+  0.87, `messaging` 0.83. These categories have strong, distinctive page
   signals.
-- **Lowest F1:** `cdn` 0.44, `social` 0.40, `travel` 0.44, `encyclopedia` 0.42 —
-  some of these are infrastructure (page text is meaningless or ambiguous).
+- **Lowest F1:** `encyclopedia` 0.28, `video` 0.45, `social` 0.47, `transport`
+  0.53 — some of these are infrastructure (page text is meaningless or ambiguous).
   Correlated terms and model-weight terms reveal potential miscategorizations.
-- **High-confidence errors:** only 1 host (`googlesyndication.com`, labeled
-  `ads` but predicted `search` at 80% confidence — Google's ad serving
-  infrastructure, debatable label).
+- **High-confidence errors:** 4 hosts — `guven.com.tr` (`finance` → `health`,
+  88%), `display.ugc.bazaarvoice.com` (`software` → `finance`, 83%), `iqiyi.com`
+  (`video` → `finance`, 83%) and `googlesyndication.com` (`ads` → `search`,
+  75%). The two `→ finance` misses share a cause: `finance` is 56% of the
+  sample, so it is the model's default guess for anything commercial-looking.
 
 See [`docs/analysis/README.md`](docs/analysis/README.md) for full methodology,
 per-class metrics, correlated terms (chi-squared + LinearSVC weights), and the

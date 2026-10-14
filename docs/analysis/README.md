@@ -15,7 +15,7 @@ lands here.** It is not part of the shipped catalog pipeline — the rest of
 ```bash
 cd scripts/analysis
 python3 -m venv .venv && .venv/bin/pip install scikit-learn matplotlib
-.venv/bin/python fetch-pages.py     # cache each host's homepage (~3 min)
+.venv/bin/python fetch-pages.py     # cache each host's homepage (~25 min from cold)
 .venv/bin/python build-matrix.py    # ← writes docs/analysis/out/
 ```
 
@@ -28,7 +28,10 @@ Outputs land in `out/`:
 
 ## Result
 
-**Accuracy: 84%** (1,545/1,844, 19 classes, 5-fold CV).
+**Accuracy: 90%** (3,800/4,213, 18 classes, 5-fold CV).
+
+The audit covers every catalog host whose homepage yields usable text — 4,303 of
+6,745 — and keeps the 18 classes with at least 20 labelled examples.
 
 ### Model comparison
 
@@ -37,83 +40,114 @@ confusion matrix, term weights and calibrated error review.
 
 | Model | Accuracy | Macro F1 | Weighted F1 |
 | :--- | ---: | ---: | ---: |
-| LinearSVC | 0.838 | 0.670 | 0.840 |
-| LogisticRegression | 0.825 | 0.662 | 0.832 |
-| MultinomialNB | 0.647 | 0.194 | 0.585 |
+| LinearSVC | 0.902 | 0.674 | 0.904 |
+| LogisticRegression | 0.884 | 0.644 | 0.891 |
+| MultinomialNB | 0.792 | 0.197 | 0.749 |
+
+The ranking is unchanged since the 2,551-host run, and the gap between the
+first two narrowed while naive Bayes gained most — 0.647 → 0.792 accuracy, but
+macro F1 barely moved (0.194 → 0.197). Accuracy rewards a model that is right
+about `finance` and `government`, which together are 77% of the sample.
+Macro F1 weights every class equally, and naive Bayes is close to worthless on
+the small ones.
 
 Read this number correctly:
 
 - **It is consistency, not accuracy.** The model learns how well our own
-  labels can be recovered from page text. 84% means about five-sixths of our
+  labels can be recovered from page text. 90% means about nine in ten of our
   labels are predictable from the page.
-- **Highest F1:** `education` 0.93, `government` 0.97, `news` 0.91, `health`
-  0.81, `messaging` 0.87. These categories have strong, distinctive page
+- **Highest F1:** `government` 0.97, `finance` 0.96, `education` 0.91, `news`
+  0.87, `messaging` 0.83. These categories have strong, distinctive page
   signals.
-- **Lowest F1:** `cdn` 0.44, `social` 0.40, `travel` 0.44, `encyclopedia` 0.42 —
-  some of these are infrastructure (page text is meaningless). But correlated
-  terms and model-weight terms reveal potential miscategorizations.
+- **Lowest F1:** `encyclopedia` 0.28, `video` 0.45, `social` 0.47, `transport`
+  0.53 — some of these are infrastructure (page text is meaningless). But
+  correlated terms and model-weight terms reveal potential miscategorizations.
+- **`cdn` left the matrix.** At 20 labelled examples it only just cleared the
+  `--min-class 20` floor; the catalog changes moved it under, so it is no
+  longer measured. That is the filter working, not a regression — and it is
+  also why the class count went 19 → 18 while the catalog more than doubled.
 
 ### Per-class metrics
 
 | Class | Precision | Recall | F1 | Support |
 | :--- | ---: | ---: | ---: | ---: |
-| government | 0.97 | 0.97 | 0.97 | 883 |
-| software | 0.58 | 0.68 | 0.63 | 111 |
-| health | 0.91 | 0.73 | 0.81 | 55 |
-| shopping | 0.62 | 0.66 | 0.64 | 71 |
-| news | 0.94 | 0.88 | 0.91 | 115 |
-| ads | 0.68 | 0.70 | 0.69 | 40 |
-| education | 0.95 | 0.90 | 0.93 | 161 |
-| gaming | 0.60 | 0.72 | 0.66 | 29 |
-| analytics | 0.68 | 0.66 | 0.67 | 32 |
-| cdn | 0.40 | 0.50 | 0.44 | 20 |
-| travel | 0.41 | 0.48 | 0.44 | 29 |
-| finance | 0.79 | 0.79 | 0.79 | 68 |
-| ai | 0.81 | 0.71 | 0.76 | 48 |
+| finance | 0.97 | 0.96 | 0.96 | 2359 |
+| government | 0.98 | 0.97 | 0.97 | 879 |
+| software | 0.66 | 0.74 | 0.70 | 159 |
+| gaming | 0.66 | 0.70 | 0.68 | 66 |
+| health | 0.85 | 0.75 | 0.80 | 55 |
+| shopping | 0.55 | 0.63 | 0.59 | 71 |
+| news | 0.87 | 0.87 | 0.87 | 114 |
+| travel | 0.59 | 0.43 | 0.50 | 37 |
+| ads | 0.61 | 0.70 | 0.65 | 43 |
+| education | 0.93 | 0.89 | 0.91 | 161 |
+| analytics | 0.59 | 0.72 | 0.65 | 32 |
+| ai | 0.74 | 0.64 | 0.69 | 50 |
 | transport | 0.68 | 0.43 | 0.53 | 35 |
-| video | 0.57 | 0.61 | 0.59 | 44 |
-| search | 0.71 | 0.50 | 0.59 | 24 |
-| encyclopedia | 0.36 | 0.50 | 0.42 | 26 |
-| social | 0.41 | 0.39 | 0.40 | 31 |
-| messaging | 0.83 | 0.91 | 0.87 | 22 |
-| **accuracy** | | | **0.84** | |
-| **macro avg** | 0.68 | 0.67 | 0.67 | |
-| **weighted avg** | 0.85 | 0.84 | 0.84 | |
+| video | 0.37 | 0.56 | 0.45 | 45 |
+| search | 0.80 | 0.50 | 0.62 | 24 |
+| encyclopedia | 0.22 | 0.38 | 0.28 | 26 |
+| social | 0.56 | 0.41 | 0.47 | 34 |
+| messaging | 0.83 | 0.83 | 0.83 | 23 |
+| **accuracy** | | | **0.90** | |
+| **macro avg** | 0.69 | 0.67 | 0.67 | |
+| **weighted avg** | 0.91 | 0.90 | 0.90 | |
 
 ### Correlated terms (chi-squared + model weight, top 5 per class)
 
 | Class | Chi-squared top terms | Model weight top terms |
 | :--- | :--- | :--- |
-| government | belediye, meclis, belediyesi, başkan, beledi | belediye, belediyesi, meclis, başkan, beledi |
-| software | enterprise, software, plex, developer, 365 microsoft | xs, plex, uv, software, web app |
-| health | doktor, tedavisi, patients, cerrahisi, hasta | doktor, medical, patients, hasta, klinik |
-| shopping | amazon, giyim, aksesuar, elbise, ayakkabı | amazon, shop, zara, com why, valid |
-| news | son dakika, dakika, yazarlar, trump, abd | 바로가기, hulu, yahoo, 中文, haberleri |
-| ads | publishers, advertisers, affiliate marketing, advertising, advertiser | publishers, marketing, advertising, affiliate, advertisers |
-| education | akademik, fakültesi, araştırma, koordinatörlüğü, öğrenci | üniversitesi, öğrenci, akademik, araştırma, edu |
-| gaming | legends, game, games, royale, tab opens | game, games, path, legends, save the |
-| analytics | journeys, customer engagement, retention, analytics, session replay | analytics, retention, vercel, http www, your data |
-| cdn | cdn, not found, 404, bunny net, ddos | javascript, cdn, not found, access denied, denied |
-| travel | uçak bileti, bileti, uçak, ucuz, otelleri | com why, http www, bileti, uçak bileti, airbnb |
-| finance | sigortası, bankacılık, mevduat, emeklilik, sigorta | bitcoin, mastercard, cache, crypto, quick |
-| ai | kimi, k3, models, inference, deepseek | ai, models, kimi, k3, research |
-| transport | gönderi, modeller, konfigüratör, fiyat listesi, test sürüşü | maps, gönderi, kargo, limit, fiyat listesi |
-| video | yeni bölüm, diziler, 99 mo, sevdiğim sensin, başkalarının hayatı | tv, max, syntax, originals, column |
-| search | gmail, şartlar, tr 2026, gelişmiş, mleri | search, engine, 2004, resul, com |
-| encyclopedia | dictionary, sözlük, vocabulary, words, century | dictionary, sözlük, downtime, org, articles |
-| social | random, happening, find your, nba, to share | nba, match, facebook, com why, opera |
-| messaging | messenger, 새창열림, messages, calls, telegram | messenger, ai, calls, talk, 새창열림 |
+| finance | ve, und, sie, für, belediye | bank, banking, financial, id, для |
+| government | belediye, meclis, belediyesi, başkan, beledi | belediye, belediyesi, gov, duyurular, beledi |
+| software | github, copilot, azure, enterprise, developer | github, soon, plex, azure, git |
+| gaming | game, games, doom, the elder, elder scrolls | game, games, com why, 401, of |
+| health | doktor, tedavisi, cerrahisi, cerrahi, hastalıkları | doktor, medical, org, http www, health |
+| shopping | giyim, amazon, aksesuar, ayakkabı, elbise | com tr, amazon, com why, mavi, shop |
+| news | son dakika, dakika, yazarlar, abd, trump | hulu, 바로가기, yahoo, haberleri, medium |
+| travel | uçak bileti, bileti, uçak, ucuz, otelleri | http www, flight, com why, www, homes |
+| ads | publishers, advertisers, advertising, audience, publisher | publishers, affiliate, marketing, advertising, advertisers |
+| education | akademik, fakültesi, araştırma, öğrenci, koordinatörlüğü | üniversitesi, öğrenci, edu, akademik, study |
+| analytics | journeys, retention, analytics, replay, observability | http www, analytics, www, retention, your data |
+| ai | kimi, models, deepseek, inference, ai | ai, models, character, kimi, deepseek |
+| transport | gönderi, modeller, fiyat listesi, sürüşü, randevusu | maps, com tr, gönderi, kargo, limit |
+| video | yeni bölüm, sevdiğim sensin, başkalarının hayatı, sensin, originals | http www, max, tv, originals, stream |
+| search | gelişmiş, mleri, uygulamaları, oturum, com tr | engine, search, json, 2004, com why |
+| encyclopedia | dictionary, kelime, words, philosophy, ancient | dictionary, org, kelime, türkçe, unavailable |
+| social | random, vk, nba, happening, to share | match, nba, vk, com why, linkedin |
+| messaging | 새창열림, chats, messages, calls, meetings | 새창열림, ai, calls, talk, messages |
+
+**The chi-squared column degraded when the catalog grew, and it is worth knowing
+why.** `finance` used to be 68 examples with discriminative terms; at 2,359 it
+is 56% of the sample, and chi-squared ranks by raw frequency association, so the
+words that win are simply the common ones — `ve`, `und`, `sie`. The model-weight
+column is unaffected and still reads `bank`, `banking`, `financial`. So: for
+`finance` and `government`, trust the model weights, not the chi-squared terms.
 
 ### High-confidence errors
 
-Only 1 host where the model is confident (≥70%) but disagrees with the
+Only 4 hosts where the model is confident (≥70%) but disagrees with the
 catalog label:
 
 | Host | Catalog label | Predicted | Confidence | Top 3 predictions |
 | :--- | :--- | :--- | ---: | :--- |
-| googlesyndication.com | ads | search | 80% | search 80%, ads 4%, government 2% |
+| guven.com.tr | finance | health | 88% | health 88%, finance 4%, government 1% |
+| display.ugc.bazaarvoice.com | software | finance | 83% | finance 83%, government 3%, video 2% |
+| iqiyi.com | video | finance | 83% | finance 83%, government 3%, video 2% |
+| googlesyndication.com | ads | search | 75% | search 75%, ads 13%, finance 4% |
 
-This is Google's ad serving infrastructure — the label is debatable.
+These are the strongest candidates for mislabeled entries, and the three new
+ones share a shape: `finance` is 56% of the sample, so a confident model falls
+back on it for anything that looks commercial.
+
+- `guven.com.tr` — a Turkish insurer ("güven" is also the common word for
+  *trust*), which is why the text reads as health. The label is defensible;
+  the page is just not distinctive.
+- `bazaarvoice.com` — UGC review infrastructure. `software` looks right; the
+  text is a customer-review platform, which a model reads as finance.
+- `iqiyi.com` — a Chinese video platform. The `video` label is clearly right
+  and the model is wrong here; the top-3 shows the finance prior overriding it.
+- `googlesyndication.com` — Google's ad serving infrastructure, the label is
+  debatable.
 
 ## What the matrix does and does not measure
 

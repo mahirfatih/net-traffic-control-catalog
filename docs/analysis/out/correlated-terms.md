@@ -5,37 +5,69 @@ Two signals are shown for each category:
 - **Chi-squared** terms are the words/bigrams most statistically associated with the category.
 - **Model weight** terms are the words/bigrams the fitted LinearSVC model weighs most positively.
 
+## finance
+
+### Chi-squared
+
+| Term | Score |
+| :--- | ---: |
+| ve | 69.8 |
+| und | 68.0 |
+| sie | 66.5 |
+| für | 58.3 |
+| belediye | 55.5 |
+| mit | 54.6 |
+| die | 50.5 |
+| banking | 48.5 |
+| wir | 47.8 |
+| haberler | 46.4 |
+
+### Model weight
+
+| Term | Weight |
+| :--- | ---: |
+| bank | 1.904 |
+| banking | 1.293 |
+| financial | 0.987 |
+| id | 0.752 |
+| для | 0.745 |
+| online | 0.711 |
+| на | 0.709 |
+| payment | 0.708 |
+| credit | 0.694 |
+| trading | 0.661 |
+
 ## government
 
 ### Chi-squared
 
 | Term | Score |
 | :--- | ---: |
-| belediye | 29.9 |
-| meclis | 25.5 |
-| belediyesi | 23.6 |
-| başkan | 23.6 |
-| beledi | 22.8 |
-| mar | 22.6 |
-| the | 22.2 |
-| and | 22.0 |
-| projeler | 21.4 |
-| your | 19.1 |
+| belediye | 151.0 |
+| meclis | 122.6 |
+| belediyesi | 121.4 |
+| başkan | 120.0 |
+| beledi | 106.6 |
+| projeler | 103.9 |
+| mar | 102.9 |
+| duyurular | 91.6 |
+| kent | 81.9 |
+| haberler | 78.1 |
 
 ### Model weight
 
 | Term | Weight |
 | :--- | ---: |
-| belediye | 1.217 |
-| belediyesi | 1.035 |
-| meclis | 0.801 |
-| başkan | 0.788 |
-| beledi | 0.745 |
-| gov | 0.739 |
-| projeler | 0.694 |
-| duyurular | 0.673 |
-| mar | 0.668 |
-| haberler | 0.569 |
+| belediye | 1.431 |
+| belediyesi | 1.316 |
+| gov | 1.304 |
+| duyurular | 0.894 |
+| beledi | 0.866 |
+| başkan | 0.864 |
+| bakanlığı | 0.818 |
+| meclis | 0.815 |
+| projeler | 0.795 |
+| ve | 0.737 |
 
 ## software
 
@@ -43,191 +75,31 @@ Two signals are shown for each category:
 
 | Term | Score |
 | :--- | ---: |
-| enterprise | 17.7 |
-| software | 17.1 |
-| plex | 15.2 |
-| developer | 14.5 |
-| 365 microsoft | 14.0 |
-| support | 13.9 |
-| agents | 13.4 |
-| open source | 13.1 |
-| ci cd | 13.0 |
-| cloud | 12.5 |
+| github | 106.8 |
+| copilot | 54.7 |
+| azure | 47.5 |
+| enterprise | 44.7 |
+| developer | 42.9 |
+| open source | 41.9 |
+| microsoft | 38.9 |
+| agents | 38.0 |
+| visual studio | 36.1 |
+| cloud | 34.7 |
 
 ### Model weight
 
 | Term | Weight |
 | :--- | ---: |
-| xs | 1.164 |
-| plex | 1.111 |
-| uv | 0.969 |
-| software | 0.893 |
-| web app | 0.802 |
-| linux | 0.785 |
-| enterprise | 0.728 |
-| speedtest | 0.689 |
-| ui | 0.689 |
-| project | 0.685 |
-
-## health
-
-### Chi-squared
-
-| Term | Score |
-| :--- | ---: |
-| doktor | 40.6 |
-| tedavisi | 27.0 |
-| patients | 25.7 |
-| cerrahisi | 23.6 |
-| hasta | 23.3 |
-| cerrahi | 22.1 |
-| tıbbi | 21.1 |
-| randevu al | 20.8 |
-| hastalıkları | 20.5 |
-| belirtileri | 19.9 |
-
-### Model weight
-
-| Term | Weight |
-| :--- | ---: |
-| doktor | 1.460 |
-| medical | 0.986 |
-| patients | 0.887 |
-| hasta | 0.860 |
-| klinik | 0.838 |
-| anatomy | 0.791 |
-| health | 0.765 |
-| care | 0.755 |
-| randevu | 0.754 |
-| sağlık | 0.725 |
-
-## shopping
-
-### Chi-squared
-
-| Term | Score |
-| :--- | ---: |
-| amazon | 52.2 |
-| giyim | 41.5 |
-| aksesuar | 33.5 |
-| elbise | 32.8 |
-| ayakkabı | 31.7 |
-| 1996 | 30.1 |
-| sweatshirt | 27.1 |
-| triko | 26.4 |
-| eşofman | 25.1 |
-| markalar | 24.5 |
-
-### Model weight
-
-| Term | Weight |
-| :--- | ---: |
-| amazon | 1.402 |
-| shop | 0.987 |
-| zara | 0.917 |
-| com why | 0.881 |
-| valid | 0.854 |
-| giyim | 0.835 |
-| items | 0.822 |
-| 1996 | 0.781 |
-| com tr | 0.743 |
-| gratis | 0.729 |
-
-## news
-
-### Chi-squared
-
-| Term | Score |
-| :--- | ---: |
-| son dakika | 53.5 |
-| dakika | 46.1 |
-| yazarlar | 44.0 |
-| trump | 41.5 |
-| abd | 40.0 |
-| galatasaray | 38.1 |
-| fenerbahçe | 35.4 |
-| künye | 35.2 |
-| dakika haberleri | 34.6 |
-| magazin | 31.6 |
-
-### Model weight
-
-| Term | Weight |
-| :--- | ---: |
-| 바로가기 | 0.974 |
-| hulu | 0.910 |
-| yahoo | 0.751 |
-| 中文 | 0.706 |
-| haberleri | 0.687 |
-| trump | 0.679 |
-| yazarlar | 0.584 |
-| ekonomi | 0.565 |
-| haber | 0.534 |
-| abd | 0.522 |
-
-## ads
-
-### Chi-squared
-
-| Term | Score |
-| :--- | ---: |
-| publishers | 71.2 |
-| advertisers | 52.6 |
-| affiliate marketing | 47.5 |
-| advertising | 38.8 |
-| advertiser | 35.9 |
-| publisher | 35.4 |
-| marketing platform | 34.6 |
-| affiliate | 32.7 |
-| marketing | 30.8 |
-| programmatic | 30.0 |
-
-### Model weight
-
-| Term | Weight |
-| :--- | ---: |
-| publishers | 1.237 |
-| marketing | 1.078 |
-| advertising | 1.054 |
-| affiliate | 1.041 |
-| advertisers | 0.933 |
-| affiliate marketing | 0.876 |
-| marketing platform | 0.855 |
-| brands | 0.836 |
-| grow | 0.746 |
-| studies | 0.728 |
-
-## education
-
-### Chi-squared
-
-| Term | Score |
-| :--- | ---: |
-| akademik | 73.5 |
-| fakültesi | 65.1 |
-| araştırma | 61.6 |
-| koordinatörlüğü | 60.9 |
-| öğrenci | 56.7 |
-| daire başkanlığı | 54.8 |
-| rektör | 51.6 |
-| yüksekokulu | 51.2 |
-| üniversitesi | 50.3 |
-| bilimleri | 50.2 |
-
-### Model weight
-
-| Term | Weight |
-| :--- | ---: |
-| üniversitesi | 1.421 |
-| öğrenci | 1.252 |
-| akademik | 0.951 |
-| araştırma | 0.784 |
-| edu | 0.732 |
-| kampüs | 0.727 |
-| university | 0.722 |
-| education | 0.640 |
-| challenge | 0.623 |
-| study | 0.619 |
+| github | 1.551 |
+| soon | 1.365 |
+| plex | 1.336 |
+| azure | 1.198 |
+| git | 1.040 |
+| identity | 0.991 |
+| ui | 0.970 |
+| linux | 0.941 |
+| clips | 0.917 |
+| access denied | 0.916 |
 
 ## gaming
 
@@ -235,95 +107,127 @@ Two signals are shown for each category:
 
 | Term | Score |
 | :--- | ---: |
-| legends | 47.4 |
-| game | 45.1 |
-| games | 35.3 |
-| royale | 35.0 |
-| tab opens | 33.7 |
-| ea sports | 33.1 |
-| playstation | 31.1 |
-| rpg | 30.9 |
-| video watch | 30.2 |
-| ea | 29.8 |
+| game | 141.6 |
+| games | 107.1 |
+| doom | 92.2 |
+| the elder | 90.7 |
+| elder scrolls | 90.7 |
+| fallout | 89.0 |
+| elder | 88.3 |
+| scrolls | 88.0 |
+| rpg | 78.6 |
+| edition | 62.5 |
 
 ### Model weight
 
 | Term | Weight |
 | :--- | ---: |
-| game | 1.397 |
-| games | 1.119 |
-| path | 1.112 |
-| legends | 0.816 |
-| save the | 0.810 |
-| of | 0.767 |
-| play | 0.709 |
-| login | 0.690 |
-| playstation | 0.682 |
-| oyna | 0.675 |
+| game | 2.205 |
+| games | 1.646 |
+| com why | 1.589 |
+| 401 | 1.275 |
+| of | 1.265 |
+| azure | 1.077 |
+| play | 1.072 |
+| path | 0.923 |
+| framework | 0.863 |
+| join | 0.843 |
 
-## analytics
+## health
 
 ### Chi-squared
 
 | Term | Score |
 | :--- | ---: |
-| journeys | 40.4 |
-| customer engagement | 36.9 |
-| retention | 33.8 |
-| analytics | 33.5 |
-| session replay | 31.4 |
-| engagement platform | 26.4 |
-| replay | 25.7 |
-| engagement | 25.6 |
-| product analytics | 24.8 |
-| amplitude | 23.1 |
+| doktor | 111.9 |
+| tedavisi | 75.0 |
+| cerrahisi | 65.0 |
+| cerrahi | 61.4 |
+| hastalıkları | 59.7 |
+| tıbbi | 59.7 |
+| klinik | 55.4 |
+| psikolog | 54.9 |
+| belirtileri | 54.5 |
+| tedavi | 49.9 |
 
 ### Model weight
 
 | Term | Weight |
 | :--- | ---: |
-| analytics | 1.066 |
-| retention | 0.792 |
-| vercel | 0.773 |
-| http www | 0.770 |
-| your data | 0.730 |
-| engagement | 0.698 |
-| journeys | 0.672 |
-| fix | 0.671 |
-| messaging | 0.640 |
-| in app | 0.620 |
+| doktor | 1.600 |
+| medical | 1.346 |
+| org | 1.281 |
+| http www | 1.195 |
+| health | 1.034 |
+| klinik | 0.989 |
+| sağlık | 0.968 |
+| randevu | 0.943 |
+| com tr | 0.915 |
+| care | 0.902 |
 
-## cdn
+## shopping
 
 ### Chi-squared
 
 | Term | Score |
 | :--- | ---: |
-| cdn | 77.3 |
-| not found | 55.4 |
-| 404 | 53.2 |
-| bunny net | 28.6 |
-| ddos | 26.3 |
-| found | 23.9 |
-| bunny | 21.3 |
-| ddos protection | 19.9 |
-| cloudinary | 19.5 |
-| content delivery | 18.2 |
+| giyim | 116.2 |
+| amazon | 94.3 |
+| aksesuar | 94.2 |
+| ayakkabı | 89.3 |
+| elbise | 89.0 |
+| sweatshirt | 74.6 |
+| triko | 70.6 |
+| eşofman | 69.0 |
+| markalar | 67.6 |
+| pantolon | 65.0 |
 
 ### Model weight
 
 | Term | Weight |
 | :--- | ---: |
-| javascript | 1.711 |
-| cdn | 1.614 |
-| not found | 1.179 |
-| access denied | 1.060 |
-| denied | 1.053 |
-| 404 | 0.836 |
-| found | 0.786 |
-| delivery | 0.683 |
-| dns | 0.670 |
-| 52 | 0.629 |
+| com tr | 1.647 |
+| amazon | 1.525 |
+| com why | 1.390 |
+| mavi | 1.178 |
+| shop | 1.162 |
+| giyim | 0.961 |
+| valid | 0.927 |
+| operation | 0.911 |
+| storage | 0.879 |
+| com | 0.874 |
+
+## news
+
+### Chi-squared
+
+| Term | Score |
+| :--- | ---: |
+| son dakika | 151.7 |
+| dakika | 133.9 |
+| yazarlar | 128.8 |
+| abd | 112.0 |
+| trump | 110.4 |
+| galatasaray | 108.3 |
+| künye | 100.9 |
+| fenerbahçe | 100.2 |
+| dakika haberleri | 95.9 |
+| dolar | 86.8 |
+
+### Model weight
+
+| Term | Weight |
+| :--- | ---: |
+| hulu | 1.360 |
+| 바로가기 | 1.224 |
+| yahoo | 1.030 |
+| haberleri | 0.879 |
+| medium | 0.860 |
+| trump | 0.824 |
+| 뉴스 | 0.776 |
+| 中文 | 0.773 |
+| net | 0.711 |
+| yazarlar | 0.681 |
 
 ## travel
 
@@ -331,63 +235,127 @@ Two signals are shown for each category:
 
 | Term | Score |
 | :--- | ---: |
-| uçak bileti | 137.0 |
-| bileti | 127.4 |
-| uçak | 81.8 |
-| ucuz | 64.0 |
-| otelleri | 56.7 |
-| fiyatlarını | 46.9 |
-| oteller | 34.8 |
-| otobüs bileti | 31.7 |
-| en uygun | 31.6 |
-| seyahat | 27.3 |
+| uçak bileti | 262.8 |
+| bileti | 238.9 |
+| uçak | 158.6 |
+| ucuz | 120.9 |
+| otelleri | 110.8 |
+| oteller | 69.4 |
+| otobüs bileti | 60.3 |
+| seyahat | 54.8 |
+| en uygun | 54.2 |
+| rezervasyon | 54.2 |
 
 ### Model weight
 
 | Term | Weight |
 | :--- | ---: |
-| com why | 1.026 |
-| http www | 1.013 |
-| bileti | 0.974 |
-| uçak bileti | 0.926 |
-| airbnb | 0.874 |
-| uçak | 0.801 |
-| seyahat | 0.778 |
-| requires | 0.760 |
-| com | 0.735 |
-| homes | 0.727 |
+| http www | 2.243 |
+| flight | 1.450 |
+| com why | 1.388 |
+| www | 1.032 |
+| homes | 1.017 |
+| bileti | 0.932 |
+| uçak bileti | 0.925 |
+| com | 0.889 |
+| seyahat | 0.888 |
+| some | 0.863 |
 
-## finance
+## ads
 
 ### Chi-squared
 
 | Term | Score |
 | :--- | ---: |
-| sigortası | 51.4 |
-| bankacılık | 51.3 |
-| mevduat | 48.2 |
-| emeklilik | 48.2 |
-| sigorta | 43.1 |
-| kartlar | 41.8 |
-| kredisi | 38.5 |
-| nakit | 38.2 |
-| krediler | 37.9 |
-| dijital bankacılık | 35.6 |
+| publishers | 176.5 |
+| advertisers | 140.4 |
+| advertising | 99.8 |
+| audience | 75.2 |
+| publisher | 72.9 |
+| brands | 67.8 |
+| inventory | 65.2 |
+| case studies | 61.3 |
+| monetize | 60.3 |
+| marketing | 60.3 |
 
 ### Model weight
 
 | Term | Weight |
 | :--- | ---: |
-| bitcoin | 1.007 |
-| mastercard | 1.003 |
-| cache | 0.891 |
-| crypto | 0.805 |
-| quick | 0.795 |
-| sigorta | 0.780 |
-| para | 0.753 |
-| borsa | 0.737 |
-| 403 | 0.705 |
-| sigortası | 0.677 |
+| publishers | 1.381 |
+| affiliate | 1.379 |
+| marketing | 1.295 |
+| advertising | 1.280 |
+| advertisers | 1.020 |
+| brands | 1.007 |
+| studies | 0.958 |
+| platform | 0.906 |
+| click here | 0.847 |
+| grow | 0.812 |
+
+## education
+
+### Chi-squared
+
+| Term | Score |
+| :--- | ---: |
+| akademik | 209.6 |
+| fakültesi | 184.1 |
+| araştırma | 177.1 |
+| öğrenci | 171.8 |
+| koordinatörlüğü | 167.8 |
+| daire başkanlığı | 150.6 |
+| üniversitesi | 150.3 |
+| yüksekokulu | 142.6 |
+| rektör | 141.1 |
+| bilimleri | 138.6 |
+
+### Model weight
+
+| Term | Weight |
+| :--- | ---: |
+| üniversitesi | 1.717 |
+| öğrenci | 1.509 |
+| edu | 1.137 |
+| akademik | 1.003 |
+| study | 0.989 |
+| challenge | 0.973 |
+| edu tr | 0.916 |
+| kampüs | 0.855 |
+| university | 0.826 |
+| students | 0.801 |
+
+## analytics
+
+### Chi-squared
+
+| Term | Score |
+| :--- | ---: |
+| journeys | 88.5 |
+| retention | 78.3 |
+| analytics | 74.1 |
+| replay | 56.0 |
+| observability | 53.9 |
+| digital experience | 51.3 |
+| mixpanel | 49.5 |
+| splunk | 48.8 |
+| customer data | 48.0 |
+| your data | 47.7 |
+
+### Model weight
+
+| Term | Weight |
+| :--- | ---: |
+| http www | 1.981 |
+| analytics | 1.340 |
+| www | 1.112 |
+| retention | 0.935 |
+| your data | 0.914 |
+| vercel | 0.856 |
+| messaging | 0.794 |
+| journeys | 0.788 |
+| observability | 0.782 |
+| found | 0.763 |
 
 ## ai
 
@@ -395,31 +363,31 @@ Two signals are shown for each category:
 
 | Term | Score |
 | :--- | ---: |
-| kimi | 64.7 |
-| k3 | 60.4 |
-| models | 49.1 |
-| inference | 34.8 |
-| deepseek | 34.2 |
-| ai | 28.6 |
-| gemini | 25.5 |
-| generative | 24.7 |
-| deepseek v4 | 23.7 |
-| agent | 21.5 |
+| kimi | 145.7 |
+| models | 116.9 |
+| deepseek | 89.9 |
+| inference | 77.2 |
+| ai | 74.2 |
+| gemini | 52.1 |
+| slides | 42.8 |
+| generative | 42.2 |
+| agent | 39.7 |
+| frontier | 36.0 |
 
 ### Model weight
 
 | Term | Weight |
 | :--- | ---: |
-| ai | 1.575 |
-| models | 1.492 |
-| kimi | 1.065 |
-| k3 | 0.924 |
-| research | 0.894 |
-| character | 0.862 |
-| inference | 0.849 |
-| deepseek | 0.843 |
-| model | 0.698 |
-| chat | 0.679 |
+| ai | 2.207 |
+| models | 1.730 |
+| character | 1.657 |
+| kimi | 1.345 |
+| deepseek | 1.111 |
+| research | 0.938 |
+| images | 0.886 |
+| inference | 0.863 |
+| api | 0.837 |
+| create | 0.804 |
 
 ## transport
 
@@ -427,31 +395,31 @@ Two signals are shown for each category:
 
 | Term | Score |
 | :--- | ---: |
-| gönderi | 50.2 |
-| modeller | 37.9 |
-| konfigüratör | 35.8 |
-| fiyat listesi | 35.7 |
-| test sürüşü | 35.2 |
-| başlangıç fiyatı | 29.9 |
-| satış sonrası | 28.8 |
-| sürüşü | 27.7 |
-| randevusu | 20.2 |
-| kargo | 19.8 |
+| gönderi | 122.8 |
+| modeller | 97.5 |
+| fiyat listesi | 93.8 |
+| sürüşü | 74.4 |
+| randevusu | 54.5 |
+| kargo | 51.7 |
+| maps | 39.7 |
+| fiyat | 34.4 |
+| modelleri | 33.5 |
+| dacia | 32.3 |
 
 ### Model weight
 
 | Term | Weight |
 | :--- | ---: |
-| maps | 1.360 |
-| gönderi | 1.307 |
-| kargo | 0.920 |
-| limit | 0.861 |
-| fiyat listesi | 0.829 |
-| modeller | 0.733 |
-| route | 0.682 |
-| his | 0.676 |
-| eur | 0.660 |
-| fiyat | 0.656 |
+| maps | 1.601 |
+| com tr | 1.462 |
+| gönderi | 1.443 |
+| kargo | 1.096 |
+| limit | 1.028 |
+| his | 0.946 |
+| fiyat listesi | 0.928 |
+| tr | 0.880 |
+| modeller | 0.840 |
+| owner | 0.832 |
 
 ## video
 
@@ -459,31 +427,31 @@ Two signals are shown for each category:
 
 | Term | Score |
 | :--- | ---: |
-| yeni bölüm | 25.7 |
-| diziler | 21.0 |
-| 99 mo | 17.7 |
-| sevdiğim sensin | 17.6 |
-| başkalarının hayatı | 16.6 |
-| sensin | 16.2 |
-| zi ler | 15.9 |
-| can watch | 15.5 |
-| çıkarın | 14.1 |
-| originals | 13.7 |
+| yeni bölüm | 68.1 |
+| sevdiğim sensin | 44.5 |
+| başkalarının hayatı | 41.9 |
+| sensin | 41.3 |
+| originals | 36.3 |
+| bölüm fragmanı | 32.5 |
+| sevdiğim | 31.9 |
+| digiturk | 31.0 |
+| başkalarının | 30.6 |
+| 99 month | 29.6 |
 
 ### Model weight
 
 | Term | Weight |
 | :--- | ---: |
-| tv | 1.091 |
-| max | 0.906 |
-| syntax | 0.831 |
-| originals | 0.708 |
-| column | 0.691 |
-| stream | 0.691 |
-| watch | 0.682 |
-| keyfini | 0.676 |
-| movies | 0.663 |
-| show | 0.657 |
+| http www | 1.651 |
+| max | 1.285 |
+| tv | 1.249 |
+| originals | 0.944 |
+| stream | 0.935 |
+| com | 0.931 |
+| www | 0.902 |
+| unknown | 0.890 |
+| streaming | 0.889 |
+| watch | 0.868 |
 
 ## search
 
@@ -491,31 +459,31 @@ Two signals are shown for each category:
 
 | Term | Score |
 | :--- | ---: |
-| gmail | 159.6 |
-| şartlar | 143.8 |
-| tr 2026 | 137.6 |
-| gelişmiş | 120.5 |
-| mleri | 83.5 |
-| uygulamaları | 76.2 |
-| oturum | 71.5 |
-| com tr | 69.8 |
-| şletme | 39.5 |
-| reklam | 36.8 |
+| gelişmiş | 324.1 |
+| mleri | 241.9 |
+| uygulamaları | 214.4 |
+| oturum | 193.8 |
+| com tr | 193.6 |
+| şletme | 124.0 |
+| reklam | 111.9 |
+| arama | 72.3 |
+| gizlilik | 51.2 |
+| engine | 47.3 |
 
 ### Model weight
 
 | Term | Weight |
 | :--- | ---: |
-| search | 1.286 |
-| engine | 1.263 |
-| 2004 | 1.110 |
-| resul | 0.880 |
-| com | 0.848 |
-| data | 0.822 |
-| json | 0.796 |
-| load | 0.793 |
-| from your | 0.726 |
-| 2019 | 0.698 |
+| engine | 1.438 |
+| search | 1.336 |
+| json | 1.216 |
+| 2004 | 1.116 |
+| com why | 1.052 |
+| data | 1.045 |
+| load | 0.984 |
+| com | 0.949 |
+| 2019 | 0.924 |
+| arama | 0.864 |
 
 ## encyclopedia
 
@@ -523,31 +491,31 @@ Two signals are shown for each category:
 
 | Term | Score |
 | :--- | ---: |
-| dictionary | 86.1 |
-| sözlük | 53.8 |
-| vocabulary | 32.1 |
-| words | 23.8 |
-| century | 17.0 |
-| philosophy | 16.8 |
-| donate | 15.7 |
-| articles | 15.6 |
-| pons | 15.2 |
-| kelime | 15.0 |
+| dictionary | 226.3 |
+| kelime | 49.3 |
+| words | 47.7 |
+| philosophy | 31.8 |
+| ancient | 26.9 |
+| lists | 23.4 |
+| the day | 20.7 |
+| articles | 20.0 |
+| group inc | 18.0 |
+| learning | 16.6 |
 
 ### Model weight
 
 | Term | Weight |
 | :--- | ---: |
-| dictionary | 1.455 |
-| sözlük | 1.265 |
-| downtime | 0.818 |
-| org | 0.803 |
-| articles | 0.765 |
-| capacity | 0.748 |
-| türkçe | 0.729 |
-| knowledge | 0.717 |
-| 000 | 0.704 |
-| words | 0.698 |
+| dictionary | 1.813 |
+| org | 1.734 |
+| kelime | 1.130 |
+| türkçe | 1.073 |
+| unavailable | 0.913 |
+| articles | 0.884 |
+| maintenance | 0.873 |
+| philosophy | 0.856 |
+| knowledge | 0.843 |
+| dil | 0.817 |
 
 ## social
 
@@ -555,31 +523,31 @@ Two signals are shown for each category:
 
 | Term | Score |
 | :--- | ---: |
-| random | 27.4 |
-| happening | 18.9 |
-| find your | 18.1 |
-| nba | 16.3 |
-| to share | 15.0 |
-| bumble | 14.7 |
-| opera | 13.8 |
-| an account | 13.2 |
-| log in | 13.1 |
-| grok | 12.9 |
+| random | 39.7 |
+| vk | 39.2 |
+| nba | 31.3 |
+| happening | 28.7 |
+| to share | 26.1 |
+| find your | 25.6 |
+| chats | 23.0 |
+| oluştur | 17.4 |
+| people and | 17.4 |
+| people who | 16.5 |
 
 ### Model weight
 
 | Term | Weight |
 | :--- | ---: |
-| nba | 1.313 |
-| match | 0.988 |
-| facebook | 0.919 |
-| com why | 0.905 |
-| opera | 0.849 |
-| people | 0.782 |
-| users | 0.760 |
-| 1998 | 0.751 |
-| izle | 0.739 |
-| tarayıcınız | 0.731 |
+| match | 2.072 |
+| nba | 1.510 |
+| vk | 1.503 |
+| com why | 1.354 |
+| linkedin | 1.193 |
+| notre | 1.141 |
+| people | 1.035 |
+| checking | 0.999 |
+| users | 0.926 |
+| facebook | 0.920 |
 
 ## messaging
 
@@ -587,28 +555,28 @@ Two signals are shown for each category:
 
 | Term | Score |
 | :--- | ---: |
-| messenger | 74.1 |
-| 새창열림 | 68.8 |
-| messages | 68.7 |
-| calls | 64.3 |
-| telegram | 61.2 |
-| 사이트 | 58.9 |
-| 사이트 바로가기 | 56.6 |
-| 바로가기 새창열림 | 56.6 |
-| meetings | 44.2 |
-| calling | 40.0 |
+| 새창열림 | 222.7 |
+| chats | 122.3 |
+| messages | 115.1 |
+| calls | 109.3 |
+| meetings | 93.5 |
+| messaging | 82.8 |
+| groups | 82.2 |
+| telegram | 65.2 |
+| calling | 63.6 |
+| bahasa | 59.8 |
 
 ### Model weight
 
 | Term | Weight |
 | :--- | ---: |
-| messenger | 1.319 |
-| ai | 1.305 |
-| calls | 1.160 |
-| talk | 1.092 |
-| 새창열림 | 0.971 |
-| messages | 0.968 |
-| 사이트 | 0.831 |
-| 사이트 바로가기 | 0.799 |
-| 바로가기 새창열림 | 0.799 |
-| meetings | 0.795 |
+| 새창열림 | 1.859 |
+| ai | 1.485 |
+| calls | 1.222 |
+| talk | 1.165 |
+| messages | 1.071 |
+| for free | 0.824 |
+| chats | 0.812 |
+| meetings | 0.804 |
+| bahasa | 0.749 |
+| telegram | 0.742 |

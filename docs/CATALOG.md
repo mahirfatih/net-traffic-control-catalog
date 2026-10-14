@@ -101,3 +101,22 @@ External sources propose hosts; **no source assigns a category**. A category
 is either a rule in `rules.json` or a person with a reason.
 
 Hosts still missing a label are in [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md).
+
+## Reliability
+
+An audit compares TF-IDF text classifiers, keeps LinearSVC for
+the detailed 5-fold cross-validation, and asks how reliably each label
+can be recovered from the host's own page: **accuracy 90%**
+over 4213 hosts across 18 categories.
+
+This measures *self-consistency*, not correctness — there is no independent
+ground truth, so a low figure means a label disagrees with its page, not
+that the label is wrong.
+
+The audit output also records each host's top three predicted categories
+and confidence score, and the correlated-terms report shows both
+chi-squared terms and the fitted LinearSVC weights.
+
+![Confusion matrix](analysis/out/confusion-matrix.png)
+
+Methodology, per-class metrics and the error list: [`analysis/`](analysis/README.md).
