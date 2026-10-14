@@ -247,6 +247,24 @@ function checkAnalysisFigures() {
     }
   }
 
+  // Every check above compares the documents to the report, and the report to
+  // itself. None of them asks whether the report is still about *this* catalog —
+  // so a figure can describe a catalog two and a half times smaller than the
+  // one shipped, and stay internally consistent while being wrong. `total_hosts`
+  // is the catalog size at the time of the audit, which makes the drift visible.
+  //
+  // A note rather than a failure: rerunning the audit needs the network and the
+  // analysis venv, and `test/test.sh` must never require either. Blocking here
+  // would only teach people to ignore the checker.
+  const catalogSize = Object.keys(json("catalog.json").categories || {}).length;
+  if (data.total_hosts && data.total_hosts !== catalogSize) {
+    notes.push(
+      `the reliability figures describe a ${fmt(data.total_hosts)}-host catalog, ` +
+        `but catalog.json now has ${fmt(catalogSize)} — rerun scripts/analysis/ ` +
+        `when convenient; the percentages are about the older catalog`
+    );
+  }
+
   // The per-class table and the F1 quotes must be the report's own numbers.
   const f1 = (c) => (report[c] ? Number(report[c]["f1-score"].toFixed(2)) : null);
   const tableRow = /^\| ([a-z]+) \| ([\d.]+) \| ([\d.]+) \| ([\d.]+) \| (\d+) \|$/;
