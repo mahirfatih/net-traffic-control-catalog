@@ -52,7 +52,7 @@ to tell a real bank it is dead.
 
 | Script | What it does |
 | :--- | :--- |
-| [`check-docs-fresh.mjs`](checks/check-docs-fresh.mjs) | Static drift check: broken links, renamed scripts, stale counts, a licence verdict that contradicts itself. |
+| [`check-docs-fresh.mjs`](checks/check-docs-fresh.mjs) | Static drift check: broken links, renamed scripts, stale counts, unmeasured durations, a licence verdict that contradicts itself. |
 
 ### Analysis — [`analysis/`](analysis/)
 

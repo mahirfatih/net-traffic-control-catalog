@@ -98,6 +98,14 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Fixed
 
+- **The documents quoted a sweep duration nobody had measured.** README, SOURCES,
+  CONTRIBUTING and `scripts/README.md` all said the dead-domain sweep takes
+  "~30 minutes". It takes about ten: 605 s and 583 s for the two real runs.
+  Nothing invalidates a guessed duration, so the three-fold error survived until
+  somebody read it. `probe-dead.py` now records `elapsed_seconds` in its
+  evidence, and `check-docs-fresh.mjs` compares every duration and host-count
+  claim a document makes about the sweep against that record, so the number a
+  reader plans around is the number the run actually took.
 - **`check-overlaps.py` silently discarded the manual override list.** A dead
   `manual = []` line ran after the overrides were loaded from `rules.json`, so
   the "Manual Overrides" section always reported zero — and the report looked

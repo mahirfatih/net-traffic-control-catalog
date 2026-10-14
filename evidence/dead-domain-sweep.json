@@ -10,6 +10,8 @@
         "servfail": 266,
         "unknown": 21
       },
+      "elapsed_note": "measured before probe-dead.py recorded elapsed_seconds; value is the run time the tool printed",
+      "elapsed_seconds": 605.0,
       "generated": "2026-10-14T19:26:28+00:00",
       "results": {
         "1.elecsnet.ru": {
@@ -114856,6 +114858,8 @@
         "servfail": 266,
         "unknown": 21
       },
+      "elapsed_note": "measured before probe-dead.py recorded elapsed_seconds; value is the run time the tool printed",
+      "elapsed_seconds": 583.0,
       "generated": "2026-10-14T19:47:02+00:00",
       "results": {
         "1.elecsnet.ru": {

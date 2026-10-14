@@ -186,12 +186,19 @@ def round_timestamp(state, round_number):
     return None
 
 
-def save_round(state, round_number, results, counts, complete):
-    """Record a run of `round_number`, replacing any earlier run of it."""
+def save_round(state, round_number, results, counts, complete, elapsed_seconds=None):
+    """Record a run of `round_number`, replacing any earlier run of it.
+
+    `elapsed_seconds` is kept because the documents quote how long a sweep
+    takes, and a quoted duration nobody measures is a guess that goes stale
+    silently — the last one was three times the real figure. The checker in
+    `scripts/checks/check-docs-fresh.mjs` reads it from here.
+    """
     entry = {
         "round": round_number,
         "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "complete": complete,
+        "elapsed_seconds": round(elapsed_seconds, 2) if elapsed_seconds is not None else None,
         "counts": counts,
         "results": results,
     }
@@ -336,14 +343,16 @@ def run_round(args, categories, state, round_number):
                     # must not be lost to one dropped connection. Only the
                     # latest run of this round number is kept, so a re-run
                     # replaces rather than appends.
-                    save_round(state, round_number, results, counts, complete=False)
+                    save_round(state, round_number, results, counts, complete=False,
+                               elapsed_seconds=time.time() - started)
                     save_state(state, args.state)
                 if done % 250 == 0:
                     print(f"  {done}/{len(hosts)}  " + " ".join(f"{k}={counts[k]}" for k in sorted(counts)))
     except KeyboardInterrupt:
         print(f"\n! interrupted after {done} host(s); partial progress saved", file=sys.stderr)
 
-    save_round(state, round_number, results, counts, complete=done == len(hosts))
+    save_round(state, round_number, results, counts, complete=done == len(hosts),
+               elapsed_seconds=time.time() - started)
     save_state(state, args.state)
 
     print(f"\nround {round_number}: " + " ".join(f"{k}={counts.get(k, 0)}" for k in DECISIONS))

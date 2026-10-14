@@ -337,6 +337,72 @@ function checkAnalysisFigures() {
   );
 }
 
+/** 9. Durations the documents quote must be measured, not guessed. */
+function checkMeasuredRuntimes() {
+  // A quoted runtime is a claim that decays silently: nothing about the catalog
+  // changing invalidates "~30 minutes", so the wrong number survives until a
+  // person waits on it. The sweep records its own elapsed time, so the claim
+  // can be checked against the run that produced it instead of against taste.
+  const evidencePath = "evidence/dead-domain-sweep.json";
+  if (!existsSync(join(ROOT, evidencePath))) {
+    notes.push("no dead-domain sweep evidence — skipped the duration claims");
+    return;
+  }
+  const sweep = json(evidencePath);
+  const rounds = (sweep.rounds || []).filter((r) => r.complete && r.elapsed_seconds);
+  if (!rounds.length) {
+    problems.push(
+      `${evidencePath}: no complete round records elapsed_seconds, so the documents' ` +
+        `duration claims cannot be checked — rerun the sweep`
+    );
+    return;
+  }
+
+  // The slowest complete round is the number worth quoting: a reader planning
+  // the work is sizing the worst case, not the luckiest one.
+  const slowest = Math.max(...rounds.map((r) => r.elapsed_seconds));
+  const minutes = Math.round(slowest / 60);
+
+  let claims = 0;
+  for (const file of markdownFiles()) {
+    const text = read(file);
+    const lines = text.split("\n");
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      if (!/probe-dead\.py/.test(line)) continue;
+      // "# ~10 minutes" — an estimate attached to the sweep command. The
+      // round-2 lines say "10 minutes later", which is the enforced minimum
+      // gap, not a duration, and is checked separately below.
+      const claimed = line.match(/~\s*(\d+)\s*minutes?/);
+      if (claimed) {
+        claims++;
+        if (Number(claimed[1]) !== minutes) {
+          problems.push(
+            `${file}:${i + 1}: says the sweep takes ~${claimed[1]} minutes, ` +
+              `${evidencePath} measured ${slowest.toFixed(0)}s (${minutes} minutes) — ` +
+              `measure it, do not guess it`
+          );
+        }
+      }
+      // A host count on the same line must be the real catalog size.
+      const hosts = line.match(/([\d,]+)\s+hosts/);
+      if (hosts) {
+        claims++;
+        const total = Object.keys(json("catalog.json").categories || {}).length;
+        if (Number(hosts[1].replace(/,/g, "")) !== total) {
+          problems.push(
+            `${file}:${i + 1}: says the sweep covers ${hosts[1]} hosts, ` +
+              `catalog.json has ${total.toLocaleString("en-US")}`
+          );
+        }
+      }
+    }
+  }
+  notes.push(
+    `checked ${claims} duration/count claim(s) against ${evidencePath}: ${slowest.toFixed(0)}s slowest complete round`
+  );
+}
+
 for (const check of [
   checkLinks,
   checkScriptNames,
@@ -346,6 +412,7 @@ for (const check of [
   checkLicenseGate,
   checkDirectoryReadmes,
   checkAnalysisFigures,
+  checkMeasuredRuntimes,
 ]) {
   try {
     check();
