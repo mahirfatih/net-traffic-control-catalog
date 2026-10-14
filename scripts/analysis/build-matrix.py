@@ -27,6 +27,10 @@ PAGES = Path(__file__).resolve().parent / ".pages"
 OUT = ROOT / "docs" / "analysis" / "out"
 CATALOG = ROOT / "catalog.json"
 
+# Below this many examples a category's F1 is reported but should not be read as
+# a measurement. A class seen three times can only ever be seen once per fold.
+THIN_SUPPORT = 20
+
 
 def top_predictions(classes: list[str], row, limit: int = 3) -> list[dict[str, object]]:
     ranked = sorted(zip(classes, row), key=lambda item: item[1], reverse=True)[:limit]
@@ -48,7 +52,12 @@ def load_pages(min_text: int) -> dict[str, str]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--min-text", type=int, default=100)
-    ap.add_argument("--min-class", type=int, default=20)
+    ap.add_argument(
+        "--min-class",
+        type=int,
+        default=2,
+        help="keep a category with at least this many labelled examples",
+    )
     ap.add_argument("--folds", type=int, default=5)
     args = ap.parse_args()
 
@@ -84,8 +93,6 @@ def main() -> int:
     keep = {c for c, n in counts.items() if n >= args.min_class}
     # A class that drops below the floor leaves the matrix silently, and a
     # reader comparing two runs sees a lower class count with no explanation.
-    # `cdn` disappeared this way once already: 20 examples when the catalog was
-    # half the size, under the floor once it grew. Record it, print it, ship it.
     dropped = {c: n for c, n in counts.items() if n < args.min_class}
     if dropped:
         print(
@@ -101,11 +108,32 @@ def main() -> int:
     print(f"{len(hosts)} hosts with text -> {len(y)} after class filter")
     print(f"{len(classes)} classes: {', '.join(classes)}")
 
+    # A category with three examples cannot be split five ways. Rather than drop
+    # it - which is how nine of the catalog's categories went unmeasured for the
+    # whole history of this audit - the fold count drops to meet the smallest
+    # class. `maps` has 3 examples, so the matrix is 3-fold and every category is
+    # present. The trade is real and it is recorded: a class seen once per fold
+    # yields a per-class F1 that is nearly a coin toss, which is why thin classes
+    # are flagged rather than quietly averaged into the headline.
+    min_support = min(counts[c] for c in classes)
+    n_splits = max(2, min(args.folds, min_support))
+    if n_splits != args.folds:
+        print(
+            f"folds reduced {args.folds} -> {n_splits}: the smallest class has "
+            f"{min_support} example(s)"
+        )
+    thin = {c: int(counts[c]) for c in classes if counts[c] < THIN_SUPPORT}
+    if thin:
+        print(
+            f"thin evidence (< {THIN_SUPPORT} examples), treat these F1 scores as indicative: "
+            + ", ".join(f"{c} {n}" for c, n in sorted(thin.items(), key=lambda kv: kv[1]))
+        )
+
     pipe = make_pipeline(
         TfidfVectorizer(sublinear_tf=True, min_df=2, ngram_range=(1, 2), max_features=20000),
         LinearSVC(C=1.0, class_weight="balanced", max_iter=5000),
     )
-    cv = StratifiedKFold(n_splits=args.folds, shuffle=True, random_state=42)
+    cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
     pred = cross_val_predict(pipe, X, y, cv=cv, n_jobs=-1)
 
     # --- 0. Model comparison ---
@@ -321,6 +349,8 @@ def main() -> int:
         "hosts_after_filter": int(len(y)),
         "classes": classes,
         "dropped_classes": dropped,
+        "thin_classes": thin,
+        "folds": n_splits,
         "matrix": cm.tolist(),
         "matrix_normalized": cm_norm.tolist(),
         "counts": {c: int(counts[c]) for c in classes},

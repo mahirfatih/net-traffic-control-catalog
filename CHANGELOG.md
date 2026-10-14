@@ -98,6 +98,20 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Fixed
 
+- **Nine of the catalog's 27 categories were never measured, and the cause was
+  a bug, not their size.** `fetch-pages.py` wrote an empty cache file the first
+  time a host returned nothing and never tried again, so a category was dropped
+  from the matrix whenever its first fetch attempt failed. `--retry-empty`
+  re-fetches those hosts and tries `www.` as well; it recovered 310 hosts
+  overall and took the previously unmeasurable categories from 90/168 to 157/168.
+  `sports` went from 0 examples to 7, `crash` from 2 to 11, `maps` from 1 to 3.
+- **All 27 categories are now in the matrix.** `--min-class` dropped from 20 to
+  2 and the fold count adapts to the smallest category, so `maps` with 3
+  examples forces a 3-fold matrix instead of being excluded from it. Eight
+  categories rest on under 20 examples and are recorded as `thin_classes` so
+  their F1 reads as indicative rather than measured. Accuracy falls from 0.902
+  to 0.886 and balanced accuracy from 0.672 to 0.595 — the task is harder now
+  that infrastructure categories are included, and that is the honest number.
 - **The reliability headline was measuring one category and calling it the
   catalog.** `finance` is 53% of the catalog, so accuracy (0.902) and balanced
   accuracy (0.672) differ by 23 points, and only the first was reported.

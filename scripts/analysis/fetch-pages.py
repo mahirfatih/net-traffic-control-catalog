@@ -83,23 +83,41 @@ def extract_text(raw: str) -> str:
     return " ".join(p for p in parts if p)
 
 
-def fetch(host: str) -> tuple[str, int, float, str]:
-    """Return (host, text_length, seconds, error_or_empty)."""
+def fetch_url(url: str) -> bytes:
+    proc = subprocess.run(
+        [
+            "curl", "-sSL", "-m", "12", "--max-filesize", "3000000",
+            "-A", USER_AGENT, "-o", "-", url,
+        ],
+        capture_output=True,
+        timeout=18,
+    )
+    return proc.stdout
+
+
+def fetch(host: str, retry_empty: bool = False) -> tuple[str, int, float, str]:
+    """Return (host, text_length, seconds, error_or_empty).
+
+    A host that yields nothing is retried once against `www.`, because an
+    apex-only redirect is common enough to be worth the request. Nine categories
+    in the audit were unmeasurable partly because the first attempt was the only
+    attempt: an empty file was written and then treated as final forever.
+
+    What this cannot fix is a host that never answers. Measured on the nine
+    categories the audit could not measure, 54 of 65 empty fetches failed with
+    no HTTP response at all — `akamai.net`, `akadns.net` and friends are edge
+    CDNs whose apex does not serve a page. Those need a different signal, not a
+    different fetch.
+    """
     out = PAGES / f"{host}.txt"
-    if out.exists():
+    if out.exists() and (out.stat().st_size > 0 or not retry_empty):
         return host, out.stat().st_size, 0.0, ""
 
     t0 = time.time()
     try:
-        proc = subprocess.run(
-            [
-                "curl", "-sSL", "-m", "12", "--max-filesize", "3000000",
-                "-A", USER_AGENT, "-o", "-", f"https://{host}/",
-            ],
-            capture_output=True,
-            timeout=18,
-        )
-        text = extract_text(proc.stdout.decode("utf-8", "replace"))
+        text = extract_text(fetch_url(f"https://{host}/").decode("utf-8", "replace"))
+        if not text and not host.startswith("www."):
+            text = extract_text(fetch_url(f"https://www.{host}/").decode("utf-8", "replace"))
         out.write_text(text, encoding="utf-8")
         return host, len(text), time.time() - t0, "" if text else "empty"
     except Exception as exc:
@@ -109,6 +127,11 @@ def fetch(host: str) -> tuple[str, int, float, str]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--workers", type=int, default=12)
+    ap.add_argument(
+        "--retry-empty",
+        action="store_true",
+        help="re-fetch hosts whose cached page is empty, trying www. as well",
+    )
     args = ap.parse_args()
 
     catalog = json.loads(CATALOG.read_text(encoding="utf-8"))
@@ -117,8 +140,11 @@ def main() -> int:
 
     t0 = time.time()
     done = empty = cached = 0
+    recovered = 0
     with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as ex:
-        for host, n, _, err in ex.map(fetch, hosts):
+        futures = [ex.submit(fetch, h, args.retry_empty) for h in hosts]
+        for future in concurrent.futures.as_completed(futures):
+            host, n, _, err = future.result()
             done += 1
             if n == 0:
                 empty += 1
@@ -129,7 +155,8 @@ def main() -> int:
                 print(f"  {done}/{len(hosts)}  {el:.0f}s", flush=True)
 
     el = time.time() - t0
-    print(f"\n{done} host  |  {cached} ok  |  {empty} empty  |  {el:.0f}s")
+    scope = " (retrying empty)" if args.retry_empty else ""
+    print(f"\n{done} host  |  {cached} ok  |  {empty} empty  |  {el:.0f}s{scope}")
     return 0
 
 

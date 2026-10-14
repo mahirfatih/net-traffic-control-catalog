@@ -262,34 +262,35 @@ text model can recover.
 
 ![Confusion matrix](docs/analysis/out/confusion-matrix.png)
 
-**Accuracy: 90%** (3,800/4,213, 18 classes, 5-fold CV) — **balanced accuracy
-67%**. `finance` is 53% of the catalog, so the two numbers differ by 23 points
-and the second is the meaningful one: about a third of our labels cannot be
-recovered from page text, which accuracy hides.
+**Accuracy: 89%** (4,045/4,565, 27 classes, 3-fold CV) — **balanced accuracy
+60%**. `finance` is 53% of the catalog, so the two numbers differ by 29 points
+and the second is the meaningful one: roughly two of every three labels cannot
+be recovered from page text, which accuracy hides.
 
 This measures *self-consistency*, not correctness — it shows whether our labels
 are predictable from page content. High diagonal = our labels are predictable
 from page text. Off-diagonal = our label disagrees with what the text suggests
 (either the label is wrong, or the page is not representative of the category).
 
-Model comparison: LinearSVC 0.902 / 0.672, LogisticRegression 0.884 / 0.668,
-MultinomialNB 0.734 / 0.263 (accuracy / balanced accuracy).
+All 27 categories are measured, including the small ones. Model comparison:
+LinearSVC 0.886 / 0.595, LogisticRegression 0.862 / 0.576,
+MultinomialNB 0.605 / 0.166 (accuracy / balanced accuracy).
 
-- **Highest F1:** `government` 0.97, `finance` 0.96, `education` 0.91, `news`
-  0.87, `messaging` 0.83. These categories have strong, distinctive page
-  signals.
-- **Lowest F1:** `encyclopedia` 0.28, `video` 0.45, `social` 0.47, `transport`
-  0.53 — some of these are infrastructure (page text is meaningless or ambiguous).
-  Correlated terms and model-weight terms reveal potential miscategorizations.
-- **Not measured at all:** nine categories have fewer than 20 labelled examples
-  and are excluded — `maps` has 2, `music` 6, `sports` 7, `crypto` 8, `other` 9,
-  `telecom` 10, `crash` 11, `email` 18, `cdn` 19. The audit says nothing about
-  whether those labels are right.
-- **High-confidence errors:** 4 hosts — `guven.com.tr` (`finance` → `health`,
-  88%), `display.ugc.bazaarvoice.com` (`software` → `finance`, 83%), `iqiyi.com`
-  (`video` → `finance`, 83%) and `googlesyndication.com` (`ads` → `search`,
-  75%). The two `→ finance` misses share a cause: `finance` is 56% of the
-  sample, so it is the model's default guess for anything commercial-looking.
+- **Highest F1:** `government` 0.97, `finance` 0.96, `education` 0.92, `news`
+  0.86, `email` 0.72. These categories have strong, distinctive page signals.
+- **Lowest F1:** `crypto` 0.19, `encyclopedia` 0.31, `cdn` 0.35, `music` 0.40,
+  `video` 0.41, `social` 0.41 — some of these are infrastructure (page text is
+  meaningless or ambiguous). Correlated terms and model-weight terms reveal
+  potential miscategorizations.
+- **Thin evidence:** eight categories have under 20 examples, so their F1 is
+  indicative rather than measured — `maps` 3, `sports` 7, `music` 8, `crypto` 8,
+  `other` 10, `crash` 11, `telecom` 11, `email` 19. This is why the matrix is
+  3-fold, not 5.
+- **High-confidence errors:** 5 hosts, four of them labelled `finance` —
+  `guven.com.tr` (→ `health`, 87%), `display.ugc.bazaarvoice.com` (→ `finance`,
+  82%), `iqiyi.com` (→ `finance`, 82%), `ilbank.gov.tr` (→ `government`, 72%)
+  and `paypalobjects.com` (→ `music`, 71%). `finance` is over half the sample, so
+  it is both where the model falls back to and where it drifts from.
 
 See [`docs/analysis/README.md`](docs/analysis/README.md) for full methodology,
 per-class metrics, correlated terms (chi-squared + LinearSVC weights), and the

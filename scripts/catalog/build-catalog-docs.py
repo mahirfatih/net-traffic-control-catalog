@@ -200,6 +200,14 @@ def main(argv):
                 add(f"be measured at all and are excluded: {names}. Nothing here says")
                 add("whether those labels are correct.")
                 add("")
+            if analysis.get("thin_classes"):
+                thin = analysis["thin_classes"]
+                add(f"{len(thin)} categories rest on under 20 examples, so their scores are")
+                add("indicative rather than measured: "
+                    + ", ".join(f"`{c}` {n}" for c, n in sorted(thin.items(), key=lambda kv: kv[1]))
+                    + f". The matrix uses {analysis.get('folds', 5)}-fold cross-validation")
+                add("because the smallest category cannot be split five ways.")
+                add("")
             if analysis.get("predictions"):
                 add("The audit output also records each host's top three predicted categories")
                 add("and confidence score, and the correlated-terms report shows both")
