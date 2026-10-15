@@ -105,9 +105,9 @@ Hosts still missing a label are in [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md).
 ## Reliability
 
 An audit compares TF-IDF text classifiers, keeps LinearSVC for
-the detailed 3-fold cross-validation, and asks how reliably
-each label can be recovered from the host's own page: **accuracy 89%**
-over 4565 hosts across 27 categories.
+the detailed 3-fold cross-validation, and asks
+how reliably each label can be recovered from the host's own page:
+**accuracy 89%** over 4565 hosts across 27 categories.
 
 Balanced accuracy is **60%**. `finance` is over half the catalog,
 so accuracy mostly reports how well the model predicts `finance`; the
@@ -119,8 +119,9 @@ ground truth, so a low figure means a label disagrees with its page, not
 that the label is wrong.
 
 8 categories rest on under 20 examples, so their scores are
-indicative rather than measured: `maps` 3, `sports` 7, `music` 8, `crypto` 8, `other` 10, `crash` 11, `telecom` 11, `email` 19. The matrix uses 3-fold cross-validation
-because the smallest category cannot be split five ways.
+indicative rather than measured: `maps` 3, `sports` 7, `music` 8, `crypto` 8, `other` 10, `crash` 11, `telecom` 11, `email` 19.
+The matrix uses 3-fold cross-validation because the
+smallest category cannot be split five ways.
 
 The audit output also records each host's top three predicted categories
 and confidence score, and the correlated-terms report shows both
