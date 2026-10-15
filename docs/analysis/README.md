@@ -227,7 +227,8 @@ so they are naturally filtered out by `--min-text`.
 
 2. **Model comparison** (`build-matrix.py`): TF-IDF (1–2 grams, 20k features)
    is evaluated with LinearSVC, logistic regression and multinomial naive Bayes
-   using 5-fold stratified cross-validation.
+   using stratified cross-validation, at as many folds as the smallest category
+   allows (3 today, because `maps` has 3 examples).
 
 3. **Classification**: LinearSVC is kept for the confusion matrix, term weights
    and calibrated error review. Every host receives an out-of-fold prediction.

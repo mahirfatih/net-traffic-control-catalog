@@ -58,8 +58,8 @@ to tell a real bank it is dead.
 
 | Script | What it does |
 | :--- | :--- |
-| [`fetch-pages.py`](analysis/fetch-pages.py) | Audit: fetch each catalog host's homepage and cache its title/meta/headings/body under `analysis/.pages/` (gitignored). Standard library only. |
-| [`build-matrix.py`](analysis/build-matrix.py) | Audit: classify the cached pages, cross-validate against the labels, and write the confusion matrix + report to [`docs/analysis/out/`](../docs/analysis/out/). Needs `scikit-learn` and `matplotlib`. |
+| [`fetch-pages.py`](analysis/fetch-pages.py) | Audit: fetch each catalog host's homepage and cache its title/meta/headings/body under `analysis/.pages/` (gitignored). `--retry-empty` re-fetches hosts whose page came back empty, trying `www.` too. Standard library only. |
+| [`build-matrix.py`](analysis/build-matrix.py) | Audit: classify the cached pages, cross-validate against the labels, and write the confusion matrix + report to [`docs/analysis/out/`](../docs/analysis/out/). `--min-class` keeps every category by default; the fold count drops to suit the smallest one. Needs `scikit-learn` and `matplotlib`. |
 
 ## Harvest workflow
 
@@ -145,13 +145,14 @@ proposed for removal.
 ```sh
 cd scripts/analysis
 python3 -m venv .venv && .venv/bin/pip install scikit-learn matplotlib
-.venv/bin/python fetch-pages.py     # cache each host's homepage (~3 min)
-.venv/bin/python build-matrix.py    # ← writes docs/analysis/out/
+.venv/bin/python fetch-pages.py                 # cache each host's homepage (~16 min)
+.venv/bin/python fetch-pages.py --retry-empty   # re-fetch the ones that came back empty
+.venv/bin/python build-matrix.py                # ← writes docs/analysis/out/
 ```
 
 It fetches each host's homepage, extracts the title, meta description/keywords,
 headings and body, trains a TF-IDF + LinearSVC classifier on the labels and
-cross-validates it (5-fold) — so the confusion matrix, per-class
+cross-validates it — so the confusion matrix, per-class
 precision/recall/F1, chi-squared correlated terms and high-confidence errors
 land in [`docs/analysis/out/`](../docs/analysis/out/) next to the data they
 judge. It measures **self-consistency** (how predictable a label is from its

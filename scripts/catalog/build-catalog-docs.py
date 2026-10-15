@@ -180,9 +180,9 @@ def main(argv):
             add("## Reliability")
             add("")
             add("An audit compares TF-IDF text classifiers, keeps LinearSVC for")
-            add("the detailed 5-fold cross-validation, and asks how reliably each label")
-            add(f"can be recovered from the host's own page: **accuracy {accuracy:.0%}**")
-            add(f"over {hosts} hosts across {len(classes)} categories.")
+            add(f"the detailed {analysis.get('folds', 5)}-fold cross-validation, and asks")
+            add(f"how reliably each label can be recovered from the host's own page:")
+            add(f"**accuracy {accuracy:.0%}** over {hosts} hosts across {len(classes)} categories.")
             add("")
             if balanced is not None:
                 add(f"Balanced accuracy is **{balanced:.0%}**. `finance` is over half the catalog,")
@@ -202,11 +202,11 @@ def main(argv):
                 add("")
             if analysis.get("thin_classes"):
                 thin = analysis["thin_classes"]
+                names = ", ".join(f"`{c}` {n}" for c, n in sorted(thin.items(), key=lambda kv: kv[1]))
                 add(f"{len(thin)} categories rest on under 20 examples, so their scores are")
-                add("indicative rather than measured: "
-                    + ", ".join(f"`{c}` {n}" for c, n in sorted(thin.items(), key=lambda kv: kv[1]))
-                    + f". The matrix uses {analysis.get('folds', 5)}-fold cross-validation")
-                add("because the smallest category cannot be split five ways.")
+                add(f"indicative rather than measured: {names}.")
+                add(f"The matrix uses {analysis.get('folds', 5)}-fold cross-validation because the")
+                add("smallest category cannot be split five ways.")
                 add("")
             if analysis.get("predictions"):
                 add("The audit output also records each host's top three predicted categories")

@@ -105,8 +105,8 @@ Hosts still missing a label are in [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md).
 ## Reliability
 
 An audit compares TF-IDF text classifiers, keeps LinearSVC for
-the detailed 5-fold cross-validation, and asks how reliably each label
-can be recovered from the host's own page: **accuracy 89%**
+the detailed 3-fold cross-validation, and asks how reliably
+each label can be recovered from the host's own page: **accuracy 89%**
 over 4565 hosts across 27 categories.
 
 Balanced accuracy is **60%**. `finance` is over half the catalog,

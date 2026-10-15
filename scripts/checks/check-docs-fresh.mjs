@@ -20,17 +20,31 @@ const notes = [];
 const read = (p) => readFileSync(join(ROOT, p), "utf8");
 const json = (p) => JSON.parse(read(p));
 
-/** Every markdown in the repo, so a dangling link anywhere is found. */
+/**
+ * Every markdown in the repo, so a dangling link anywhere is found.
+ *
+ * This used to walk only the repository root and one level of `docs/`, which
+ * left fourteen documents unchecked — including `docs/analysis/README.md`,
+ * `scripts/README.md` and every subdirectory README. Drift was found hiding in
+ * exactly those files. Vendored and generated-noise directories are skipped.
+ */
+const SKIP_DIRS = new Set([".git", ".venv", "node_modules", ".pages", "__pycache__"]);
+
 function markdownFiles() {
-  const out = ["README.md", "CONTRIBUTING.md", "SECURITY.md", "CHANGELOG.md"];
-  for (const dir of ["docs"]) {
-    const full = join(ROOT, dir);
-    if (!existsSync(full)) continue;
-    for (const name of readdirSync(full)) {
-      if (name.endsWith(".md")) out.push(`${dir}/${name}`);
+  const out = [];
+  const walk = (rel) => {
+    const full = join(ROOT, rel);
+    for (const entry of readdirSync(full, { withFileTypes: true })) {
+      if (entry.isDirectory()) {
+        if (SKIP_DIRS.has(entry.name)) continue;
+        walk(rel ? `${rel}/${entry.name}` : entry.name);
+      } else if (entry.name.endsWith(".md")) {
+        out.push(rel ? `${rel}/${entry.name}` : entry.name);
+      }
     }
-  }
-  return out.filter((p) => existsSync(join(ROOT, p)));
+  };
+  walk("");
+  return out.sort().filter((p) => existsSync(join(ROOT, p)));
 }
 
 /** 1. Every relative link in every document must resolve. */
@@ -343,6 +357,34 @@ function checkAnalysisFigures() {
       )}% against ${Math.round(data.accuracy * 100)}% accuracy, and the gap is why ` +
         `accuracy alone misleads`
     );
+  }
+
+  // The fold count is data-dependent now: `maps` has three examples, so the
+  // matrix is 3-fold and a document saying 5 is describing a run that does not
+  // exist. It drifted exactly that way — build-catalog-docs.py printed "5-fold"
+  // while the same page's thin-class note printed "3-fold", and no check
+  // compared either against the data.
+  const folds = data.folds;
+  if (folds) {
+    // Every fold claim is checked, not only the ones phrased "N-fold
+    // cross-validation": a document saying "cross-validates it (5-fold)" is
+    // making the same claim and drifted the same way. The calibration step's
+    // own inner CV is a different quantity that happens to share the wording,
+    // so lines about it are named and skipped rather than left to pass by luck.
+    for (const file of markdownFiles()) {
+      const lines = read(file).split("\n");
+      for (let i = 0; i < lines.length; i++) {
+        if (/CalibratedClassifierCV|sigmoid/.test(lines[i])) continue;
+        for (const m of lines[i].matchAll(/(\d+)-fold/g)) {
+          if (Number(m[1]) !== folds) {
+            problems.push(
+              `${file}:${i + 1}: says ${m[1]}-fold cross-validation, ${dataPath} used ${folds} ` +
+                `(the fold count follows the smallest category)`
+            );
+          }
+        }
+      }
+    }
   }
 
   // "**Highest F1:** `education` 0.93, `government` 0.97, ..."
