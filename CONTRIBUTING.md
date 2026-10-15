@@ -61,6 +61,27 @@ Read the proposal before applying it. A host is only proposed when all nine DNS
 questions in **both** rounds answered `NXDOMAIN`; `nodata` and `servfail` are
 reported but never proposed.
 
+**It resolves but serves nothing** — a parked domain, a lapsed site, a host the
+owner moved. DNS cannot see this, so visit it with a browser:
+
+```sh
+python3 scripts/analysis/sweep-live.py --self-test
+python3 scripts/analysis/sweep-live.py --round 1 --aggressive
+python3 scripts/analysis/sweep-live.py --round 2 --aggressive
+python3 scripts/analysis/sweep-live.py --summary --aggressive   # proposal only
+python3 scripts/analysis/sweep-live.py --apply --aggressive     # only after you read it
+```
+
+It visits every host with a real browser (agent-browser driving Lightpanda) and
+proposes the ones that answer with nothing. Two rounds must agree. A host that
+answered with a certificate failure, a timeout, or a resolver miss is printed
+for review but **never** proposed — that says this network could not reach it,
+not that it is empty. By default only a **parked** host is proposed;
+`--aggressive` also adds hosts that answered with no page (an empty 200, a
+404/5xx, a refusal), which are common on live infrastructure — `adnxs.com` and
+`3dsecure.akbank.com.tr` both answer with nothing and both belong here — so read
+the proposal before applying it.
+
 ## Bulk work: harvest
 
 For finding hosts that are missing rather than guessing them:
@@ -126,9 +147,9 @@ one re-labels data on somebody's device.
 which runs, in order: the source registry check, the schema check, the build,
 the validator, the documentation freshness check, the catalog's own quality
 guardrails (overlaps, category boundaries, source-import quality, override
-validity, the dead-domain decision table), and `python3 -m py_compile` over
-every script. All of it is Python 3 standard library — no dependencies, no
-install step.
+validity, the dead-domain and live-sweep decision tables), and
+`python3 -m py_compile` over every script. All of it is Python 3 standard
+library — no dependencies, no install step.
 
 If you changed a number that appears in a document, the freshness check will
 say so.

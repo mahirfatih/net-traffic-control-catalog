@@ -4,36 +4,72 @@ The whole suite. Nothing here needs a network, a build system, or an install
 step — Python 3 standard library and Node are the only requirements.
 
 ```sh
-./test/test.sh          # all eleven steps
-./test/test.sh --fast   # skip the byte-compile sweep
+./test/test.sh          # all eighteen steps
+./test/test.sh --fast   # skip the byte-compile sweep (17 steps)
 ```
 
 **Exit code `0` means the shipped data is consistent with its seeds and its
 documents.** Any non-zero stops the run at the first failure, because a later
 step reporting a problem that an earlier one caused is noise.
 
-## What each step proves
+## Every step, in order (18 of them)
+
+`./test/test.sh` runs these in exactly this order and stops at the first
+failure. `./test/test.sh --fast` runs the same list minus step 11.
 
 | # | Step | What it catches |
 | --: | :--- | :--- |
-| 1 | Source registry | a source marked `allowed` on a licence that blocks it, a blocked source with no reason, a bad URL or id |
-| 2 | Seeds parse | a category outside the vocabulary, an unsorted seed file, a duplicate service `key` |
-| 2b | Service domains labelled | a product's domain that resolves to no category — correct grouping, wrong label |
-| 3 | `catalog.json` hand-edited | **runs before the build**, because the build would silently repair the mistake |
-| 4 | Build | a seed that fails validation; nothing is written when it does |
-| 5 | Validator | the format, the vocabulary, and every host's shape |
-| 6 | Build fidelity | `catalog.json` differing from the seeds it was built from |
-| 7 | Docs current | a document that changed when regenerated — i.e. edited by hand |
-| 8 | Docs describe reality | broken links, renamed scripts, stale counts, a licence verdict that contradicts itself |
-| 9 | Licence gate | `NC` and `SA` licences refused even when a record claims `allowed` — tested against synthetic records, so it does not depend on a blocked source being present |
-| 10 | Host shape | 11 malformed names (`*.example.com`, `exa mple.com`, `exämple.com`, `example.com.`…) the app could never match |
-| 11 | Byte-compile | a script that no longer parses |
+| 1 | Source registry — licences and verdicts | a source marked `allowed` on a licence that blocks it, a blocked source with no reason, a bad URL or id |
+| 2 | Seeds parse and use the vocabulary | a category outside the vocabulary, an unsorted seed file, a duplicate service `key` |
+| 2b | Every service domain is a category or carries one | a product's domain that resolves to no category — correct grouping, wrong label |
+| 3 | Was `catalog.json` hand-edited? | **runs before the build**, because the build would silently repair the mistake |
+| 4 | Build `catalog.json` from the seeds | a seed that fails validation; nothing is written when it does |
+| 5 | Validate the built catalog | the format, the vocabulary, and every host's shape |
+| 6 | `catalog.json` is what the seeds say it is | the built file differing from the seeds it was built from |
+| 7 | Regenerate the documentation and confirm it is current | a document that changed when regenerated — i.e. edited by hand |
+| 8 | Documentation describes the files that exist | broken links, renamed scripts, stale counts, a licence verdict that contradicts itself, a sweep that no longer covers the catalog, a category treemap that disagrees with `catalog.json` (see the twelve sub-checks below) |
+| 9 | The licence gate refuses, whatever the registry happens to list | `NC` and `SA` licences refused even when a record claims `allowed` — tested against synthetic records, so it does not depend on a blocked source being present |
+| 10 | A malformed host is refused, a valid one accepted | 11 malformed names (`*.example.com`, `exa mple.com`, `exämple.com`, `example.com.`…) the app could never match |
+| 10.5 | Catalog overlap and distribution check | one host claimed by two categories, an implausible category split |
+| 10.6 | Category consistency guardrails | a category that contradicts the vocabulary or the rules it comes from |
+| 10.7 | Source import quality guardrails | an imported source whose records fail the licence or shape rules |
+| 10.8 | Category overrides are valid and beat rules | an override outside the vocabulary, an override with no reason, a host in both `drop` and `override` |
+| 10.9 | A dead-domain sweep keeps what it cannot prove | a resolver answer that would let a live bank be graded `dead`; a host called dead by only one round |
+| 10.10 | A live sweep keeps what it cannot prove | a navigation error mapped to the wrong decision, a real page called parked, a candidate that is not the intersection of both rounds |
+| 11 | Every script compiles | a script that no longer parses (**skipped by `--fast`**) |
+
+### Step 8 runs twelve sub-checks
+
+`node scripts/checks/check-docs-fresh.mjs` is one step but twelve checks, run in
+this order:
+
+1. `checkLinks` — every relative link in the docs points at a file that exists.
+2. `checkScriptNames` — every script named in the docs exists, and is listed.
+3. `checkSourceIds` — every source id cited in the docs is in the registry.
+4. `checkGeneratedDocs` — `docs/CATALOG.md`'s host and service totals match `catalog.json`.
+5. `checkCategoryTable` — `docs/CATALOG.md`'s category table matches the seeds.
+6. `checkLicenseGate` — no doc advertises a licence the gate refuses.
+7. `checkDirectoryReadmes` — every directory with content has a README.
+8. `checkAnalysisFigures` — the analysis numbers match `matrix-data.json`.
+9. `checkMeasuredRuntimes` — quoted probe runtimes match the recorded ones.
+10. `checkSweepEvidence` — the dead-domain evidence covers the catalog.
+11. `checkLiveSweepEvidence` — the live-sweep evidence has ≥2 complete rounds on the Lightpanda engine and covers every seed host.
+12. `checkCategoryTreemap` — the README mermaid treemap's counts match `catalog.json`.
 
 ## Why step 3 is where it is
 
 `generate.py` overwrites `catalog.json`. If that check ran after the build, a
 hand edit would be repaired and reported as clean — the one failure mode this
 repository cannot afford, because the output is what the app ships.
+
+## The sweeps, checked without the network
+
+Two tools visit real hosts — `probe-dead.py` (DNS) and `sweep-live.py` (a real
+browser through agent-browser + Lightpanda) — and both need the network, so
+neither runs here. Their *decisions* are still proven offline: step 10.9
+exercises the dead-domain table and step 10.10 the live-sweep table, so a change
+that would let a live bank be called dead fails the suite instead of a run
+against the real internet.
 
 ## Running one check
 

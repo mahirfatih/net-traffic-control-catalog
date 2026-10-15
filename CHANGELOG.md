@@ -9,6 +9,28 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Added
 
+- **Live sweep** (`scripts/analysis/sweep-live.py`): finds catalog hosts that
+  still resolve but no longer serve a page — a parked domain, a lapsed site, a
+  host the owner moved — the same domain-recycling risk the dead-domain sweep
+  covers, one layer further out. It visits every host with a real browser
+  ([agent-browser](https://github.com/vercel-labs/agent-browser) driving
+  [Lightpanda](https://lightpanda.io)) because a fetch that does not run
+  JavaScript sees an empty shell where a modern page lives, and records the
+  status, final URL, title and text length it saw. A navigation failure is only
+  believed after a canary proves the engine still works, two rounds must agree,
+  and the proposal is cross-checked against `evidence/dead-domain-sweep.json`.
+  A verdict this network produced but did not trust — `tls-error`, `timeout`,
+  `dns-error` (`youtube-nocookie.com` and `jsdelivr.net` land there on a bad
+  afternoon) — is reported for review and never proposed unless
+  `--include-flaky` says otherwise. By default only a **parked** page is
+  proposed, because a 404 or an empty 200 is common on live infrastructure
+  (`adnxs.com`, `3dsecure.akbank.com.tr`); `--aggressive` widens the proposal to
+  hosts that answered with nothing.
+  Its decision table is checked in `test/test.sh` step 10.10; the script needs
+  the network and stays out of CI.
+- **Category treemap in `README.md`**: the catalog by category, generated from
+  `catalog.json` by `build-catalog-docs.py` between markers, and checked
+  count-by-count by `check-docs-fresh.mjs` so the diagram cannot drift.
 - **HotCakeX Microsoft EASM list** as a separate MIT source (`hotcakex-microsoft-easm`). 529 exact-root gaming brand variants (Activision-Blizzard-King, ZeniMax/Bethesda, King) and developer-infrastructure hosts (GitHub, npm) were rule-matched and added; the remaining ~2,600 defensive TLD variants stay in harvest evidence as review-only.
 - **In-flight Wi-Fi allowlist** (`itsmingjie-inflight-allowlist`, MIT): airline captive-portal and connectivity domains → `travel`.
 - **Gaming platform whitelist** (`jayconius-gaming-whitelist`, MIT badge / no LICENSE file): new roots for EA, Epic, GOG, Paradox, Unity, 2K → `gaming`; ~40 subdomains were already covered by existing rules.

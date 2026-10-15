@@ -329,6 +329,116 @@ assert proposal == ["dead-both.test"], proposal
 print("  ✓ only a host both rounds called dead is proposed")
 PY
 
+step "10.10. A live sweep keeps what it cannot prove"
+python3 - <<'PY'
+import importlib.util
+
+_spec = importlib.util.spec_from_file_location("sweep_live", "scripts/analysis/sweep-live.py")
+sweep = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(sweep)
+
+# The navigation error text is the browser's, so map it once, here, and prove
+# the mapping. A certificate failure classified as "no page" is how a live site
+# gets proposed for deletion.
+for error, expected in [
+    ("Navigation failed: CouldntResolveHost", "dns-error"),
+    ("Navigation failed: PeerFailedVerification", "tls-error"),
+    ("Navigation failed: net::ERR_TIMED_OUT", "timeout"),
+    ("Navigation failed: net::ERR_CONNECTION_REFUSED", "no-http"),
+]:
+    actual = sweep.classify_error(error)
+    assert actual == expected, f"{error!r}: expected {expected}, got {actual}"
+    print(f"  ✓ {error:48} -> {actual}")
+
+# The content decision, which status alone cannot make: a parked page returns
+# 200, a blocked one returns 403.
+PARKED_TEXT = "this domain is for sale buy this domain"
+cases = [
+    ("a page with text", 200, 900, "Example", "https://x/", "", "content"),
+    ("a 200 with no text", 200, 5, "", "https://x/", "", "empty"),
+    ("a parked page", 200, 900, "Domain For Sale", "https://x/", PARKED_TEXT, "parked"),
+    ("a short parked page", 200, 20, "Domain For Sale", "https://x/", "", "parked"),
+    ("a parked host", 200, 900, "x", "https://sedoparking.com/x/", "", "parked"),
+    # A real page must not be called parked because it contains a phrase. These
+    # two are the regression: `duolingo.com` ("it works!") and `gspfinance.com`
+    # / `plfsbd.com` ("under construction") were filed as parked when the
+    # markers were loose, and the default mode would have proposed them.
+    ("a real page with a phrase", 200, 900, "Duolingo", "https://www.duolingo.com/",
+     "the most fun way to learn a language. it works!", "content"),
+    ("a bank site with a phrase", 200, 1355, "GSP Finance", "https://gspfinance.com/",
+     "our new branch is under construction", "content"),
+    ("refused automated traffic", 403, 900, "Just a moment", "https://x/", "", "blocked"),
+    ("not found", 404, 20, "404", "https://x/", "", "no-http"),
+    ("server error", 503, 0, "", "https://x/", "", "no-http"),
+    ("no status, no text", None, 0, "", "https://x/", "", "empty"),
+]
+for name, status, length, title, url, haystack, expected in cases:
+    actual = sweep.classify_attempt(status, length, title, url, haystack, None)
+    assert actual == expected, f"{name}: expected {expected}, got {actual}"
+    print(f"  ✓ {name:30} -> {actual}")
+
+# The most alive attempt wins: one transient timeout cannot outvote a page that
+# did load, and a real host signal beats the harness's own confusion.
+assert sweep.host_decision(["timeout", "content"]) == "ok"
+assert sweep.host_decision(["dns-error", "harness-error"]) == "dns-error"
+assert sweep.host_decision(["harness-error", "harness-error"]) == "harness-error"
+print("  ✓ the most alive attempt decides, a real signal beats harness-error")
+
+# Nothing an environment failure produced is a candidate on its own, and the
+# default proposal is the one signal that cannot be misread: a parked page. A
+# 404 or an empty 200 is common on live infrastructure (`adnxs.com`,
+# `3dsecure.akbank.com.tr`) and needs a person to ask for it.
+assert not sweep.is_candidate("ok", True, True)
+assert not sweep.is_candidate("blocked", True, True)
+assert not sweep.is_candidate("harness-error", True, True)
+assert sweep.is_candidate("parked", False)
+assert not sweep.is_candidate("no-http", False)
+assert not sweep.is_candidate("empty", False)
+assert sweep.is_candidate("no-http", True)
+assert sweep.is_candidate("empty", True)
+assert not sweep.is_candidate("timeout", True)
+assert sweep.is_candidate("timeout", True, include_flaky=True)
+print("  ✓ only a parked page is proposed by default; no page or a flaky one needs a flag")
+
+# Two rounds must agree, a harness-error host is never proposed, and one round
+# is a snapshot with no proposal.
+state = {"rounds": [
+    {"round": 1, "complete": True, "results": {
+        "empty-both.test": {"decision": "empty"},
+        "empty-once.test": {"decision": "empty"},
+        "blocked.test": {"decision": "blocked"},
+        "flaky.test": {"decision": "timeout"},
+    }},
+    {"round": 2, "complete": True, "results": {
+        "empty-both.test": {"decision": "empty"},
+        "empty-once.test": {"decision": "ok"},
+        "blocked.test": {"decision": "blocked"},
+        "flaky.test": {"decision": "timeout"},
+    }},
+]}
+assert sweep.build_proposal(state, aggressive=False) == []
+assert sweep.build_proposal(state, aggressive=True) == ["empty-both.test"]
+assert sweep.build_proposal({"rounds": state["rounds"][:1]}, aggressive=True) is None
+# A parked host needs no flag: it is the unambiguous case.
+parked = {"rounds": [
+    {"round": 1, "complete": True, "results": {
+        "parked-both.test": {"decision": "parked"},
+        "parked-once.test": {"decision": "parked"},
+    }},
+    {"round": 2, "complete": True, "results": {
+        "parked-both.test": {"decision": "parked"},
+        "parked-once.test": {"decision": "ok"},
+    }},
+]}
+assert sweep.build_proposal(parked, aggressive=False) == ["parked-both.test"]
+uncertain = {"rounds": [
+    {"round": 1, "complete": True, "results": {"h.test": {"decision": "parked"}}},
+    {"round": 2, "complete": True, "results": {"h.test": {"decision": "harness-error"}}},
+]}
+assert sweep.build_proposal(uncertain, aggressive=True) == []
+print("  ✓ two rounds must agree; harness-error is never proposed")
+PY
+
 if [ "$FAST" -eq 0 ]; then
     step "11. Every script compiles"
     python3 -m py_compile scripts/*/*.py

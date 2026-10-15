@@ -95,13 +95,20 @@ def fetch_url(url: str) -> bytes:
     return proc.stdout
 
 
-def fetch(host: str, retry_empty: bool = False) -> tuple[str, int, float, str]:
+def fetch(host: str, retry_below: int = 0) -> tuple[str, int, float, str]:
     """Return (host, text_length, seconds, error_or_empty).
 
     A host that yields nothing is retried once against `www.`, because an
     apex-only redirect is common enough to be worth the request. Nine categories
     in the audit were unmeasurable partly because the first attempt was the only
     attempt: an empty file was written and then treated as final forever.
+
+    `retry_below` is the cached-size floor below which a host is fetched again:
+    0 keeps every cached page (the default), 1 retries only the empty ones, and
+    100 retries everything too short for the audit to use. The last is not the
+    same as the first two — 459 catalog hosts have a cached page of 1-99
+    characters that no flag ever looked at again, and a fresh fetch found usable
+    text for 405 of them.
 
     What this cannot fix is a host that never answers. Measured on the nine
     categories the audit could not measure, 54 of 65 empty fetches failed with
@@ -110,7 +117,7 @@ def fetch(host: str, retry_empty: bool = False) -> tuple[str, int, float, str]:
     different fetch.
     """
     out = PAGES / f"{host}.txt"
-    if out.exists() and (out.stat().st_size > 0 or not retry_empty):
+    if out.exists() and out.stat().st_size >= retry_below:
         return host, out.stat().st_size, 0.0, ""
 
     t0 = time.time()
@@ -118,6 +125,11 @@ def fetch(host: str, retry_empty: bool = False) -> tuple[str, int, float, str]:
         text = extract_text(fetch_url(f"https://{host}/").decode("utf-8", "replace"))
         if not text and not host.startswith("www."):
             text = extract_text(fetch_url(f"https://www.{host}/").decode("utf-8", "replace"))
+        if out.exists() and not text and out.stat().st_size > 0:
+            # A re-fetch that comes back empty must not overwrite a page that had
+            # text: the cached copy is what the audit reads, and one transient
+            # failure is not news about the host.
+            return host, out.stat().st_size, time.time() - t0, ""
         out.write_text(text, encoding="utf-8")
         return host, len(text), time.time() - t0, "" if text else "empty"
     except Exception as exc:
@@ -132,17 +144,26 @@ def main() -> int:
         action="store_true",
         help="re-fetch hosts whose cached page is empty, trying www. as well",
     )
+    ap.add_argument(
+        "--retry-thin",
+        type=int,
+        default=0,
+        metavar="N",
+        help="also re-fetch hosts whose cached page has fewer than N characters "
+             "(the audit's floor is 100; implies --retry-empty)",
+    )
     args = ap.parse_args()
 
     catalog = json.loads(CATALOG.read_text(encoding="utf-8"))
     hosts = sorted(catalog["categories"])
     PAGES.mkdir(exist_ok=True)
 
+    retry_below = max(args.retry_thin, 1 if args.retry_empty else 0)
+
     t0 = time.time()
     done = empty = cached = 0
-    recovered = 0
     with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as ex:
-        futures = [ex.submit(fetch, h, args.retry_empty) for h in hosts]
+        futures = [ex.submit(fetch, h, retry_below) for h in hosts]
         for future in concurrent.futures.as_completed(futures):
             host, n, _, err = future.result()
             done += 1
@@ -155,7 +176,9 @@ def main() -> int:
                 print(f"  {done}/{len(hosts)}  {el:.0f}s", flush=True)
 
     el = time.time() - t0
-    scope = " (retrying empty)" if args.retry_empty else ""
+    scope = ""
+    if retry_below:
+        scope = f" (retrying below {retry_below} char)"
     print(f"\n{done} host  |  {cached} ok  |  {empty} empty  |  {el:.0f}s{scope}")
     return 0
 
