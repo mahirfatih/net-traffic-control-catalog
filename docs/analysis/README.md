@@ -98,7 +98,16 @@ fetch.
 ### What each score actually covers
 
 The matrix measures 4,565 of 6,745 catalog hosts — 68%. The other 2,180 return
-no usable page text: 1,721 answer nothing at all, 445 return under 100 bytes.
+no usable page text: 1,721 answer nothing at all, and 459 return under 100
+characters, which is the floor `build-matrix.py` needs.
+
+So 5,024 hosts — 6,745 − 1,721 — answer *something*, and the classifier measures
+4,565 of them. The difference between those two numbers is the stub pages: a few
+dozen characters of navigation, a redirect notice or a cookie wall carries no
+label signal. The floor counts **characters, not byte size**, which matters for
+non-Latin pages — a Turkish or Chinese stub crosses 100 bytes with under 100
+characters, and measuring the file size would file those hosts under the wrong
+reason and leave the arithmetic short by exactly that many.
 
 Those failures are **not evenly spread**, and that is the part that matters. A
 per-class F1 describes the hosts that produced text, not the category. `gaming`

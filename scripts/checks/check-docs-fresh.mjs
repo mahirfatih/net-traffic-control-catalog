@@ -247,14 +247,18 @@ function checkAnalysisFigures() {
     }
   }
 
-  // "accuracy 84% over 1844 hosts across 19 categories"
+  // "accuracy 84% over 1,844 hosts across 19 categories"
   const catalogDoc = "docs/CATALOG.md";
   const summary = read(catalogDoc).match(
-    /\*\*accuracy (\d+)%\*\*\s*over (\d+) hosts across (\d+) categories/
+    /\*\*accuracy (\d+)%\*\*\s*over ([\d,]+) hosts across ([\d,]+) categories/
   );
   if (summary) {
     const [, pct, hosts, cls] = summary;
-    if (Number(pct) !== accuracy || Number(hosts) !== total || Number(cls) !== classes) {
+    if (
+      Number(pct) !== accuracy ||
+      Number(hosts.replace(/,/g, "")) !== total ||
+      Number(cls.replace(/,/g, "")) !== classes
+    ) {
       problems.push(
         `${catalogDoc}: reliability summary is stale — ${dataPath} reports ${accuracy}% over ${total} hosts across ${classes} categories`
       );
@@ -335,6 +339,45 @@ function checkAnalysisFigures() {
       `docs/analysis/README.md: coverage table has ${covRows} row(s), ` +
         `${dataPath} covers ${Object.keys(coverage).length} categories`
     );
+  }
+
+  // Why the unmeasured hosts are unmeasured has to add up. The three reasons
+  // plus the measured count must equal the catalog, or a document has a gap
+  // nobody can see: the first version of this paragraph said "445 return under
+  // 100 bytes" against a 1,721 that summed to 2,166 and not 2,180, and no check
+  // noticed the 14 hosts it had silently dropped.
+  const unmeasured = data.unmeasured;
+  if (unmeasured) {
+    const parts =
+      unmeasured.never_fetched +
+      unmeasured.no_response +
+      unmeasured.too_short +
+      unmeasured.dropped_by_class_filter;
+    if (parts + data.measured_hosts !== data.total_hosts) {
+      problems.push(
+        `${dataPath}: the unmeasured breakdown does not add up — ` +
+          `${parts} + ${data.measured_hosts} measured != ${data.total_hosts} hosts`
+      );
+    }
+    const num = (s) => Number(String(s).replace(/,/g, ""));
+    for (const [pattern, want, what] of [
+      [/([\d,]+) answer nothing at all/, unmeasured.no_response, "no response"],
+      [/([\d,]+) return under \d+\s+characters/, unmeasured.too_short, "under min_text"],
+    ]) {
+      if (data.total_hosts >= 2000) {
+        const m = text.match(pattern);
+        if (!m) {
+          problems.push(
+            `docs/analysis/README.md: must state the ${what} count (${want}) when ` +
+              `${dataPath} records it`
+          );
+        } else if (num(m[1]) !== want) {
+          problems.push(
+            `docs/analysis/README.md: says ${m[1]} hosts ${what}, ${dataPath} has ${want}`
+          );
+        }
+      }
+    }
   }
 
   // Model comparison rows must match the analysis output as well.

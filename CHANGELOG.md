@@ -67,14 +67,19 @@ not for the data: `version` is bumped only on a breaking format change.
 
 - **The reliability figures now say what they cover.** The audit measures 4,565
   of the catalog's 6,745 hosts — 68%. The remaining 2,180 serve no usable page
-  text, and the failures are not spread evenly: `gaming` is measured on 69 hosts
+  text: 1,721 answer nothing at all and 459 return under 100 characters. The
+  failures are not spread evenly: `gaming` is measured on 69 hosts
   of 360 (19%) and `software` on 168 of 476 (35%), while `government` (87%) and
   `news` (88%) are nearly complete, because canvas/JS-heavy domains render no
   HTML text and static ones do. A per-class F1 describes the hosts that produced
   text, not the category, and the two were previously confused. `coverage` is
   now recorded per category in `matrix-data.json`, printed by `build-matrix.py`,
   tabulated in `docs/analysis/README.md`, and checked by `check-docs-fresh.mjs`
-  so the table cannot drift from the data.
+  so the table cannot drift from the data. The reason breakdown (`unmeasured`)
+  is recorded alongside it and the parts are checked to add up, because the
+  first version of this paragraph quoted a **byte** count against a character
+  threshold: 445 where the answer is 459, leaving 14 hosts unaccounted for
+  between the parts and the total.
 - **Catalog size: 7,177 → 6,745 categories** (−432). 432 hosts that no longer
   resolve were removed by the dead-domain sweep: two rounds ten minutes apart,
   Cloudflare and Google both answering `NXDOMAIN` for A, AAAA and NS every time.
@@ -108,6 +113,13 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Fixed
 
+- **The audit was not reproducible: `LinearSVC` ran unseeded.** `random_state`
+  was `None`, so liblinear shuffled its dual coordinate descent from OS entropy
+  and two runs on identical input produced coefficient tables differing around
+  the sixth digit — 277 changed lines in a committed artifact, none of them a
+  finding, and no way for a reader to tell noise from a change. All four
+  `LinearSVC` instantiations now take the same seed; two full runs produce
+  byte-identical `matrix-data.json`, verified by diffing them.
 - **Nine of the catalog's 27 categories were never measured, and the cause was
   a bug, not their size.** `fetch-pages.py` wrote an empty cache file the first
   time a host returned nothing and never tried again, so a category was dropped

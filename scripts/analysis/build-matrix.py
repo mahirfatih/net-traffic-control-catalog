@@ -40,13 +40,21 @@ def top_predictions(classes: list[str], row, limit: int = 3) -> list[dict[str, o
     ]
 
 
-def load_pages(min_text: int) -> dict[str, str]:
+def load_pages(min_text: int) -> tuple[dict[str, str], dict[str, int]]:
+    """Usable pages, plus every cached host's length so the rest can be explained.
+
+    `min_text` counts characters, not bytes — a page of Turkish or Chinese text
+    crosses the threshold with far fewer bytes, and measuring the file size
+    instead quietly filed those hosts under the wrong reason.
+    """
     pages: dict[str, str] = {}
+    lengths: dict[str, int] = {}
     for f in PAGES.glob("*.txt"):
         text = f.read_text(encoding="utf-8", errors="replace")
+        lengths[f.stem] = len(text)
         if len(text) >= min_text:
             pages[f.stem] = text
-    return pages
+    return pages, lengths
 
 
 def main() -> int:
@@ -82,7 +90,23 @@ def main() -> int:
 
     catalog = json.loads(CATALOG.read_text(encoding="utf-8"))
     labels = catalog["categories"]
-    pages = load_pages(args.min_text)
+    pages, lengths = load_pages(args.min_text)
+
+    # Why the unmeasured hosts are unmeasured, over the catalog only — the cache
+    # holds hosts the catalog has since dropped, and counting those would inflate
+    # every bucket. "No usable page text" is not one thing: a host that answers
+    # nothing cannot be fixed by fetching harder, and one that answers a stub
+    # needs different handling. The split is recorded so no gap goes unexplained.
+    never_fetched = [h for h in labels if h not in lengths]
+    no_response = [h for h in labels if lengths.get(h) == 0]
+    too_short = [h for h in labels if 0 < lengths.get(h, 0) < args.min_text]
+    unmeasured = {
+        "min_text": args.min_text,
+        "never_fetched": len(never_fetched),
+        "no_response": len(no_response),
+        "too_short": len(too_short),
+        "dropped_by_class_filter": 0,  # filled once the class floor is applied
+    }
 
     # Keep only hosts that have text AND are in the catalog.
     hosts = sorted(h for h in pages if h in labels)
@@ -134,6 +158,12 @@ def main() -> int:
     # it was computed on 69.
     catalog_counts_all = collections.Counter(labels.values())
     print(f"\ncoverage: {len(y)} of {len(labels)} catalog hosts ({len(y) / len(labels):.0%})")
+    print(
+        f"  unexplained-by-design: never fetched {unmeasured['never_fetched']}, "
+        f"no response {unmeasured['no_response']}, "
+        f"under {unmeasured['min_text']} chars {unmeasured['too_short']}, "
+        f"class filter {unmeasured['dropped_by_class_filter']}"
+    )
     worst = sorted(
         ((c, catalog_counts_all[c], int(counts.get(c, 0))) for c in classes),
         key=lambda t: t[2] / t[1],
@@ -143,8 +173,13 @@ def main() -> int:
 
     pipe = make_pipeline(
         TfidfVectorizer(sublinear_tf=True, min_df=2, ngram_range=(1, 2), max_features=20000),
-        LinearSVC(C=1.0, class_weight="balanced", max_iter=5000),
+        LinearSVC(C=1.0, class_weight="balanced", max_iter=5000, random_state=42),
     )
+    # LinearSVC is seeded, and it has to be. liblinear shuffles its dual
+    # coordinate descent from the OS entropy when random_state is None, so two
+    # runs on identical input produced coefficient tables differing around the
+    # sixth digit - 277 changed lines in a committed artifact, none of them a
+    # finding. Every LinearSVC in this file takes the same seed.
     cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
     pred = cross_val_predict(pipe, X, y, cv=cv, n_jobs=-1)
 
@@ -161,7 +196,7 @@ def main() -> int:
     balanced_prior = np.array([1.0 / counts[c] for c in classes], dtype=float)
     balanced_prior = balanced_prior / balanced_prior.sum()
     models = [
-        ("LinearSVC", LinearSVC(C=1.0, class_weight="balanced", max_iter=5000)),
+        ("LinearSVC", LinearSVC(C=1.0, class_weight="balanced", max_iter=5000, random_state=42)),
         ("LogisticRegression", LogisticRegression(C=4.0, class_weight="balanced", max_iter=1000)),
         ("MultinomialNB", MultinomialNB(class_prior=balanced_prior)),
     ]
@@ -233,7 +268,7 @@ def main() -> int:
 
     # --- 2b. LinearSVC model terms per category ---
     print("\nLinearSVC weighted terms (top 10 per class):")
-    term_model = LinearSVC(C=1.0, class_weight="balanced", max_iter=5000)
+    term_model = LinearSVC(C=1.0, class_weight="balanced", max_iter=5000, random_state=42)
     term_model.fit(X_vec, y)
     model_terms: dict[str, list[tuple[str, float]]] = {}
     for class_index, c in enumerate(term_model.classes_):
@@ -247,7 +282,7 @@ def main() -> int:
     cal_pipe = make_pipeline(
         TfidfVectorizer(sublinear_tf=True, min_df=2, ngram_range=(1, 2), max_features=20000),
         CalibratedClassifierCV(
-            LinearSVC(C=1.0, class_weight="balanced", max_iter=5000),
+            LinearSVC(C=1.0, class_weight="balanced", max_iter=5000, random_state=42),
             cv=3,
             method="sigmoid",
         ),
@@ -366,6 +401,7 @@ def main() -> int:
         }
         for c in sorted(catalog_counts)
     }
+    unmeasured["dropped_by_class_filter"] = len(hosts) - len(y)
     report_data = {
         "total_hosts": len(labels),
         "measured_hosts": int(len(y)),
@@ -376,6 +412,7 @@ def main() -> int:
         "thin_classes": thin,
         "folds": n_splits,
         "coverage": coverage,
+        "unmeasured": unmeasured,
         "matrix": cm.tolist(),
         "matrix_normalized": cm_norm.tolist(),
         "counts": {c: int(counts[c]) for c in classes},

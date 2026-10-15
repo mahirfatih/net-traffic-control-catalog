@@ -182,7 +182,7 @@ def main(argv):
             add("An audit compares TF-IDF text classifiers, keeps LinearSVC for")
             add(f"the detailed {analysis.get('folds', 5)}-fold cross-validation, and asks")
             add(f"how reliably each label can be recovered from the host's own page:")
-            add(f"**accuracy {accuracy:.0%}** over {hosts} hosts across {len(classes)} categories.")
+            add(f"**accuracy {accuracy:.0%}** over {hosts:,} hosts across {len(classes)} categories.")
             add("")
             if balanced is not None:
                 add(f"Balanced accuracy is **{balanced:.0%}**. `finance` is over half the catalog,")
@@ -195,9 +195,13 @@ def main(argv):
             add("that the label is wrong.")
             add("")
             if analysis.get("measured_hosts") and analysis.get("total_hosts"):
-                add(f"The audit reaches {analysis['measured_hosts']} of the catalog's")
-                add(f"{analysis['total_hosts']} hosts; the rest serve no usable page text, and")
-                add("the failures are uneven — some categories are measured on a small")
+                un = analysis.get("unmeasured", {})
+                add(f"The audit reaches {analysis['measured_hosts']:,} of the catalog's")
+                add(f"{analysis['total_hosts']:,} hosts; the rest serve no usable page text"
+                    + (f" — {un.get('no_response', 0):,} answer nothing at all and"
+                       f" {un.get('too_short', 0):,} return under {un.get('min_text', 100)}"
+                       " characters." if un else "."))
+                add("The failures are uneven — some categories are measured on a small")
                 add("fraction of their hosts. A per-class score describes the hosts that")
                 add("produced text, not the category. Per-category coverage is in")
                 add("[`analysis/README.md`](analysis/README.md).")

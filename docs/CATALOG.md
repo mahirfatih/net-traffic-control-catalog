@@ -107,7 +107,7 @@ Hosts still missing a label are in [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md).
 An audit compares TF-IDF text classifiers, keeps LinearSVC for
 the detailed 3-fold cross-validation, and asks
 how reliably each label can be recovered from the host's own page:
-**accuracy 89%** over 4565 hosts across 27 categories.
+**accuracy 89%** over 4,565 hosts across 27 categories.
 
 Balanced accuracy is **60%**. `finance` is over half the catalog,
 so accuracy mostly reports how well the model predicts `finance`; the
@@ -118,9 +118,9 @@ This measures *self-consistency*, not correctness — there is no independent
 ground truth, so a low figure means a label disagrees with its page, not
 that the label is wrong.
 
-The audit reaches 4565 of the catalog's
-6745 hosts; the rest serve no usable page text, and
-the failures are uneven — some categories are measured on a small
+The audit reaches 4,565 of the catalog's
+6,745 hosts; the rest serve no usable page text — 1,721 answer nothing at all and 459 return under 100 characters.
+The failures are uneven — some categories are measured on a small
 fraction of their hosts. A per-class score describes the hosts that
 produced text, not the category. Per-category coverage is in
 [`analysis/README.md`](analysis/README.md).
