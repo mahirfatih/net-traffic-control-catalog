@@ -194,6 +194,14 @@ def main(argv):
             add("ground truth, so a low figure means a label disagrees with its page, not")
             add("that the label is wrong.")
             add("")
+            if analysis.get("measured_hosts") and analysis.get("total_hosts"):
+                add(f"The audit reaches {analysis['measured_hosts']} of the catalog's")
+                add(f"{analysis['total_hosts']} hosts; the rest serve no usable page text, and")
+                add("the failures are uneven — some categories are measured on a small")
+                add("fraction of their hosts. A per-class score describes the hosts that")
+                add("produced text, not the category. Per-category coverage is in")
+                add("[`analysis/README.md`](analysis/README.md).")
+                add("")
             if dropped:
                 names = ", ".join(f"`{c}` {n}" for c, n in sorted(dropped.items(), key=lambda kv: -kv[1]))
                 add(f"{len(dropped)} further categories have too few labelled examples to")

@@ -95,6 +95,56 @@ all** — `akamai.net`, `akadns.net` and similar are edge CDNs whose apex does
 not serve a page. Those need a different signal than page text, not a different
 fetch.
 
+### What each score actually covers
+
+The matrix measures 4,565 of 6,745 catalog hosts — 68%. The other 2,180 return
+no usable page text: 1,721 answer nothing at all, 445 return under 100 bytes.
+
+Those failures are **not evenly spread**, and that is the part that matters. A
+per-class F1 describes the hosts that produced text, not the category. `gaming`
+scores 0.65, and it was computed on 69 hosts out of 360:
+
+| Category | In catalog | Measured | Coverage |
+| :--- | ---: | ---: | ---: |
+| gaming | 360 | 69 | 19% |
+| cdn | 67 | 21 | 31% |
+| software | 476 | 168 | 35% |
+| search | 57 | 25 | 44% |
+| travel | 80 | 38 | 48% |
+| social | 65 | 34 | 52% |
+| video | 87 | 46 | 53% |
+| ads | 74 | 46 | 62% |
+| encyclopedia | 40 | 27 | 68% |
+| email | 28 | 19 | 68% |
+| telecom | 16 | 11 | 69% |
+| messaging | 33 | 23 | 70% |
+| finance | 3581 | 2533 | 71% |
+| other | 14 | 10 | 71% |
+| shopping | 101 | 73 | 72% |
+| ai | 68 | 50 | 74% |
+| crypto | 10 | 8 | 80% |
+| music | 10 | 8 | 80% |
+| education | 212 | 172 | 81% |
+| analytics | 39 | 32 | 82% |
+| crash | 13 | 11 | 85% |
+| health | 67 | 57 | 85% |
+| transport | 42 | 36 | 86% |
+| government | 1065 | 923 | 87% |
+| news | 130 | 115 | 88% |
+| maps | 3 | 3 | 100% |
+| sports | 7 | 7 | 100% |
+| **all** | **6745** | **4565** | **68%** |
+
+The pattern is not random. Canvas/JS-heavy categories yield almost no text —
+`gaming` at 19% is a pile of game clients whose homepage is script — while
+static, server-rendered ones do well (`government` 87%, `news` 88%). So the
+sample skews toward whatever renders as HTML, and every average in this document
+inherits that skew.
+
+Read a per-class number with its coverage row next to it. `maps` and `sports` at
+100% are complete but tiny; `gaming` at 19% is a confident-looking score for a
+fifth of the category.
+
 ### Per-class metrics
 
 | Class | Precision | Recall | F1 | Support |

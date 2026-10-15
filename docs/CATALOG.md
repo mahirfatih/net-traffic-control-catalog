@@ -118,6 +118,13 @@ This measures *self-consistency*, not correctness — there is no independent
 ground truth, so a low figure means a label disagrees with its page, not
 that the label is wrong.
 
+The audit reaches 4565 of the catalog's
+6745 hosts; the rest serve no usable page text, and
+the failures are uneven — some categories are measured on a small
+fraction of their hosts. A per-class score describes the hosts that
+produced text, not the category. Per-category coverage is in
+[`analysis/README.md`](analysis/README.md).
+
 8 categories rest on under 20 examples, so their scores are
 indicative rather than measured: `maps` 3, `sports` 7, `music` 8, `crypto` 8, `other` 10, `crash` 11, `telecom` 11, `email` 19.
 The matrix uses 3-fold cross-validation because the

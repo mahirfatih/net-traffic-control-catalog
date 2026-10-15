@@ -65,6 +65,16 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Changed
 
+- **The reliability figures now say what they cover.** The audit measures 4,565
+  of the catalog's 6,745 hosts — 68%. The remaining 2,180 serve no usable page
+  text, and the failures are not spread evenly: `gaming` is measured on 69 hosts
+  of 360 (19%) and `software` on 168 of 476 (35%), while `government` (87%) and
+  `news` (88%) are nearly complete, because canvas/JS-heavy domains render no
+  HTML text and static ones do. A per-class F1 describes the hosts that produced
+  text, not the category, and the two were previously confused. `coverage` is
+  now recorded per category in `matrix-data.json`, printed by `build-matrix.py`,
+  tabulated in `docs/analysis/README.md`, and checked by `check-docs-fresh.mjs`
+  so the table cannot drift from the data.
 - **Catalog size: 7,177 → 6,745 categories** (−432). 432 hosts that no longer
   resolve were removed by the dead-domain sweep: two rounds ten minutes apart,
   Cloudflare and Google both answering `NXDOMAIN` for A, AAAA and NS every time.

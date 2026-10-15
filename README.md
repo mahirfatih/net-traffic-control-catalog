@@ -286,6 +286,12 @@ MultinomialNB 0.605 / 0.166 (accuracy / balanced accuracy).
   indicative rather than measured — `maps` 3, `sports` 7, `music` 8, `crypto` 8,
   `other` 10, `crash` 11, `telecom` 11, `email` 19. This is why the matrix is
   3-fold, not 5.
+- **Coverage is 68%, and unevenly spread:** 4,565 of 6,745 hosts yield usable
+  page text. The failures cluster in canvas/JS-heavy categories — `gaming` is
+  measured on 69 hosts of 360 (19%), `software` 168 of 476 (35%) — while
+  static ones do well (`government` 87%, `news` 88%). Every per-class score
+  describes the hosts that produced text, not the category. Full table in
+  [`docs/analysis/README.md`](docs/analysis/README.md).
 - **High-confidence errors:** 5 hosts, four of them labelled `finance` —
   `guven.com.tr` (→ `health`, 87%), `display.ugc.bazaarvoice.com` (→ `finance`,
   82%), `iqiyi.com` (→ `finance`, 82%), `ilbank.gov.tr` (→ `government`, 72%)

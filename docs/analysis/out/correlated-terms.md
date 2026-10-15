@@ -317,7 +317,7 @@ Two signals are shown for each category:
 | üniversitesi | 1.638 |
 | öğrenci | 1.426 |
 | akademik | 0.986 |
-| edu | 0.974 |
+| edu | 0.973 |
 | study | 0.897 |
 | kampüs | 0.824 |
 | challenge | 0.823 |

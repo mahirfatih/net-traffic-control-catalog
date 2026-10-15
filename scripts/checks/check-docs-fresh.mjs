@@ -305,6 +305,38 @@ function checkAnalysisFigures() {
     }
   }
 
+  // The coverage table says how much of each category a score actually covers.
+  // A per-class F1 describes the hosts that yielded text, and for `gaming` that
+  // is 69 of 360 - a fact worth failing a build over if it goes missing.
+  const coverage = data.coverage || {};
+  const covRow = /^\| ([a-z]+) \| (\d+) \| (\d+) \| (\d+)% \|$/;
+  let covRows = 0;
+  for (const line of text.split("\n")) {
+    const m = line.match(covRow);
+    if (!m) continue;
+    const [, category, inCatalog, measured, pct] = m;
+    const actual = coverage[category];
+    if (!actual) continue;
+    covRows++;
+    for (const [what, quoted, want] of [
+      ["in catalog", Number(inCatalog), actual.in_catalog],
+      ["measured", Number(measured), actual.measured],
+      ["coverage", Number(pct), Math.round((actual.measured / actual.in_catalog) * 100)],
+    ]) {
+      if (quoted !== want) {
+        problems.push(
+          `docs/analysis/README.md: ${category} ${what} says ${quoted}, ${dataPath} has ${want}`
+        );
+      }
+    }
+  }
+  if (Object.keys(coverage).length && covRows < Object.keys(coverage).length) {
+    problems.push(
+      `docs/analysis/README.md: coverage table has ${covRows} row(s), ` +
+        `${dataPath} covers ${Object.keys(coverage).length} categories`
+    );
+  }
+
   // Model comparison rows must match the analysis output as well.
   const comparison = data.model_comparison || [];
   const comparisonByName = Object.fromEntries(comparison.map((row) => [row.model, row]));

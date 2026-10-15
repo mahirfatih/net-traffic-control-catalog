@@ -129,6 +129,18 @@ def main() -> int:
             + ", ".join(f"{c} {n}" for c, n in sorted(thin.items(), key=lambda kv: kv[1]))
         )
 
+    # A score describes the hosts that produced text, not the category. Print the
+    # difference so nobody reads a gaming F1 as a statement about 360 hosts when
+    # it was computed on 69.
+    catalog_counts_all = collections.Counter(labels.values())
+    print(f"\ncoverage: {len(y)} of {len(labels)} catalog hosts ({len(y) / len(labels):.0%})")
+    worst = sorted(
+        ((c, catalog_counts_all[c], int(counts.get(c, 0))) for c in classes),
+        key=lambda t: t[2] / t[1],
+    )[:5]
+    for c, total, seen in worst:
+        print(f"  thinnest: {c:14} {seen:4}/{total:<5} measured ({seen / total:.0%})")
+
     pipe = make_pipeline(
         TfidfVectorizer(sublinear_tf=True, min_df=2, ngram_range=(1, 2), max_features=20000),
         LinearSVC(C=1.0, class_weight="balanced", max_iter=5000),
@@ -343,14 +355,27 @@ def main() -> int:
     print(f"Saved {OUT / 'high-confidence-errors.md'}")
 
     # --- 7. Save matrix-data.json (extended) ---
+    # Coverage matters as much as the score. A class where 81% of the hosts
+    # yield no page text reports an F1 for the 19% that did, and reading that
+    # as a statement about the category is the mistake this table prevents.
+    catalog_counts = collections.Counter(labels.values())
+    coverage = {
+        c: {
+            "in_catalog": int(catalog_counts[c]),
+            "measured": int(counts.get(c, 0)),
+        }
+        for c in sorted(catalog_counts)
+    }
     report_data = {
         "total_hosts": len(labels),
+        "measured_hosts": int(len(y)),
         "hosts_with_text": len(hosts),
         "hosts_after_filter": int(len(y)),
         "classes": classes,
         "dropped_classes": dropped,
         "thin_classes": thin,
         "folds": n_splits,
+        "coverage": coverage,
         "matrix": cm.tolist(),
         "matrix_normalized": cm_norm.tolist(),
         "counts": {c: int(counts[c]) for c in classes},
