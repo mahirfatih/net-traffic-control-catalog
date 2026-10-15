@@ -21,10 +21,10 @@ and reads the response code they return:
     0  NOERROR    the name exists
     3  NXDOMAIN   the name does not exist
 
-It asks two independent resolvers (Cloudflare and Google) about three record
-types (A, AAAA, NS), because NXDOMAIN is type-independent: if a name is gone,
-every question about it comes back `3`. That gives a host six chances to prove
-it is alive, and it has to fail all six to be called dead.
+It asks three independent resolvers (Cloudflare, Google and AdGuard) about
+three record types (A, AAAA, NS), because NXDOMAIN is type-independent: if a
+name is gone, every question about it comes back `3`. That gives a host nine
+chances to prove it is alive, and it has to fail all nine to be called dead.
 
 Then it has to do it twice. One round is a snapshot; a resolver outage is a
 round. `--round 2` refuses to run until `--min-gap-minutes` has passed since
@@ -77,11 +77,15 @@ CANARIES = [
     ("ai", "A", 0, False, "a TLD has no address record: NOERROR with zero answers, still alive"),
 ]
 
-# Two independent resolvers, queried by name and rcode rather than by the
+# Three independent resolvers, queried by name and rcode rather than by the
 # system resolver, so the answer does not depend on this network's upstream.
+# AdGuard's *unfiltered* endpoint is required: the default one answers blocked
+# ad and tracker names with 0.0.0.0, and this catalog is largely about exactly
+# those names, so a filtering resolver would be measuring its own blocklist.
 RESOLVERS = {
     "cloudflare": "https://cloudflare-dns.com/dns-query",
     "google": "https://dns.google/resolve",
+    "adguard": "https://unfiltered.adguard-dns.com/resolve",
 }
 
 # Three record types. Dead means NXDOMAIN on all of them, not just one.
@@ -236,9 +240,9 @@ def write_markdown(state, categories, proposal, path=MARKDOWN):
         "",
         f"Generated: {date.today().isoformat()}",
         "",
-        "Two rounds, at least ten minutes apart, asking Cloudflare and Google",
-        "directly about A, AAAA and NS. A host is only *dead* when every one of",
-        "the six questions in **both** rounds answers NXDOMAIN.",
+        "Two rounds, at least ten minutes apart, asking Cloudflare, Google and",
+        "AdGuard directly about A, AAAA and NS. A host is only *dead* when every",
+        "one of the nine questions in **both** rounds answers NXDOMAIN.",
         "",
         "| Round | alive | nodata | servfail | dead | unknown |",
         "| ---: | ---: | ---: | ---: | ---: | ---: |",
@@ -404,13 +408,18 @@ def apply_proposal(state, categories_path, rules_path, dry_run=True):
     when = " and ".join(dates)
 
     removed, already_gone, recorded = [], [], []
+    resolvers = "+".join(sorted(RESOLVERS))
     for host in proposal:
+        # Read the category before deleting the entry: the reason is supposed to
+        # record which category the host was in, and asking after the delete
+        # wrote "?" for every one of the 432 hosts removed on 2026-10-14.
+        category = categories.get(host, "?")
         if host in categories:
             del categories[host]
             removed.append(host)
         else:
             already_gone.append(host)
-        drops[host] = f"NXDOMAIN from cloudflare+google on {when}; {categories.get(host, '?')}"
+        drops[host] = f"NXDOMAIN from {resolvers} on {when}; {category}"
 
     print(f"proposal: {len(proposal)} host(s) dead in both rounds")
     print(f"  in the seeds, to remove: {len(removed)}")
@@ -490,28 +499,28 @@ def main(argv):
         result = apply_proposal(state, args.categories, args.rules, dry_run=False)
         return 0 if result else 1
 
+    if args.summary:
+        rounds = {entry["round"]: entry for entry in state.get("rounds", [])}
+        if not rounds:
+            print("no rounds recorded yet")
+            return 1
+        for number in sorted(rounds):
+            counts = rounds[number].get("counts", {})
+            print(f"round {number}: " + " ".join(f"{k}={counts.get(k, 0)}" for k in DECISIONS)
+                  + f"  ({'' if rounds[number].get('complete') else 'INCOMPLETE'})")
+        proposal = build_proposal(state)
+        if proposal is None:
+            print("\nround 2 has not run yet; there is no proposal")
+            return 0
+        write_markdown(state, categories, proposal, markdown_path(args))
+        print(f"\nproposal: {len(proposal)} host(s) dead in both rounds")
+        for host in proposal:
+            print(f"  {categories.get(host, '?'):12} {host}")
+        print(f"\n✓ wrote {os.path.relpath(markdown_path(args), ROOT)}")
+        return 0
+
     result = apply_proposal(state, args.categories, args.rules, dry_run=True)
     return 0 if result else 1
-
-    # --summary
-    rounds = {entry["round"]: entry for entry in state.get("rounds", [])}
-    if not rounds:
-        print("no rounds recorded yet")
-        return 1
-    for number in sorted(rounds):
-        counts = rounds[number].get("counts", {})
-        print(f"round {number}: " + " ".join(f"{k}={counts.get(k, 0)}" for k in DECISIONS)
-              + f"  ({'' if rounds[number].get('complete') else 'INCOMPLETE'})")
-    proposal = build_proposal(state)
-    if proposal is None:
-        print("\nround 2 has not run yet; there is no proposal")
-        return 0
-    write_markdown(state, categories, proposal, markdown_path(args))
-    print(f"\nproposal: {len(proposal)} host(s) dead in both rounds")
-    for host in proposal:
-        print(f"  {categories.get(host, '?'):12} {host}")
-    print(f"\n✓ wrote {os.path.relpath(markdown_path(args), ROOT)}")
-    return 0
 
 
 if __name__ == "__main__":

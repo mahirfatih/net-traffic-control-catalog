@@ -275,10 +275,15 @@ _spec.loader.exec_module(probe_dead)
 # No network in CI, so the decision table is checked directly. This is the part
 # that must never regress: a wrong "dead" here would delete a real bank, on the
 # strength of a firewall answer that said nothing about the host.
-def statuses(cloudflare, google):
+def statuses(cloudflare, google, adguard=None):
+    # The real resolver set is three since AdGuard was added; a host is only
+    # dead when all nine questions say NXDOMAIN, so this helper has to model all
+    # three or the table would test a shape the tool no longer has.
+    adguard = google if adguard is None else adguard
     return {
         "cloudflare": {rrtype: cloudflare for rrtype in ("A", "AAAA", "NS")},
         "google": {rrtype: google for rrtype in ("A", "AAAA", "NS")},
+        "adguard": {rrtype: adguard for rrtype in ("A", "AAAA", "NS")},
     }
 
 RC_NOERROR, RC_SERVFAIL, RC_NXDOMAIN, RC_UNREACHED = 0, 2, 3, None
@@ -287,6 +292,8 @@ cases = [
     ("every question says NXDOMAIN", statuses(RC_NXDOMAIN, RC_NXDOMAIN), 0, "dead"),
     ("records come back", statuses(RC_NOERROR, RC_NOERROR), 12, "alive"),
     ("a record type answers", statuses(RC_NXDOMAIN, RC_NOERROR), 1, "alive"),
+    ("two resolvers say NXDOMAIN, the third answers", statuses(RC_NXDOMAIN, RC_NXDOMAIN, RC_NOERROR), 1, "alive"),
+    ("two resolvers say NXDOMAIN, the third has no record", statuses(RC_NXDOMAIN, RC_NXDOMAIN, RC_NOERROR), 0, "nodata"),
     ("NOERROR with no address record", statuses(RC_NOERROR, RC_NOERROR), 0, "nodata"),
     ("NOERROR from one, nothing from the other", statuses(RC_NOERROR, RC_UNREACHED), 0, "nodata"),
     ("every resolver says SERVFAIL", statuses(RC_SERVFAIL, RC_SERVFAIL), 0, "servfail"),
