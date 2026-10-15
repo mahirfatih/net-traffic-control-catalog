@@ -190,15 +190,15 @@ response code they return, which settles it:
 
 ```sh
 python3 scripts/catalog/probe-dead.py --self-test
-python3 scripts/catalog/probe-dead.py --round 1     # ~10 minutes, 6,745 hosts
+python3 scripts/catalog/probe-dead.py --round 1     # ~11 minutes, 6,742 hosts
 python3 scripts/catalog/probe-dead.py --round 2     # 10 minutes later, minimum enforced
 python3 scripts/catalog/probe-dead.py --summary
 ```
 
-Cloudflare and Google are each asked about A, AAAA and NS, so a host has six
-chances to prove it is alive and has to fail all six to be called dead — in
-**both** rounds. Round 2 refuses to run until the minimum gap has passed,
-because a resolver outage is a snapshot the same way a dead name is.
+Cloudflare, Google and AdGuard are each asked about A, AAAA and NS, so a host
+has nine chances to prove it is alive and has to fail all nine to be called
+dead — in **both** rounds. Round 2 refuses to run until the minimum gap has
+passed, because a resolver outage is a snapshot the same way a dead name is.
 
 The summary prints a **proposal**. It is not a deletion: applying it means adding
 the host to `rules.json` → `drop.hosts` with a reason that cites the evidence.
