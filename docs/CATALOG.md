@@ -6,7 +6,7 @@ data will disagree, which is the one thing a data file must never do.
 
 ## Totals
 
-**6,745 names** across **27 categories**, plus **22 services**.
+**6,742 names** across **27 categories**, plus **22 services**.
 
 The app loads `catalog.json` as a Category Data source and matches a host
 whole, so `facebook.com` covers `graph.facebook.com` without listing it.
@@ -18,7 +18,7 @@ whole, so `facebook.com` covers `graph.facebook.com` without listing it.
 | `software` | 476 | a tool, a platform, a developer utility |
 | `shopping` | 101 | a store, a marketplace, a payment provider |
 | `video` | 87 | streaming, live TV, a broadcaster |
-| `finance` | 3581 | banks, cards, trading, markets |
+| `finance` | 3579 | banks, cards, trading, markets |
 | `news` | 130 | press, and the reporting it depends on |
 | `health` | 67 | hospitals, pharmacies, health apps |
 | `ai` | 68 | model providers and the products built on them |
@@ -27,7 +27,7 @@ whole, so `facebook.com` covers `graph.facebook.com` without listing it.
 | `cdn` | 67 | delivery networks carrying somebody else's bytes |
 | `social` | 65 | where people talk to each other |
 | `travel` | 80 | airlines, booking, ground transport |
-| `gaming` | 360 | stores, launchers, and the games |
+| `gaming` | 359 | stores, launchers, and the games |
 | `transport` | 42 | shipping, driving, ride and rail |
 | `encyclopedia` | 40 | reference, metadata, documentation |
 | `education` | 212 | schools, universities, courses |
@@ -101,39 +101,3 @@ External sources propose hosts; **no source assigns a category**. A category
 is either a rule in `rules.json` or a person with a reason.
 
 Hosts still missing a label are in [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md).
-
-## Reliability
-
-An audit compares TF-IDF text classifiers, keeps LinearSVC for
-the detailed 3-fold cross-validation, and asks
-how reliably each label can be recovered from the host's own page:
-**accuracy 89%** over 4,565 hosts across 27 categories.
-
-Balanced accuracy is **60%**. `finance` is over half the catalog,
-so accuracy mostly reports how well the model predicts `finance`; the
-balanced figure weights every category equally and is the one that
-describes the labels as a whole.
-
-This measures *self-consistency*, not correctness — there is no independent
-ground truth, so a low figure means a label disagrees with its page, not
-that the label is wrong.
-
-The audit reaches 4,565 of the catalog's
-6,745 hosts; the rest serve no usable page text — 1,721 answer nothing at all and 459 return under 100 characters.
-The failures are uneven — some categories are measured on a small
-fraction of their hosts. A per-class score describes the hosts that
-produced text, not the category. Per-category coverage is in
-[`analysis/README.md`](analysis/README.md).
-
-8 categories rest on under 20 examples, so their scores are
-indicative rather than measured: `maps` 3, `sports` 7, `music` 8, `crypto` 8, `other` 10, `crash` 11, `telecom` 11, `email` 19.
-The matrix uses 3-fold cross-validation because the
-smallest category cannot be split five ways.
-
-The audit output also records each host's top three predicted categories
-and confidence score, and the correlated-terms report shows both
-chi-squared terms and the fitted LinearSVC weights.
-
-![Confusion matrix](analysis/out/confusion-matrix.png)
-
-Methodology, per-class metrics and the error list: [`analysis/`](analysis/README.md).

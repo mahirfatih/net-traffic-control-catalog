@@ -98,14 +98,14 @@ response code they return:
     0  NOERROR   the name exists
     3  NXDOMAIN  the name does not exist
 
-It asks Cloudflare and Google about A, AAAA and NS, so a host has six chances
-to prove it is alive and has to fail all six to be called dead. Then it has to
-do it twice — `--round 2` refuses to run until `--min-gap-minutes` has passed,
-because a resolver outage is a snapshot the same way a dead name is.
+It asks Cloudflare, Google and AdGuard about A, AAAA and NS, so a host has nine
+chances to prove it is alive and has to fail all nine to be called dead. Then it
+has to do it twice — `--round 2` refuses to run until `--min-gap-minutes` has
+passed, because a resolver outage is a snapshot the same way a dead name is.
 
 ```sh
 python3 scripts/catalog/probe-dead.py --self-test
-python3 scripts/catalog/probe-dead.py --round 1      # ~10 minutes
+python3 scripts/catalog/probe-dead.py --round 1      # ~11 minutes
 python3 scripts/catalog/probe-dead.py --round 2      # 10 minutes later
 python3 scripts/catalog/probe-dead.py --summary
 ```

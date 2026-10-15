@@ -552,6 +552,116 @@ function checkMeasuredRuntimes() {
   );
 }
 
+/**
+ * 9. The dead-domain sweep's evidence must still describe this catalog.
+ *
+ * The evidence is a point-in-time snapshot, and nothing re-ran it. Duration and
+ * count claims were checked; coverage and agreement were not — so a host added
+ * after the last sweep, or a host both rounds called dead that never left the
+ * catalog, went unnoticed. Everything here is offline: it reads the evidence,
+ * the seeds and the drop list, and never touches the network.
+ */
+function checkSweepEvidence() {
+  const evidencePath = "evidence/dead-domain-sweep.json";
+  if (!existsSync(join(ROOT, evidencePath))) {
+    notes.push("no dead-domain sweep evidence — skipped the coverage checks");
+    return;
+  }
+  const sweep = json(evidencePath);
+  const seeds = json("seeds/categories.json");
+  const catalog = json("catalog.json").categories || {};
+  const drops = (json("rules.json").drop || {}).hosts || {};
+
+  const rounds = (sweep.rounds || [])
+    .filter((r) => r.complete && r.results)
+    .sort((a, b) => a.round - b.round);
+  if (rounds.length < 2) {
+    problems.push(
+      `${evidencePath}: ${rounds.length} complete round(s) with results — a host is only ` +
+        `dead when two independent rounds agree, so at least two are required`
+    );
+    return;
+  }
+
+  // The sweep probes the seeds, so every seed host must appear in every
+  // complete round. This is what makes the evidence go stale by *data*: add a
+  // host and the sweep no longer covers the catalog, whatever the date says.
+  const seedCount = Object.keys(seeds).length;
+  for (const round of rounds) {
+    const results = round.results;
+    const missing = Object.keys(seeds).filter((h) => !(h in results));
+    if (missing.length) {
+      problems.push(
+        `${evidencePath}: round ${round.round} covers ${Object.keys(results).length} host(s) ` +
+          `but seeds/categories.json has ${seedCount} — ${missing.length} never verified ` +
+          `(e.g. ${missing.slice(0, 3).join(", ")}) — rerun the sweep`
+      );
+    }
+  }
+
+  // A host both complete rounds call dead must not still be in the catalog:
+  // either the proposal was applied or the evidence is being ignored.
+  const [first, second] = rounds;
+
+  // Both rounds must have asked the same resolvers. A round re-run after a
+  // resolver was added produces a pair that cannot be compared — "dead in both"
+  // would mean six NXDOMAINs in one round and nine in the other — and that is
+  // exactly what a resolver addition leaves behind if only one round is rerun.
+  const resetResolvers = (round) => {
+    const sample = Object.values(round.results)[0];
+    return sample ? Object.keys(sample.statuses || {}).sort() : [];
+  };
+  const r1 = resetResolvers(first);
+  const r2 = resetResolvers(second);
+  if (r1.join(",") !== r2.join(",")) {
+    problems.push(
+      `${evidencePath}: the rounds asked different resolvers — round ${first.round} used ` +
+        `[${r1.join(", ")}], round ${second.round} used [${r2.join(", ")}] — rerun both ` +
+        `rounds so the pair is comparable`
+    );
+  }
+
+  const deadBoth = Object.keys(first.results).filter(
+    (h) => first.results[h].decision === "dead" && second.results[h]?.decision === "dead"
+  );
+  const survivors = deadBoth.filter((h) => h in catalog);
+  if (survivors.length) {
+    problems.push(
+      `${evidencePath}: ${survivors.length} host(s) dead in both rounds are still in ` +
+        `catalog.json (e.g. ${survivors.slice(0, 3).join(", ")}) — apply the proposal`
+    );
+  }
+
+  // A host the sweep probed that the seeds no longer has was removed; the
+  // reason has to be on record or the removal cannot be explained later.
+  const probed = new Set(Object.keys(first.results));
+  const unrecorded = [...probed].filter((h) => !(h in seeds) && !(h in drops));
+  if (unrecorded.length) {
+    problems.push(
+      `${evidencePath}: ${unrecorded.length} host(s) left seeds/categories.json without a ` +
+        `rules.json → drop.hosts entry (e.g. ${unrecorded.slice(0, 3).join(", ")})`
+    );
+  }
+
+  // The reason is what makes a removal explainable. "; ?" is the placeholder a
+  // bug wrote for all 432 hosts removed on 2026-10-14, because the category was
+  // deleted before the reason that was supposed to cite it was built.
+  const placeholder = Object.entries(drops).filter(([, reason]) => /;\s*\?\s*$/.test(reason));
+  if (placeholder.length) {
+    problems.push(
+      `rules.json → drop.hosts: ${placeholder.length} reason(s) end in "; ?" instead of the ` +
+        `category (e.g. ${placeholder[0][0]}) — the category is the point of the record`
+    );
+  }
+
+  const dates = rounds.map((r) => (r.generated || "").slice(0, 10)).filter(Boolean).sort();
+  notes.push(
+    `checked the dead-domain sweep evidence: ${rounds.length} complete round(s) over ` +
+      `${seedCount} host(s)${dates.length ? `, latest ${dates.at(-1)}` : ""}, ` +
+      `${deadBoth.length} dead in both rounds`
+  );
+}
+
 for (const check of [
   checkLinks,
   checkScriptNames,
@@ -562,6 +672,7 @@ for (const check of [
   checkDirectoryReadmes,
   checkAnalysisFigures,
   checkMeasuredRuntimes,
+  checkSweepEvidence,
 ]) {
   try {
     check();

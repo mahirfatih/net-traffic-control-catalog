@@ -51,13 +51,13 @@ and *unreachable* look identical, and 181 real banks were almost dropped on that
 evidence:
 
 ```sh
-python3 scripts/catalog/probe-dead.py --round 1     # ~10 minutes
+python3 scripts/catalog/probe-dead.py --round 1     # ~11 minutes
 python3 scripts/catalog/probe-dead.py --round 2     # 10 minutes later
 python3 scripts/catalog/probe-dead.py --summary     # proposal only, changes nothing
 python3 scripts/catalog/probe-dead.py --apply       # only after you read it
 ```
 
-Read the proposal before applying it. A host is only proposed when all six DNS
+Read the proposal before applying it. A host is only proposed when all nine DNS
 questions in **both** rounds answered `NXDOMAIN`; `nodata` and `servfail` are
 reported but never proposed.
 
