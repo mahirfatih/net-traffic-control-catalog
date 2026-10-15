@@ -25,5 +25,12 @@ This is the one directory under `scripts/` that needs an install step:
 `scikit-learn` and `matplotlib`. `test/test.sh` does not run it, and it is not
 part of the catalog pipeline.
 
+[`classify-unmeasured.py`](classify-unmeasured.py) explains the other side of
+that gap. The audit counts the hosts it could not measure; this says *why* each
+one was unmeasurable — nothing answers, it answers with something that is not a
+page, or it answers with HTML whose words need JavaScript. Only the first is a
+dead end; the other two name what a different signal would need. Standard
+library only, and it needs the network, so it too stays out of `test/test.sh`.
+
 See [`../../docs/analysis/README.md`](../../docs/analysis/README.md) for the
 methodology and the current result.

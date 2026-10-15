@@ -58,8 +58,9 @@ to tell a real bank it is dead.
 
 | Script | What it does |
 | :--- | :--- |
-| [`fetch-pages.py`](analysis/fetch-pages.py) | Audit: fetch each catalog host's homepage and cache its title/meta/headings/body under `analysis/.pages/` (gitignored). `--retry-empty` re-fetches hosts whose page came back empty, trying `www.` too. Standard library only. |
+| [`fetch-pages.py`](analysis/fetch-pages.py) | Audit: fetch each catalog host's homepage and cache its title/meta/headings/body under `analysis/.pages/` (gitignored). `--retry-empty` re-fetches hosts whose page came back empty, trying `www.` too; `--retry-thin 100` also re-fetches the ones under the audit's character floor. Standard library only. |
 | [`build-matrix.py`](analysis/build-matrix.py) | Audit: classify the cached pages, cross-validate against the labels, and write the confusion matrix + report to [`docs/analysis/out/`](../docs/analysis/out/). `--min-class` keeps every category by default; the fold count drops to suit the smallest one. Needs `scikit-learn` and `matplotlib`. |
+| [`classify-unmeasured.py`](analysis/classify-unmeasured.py) | Audit: explain *why* the hosts the matrix could not measure were unmeasurable — nothing answers, it answers with something that is not a page, or its HTML needs JavaScript. Writes `evidence/unmeasured-hosts.json`. Standard library only, network required. |
 
 ## Harvest workflow
 
@@ -123,12 +124,13 @@ category, so removing one is a correctness fix. But this network cannot tell
 *dead* from *unreachable* — nearly all of the AdGuard banks are unreachable
 from here, and 181 real banks were almost dropped on that evidence.
 
-`probe-dead.py` asks Cloudflare and Google directly and reads the response code
+`probe-dead.py` asks Cloudflare, Google and AdGuard directly and reads the
+response code
 (`0` NOERROR, `3` NXDOMAIN), about A, AAAA and NS, twice, ten minutes apart:
 
 ```sh
 python3 scripts/catalog/probe-dead.py --self-test
-python3 scripts/catalog/probe-dead.py --round 1     # ~10 minutes
+python3 scripts/catalog/probe-dead.py --round 1     # ~11 minutes
 python3 scripts/catalog/probe-dead.py --round 2     # 10 minutes later, minimum enforced
 python3 scripts/catalog/probe-dead.py --summary     # prints the proposal, changes nothing
 python3 scripts/catalog/probe-dead.py --apply       # remove it from the seeds, record it
@@ -147,7 +149,9 @@ cd scripts/analysis
 python3 -m venv .venv && .venv/bin/pip install scikit-learn matplotlib
 .venv/bin/python fetch-pages.py                 # cache each host's homepage (~16 min)
 .venv/bin/python fetch-pages.py --retry-empty   # re-fetch the ones that came back empty
+.venv/bin/python fetch-pages.py --retry-thin 100  # and the ones under the audit's floor
 .venv/bin/python build-matrix.py                # ← writes docs/analysis/out/
+python3 classify-unmeasured.py                  # say why the rest were unmeasurable
 ```
 
 It fetches each host's homepage, extracts the title, meta description/keywords,
