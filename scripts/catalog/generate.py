@@ -6,6 +6,10 @@
         --services   seeds/services.json \
         --out        catalog.json
 
+Add `--check` to answer "is the committed file current?" without writing:
+the seeds are rebuilt and compared to the file by content, ignoring only the
+`generated` date stamp (which is today's date whenever the file is rebuilt).
+
 - `--categories` is a JSON object `{ "host": "category" }`.
 - `--services`   is a JSON array `[ { "key", "name", "domains": [...] } ]`.
 
@@ -40,12 +44,69 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 RULES = os.path.join(ROOT, "rules.json")
 
 
+def _structure(document):
+    """The catalog without its date stamp, for content comparison.
+
+    `generated` is today's date whenever the file is rebuilt, so comparing it
+    would make the check fail every day for a reason that is not a change. Every
+    other field must match exactly; that is what "the committed file is current"
+    means.
+    """
+    return {key: value for key, value in document.items() if key != "generated"}
+
+
+def _describe_differences(expected, committed):
+    """Human-readable reasons the seeds and the committed file disagree."""
+    problems = []
+    exp = expected.get("categories") or {}
+    act = committed.get("categories") or {}
+    added = sorted(set(act) - set(exp))
+    removed = sorted(set(exp) - set(act))
+    relabelled = sorted(h for h in set(exp) & set(act) if exp[h] != act[h])
+    if added:
+        problems.append(f"{len(added)} host(s) are in the file but not in the seeds: " + ", ".join(added[:5]))
+    if removed:
+        problems.append(f"{len(removed)} host(s) are in the seeds but missing from the file: " + ", ".join(removed[:5]))
+    if relabelled:
+        problems.append(
+            f"{len(relabelled)} host(s) are labelled differently: "
+            + ", ".join(f"{h} ({exp[h]} → {act[h]})" for h in relabelled[:5])
+        )
+    if (expected.get("services") or []) != (committed.get("services") or []):
+        problems.append("the services differ (a service, its key, or its domains changed)")
+    return problems
+
+
+def check_current(document, path):
+    """Compare a freshly built document with the committed one; write nothing."""
+    try:
+        committed = catalog_core.load(path)
+    except (OSError, ValueError) as error:
+        print(f"✗ {path} is missing or unreadable: {error}", file=sys.stderr)
+        print("  run generate.py to write it.", file=sys.stderr)
+        return 1
+    if _structure(document) == _structure(committed):
+        print(
+            f"✓ {path} is current ({len(document['categories'])} categories, "
+            f"{len(document['services'])} services)"
+        )
+        return 0
+    for problem in _describe_differences(document, committed):
+        print(f"✗ {problem}", file=sys.stderr)
+    print(f"\n{path} is stale — rerun generate.py with the same seeds and commit it", file=sys.stderr)
+    return 1
+
+
 def main(argv):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--categories", required=True, help="JSON {host: category}")
     parser.add_argument("--services", required=True, help="JSON [{key,name,domains}]")
     parser.add_argument("--out", default="catalog.json", help="output path")
     parser.add_argument("--rules", default=RULES, help="rules.json holding overrides")
+    parser.add_argument(
+        "--check", action="store_true",
+        help="verify the output file is current; write nothing",
+    )
     args = parser.parse_args(argv[1:])
 
     try:
@@ -94,6 +155,9 @@ def main(argv):
             print(f"✗ {problem}", file=sys.stderr)
         print("\nrefusing to write; fix the seeds first", file=sys.stderr)
         return 1
+
+    if args.check:
+        return check_current(document, args.out)
 
     catalog_core.write(document, args.out)
     print(

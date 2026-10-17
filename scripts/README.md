@@ -14,13 +14,14 @@ repository's checks should be runnable by anybody who opened a pull request.
 
 Registry → schema → build → validate → build fidelity → docs → licence gate →
 category overlap → category boundaries → source import quality → overrides →
-dead-domain decision table → live-sweep decision table → compile. No network,
-no build system.
+dead-domain decision table → live-sweep decision table → registration decision
+table → compile. No network, no build system.
 
 The scripts that *do* use the network — `review-source-live.py`,
-`probe-dead.py` and `sweep-live.py` — are deliberately not here. Their decision
-tables are still checked offline, at steps 10.9 and 10.10, because CI must never
-depend on a network to tell a real bank it is dead.
+`probe-dead.py`, `sweep-live.py` and `verify-registrations.py` — are deliberately
+not here. Their decision tables are still checked offline, at steps 10.9, 10.10
+and 10.11, because CI must never depend on a network to tell a real bank it is
+dead.
 
 ## What each script does
 
@@ -28,13 +29,14 @@ depend on a network to tell a real bank it is dead.
 
 | Script | What it does |
 | :--- | :--- |
-| [`generate.py`](catalog/generate.py) | Builds `catalog.json` from the `seeds/` files. Deterministic, and validates **before** writing — a bad seed writes nothing. Applies `rules.json` → `drop.override` last. |
+| [`generate.py`](catalog/generate.py) | Builds `catalog.json` from the `seeds/` files. Deterministic, and validates **before** writing — a bad seed writes nothing. Applies `rules.json` → `drop.override` last. `--check` rebuilds in memory and compares with the committed file (ignoring the `generated` date), writing nothing. |
 | [`validate.py`](catalog/validate.py) | Checks a `catalog.json` against the format and the category vocabulary. Exits non-zero on any problem. |
-| [`build-catalog-docs.py`](catalog/build-catalog-docs.py) | Generates `docs/CATALOG.md` from `catalog.json`, so the counts in the prose cannot drift from the shipped data. |
+| [`build-catalog-docs.py`](catalog/build-catalog-docs.py) | Generates `docs/CATALOG.md` and the marked README blocks from `catalog.json`, so the counts in the prose cannot drift from the shipped data. `--check` verifies they are current without writing. |
 | [`overrides.py`](catalog/overrides.py) | Manages `rules.json` → `drop.override`, the per-host decision that beats every rule and every source. `set` / `remove` / `list` / `check`. A reason is mandatory. |
 | [`check-overlaps.py`](catalog/check-overlaps.py) | Reports category distribution, deliberate subdomain overrides, and manual overrides. Fails if a subdomain carries the same category as an ancestor, which suffix matching already covers. |
 | [`audit-category-consistency.py`](catalog/audit-category-consistency.py) | Category-boundary guardrails: names that must be a certain category, and labels that look wrong for a name. Treats an overridden host as decided. |
 | [`probe-dead.py`](catalog/probe-dead.py) | Finds catalog hosts that no longer resolve, for the domain-recycling risk. **Uses the network — not in `test/test.sh`.** |
+| [`verify-registrations.py`](catalog/verify-registrations.py) | Checks that a host is still registered to the same owner: RDAP (IANA bootstrap + verified cc supplement + convention probing), port-43 WHOIS fallback (DENIC `.de`, TRABIS `.tr`, IANA referral), IP RDAP for the address block, and bounded traceroute as a reachability diagnostic. **Uses the network — not in `test/test.sh`.** |
 | [`catalog-core.py`](catalog/catalog-core.py) | Shared load / normalise / validate / write logic. Not run on its own. |
 
 ### Sources — [`sources/`](sources/)
@@ -53,7 +55,7 @@ depend on a network to tell a real bank it is dead.
 
 | Script | What it does |
 | :--- | :--- |
-| [`check-docs-fresh.mjs`](checks/check-docs-fresh.mjs) | Static drift check: broken links, renamed scripts, stale counts, unmeasured durations, a licence verdict that contradicts itself. |
+| [`check-docs-fresh.mjs`](checks/check-docs-fresh.mjs) | Static drift check: broken links, renamed scripts, stale counts, unmeasured durations, a licence verdict that contradicts itself, a removed host that reappeared in the seeds. |
 
 ### Analysis — [`analysis/`](analysis/)
 
@@ -176,6 +178,42 @@ hosts that answered with no page (an empty 200, a 404/5xx, a refusal), and those
 are common on live infrastructure: `adnxs.com` and `3dsecure.akbank.com.tr` both
 answer with nothing and both belong here. So `--aggressive` is read, not applied
 blind.
+
+## Verifying a host is still the same owner
+
+DNS and a browser can both say a name is "alive" while it has changed hands: a
+lapsed domain is re-registered by someone else and inherits the previous owner's
+category. `verify-registrations.py` checks the registration itself:
+
+1. **RDAP** for the domain (IANA bootstrap + verified cc supplement + convention
+   probing), with the same three-layer resolution and redirect-following as the
+   iOS client it is ported from.
+2. **Port-43 WHOIS** fallback for registries with no RDAP — DENIC `.de`
+   (`Status: free` / `connect`), TRABIS `.tr` (`Domain Status`), and anything
+   IANA refers to.
+3. **IP RDAP** for the host's address block (ARIN/RIPE/...), longest-prefix
+   match, so the network owner is on record.
+4. **traceroute** as a bounded reachability diagnostic (unprivileged on macOS).
+
+Reference data lives in [`../reference/rdap/`](../reference/rdap/). The same
+discipline as the sweeps applies: a canary before the run (retried once, so a
+transient blip does not void a round), two rounds that must agree, and a host is
+only proposed on a *strong* signal (`gone`, `expired`). Unknown and unsupported
+TLDs are reported, never deleted.
+
+Three guards keep a `404` or a status from over-reading as "gone" — a non-RDAP
+`404` (the `.ms` registry answers its own name with an HTML error page), an
+`inactive`/`clientHold` status (registered but not delegated), and a host that
+still resolves in DNS. See
+[`catalog/README.md`](catalog/README.md#what-each-verdict-means).
+
+```sh
+python3 scripts/catalog/verify-registrations.py --self-test
+python3 scripts/catalog/verify-registrations.py --round 1
+python3 scripts/catalog/verify-registrations.py --round 2     # 10 minutes later
+python3 scripts/catalog/verify-registrations.py --summary
+python3 scripts/catalog/verify-registrations.py --apply       # only after reading it
+```
 
 ## Catalog reliability analysis
 

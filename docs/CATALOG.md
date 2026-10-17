@@ -6,7 +6,7 @@ data will disagree, which is the one thing a data file must never do.
 
 ## Totals
 
-**6,742 names** across **27 categories**, plus **22 services**.
+**6,731 names** across **27 categories**, plus **22 services**.
 
 The app loads `catalog.json` as a Category Data source and matches a host
 whole, so `facebook.com` covers `graph.facebook.com` without listing it.
@@ -18,16 +18,16 @@ whole, so `facebook.com` covers `graph.facebook.com` without listing it.
 | `software` | 476 | a tool, a platform, a developer utility |
 | `shopping` | 101 | a store, a marketplace, a payment provider |
 | `video` | 87 | streaming, live TV, a broadcaster |
-| `finance` | 3579 | banks, cards, trading, markets |
-| `news` | 130 | press, and the reporting it depends on |
+| `finance` | 3571 | banks, cards, trading, markets |
+| `news` | 129 | press, and the reporting it depends on |
 | `health` | 67 | hospitals, pharmacies, health apps |
 | `ai` | 68 | model providers and the products built on them |
 | `ads` | 74 | ad networks, affiliate platforms, retargeting |
-| `government` | 1065 | ministries, municipalities, agencies |
+| `government` | 1064 | ministries, municipalities, agencies |
 | `cdn` | 67 | delivery networks carrying somebody else's bytes |
 | `social` | 65 | where people talk to each other |
 | `travel` | 80 | airlines, booking, ground transport |
-| `gaming` | 359 | stores, launchers, and the games |
+| `gaming` | 358 | stores, launchers, and the games |
 | `transport` | 42 | shipping, driving, ride and rail |
 | `encyclopedia` | 40 | reference, metadata, documentation |
 | `education` | 212 | schools, universities, courses |

@@ -1,0 +1,33 @@
+{
+ "_comment": [
+  "Country-code TLD RDAP endpoints that are NOT in the IANA bootstrap.",
+  "Every entry here was verified by performing a real RDAP domain lookup and",
+  "requiring an object with objectClassName/ldhName/events in the response.",
+  "Generated 2026-09-28. Regenerating this file is a deliberate, reviewed step:",
+  "it is research data, not a build-time fetch."
+ ],
+ "verified": "2026-09-28",
+ "tlds": {
+  "aw": "https://rdap.nic.aw/",
+  "ch": "https://rdap.nic.ch/",
+  "ci": "https://rdap.nic.ci/",
+  "ga": "https://rdap.nic.ga/",
+  "ki": "https://rdap.nic.ki/domain/",
+  "kn": "https://rdap.nic.kn/",
+  "kz": "https://rdap.nic.kz/",
+  "li": "https://rdap.nic.li/",
+  "mr": "https://rdap.nic.mr/",
+  "mz": "https://rdap.nic.mz/",
+  "so": "https://rdap.nic.so/",
+  "sy": "https://rdap.nic.sy/",
+  "td": "https://rdap.nic.td/",
+  "us": "https://rdap.nic.us/"
+ },
+ "unsupported": {
+  "tr": {
+   "base": "https://rdap.metunic.com.tr/",
+   "reason": "policy",
+   "note": "TRABIS (the .tr registry) does not offer RDAP; it is a ccTLD not bound by ICANN's gTLD agreements, so registration data is only available through TRABIS WHOIS."
+  }
+ }
+}

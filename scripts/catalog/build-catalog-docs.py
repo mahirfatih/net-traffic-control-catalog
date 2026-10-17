@@ -3,6 +3,9 @@
 
     python3 scripts/catalog/build-catalog-docs.py
 
+Add `--check` to verify the committed `docs/CATALOG.md` and README blocks are
+current without writing anything.
+
 The catalog ships as a binary-ish JSON blob, so a prose summary of it would be
 a second copy to keep in step. This writes that copy on purpose, from the same
 file the app reads, so the documentation cannot claim a count the shipped data
@@ -18,6 +21,7 @@ test suite checks those counts independently, in
 `docs/NEEDS-REVIEW.md` is written by hand, not by this script — it explains
 why a host is unresolved, which needs a person.
 """
+import argparse
 import json
 import os
 import sys
@@ -32,6 +36,14 @@ ANALYSIS = os.path.join(ROOT, "docs", "analysis", "out", "matrix-data.json")
 
 TREEMAP_START = "<!-- category-treemap:start -->"
 TREEMAP_END = "<!-- category-treemap:end -->"
+BAR_START = "<!-- category-bar:start -->"
+BAR_END = "<!-- category-bar:end -->"
+PIE_START = "<!-- category-pie:start -->"
+PIE_END = "<!-- category-pie:end -->"
+BADGES_START = "<!-- catalog-badges:start -->"
+BADGES_END = "<!-- catalog-badges:end -->"
+SWEEP_START = "<!-- verification-status:start -->"
+SWEEP_END = "<!-- verification-status:end -->"
 
 
 def render_treemap(counts):
@@ -54,28 +66,157 @@ def render_treemap(counts):
     return "\n".join(lines)
 
 
-def update_readme_treemap(counts):
-    """Rewrite the marked treemap block in README.md, if the markers are there.
+def render_bar(counts, top=10):
+    """A mermaid `xychart-beta` bar of the biggest categories.
 
-    Returns True when the file changed, False when it was already current, and
-    None when README.md has no markers (a note, not a failure — the README is a
-    hand-written document and must not become required furniture).
+    Reads as a ranked list at a glance — the same information as the treemap,
+    but comparable in height, which a treemap's fixed area cannot show for a
+    long tail.
+    """
+    ranked = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))[:top]
+    names = ", ".join(name for name, _ in ranked)
+    values = ", ".join(str(c) for _, c in ranked)
+    ceiling = ranked[0][1] if ranked else 0
+    return "\n".join([
+        BAR_START,
+        "",
+        "```mermaid",
+        "xychart-beta",
+        '    title "Hosts by category (top %d)"' % top,
+        f"    x-axis [{names}]",
+        f'    y-axis "hosts" 0 --> {ceiling}',
+        f"    bar [{values}]",
+        "```",
+        "",
+        BAR_END,
+    ])
+
+
+def render_pie(counts, top=8):
+    """A mermaid `pie` of the category share, the long tail folded into `other`."""
+    ranked = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))
+    head = ranked[:top]
+    tail_total = sum(c for _, c in ranked[top:])
+    lines = [PIE_START, "", "```mermaid", "pie title Catalog by category (share)"]
+    for name, count in head:
+        lines.append(f'    "{name}" : {count}')
+    if tail_total:
+        lines.append(f'    "other ({len(ranked) - top} smaller)" : {tail_total}')
+    lines += ["```", "", PIE_END]
+    return "\n".join(lines)
+
+
+def render_badges(catalog, rules):
+    """Static shields.io badges — the headline numbers, coloured and at the top."""
+    total = len(catalog.get("categories") or {})
+    cats = len(set((catalog.get("categories") or {}).values()))
+    services = len(catalog.get("services") or [])
+    removed = len(((rules.get("drop") or {}).get("hosts")) or {})
+    def badge(label, value, color):
+        v = str(value).replace(",", "").replace("-", "--").replace("_", "__")
+        return f"![{label}](https://img.shields.io/badge/{label}-{v}-{color})"
+    badges = [
+        badge("hosts", f"{total:,}", "blue"),
+        badge("categories", cats, "brightgreen"),
+        badge("services", services, "blueviolet"),
+        badge("removed", removed, "red"),
+    ]
+    return "\n".join([BADGES_START, "", " ".join(badges), "", BADGES_END])
+
+
+def render_verification():
+    """A mermaid bar of the DNS sweep outcomes, if its evidence is present.
+
+    The catalog's own verification status: how many hosts the dead-domain sweep
+    checked and what it found. Empty when there is no evidence, so a fresh
+    checkout without a sweep run does not advertise numbers it cannot back.
+    """
+    path = os.path.join(ROOT, "evidence", "dead-domain-sweep.json")
+    try:
+        with open(path, encoding="utf-8") as handle:
+            sweep = json.load(handle)
+    except (OSError, ValueError):
+        return None
+    rounds = [r for r in (sweep.get("rounds") or []) if r.get("complete") and r.get("counts")]
+    if not rounds:
+        return None
+    counts = rounds[-1].get("counts") or {}
+    order = ["alive", "nodata", "servfail", "dead", "unknown"]
+    present = [(k, counts.get(k, 0)) for k in order if k in counts]
+    if not present:
+        return None
+    names = ", ".join(k for k, _ in present)
+    values = ", ".join(str(v) for _, v in present)
+    ceiling = max(v for _, v in present)
+    return "\n".join([
+        SWEEP_START,
+        "",
+        "```mermaid",
+        "xychart-beta",
+        '    title "Dead-domain sweep — verdicts (last round)"',
+        f"    x-axis [{names}]",
+        f'    y-axis "hosts" 0 --> {ceiling}',
+        f"    bar [{values}]",
+        "```",
+        "",
+        SWEEP_END,
+    ])
+
+
+def _replace_block(text, start, end, content):
+    """Return `text` with the content between two markers replaced."""
+    if start not in text or end not in text:
+        return None
+    before, rest = text.split(start, 1)
+    _, after = rest.split(end, 1)
+    return f"{before}{content}{after}"
+
+
+def apply_readme_blocks(text, counts, catalog, rules):
+    """Return `(text, skipped)` with every marked block rewritten in place.
+
+    Pure: it does not touch the file, so `--check` can ask what the README would
+    become without writing it.
+    """
+    skipped = 0
+    for start, end, content in (
+        (BADGES_START, BADGES_END, render_badges(catalog, rules)),
+        (TREEMAP_START, TREEMAP_END, render_treemap(counts)),
+        (BAR_START, BAR_END, render_bar(counts)),
+        (PIE_START, PIE_END, render_pie(counts)),
+    ):
+        replaced = _replace_block(text, start, end, content)
+        if replaced is None:
+            skipped += 1
+        else:
+            text = replaced
+    verification = render_verification()
+    if verification is not None:
+        replaced = _replace_block(text, SWEEP_START, SWEEP_END, verification)
+        if replaced is None:
+            skipped += 1
+        else:
+            text = replaced
+    return text, skipped
+
+
+def update_readme_blocks(counts, catalog, rules):
+    """Rewrite every marked block in README.md. Returns (changed, skipped).
+
+    A block whose markers are missing is skipped, not a failure — the README is
+    a hand-written document and must not become required furniture.
     """
     try:
         with open(README, encoding="utf-8") as handle:
-            text = handle.read()
+            original = handle.read()
     except OSError:
-        return None
-    if TREEMAP_START not in text or TREEMAP_END not in text:
-        return None
-    before, rest = text.split(TREEMAP_START, 1)
-    _, after = rest.split(TREEMAP_END, 1)
-    updated = f"{before}{render_treemap(counts)}{after}"
-    if updated == text:
-        return False
+        return None, 0
+    text, skipped = apply_readme_blocks(original, counts, catalog, rules)
+    if text == original:
+        return False, skipped
     with open(README, "w", encoding="utf-8") as handle:
-        handle.write(updated)
-    return True
+        handle.write(text)
+    return True, skipped
 
 
 def other_from_rules():
@@ -129,7 +270,48 @@ ORDER = [
 ]
 
 
+def check_artifacts(rendered, counts, catalog, rules):
+    """Report whether the committed artifacts match what this run would write.
+
+    Nothing is written. `docs/CATALOG.md` is compared byte for byte; the README
+    blocks are compared as the text they would become, so a hand-written README
+    with no marked blocks is left alone, exactly as the writer leaves it.
+    """
+    problems = []
+    try:
+        with open(OUT, encoding="utf-8") as handle:
+            committed = handle.read()
+    except OSError:
+        committed = None
+    if committed != rendered:
+        problems.append("docs/CATALOG.md is stale — rerun build-catalog-docs.py")
+
+    try:
+        with open(README, encoding="utf-8") as handle:
+            readme = handle.read()
+    except OSError:
+        readme = None
+    if readme is not None:
+        updated, _ = apply_readme_blocks(readme, counts, catalog, rules)
+        if updated != readme:
+            problems.append("README.md's marked blocks are stale — rerun build-catalog-docs.py")
+
+    if problems:
+        for problem in problems:
+            print(f"✗ {problem}", file=sys.stderr)
+        return 1
+    print("✓ docs/CATALOG.md and the README blocks are current")
+    return 0
+
+
 def main(argv):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--check", action="store_true",
+        help="verify the committed documents are current; write nothing",
+    )
+    args = parser.parse_args(argv[1:])
+
     try:
         with open(CATALOG, encoding="utf-8") as handle:
             doc = json.load(handle)
@@ -284,17 +466,29 @@ def main(argv):
             add("")
             add("Methodology, per-class metrics and the error list: [`analysis/`](analysis/README.md).")
 
+    rendered = "\n".join(lines) + "\n"
+
+    try:
+        with open(RULES, encoding="utf-8") as handle:
+            rules = json.load(handle)
+    except (OSError, ValueError):
+        rules = {}
+
+    if args.check:
+        return check_artifacts(rendered, counts, doc, rules)
+
     with open(OUT, "w", encoding="utf-8") as handle:
-        handle.write("\n".join(lines) + "\n")
+        handle.write(rendered)
     print(f"✓ wrote docs/CATALOG.md: {total} names, {len(used)} categories, {len(services)} services")
 
-    changed = update_readme_treemap(counts)
+    changed, skipped = update_readme_blocks(counts, doc, rules)
     if changed is None:
-        print("· README.md has no category-treemap markers; left it alone")
+        print("· README.md has no marked blocks; left it alone")
     elif changed:
-        print("✓ refreshed the category treemap in README.md")
+        print(f"✓ refreshed the README blocks (badges, treemap, bar, pie, verification)"
+              + (f"; {skipped} marker(s) absent" if skipped else ""))
     else:
-        print("· the category treemap in README.md was already current")
+        print("· the README blocks were already current")
     return 0
 
 

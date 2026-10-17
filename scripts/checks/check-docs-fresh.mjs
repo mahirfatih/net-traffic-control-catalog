@@ -757,6 +757,46 @@ function checkLiveSweepEvidence() {
  * diagram look wrong. So the counts are read back out of the mermaid block and
  * compared, category by category, against catalog.json.
  */
+function checkRegistrationEvidence() {
+  const evidencePath = "evidence/registration-verify.json";
+  if (!existsSync(join(ROOT, evidencePath))) {
+    notes.push("no registration-verify evidence — skipped the registration checks");
+    return;
+  }
+  const sweep = json(evidencePath);
+  const seeds = json("seeds/categories.json");
+  const drops = (json("rules.json").drop || {}).hosts || {};
+
+  const rounds = (sweep.rounds || [])
+    .filter((r) => r.complete && r.results)
+    .sort((a, b) => a.round - b.round);
+  if (rounds.length < 2) {
+    problems.push(
+      `${evidencePath}: ${rounds.length} complete round(s) — at least two are required`
+    );
+    return;
+  }
+  for (const round of rounds) {
+    const results = round.results;
+    const missing = Object.keys(seeds).filter((h) => !(h in results));
+    if (missing.length) {
+      problems.push(
+        `${evidencePath}: round ${round.round} covers ${Object.keys(results).length} host(s) ` +
+          `but seeds/categories.json has ${Object.keys(seeds).length} — ${missing.length} never visited`
+      );
+    }
+  }
+  const probed = new Set(Object.keys(rounds[0].results));
+  const unrecorded = [...probed].filter((h) => !(h in seeds) && !(h in drops));
+  if (unrecorded.length) {
+    problems.push(
+      `${evidencePath}: ${unrecorded.length} host(s) left seeds/categories.json with no ` +
+        `rules.json -> drop.hosts entry`
+    );
+  }
+  notes.push(`checked registration-verify evidence: ${rounds.length} complete round(s)`);
+}
+
 function checkCategoryTreemap() {
   const text = read("README.md");
   const block = text.match(/```mermaid\n(treemap-beta[\s\S]*?)```/);
@@ -797,6 +837,197 @@ function checkCategoryTreemap() {
   notes.push(`checked ${checked} category count(s) in the README treemap`);
 }
 
+function categoryCounts() {
+  const catalog = json("catalog.json");
+  const counts = {};
+  for (const category of Object.values(catalog.categories || {})) {
+    counts[category] = (counts[category] || 0) + 1;
+  }
+  return { catalog, counts };
+}
+
+/** The xychart-beta bar of the top categories must match the catalog. */
+function checkCategoryBar() {
+  const text = read("README.md");
+  const block = text.match(/```mermaid\n(xychart-beta[\s\S]*?)```/);
+  // the first xychart is the category bar; the verification chart has "sweep" in its title
+  const charts = [...text.matchAll(/```mermaid\n(xychart-beta[\s\S]*?)```/g)].map((m) => m[1]);
+  const chart = charts.find((c) => /Hosts by category/.test(c));
+  if (!chart) {
+    notes.push("no category bar chart in README.md — skipped");
+    return;
+  }
+  const { counts } = categoryCounts();
+  const names = (chart.match(/x-axis \[([^\]]+)\]/) || [])[1];
+  const values = (chart.match(/bar \[([^\]]+)\]/) || [])[1];
+  if (!names || !values) {
+    problems.push("README.md: the category bar chart has no x-axis/bar");
+    return;
+  }
+  const nameList = names.split(",").map((s) => s.trim());
+  const valueList = values.split(",").map((s) => Number(s.trim()));
+  if (nameList.length !== valueList.length) {
+    problems.push("README.md: the category bar chart names and values differ in length");
+    return;
+  }
+  let checked = 0;
+  nameList.forEach((name, i) => {
+    checked++;
+    if (counts[name] !== valueList[i]) {
+      problems.push(
+        `README.md: the bar chart says \`${name}\` has ${valueList[i]}, catalog.json has ${counts[name] ?? 0}`
+      );
+    }
+  });
+  notes.push(`checked ${checked} category count(s) in the README bar chart`);
+}
+
+/** The pie of the category share must match the catalog. */
+function checkCategoryPie() {
+  const text = read("README.md");
+  const block = text.match(/```mermaid\n(pie title Catalog by category[\s\S]*?)```/);
+  if (!block) {
+    notes.push("no category pie in README.md — skipped");
+    return;
+  }
+  const { counts } = categoryCounts();
+  const quoted = {};
+  let otherQuoted = null;
+  let otherCount = null;
+  for (const m of block[1].matchAll(/^\s*"([^"]+)"\s*:\s*(\d+)/gm)) {
+    const label = m[1];
+    const value = Number(m[2]);
+    const tail = label.match(/^other \((\d+) smaller\)$/);
+    if (tail) {
+      otherQuoted = value;
+      otherCount = Number(tail[1]);
+    } else {
+      quoted[label] = value;
+    }
+  }
+  let checked = 0;
+  for (const [category, value] of Object.entries(quoted)) {
+    checked++;
+    if (counts[category] !== value) {
+      problems.push(
+        `README.md: the pie says \`${category}\` has ${value}, catalog.json has ${counts[category] ?? 0}`
+      );
+    }
+  }
+  if (otherQuoted !== null) {
+    const rest = Object.keys(counts).filter((c) => !(c in quoted));
+    const restTotal = rest.reduce((sum, c) => sum + counts[c], 0);
+    if (otherQuoted !== restTotal) {
+      problems.push(
+        `README.md: the pie "other" is ${otherQuoted}, the remaining categories total ${restTotal}`
+      );
+    }
+    if (otherCount !== rest.length) {
+      problems.push(
+        `README.md: the pie "other" counts ${otherCount} categories, there are ${rest.length}`
+      );
+    }
+  }
+  notes.push(`checked ${checked} pie slice(s) + the folded tail`);
+}
+
+/**
+ * A removed host must not still be in the seeds.
+ *
+ * `rules.json → drop.hosts` is the ledger of every host this project removed
+ * and why. The seeds are what the generator reads. A host in both means a
+ * removal is being silently undone: `generate.py` drops it from `catalog.json`
+ * without saying so, and the next person finds a seed that appears to do
+ * nothing. The one thing the ledger must never allow is a decision reversing
+ * itself.
+ */
+function checkDropListSeparation() {
+  const seeds = json("seeds/categories.json");
+  const drops = (json("rules.json").drop || {}).hosts || {};
+  const overlap = Object.keys(drops).filter((h) => h in seeds);
+  if (overlap.length) {
+    problems.push(
+      `rules.json → drop.hosts: ${overlap.length} host(s) were removed but are back in ` +
+        `seeds/categories.json (e.g. ${overlap.slice(0, 3).join(", ")}) — a removal ` +
+        `being silently undone; keep it in exactly one of the two`
+    );
+    return;
+  }
+  notes.push(`checked ${Object.keys(drops).length} dropped host(s) are absent from the seeds`);
+}
+
+/** The headline badges must match the catalog. */
+function checkCatalogBadges() {
+  const text = read("README.md");
+  const block = text.match(/<!-- catalog-badges:start -->([\s\S]*?)<!-- catalog-badges:end -->/);
+  if (!block) {
+    notes.push("no catalog badges in README.md — skipped");
+    return;
+  }
+  const { catalog, counts } = categoryCounts();
+  const badges = {};
+  for (const m of block[1].matchAll(/badge\/([a-z]+)-([\d]+)-[a-z]+/g)) {
+    badges[m[1]] = Number(m[2]);
+  }
+  const drops = ((json("rules.json").drop || {}).hosts) || {};
+  const expected = {
+    hosts: Object.keys(catalog.categories || {}).length,
+    categories: Object.keys(counts).length,
+    services: (catalog.services || []).length,
+    removed: Object.keys(drops).length,
+  };
+  for (const [name, value] of Object.entries(expected)) {
+    if (badges[name] === undefined) {
+      problems.push(`README.md: no \`${name}\` badge`);
+    } else if (badges[name] !== value) {
+      problems.push(`README.md: the \`${name}\` badge says ${badges[name]}, expected ${value}`);
+    }
+  }
+  notes.push(`checked ${Object.keys(expected).length} catalog badge(s)`);
+}
+
+/** The verification chart must match the dead-domain sweep evidence. */
+function checkVerificationStatus() {
+  const text = read("README.md");
+  const block = text.match(/<!-- verification-status:start -->([\s\S]*?)<!-- verification-status:end -->/);
+  if (!block) {
+    notes.push("no verification-status block in README.md — skipped");
+    return;
+  }
+  const path = "evidence/dead-domain-sweep.json";
+  if (!existsSync(join(ROOT, path))) {
+    notes.push("no dead-domain-sweep evidence — skipped the verification chart");
+    return;
+  }
+  const sweep = json(path);
+  const complete = (sweep.rounds || []).filter((r) => r.complete && r.counts);
+  if (!complete.length) {
+    notes.push("no complete dead-domain round — skipped the verification chart");
+    return;
+  }
+  const counts = complete[complete.length - 1].counts;
+  const order = ["alive", "nodata", "servfail", "dead", "unknown"];
+  const names = (block[1].match(/x-axis \[([^\]]+)\]/) || [])[1] || "";
+  const values = (block[1].match(/bar \[([^\]]+)\]/) || [])[1] || "";
+  const nameList = names.split(",").map((s) => s.trim());
+  const valueList = values.split(",").map((s) => Number(s.trim()));
+  let checked = 0;
+  nameList.forEach((name, i) => {
+    if (!order.includes(name)) {
+      problems.push(`README.md: the verification chart has an unknown verdict \`${name}\``);
+      return;
+    }
+    checked++;
+    if (counts[name] !== valueList[i]) {
+      problems.push(
+        `README.md: the verification chart says \`${name}\` is ${valueList[i]}, ` +
+          `the last sweep round has ${counts[name]}`
+      );
+    }
+  });
+  notes.push(`checked ${checked} verification verdict(s) against the DNS sweep`);
+}
+
 for (const check of [
   checkLinks,
   checkScriptNames,
@@ -808,8 +1039,14 @@ for (const check of [
   checkAnalysisFigures,
   checkMeasuredRuntimes,
   checkSweepEvidence,
+  checkDropListSeparation,
   checkLiveSweepEvidence,
+  checkRegistrationEvidence,
   checkCategoryTreemap,
+  checkCategoryBar,
+  checkCategoryPie,
+  checkCatalogBadges,
+  checkVerificationStatus,
 ]) {
   try {
     check();
