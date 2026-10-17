@@ -554,16 +554,16 @@ print("  ✓ candidate policy: gone/expired by default; review needs a flag")
 # Two rounds must agree; an unsupported/unknown host is never proposed.
 state = {"rounds": [
     {"round": 1, "complete": True, "results": {
-        "gone-both.test": {"decision": "gone"},
-        "gone-once.test": {"decision": "gone"},
-        "unknown.test": {"decision": "unknown"},
-        "unsupported.test": {"decision": "unsupported"},
+        "gone-both.test": "gone",
+        "gone-once.test": "gone",
+        "unknown.test": "unknown",
+        "unsupported.test": "unsupported",
     }},
     {"round": 2, "complete": True, "results": {
-        "gone-both.test": {"decision": "gone"},
-        "gone-once.test": {"decision": "registered"},
-        "unknown.test": {"decision": "unknown"},
-        "unsupported.test": {"decision": "unsupported"},
+        "gone-both.test": "gone",
+        "gone-once.test": "registered",
+        "unknown.test": "unknown",
+        "unsupported.test": "unsupported",
     }},
 ]}
 assert vr.build_proposal(state) == ["gone-both.test"]
