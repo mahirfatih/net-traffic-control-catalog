@@ -25,40 +25,70 @@ Kategoriye göre döküm için [`docs/CATALOG.md`](docs/CATALOG.md).
 ## İçinde ne var
 
 Kataloğun kategoriye göre dağılımı, bütünün payı olarak — `finance` ve
-`government` çoğunluğu oluşturur, uzun kuyruk bilerek küçüktür:
+`government` çoğunluğu oluşturur, uzun kuyruk bilerek küçüktür. Her kategori,
+iOS uygulamasının kullandığı renkle çizilir; bu renkler
+`reference/category-colors.json`'dan alınır:
 
 <!-- category-treemap:start -->
 
 ```mermaid
 treemap-beta
 "Catalog by category"
-    "finance": 3,571
-    "government": 1,064
-    "software": 476
-    "gaming": 358
-    "education": 212
-    "news": 129
-    "shopping": 101
-    "video": 87
-    "travel": 80
-    "ads": 74
-    "ai": 68
-    "cdn": 67
-    "health": 67
-    "social": 65
-    "search": 57
-    "transport": 42
-    "encyclopedia": 40
-    "analytics": 39
-    "messaging": 33
-    "email": 28
-    "telecom": 16
-    "other": 14
-    "crash": 13
-    "crypto": 10
-    "music": 10
-    "sports": 7
-    "maps": 3
+    "finance": 3,571:::c_finance
+    "government": 1,064:::c_government
+    "software": 476:::c_software
+    "gaming": 358:::c_gaming
+    "education": 212:::c_education
+    "news": 129:::c_news
+    "shopping": 101:::c_shopping
+    "video": 87:::c_video
+    "travel": 80:::c_travel
+    "ads": 74:::c_ads
+    "ai": 68:::c_ai
+    "cdn": 67:::c_cdn
+    "health": 67:::c_health
+    "social": 65:::c_social
+    "search": 57:::c_search
+    "transport": 42:::c_transport
+    "encyclopedia": 40:::c_encyclopedia
+    "analytics": 39:::c_analytics
+    "messaging": 33:::c_messaging
+    "email": 28:::c_email
+    "telecom": 16:::c_telecom
+    "other": 14:::c_other
+    "crash": 13:::c_crash
+    "crypto": 10:::c_crypto
+    "music": 10:::c_music
+    "sports": 7:::c_sports
+    "maps": 3:::c_maps
+
+classDef c_finance fill:#148C57,stroke:#055C33,color:#FFFFFF,fill-opacity:1
+classDef c_government fill:#6180B8,stroke:#334A78,color:#FFFFFF,fill-opacity:1
+classDef c_software fill:#7880A8,stroke:#424A73,color:#FFFFFF,fill-opacity:1
+classDef c_gaming fill:#5856D6,stroke:#403DBF,color:#FFFFFF,fill-opacity:1
+classDef c_education fill:#2180CC,stroke:#0A4F94,color:#FFFFFF,fill-opacity:1
+classDef c_news fill:#F2731F,stroke:#B84205,color:#FFFFFF,fill-opacity:1
+classDef c_shopping fill:#A2845E,stroke:#7A4A21,color:#FFFFFF,fill-opacity:1
+classDef c_video fill:#AF52DE,stroke:#6B2EB5,color:#FFFFFF,fill-opacity:1
+classDef c_travel fill:#AD8F2E,stroke:#70570D,color:#FFFFFF,fill-opacity:1
+classDef c_ads fill:#FF9500,stroke:#A85400,color:#FFFFFF,fill-opacity:1
+classDef c_ai fill:#8F38F2,stroke:#631ABD,color:#FFFFFF,fill-opacity:1
+classDef c_cdn fill:#30B0C7,stroke:#00696B,color:#FFFFFF,fill-opacity:1
+classDef c_health fill:#29BD99,stroke:#08785C,color:#FFFFFF,fill-opacity:1
+classDef c_social fill:#FF2D55,stroke:#B20F40,color:#FFFFFF,fill-opacity:1
+classDef c_search fill:#268CF2,stroke:#0D5CBD,color:#FFFFFF,fill-opacity:1
+classDef c_transport fill:#8A993D,stroke:#525E1A,color:#FFFFFF,fill-opacity:1
+classDef c_encyclopedia fill:#389ED9,stroke:#0D6694,color:#FFFFFF,fill-opacity:1
+classDef c_analytics fill:#007AFF,stroke:#0061CC,color:#FFFFFF,fill-opacity:1
+classDef c_messaging fill:#34C759,stroke:#1C783D,color:#FFFFFF,fill-opacity:1
+classDef c_email fill:#4C70E6,stroke:#2942AD,color:#FFFFFF,fill-opacity:1
+classDef c_telecom fill:#DB4C8F,stroke:#991F59,color:#FFFFFF,fill-opacity:1
+classDef c_other fill:#8E8E93,stroke:#5E5E5E,color:#FFFFFF,fill-opacity:1
+classDef c_crash fill:#FF3B30,stroke:#B22121,color:#FFFFFF,fill-opacity:1
+classDef c_crypto fill:#F2A61A,stroke:#9E6B00,color:#FFFFFF,fill-opacity:1
+classDef c_music fill:#CC338C,stroke:#990561,color:#FFFFFF,fill-opacity:1
+classDef c_sports fill:#1A9E70,stroke:#05704C,color:#FFFFFF,fill-opacity:1
+classDef c_maps fill:#338CD9,stroke:#0D59A8,color:#FFFFFF,fill-opacity:1
 ```
 
 <!-- category-treemap:end -->
@@ -66,26 +96,12 @@ treemap-beta
 Bu blokları `catalog.json`'dan `scripts/catalog/build-catalog-docs.py` yazar;
 onunla yeniden üret.
 
-Aynı verinin sıralı hâli — yükseklik, treemap'in sabit alanının gösteremediği
-uzun kuyruğu karşılaştırılabilir kılar:
-
-<!-- category-bar:start -->
-
-```mermaid
-xychart-beta
-    title "Hosts by category (top 10)"
-    x-axis [finance, government, software, gaming, education, news, shopping, video, travel, ads]
-    y-axis "hosts" 0 --> 3571
-    bar [3571, 1064, 476, 358, 212, 129, 101, 87, 80, 74]
-```
-
-<!-- category-bar:end -->
-
 Bütünün payı olarak, uzun kuyruk `other` altında toplanmış:
 
 <!-- category-pie:start -->
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables':{'pie1':'#148C57', 'pie2':'#6180B8', 'pie3':'#7880A8', 'pie4':'#5856D6', 'pie5':'#2180CC', 'pie6':'#F2731F', 'pie7':'#A2845E', 'pie8':'#AF52DE', 'pie9':'#C7C7CC'}}}%%
 pie title Catalog by category (share)
     "finance" : 3571
     "government" : 1064
@@ -134,6 +150,9 @@ Ortadaki üç kontrol bir sonraki bölümün konusudur. Arkalarındaki araçlar:
 [`probe-dead.py`](scripts/catalog/probe-dead.py),
 [`verify-registrations.py`](scripts/catalog/verify-registrations.py) ve
 [`sweep-live.py`](scripts/analysis/sweep-live.py).
+
+Tam ayrıntı — dokuz DNS sorusu, her verdict ve arkalarındaki koruma kuralları —
+[`docs/PIPELINE.md`](docs/PIPELINE.md) içinde.
 
 ## Nasıl doğrulanır
 
@@ -477,16 +496,17 @@ Tam rehber: [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 Tek seferlik bir analiz ([`scripts/analysis/`](scripts/analysis/), sonuçlar
 [`docs/analysis/`](docs/analysis/)) katalog host'ları için ana sayfa metnini
-getirir, TF-IDF metin sınıflandırıcılarını karşılaştırır, ayrıntılı denetim için
-LinearSVC'yi tutar ve etiketlerimizin bir metin modelinin geri kazanabileceğiyle
-ne kadar tutarlı örtüştüğünü gösteren bir confusion matrix (karmaşıklık matrisi)
-çizer.
+getirir, dokuz metin sınıflandırıcıyı — sekizi TF-IDF özellikleri üzerinde,
+biri çok dilli cümle gömmeleri (sentence embeddings) üzerinde —
+karşılaştırır, denetim tanığı olarak LinearSVC'yi tutar ve etiketlerimizin bir
+metin modelinin geri kazanabileceğiyle ne kadar tutarlı örtüştüğünü gösteren bir
+confusion matrix (karmaşıklık matrisi) çizer.
 
 ![Confusion matrix](docs/analysis/out/confusion-matrix.png)
 
-**Doğruluk: %89** (4,045/4,565, 27 sınıf, 3-fold CV) — **dengeli doğruluk %60**.
-`finance` kataloğun %53'üdür; bu yüzden iki sayı 29 puan farklıdır ve anlamlı
-olan ikincisidir: kabaca her üç etiketten ikisi sayfa metninden geri
+**Doğruluk: %89** (4,054/4,563, 27 sınıf, 3-fold CV) — **dengeli doğruluk %61**.
+`finance` kataloğun %53'üdür; bu yüzden iki sayı 28 puan farklıdır ve anlamlı
+olan ikincisidir: kabaca her beş etiketten ikisi sayfa metninden geri
 kazanılamaz; doğruluk bunu gizler.
 
 Bu *kendi kendine tutarlılığı* ölçer, doğruluğu değil — etiketlerimizin sayfa
@@ -494,32 +514,56 @@ içeriğinden tahmin edilebilir olup olmadığını gösterir. Yüksek köşegen
 etiketlerimiz sayfa metninden öngörülebilir. Köşegen dışı = etiketimiz metnin
 ima ettiğiyle çelişir (ya etiket yanlış, ya sayfa kategoriyi temsil etmiyor).
 
-Küçük olanlar dahil 27 kategorinin tamamı ölçülür. Model karşılaştırması:
-LinearSVC 0.886 / 0.595, LogisticRegression 0.862 / 0.576, MultinomialNB
-0.605 / 0.166 (doğruluk / dengeli doğruluk).
+Küçük olanlar dahil 27 kategorinin tamamı ölçülür. Aynı bölmeler üzerinde dokuz
+model karşılaştırılır — sekizi TF-IDF bag-of-words özellikleri, biri çok dilli
+cümle gömmeleri üzerinde — ve denetim tanığı olarak LinearSVC tutulur:
 
-- **En yüksek F1:** `government` 0.97, `finance` 0.96, `education` 0.92, `news`
-  0.86, `email` 0.72. Bu kategorilerin güçlü, ayırt edici sayfa sinyalleri
+| model | doğruluk | dengeli doğruluk | macro-F1 | weighted-F1 |
+| --- | ---: | ---: | ---: | ---: |
+| MultilingualEmbeddingLogReg | 0.852 | 0.666 | 0.585 | 0.866 |
+| RidgeClassifier | 0.864 | 0.637 | 0.566 | 0.876 |
+| LinearSVC | 0.888 | 0.605 | 0.592 | 0.890 |
+| SGDClassifier | 0.889 | 0.584 | 0.589 | 0.889 |
+| LogisticRegression | 0.865 | 0.580 | 0.557 | 0.874 |
+| RandomForestClassifier | 0.821 | 0.523 | 0.506 | 0.839 |
+| KNeighborsClassifier | 0.856 | 0.444 | 0.513 | 0.839 |
+| DecisionTreeClassifier | 0.797 | 0.395 | 0.391 | 0.800 |
+| MultinomialNB | 0.603 | 0.164 | 0.165 | 0.649 |
+
+Tablo dengeli doğruluğa göre sıralanmıştır ve açıklayıcıdır, bir sıralama
+yarışı değildir. LinearSVC tanık olarak kalır: dokuzu içinde en yüksek
+macro-F1'e sahiptir ve ilişkili terimler raporunun okuduğu katsayılar onundur.
+İki model dengeli doğrulukta onu geçer — `MultilingualEmbeddingLogReg` 0.666 ve
+`RidgeClassifier` 0.637; ikisi de macro-F1'den feragat eder — doğrusal olmayan
+başlıklar ise seyrek sözcük özelliklerinde geride kalır
+(`KNeighborsClassifier` aynı zamanda `class_weight` ile dengelenemeyen tek
+modeldir). İlginç olan gömme farkıdır: Türkçe, Almanca, Korece ve Çince
+sayfaları tek bir uzaya eşler, böylece bag-of-words'ün ayrı tuttuğu küçük,
+İngilizce olmayan kategorileri geri kazanır.
+
+- **En yüksek F1:** `government` 0.97, `finance` 0.96, `education` 0.91, `news`
+  0.85, `email` 0.79. Bu kategorilerin güçlü, ayırt edici sayfa sinyalleri
   vardır.
-- **En düşük F1:** `crypto` 0.19, `encyclopedia` 0.31, `cdn` 0.35, `music` 0.40,
-  `video` 0.41, `social` 0.41 — bunların bazıları altyapıdır (sayfa metni
+- **En düşük F1:** `crypto` 0.29, `encyclopedia` 0.31, `cdn` 0.35, `music` 0.40,
+  `social` 0.40, `video` 0.41 — bunların bazıları altyapıdır (sayfa metni
   anlamsız ya da belirsiz). İlişkili terimler ve model-ağırlık terimleri olası
   yanlış sınıflandırmaları ortaya koyar.
 - **Zayıf kanıt:** sekiz kategori 20'nin altında örneğe sahiptir, bu yüzden
   F1'leri ölçülmüş değil göstergeseldir — `maps` 3, `sports` 7, `music` 8,
   `crypto` 8, `other` 10, `crash` 11, `telecom` 11, `email` 19. Matrisin 5 değil
   3-fold olmasının nedeni budur.
-- **Kapsam %68 ve dengesiz dağılmış:** 6,745 host'un 4,565'i kullanılabilir
+- **Kapsam %68 ve dengesiz dağılmış:** 6,731 host'un 4,563'ü kullanılabilir
   sayfa metni üretir. Başarısızlıklar canvas/JS-ağır kategorilerde toplanır —
-  `gaming` 360 host'un 69'unda ölçülür (%19), `software` 476'nın 168'i (%35) —
-  statik olanlar iyi yapar (`government` %87, `news` %88). Her sınıf-içi skor,
+  `gaming` 358 host'un 69'unda ölçülür (%19), `software` 476'nın 168'i (%35) —
+  statik olanlar iyi yapar (`government` %87, `news` %89). Her sınıf-içi skor,
   kategoriyi değil metin üreten host'ları tanımlar. Tam tablo
   [`docs/analysis/README.md`](docs/analysis/README.md) içinde.
-- **Yüksek güvenli hatalar:** 5 host, dördü `finance` etiketli —
-  `guven.com.tr` (→ `health`, %87), `display.ugc.bazaarvoice.com` (→ `finance`,
-  %82), `iqiyi.com` (→ `finance`, %82), `ilbank.gov.tr` (→ `government`, %72) ve
-  `paypalobjects.com` (→ `music`, %71). `finance` örneklemin yarısından fazladır;
-  bu yüzden hem modelin geri düştüğü hem de koptuğu yerdir.
+- **Yüksek güvenli hatalar:** 5 host — `guven.com.tr` (`finance` → `health`,
+  %87), `display.ugc.bazaarvoice.com` (`software` → `finance`, %83), `iqiyi.com`
+  (`video` → `finance`, %83), `googlesyndication.com` (`ads` → `search`, %77) ve
+  `ilbank.gov.tr` (`finance` → `government`, %71). İkisi `finance` — modelin hem
+  geri düştüğü hem de koptuğu etiket — geri kalanı ise kendine ait ayırt edici
+  metni olmayan altyapı ya da diller arası sayfalar.
 
 Tam metodoloji, sınıf-başına metrikler, ilişkili terimler (chi-squared +
 LinearSVC ağırlıkları) ve hata listesi için

@@ -25,40 +25,69 @@ See [`docs/CATALOG.md`](docs/CATALOG.md) for the breakdown by category.
 ## What is in it
 
 The catalog by category, as a share of the whole — `finance` and `government`
-are most of it, and the long tail is small on purpose:
+are most of it, and the long tail is small on purpose. Each category is drawn in
+the colour the iOS app uses for it, taken from `reference/category-colors.json`:
 
 <!-- category-treemap:start -->
 
 ```mermaid
 treemap-beta
 "Catalog by category"
-    "finance": 3,571
-    "government": 1,064
-    "software": 476
-    "gaming": 358
-    "education": 212
-    "news": 129
-    "shopping": 101
-    "video": 87
-    "travel": 80
-    "ads": 74
-    "ai": 68
-    "cdn": 67
-    "health": 67
-    "social": 65
-    "search": 57
-    "transport": 42
-    "encyclopedia": 40
-    "analytics": 39
-    "messaging": 33
-    "email": 28
-    "telecom": 16
-    "other": 14
-    "crash": 13
-    "crypto": 10
-    "music": 10
-    "sports": 7
-    "maps": 3
+    "finance": 3,571:::c_finance
+    "government": 1,064:::c_government
+    "software": 476:::c_software
+    "gaming": 358:::c_gaming
+    "education": 212:::c_education
+    "news": 129:::c_news
+    "shopping": 101:::c_shopping
+    "video": 87:::c_video
+    "travel": 80:::c_travel
+    "ads": 74:::c_ads
+    "ai": 68:::c_ai
+    "cdn": 67:::c_cdn
+    "health": 67:::c_health
+    "social": 65:::c_social
+    "search": 57:::c_search
+    "transport": 42:::c_transport
+    "encyclopedia": 40:::c_encyclopedia
+    "analytics": 39:::c_analytics
+    "messaging": 33:::c_messaging
+    "email": 28:::c_email
+    "telecom": 16:::c_telecom
+    "other": 14:::c_other
+    "crash": 13:::c_crash
+    "crypto": 10:::c_crypto
+    "music": 10:::c_music
+    "sports": 7:::c_sports
+    "maps": 3:::c_maps
+
+classDef c_finance fill:#148C57,stroke:#055C33,color:#FFFFFF,fill-opacity:1
+classDef c_government fill:#6180B8,stroke:#334A78,color:#FFFFFF,fill-opacity:1
+classDef c_software fill:#7880A8,stroke:#424A73,color:#FFFFFF,fill-opacity:1
+classDef c_gaming fill:#5856D6,stroke:#403DBF,color:#FFFFFF,fill-opacity:1
+classDef c_education fill:#2180CC,stroke:#0A4F94,color:#FFFFFF,fill-opacity:1
+classDef c_news fill:#F2731F,stroke:#B84205,color:#FFFFFF,fill-opacity:1
+classDef c_shopping fill:#A2845E,stroke:#7A4A21,color:#FFFFFF,fill-opacity:1
+classDef c_video fill:#AF52DE,stroke:#6B2EB5,color:#FFFFFF,fill-opacity:1
+classDef c_travel fill:#AD8F2E,stroke:#70570D,color:#FFFFFF,fill-opacity:1
+classDef c_ads fill:#FF9500,stroke:#A85400,color:#FFFFFF,fill-opacity:1
+classDef c_ai fill:#8F38F2,stroke:#631ABD,color:#FFFFFF,fill-opacity:1
+classDef c_cdn fill:#30B0C7,stroke:#00696B,color:#FFFFFF,fill-opacity:1
+classDef c_health fill:#29BD99,stroke:#08785C,color:#FFFFFF,fill-opacity:1
+classDef c_social fill:#FF2D55,stroke:#B20F40,color:#FFFFFF,fill-opacity:1
+classDef c_search fill:#268CF2,stroke:#0D5CBD,color:#FFFFFF,fill-opacity:1
+classDef c_transport fill:#8A993D,stroke:#525E1A,color:#FFFFFF,fill-opacity:1
+classDef c_encyclopedia fill:#389ED9,stroke:#0D6694,color:#FFFFFF,fill-opacity:1
+classDef c_analytics fill:#007AFF,stroke:#0061CC,color:#FFFFFF,fill-opacity:1
+classDef c_messaging fill:#34C759,stroke:#1C783D,color:#FFFFFF,fill-opacity:1
+classDef c_email fill:#4C70E6,stroke:#2942AD,color:#FFFFFF,fill-opacity:1
+classDef c_telecom fill:#DB4C8F,stroke:#991F59,color:#FFFFFF,fill-opacity:1
+classDef c_other fill:#8E8E93,stroke:#5E5E5E,color:#FFFFFF,fill-opacity:1
+classDef c_crash fill:#FF3B30,stroke:#B22121,color:#FFFFFF,fill-opacity:1
+classDef c_crypto fill:#F2A61A,stroke:#9E6B00,color:#FFFFFF,fill-opacity:1
+classDef c_music fill:#CC338C,stroke:#990561,color:#FFFFFF,fill-opacity:1
+classDef c_sports fill:#1A9E70,stroke:#05704C,color:#FFFFFF,fill-opacity:1
+classDef c_maps fill:#338CD9,stroke:#0D59A8,color:#FFFFFF,fill-opacity:1
 ```
 
 <!-- category-treemap:end -->
@@ -66,26 +95,12 @@ treemap-beta
 Regenerate it with `scripts/catalog/build-catalog-docs.py`, which writes these
 blocks from `catalog.json`.
 
-The same data ranked — height makes the long tail comparable in a way a
-treemap's fixed area cannot:
-
-<!-- category-bar:start -->
-
-```mermaid
-xychart-beta
-    title "Hosts by category (top 10)"
-    x-axis [finance, government, software, gaming, education, news, shopping, video, travel, ads]
-    y-axis "hosts" 0 --> 3571
-    bar [3571, 1064, 476, 358, 212, 129, 101, 87, 80, 74]
-```
-
-<!-- category-bar:end -->
-
 As a share of the whole, with the long tail folded into `other`:
 
 <!-- category-pie:start -->
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables':{'pie1':'#148C57', 'pie2':'#6180B8', 'pie3':'#7880A8', 'pie4':'#5856D6', 'pie5':'#2180CC', 'pie6':'#F2731F', 'pie7':'#A2845E', 'pie8':'#AF52DE', 'pie9':'#C7C7CC'}}}%%
 pie title Catalog by category (share)
     "finance" : 3571
     "government" : 1064
@@ -134,6 +149,9 @@ The three checks in the middle are the subject of the next section. The tools
 behind them are [`probe-dead.py`](scripts/catalog/probe-dead.py),
 [`verify-registrations.py`](scripts/catalog/verify-registrations.py) and
 [`sweep-live.py`](scripts/analysis/sweep-live.py).
+
+Full detail — the nine DNS questions, every verdict, and the guardrails behind
+them — is in [`docs/PIPELINE.md`](docs/PIPELINE.md).
 
 ## How it is verified
 
@@ -463,15 +481,16 @@ Full guide: [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 A one-off analysis ([`scripts/analysis/`](scripts/analysis/), results in
 [`docs/analysis/`](docs/analysis/)) fetches homepage text for catalog hosts,
-compares TF-IDF text classifiers, keeps LinearSVC for the detailed audit, and
+compares nine text classifiers — eight on TF-IDF features and one on
+multilingual sentence embeddings — keeps LinearSVC as the audit witness, and
 renders a confusion matrix showing how consistently our labels agree with what a
 text model can recover.
 
 ![Confusion matrix](docs/analysis/out/confusion-matrix.png)
 
-**Accuracy: 89%** (4,045/4,565, 27 classes, 3-fold CV) — **balanced accuracy
-60%**. `finance` is 53% of the catalog, so the two numbers differ by 29 points
-and the second is the meaningful one: roughly two of every three labels cannot
+**Accuracy: 89%** (4,054/4,563, 27 classes, 3-fold CV) — **balanced accuracy
+61%**. `finance` is 53% of the catalog, so the two numbers differ by 28 points
+and the second is the meaningful one: roughly two of every five labels cannot
 be recovered from page text, which accuracy hides.
 
 This measures *self-consistency*, not correctness — it shows whether our labels
@@ -479,31 +498,54 @@ are predictable from page content. High diagonal = our labels are predictable
 from page text. Off-diagonal = our label disagrees with what the text suggests
 (either the label is wrong, or the page is not representative of the category).
 
-All 27 categories are measured, including the small ones. Model comparison:
-LinearSVC 0.886 / 0.595, LogisticRegression 0.862 / 0.576,
-MultinomialNB 0.605 / 0.166 (accuracy / balanced accuracy).
+All 27 categories are measured, including the small ones. Nine models were
+compared on the same folds — eight on TF-IDF bag-of-words features and one on
+multilingual sentence embeddings — and LinearSVC is kept as the audit witness:
 
-- **Highest F1:** `government` 0.97, `finance` 0.96, `education` 0.92, `news`
-  0.86, `email` 0.72. These categories have strong, distinctive page signals.
-- **Lowest F1:** `crypto` 0.19, `encyclopedia` 0.31, `cdn` 0.35, `music` 0.40,
-  `video` 0.41, `social` 0.41 — some of these are infrastructure (page text is
+| model | accuracy | balanced acc | macro-F1 | weighted-F1 |
+| --- | ---: | ---: | ---: | ---: |
+| MultilingualEmbeddingLogReg | 0.852 | 0.666 | 0.585 | 0.866 |
+| RidgeClassifier | 0.864 | 0.637 | 0.566 | 0.876 |
+| LinearSVC | 0.888 | 0.605 | 0.592 | 0.890 |
+| SGDClassifier | 0.889 | 0.584 | 0.589 | 0.889 |
+| LogisticRegression | 0.865 | 0.580 | 0.557 | 0.874 |
+| RandomForestClassifier | 0.821 | 0.523 | 0.506 | 0.839 |
+| KNeighborsClassifier | 0.856 | 0.444 | 0.513 | 0.839 |
+| DecisionTreeClassifier | 0.797 | 0.395 | 0.391 | 0.800 |
+| MultinomialNB | 0.603 | 0.164 | 0.165 | 0.649 |
+
+The table is sorted by balanced accuracy and is descriptive, not a leaderboard.
+LinearSVC stays the witness: it has the highest macro-F1 of the nine, and its
+coefficients are what the correlated-terms report reads. Two models beat it on
+balanced accuracy — `MultilingualEmbeddingLogReg` 0.666 and `RidgeClassifier`
+0.637, both at a cost in macro-F1 — while the non-linear heads trail on sparse
+lexical features (`KNeighborsClassifier` is also the one model with no
+`class_weight` to balance it). The embedding edge is the interesting one: it
+maps Turkish, German, Korean and Chinese pages into one space, so it recovers
+the small, non-English categories that bag-of-words keeps apart.
+
+- **Highest F1:** `government` 0.97, `finance` 0.96, `education` 0.91, `news`
+  0.85, `email` 0.79. These categories have strong, distinctive page signals.
+- **Lowest F1:** `crypto` 0.29, `encyclopedia` 0.31, `cdn` 0.35, `music` 0.40,
+  `social` 0.40, `video` 0.41 — some of these are infrastructure (page text is
   meaningless or ambiguous). Correlated terms and model-weight terms reveal
   potential miscategorizations.
 - **Thin evidence:** eight categories have under 20 examples, so their F1 is
   indicative rather than measured — `maps` 3, `sports` 7, `music` 8, `crypto` 8,
   `other` 10, `crash` 11, `telecom` 11, `email` 19. This is why the matrix is
   3-fold, not 5.
-- **Coverage is 68%, and unevenly spread:** 4,565 of 6,745 hosts yield usable
+- **Coverage is 68%, and unevenly spread:** 4,563 of 6,731 hosts yield usable
   page text. The failures cluster in canvas/JS-heavy categories — `gaming` is
-  measured on 69 hosts of 360 (19%), `software` 168 of 476 (35%) — while
-  static ones do well (`government` 87%, `news` 88%). Every per-class score
+  measured on 69 hosts of 358 (19%), `software` 168 of 476 (35%) — while
+  static ones do well (`government` 87%, `news` 89%). Every per-class score
   describes the hosts that produced text, not the category. Full table in
   [`docs/analysis/README.md`](docs/analysis/README.md).
-- **High-confidence errors:** 5 hosts, four of them labelled `finance` —
-  `guven.com.tr` (→ `health`, 87%), `display.ugc.bazaarvoice.com` (→ `finance`,
-  82%), `iqiyi.com` (→ `finance`, 82%), `ilbank.gov.tr` (→ `government`, 72%)
-  and `paypalobjects.com` (→ `music`, 71%). `finance` is over half the sample, so
-  it is both where the model falls back to and where it drifts from.
+- **High-confidence errors:** 5 hosts — `guven.com.tr` (`finance` → `health`,
+  87%), `display.ugc.bazaarvoice.com` (`software` → `finance`, 83%), `iqiyi.com`
+  (`video` → `finance`, 83%), `googlesyndication.com` (`ads` → `search`, 77%)
+  and `ilbank.gov.tr` (`finance` → `government`, 71%). Two are `finance` — the
+  label the model both falls back to and drifts from — and the rest are
+  infrastructure or cross-language pages with no distinctive text of their own.
 
 See [`docs/analysis/README.md`](docs/analysis/README.md) for full methodology,
 per-class metrics, correlated terms (chi-squared + LinearSVC weights), and the

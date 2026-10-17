@@ -8,8 +8,8 @@ Total: 5 hosts
 
 | Host | Catalog label | Predicted | Confidence | Top 3 predictions |
 | :--- | :--- | :--- | ---: | :--- |
-| guven.com.tr | finance | health | 87% | health 87%, finance 4%, government 1% |
-| display.ugc.bazaarvoice.com | software | finance | 82% | finance 82%, government 3%, software 2% |
-| iqiyi.com | video | finance | 82% | finance 82%, government 3%, software 2% |
-| ilbank.gov.tr | finance | government | 72% | government 72%, finance 12%, news 2% |
-| paypalobjects.com | finance | music | 71% | music 71%, finance 17%, software 4% |
+| guven.com.tr | finance | health | 86% | health 86%, finance 4%, government 1% |
+| display.ugc.bazaarvoice.com | software | finance | 83% | finance 83%, government 3%, software 2% |
+| iqiyi.com | video | finance | 83% | finance 83%, government 3%, software 2% |
+| googlesyndication.com | ads | search | 77% | search 77%, ads 9%, finance 5% |
+| ilbank.gov.tr | finance | government | 71% | government 71%, finance 13%, news 2% |

@@ -411,13 +411,31 @@ function checkAnalysisFigures() {
     );
   }
 
+  // The READMEs show the same comparison as a table. Each row and value has to
+  // be the report's own numbers, or the figure a reader sees would be a
+  // hand-typed copy that nothing recomputes.
   const readmeComparison = read("README.md");
-  for (const row of comparison) {
-    const accuracyValue = row.accuracy.toFixed(3);
-    const balancedValue = row.balanced_accuracy.toFixed(3);
-    const needle = `${row.model} ${accuracyValue} / ${balancedValue}`;
-    if (!readmeComparison.includes(needle)) {
-      problems.push(`README.md: missing model comparison quote \`${needle}\``);
+  const fieldNames = ["accuracy", "balanced_accuracy", "macro_f1", "weighted_f1"];
+  for (const file of ["README.md", "README.tr.md"]) {
+    let rows = 0;
+    for (const line of read(file).split("\n")) {
+      const m = line.match(comparisonRow);
+      if (!m || !(m[1] in comparisonByName)) continue;
+      rows++;
+      const actual = comparisonByName[m[1]];
+      m.slice(2).forEach((quoted, i) => {
+        const want = actual[fieldNames[i]].toFixed(3);
+        if (Number(quoted) !== Number(want)) {
+          problems.push(
+            `${file}: ${m[1]} ${fieldNames[i]} says ${quoted}, ${dataPath} has ${want}`
+          );
+        }
+      });
+    }
+    if (comparison.length && rows !== comparison.length) {
+      problems.push(
+        `${file}: the model comparison table has ${rows} row(s), ${dataPath} has ${comparison.length}`
+      );
     }
   }
 
@@ -834,7 +852,89 @@ function checkCategoryTreemap() {
       problems.push(`README.md: the treemap has \`${category}\`, which is not a category`);
     }
   }
-  notes.push(`checked ${checked} category count(s) in the README treemap`);
+
+  // Colour: every leaf must carry its own class (`:::c_<category>`) and that
+  // class must resolve to the palette file's tint, or the diagram would show
+  // the wrong legend without any count looking wrong.
+  const palette = categoryColors();
+  const classes = {};
+  for (const m of block[1].matchAll(/classDef c_([a-z]+) fill:(#[0-9A-Fa-f]{6})/g)) {
+    classes[m[1]] = m[2];
+  }
+  const leaves = {};
+  for (const m of block[1].matchAll(/"([a-z]+)":\s*[\d,]+:::c_([a-z]+)/g)) {
+    leaves[m[1]] = m[2];
+  }
+  let colored = 0;
+  for (const category of Object.keys(counts)) {
+    if (leaves[category] !== category) {
+      problems.push(
+        `README.md: the treemap leaf \`${category}\` is not coloured by its own class`
+      );
+      continue;
+    }
+    colored++;
+    const expected = (palette.categories[category] || {}).tint;
+    const actual = classes[category];
+    if (!actual) {
+      problems.push(`README.md: the treemap has no classDef for \`${category}\``);
+    } else if (expected && actual.toUpperCase() !== expected.toUpperCase()) {
+      problems.push(
+        `README.md: the treemap colours \`${category}\` ${actual}, ` +
+          `reference/category-colors.json says ${expected}`
+      );
+    }
+  }
+  notes.push(`checked ${checked} category count(s) and ${colored} colour(s) in the README treemap`);
+}
+
+/** The palette a category's colour comes from, read once. */
+function categoryColors() {
+  const path = "reference/category-colors.json";
+  if (!existsSync(join(ROOT, path))) return { categories: {}, foldedTail: null };
+  return json(path);
+}
+
+/**
+ * The category palette must cover the catalog.
+ *
+ * `reference/category-colors.json` is the one place a category's colour lives,
+ * copied from the iOS app so it does not have to be remembered. The treemap and
+ * pie read it. A category added to the catalog without a colour would fall back
+ * to grey and say the wrong thing quietly, so every catalog category needs a
+ * well-formed tint.
+ */
+function checkCategoryColors() {
+  const path = "reference/category-colors.json";
+  if (!existsSync(join(ROOT, path))) {
+    problems.push(`${path}: missing — the category charts read their colours from it`);
+    return;
+  }
+  const palette = json(path);
+  const { counts } = categoryCounts();
+  const colors = palette.categories || {};
+  const hex = /^#[0-9A-Fa-f]{6}$/;
+  for (const [name, entry] of Object.entries(colors)) {
+    if (!hex.test(entry.tint || "")) {
+      problems.push(
+        `${path}: \`${name}\` has no valid tint (got ${JSON.stringify(entry.tint)})`
+      );
+    }
+    if (entry.tintText && !hex.test(entry.tintText)) {
+      problems.push(
+        `${path}: \`${name}\` has an invalid tintText (got ${JSON.stringify(entry.tintText)})`
+      );
+    }
+  }
+  const missing = Object.keys(counts).filter((c) => !(c in colors)).sort();
+  if (missing.length) {
+    problems.push(
+      `${path}: no colour for ${missing.join(", ")} — add it so the charts stay in step`
+    );
+  }
+  notes.push(
+    `checked ${Object.keys(colors).length} category colour(s) cover the catalog`
+  );
 }
 
 function categoryCounts() {
@@ -846,57 +946,23 @@ function categoryCounts() {
   return { catalog, counts };
 }
 
-/** The xychart-beta bar of the top categories must match the catalog. */
-function checkCategoryBar() {
-  const text = read("README.md");
-  const block = text.match(/```mermaid\n(xychart-beta[\s\S]*?)```/);
-  // the first xychart is the category bar; the verification chart has "sweep" in its title
-  const charts = [...text.matchAll(/```mermaid\n(xychart-beta[\s\S]*?)```/g)].map((m) => m[1]);
-  const chart = charts.find((c) => /Hosts by category/.test(c));
-  if (!chart) {
-    notes.push("no category bar chart in README.md — skipped");
-    return;
-  }
-  const { counts } = categoryCounts();
-  const names = (chart.match(/x-axis \[([^\]]+)\]/) || [])[1];
-  const values = (chart.match(/bar \[([^\]]+)\]/) || [])[1];
-  if (!names || !values) {
-    problems.push("README.md: the category bar chart has no x-axis/bar");
-    return;
-  }
-  const nameList = names.split(",").map((s) => s.trim());
-  const valueList = values.split(",").map((s) => Number(s.trim()));
-  if (nameList.length !== valueList.length) {
-    problems.push("README.md: the category bar chart names and values differ in length");
-    return;
-  }
-  let checked = 0;
-  nameList.forEach((name, i) => {
-    checked++;
-    if (counts[name] !== valueList[i]) {
-      problems.push(
-        `README.md: the bar chart says \`${name}\` has ${valueList[i]}, catalog.json has ${counts[name] ?? 0}`
-      );
-    }
-  });
-  notes.push(`checked ${checked} category count(s) in the README bar chart`);
-}
-
 /** The pie of the category share must match the catalog. */
 function checkCategoryPie() {
   const text = read("README.md");
-  const block = text.match(/```mermaid\n(pie title Catalog by category[\s\S]*?)```/);
+  const block = text.match(/```mermaid\n((?:%%\{[^\n]*\}%%\n)?pie title Catalog by category[\s\S]*?)```/);
   if (!block) {
     notes.push("no category pie in README.md — skipped");
     return;
   }
   const { counts } = categoryCounts();
   const quoted = {};
+  const order = [];
   let otherQuoted = null;
   let otherCount = null;
   for (const m of block[1].matchAll(/^\s*"([^"]+)"\s*:\s*(\d+)/gm)) {
     const label = m[1];
     const value = Number(m[2]);
+    order.push(label);
     const tail = label.match(/^other \((\d+) smaller\)$/);
     if (tail) {
       otherQuoted = value;
@@ -928,7 +994,31 @@ function checkCategoryPie() {
       );
     }
   }
-  notes.push(`checked ${checked} pie slice(s) + the folded tail`);
+
+  // Colour: the init directive lists `pieN` in slice order, so the N-th slice
+  // and the N-th colour must line up with the palette, or the legend would
+  // disagree with the diagram.
+  const palette = categoryColors();
+  const init = text.match(/%%\{init:[^\n]*?('pie1':[^\n]*?)\}%%/);
+  const pieColors = init ? [...init[1].matchAll(/'pie\d+':'(#[0-9A-Fa-f]{6})'/g)].map((m) => m[1]) : [];
+  if (pieColors.length !== order.length) {
+    problems.push(
+      `README.md: the pie has ${order.length} slice(s) but ${pieColors.length} colour(s)`
+    );
+  } else {
+    order.forEach((label, i) => {
+      const expected = label.startsWith("other (")
+        ? palette.foldedTail
+        : (palette.categories[label] || {}).tint;
+      if (expected && pieColors[i].toUpperCase() !== expected.toUpperCase()) {
+        problems.push(
+          `README.md: the pie slice \`${label}\` is ${pieColors[i]}, ` +
+            `reference/category-colors.json says ${expected}`
+        );
+      }
+    });
+  }
+  notes.push(`checked ${checked} pie slice(s) + the folded tail, all tinted from the palette`);
 }
 
 /**
@@ -1055,7 +1145,6 @@ function checkTurkishMirror() {
   for (const name of [
     "catalog-badges",
     "category-treemap",
-    "category-bar",
     "category-pie",
     "verification-status",
   ]) {
@@ -1092,7 +1181,7 @@ for (const check of [
   checkLiveSweepEvidence,
   checkRegistrationEvidence,
   checkCategoryTreemap,
-  checkCategoryBar,
+  checkCategoryColors,
   checkCategoryPie,
   checkCatalogBadges,
   checkVerificationStatus,

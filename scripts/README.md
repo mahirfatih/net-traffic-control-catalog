@@ -62,7 +62,7 @@ dead.
 | Script | What it does |
 | :--- | :--- |
 | [`fetch-pages.py`](analysis/fetch-pages.py) | Audit: fetch each catalog host's homepage and cache its title/meta/headings/body under `analysis/.pages/` (gitignored). `--retry-empty` re-fetches hosts whose page came back empty, trying `www.` too; `--retry-thin 100` also re-fetches the ones under the audit's character floor. Standard library only. |
-| [`build-matrix.py`](analysis/build-matrix.py) | Audit: classify the cached pages, cross-validate against the labels, and write the confusion matrix + report to [`docs/analysis/out/`](../docs/analysis/out/). `--min-class` keeps every category by default; the fold count drops to suit the smallest one. Needs `scikit-learn` and `matplotlib`. |
+| [`build-matrix.py`](analysis/build-matrix.py) | Audit: classify the cached pages, cross-validate against the labels, and write the confusion matrix + report to [`docs/analysis/out/`](../docs/analysis/out/). `--min-class` keeps every category by default; the fold count drops to suit the smallest one. Needs `scikit-learn`, `matplotlib` and `sentence-transformers`. |
 | [`classify-unmeasured.py`](analysis/classify-unmeasured.py) | Audit: explain *why* the hosts the matrix could not measure were unmeasurable — nothing answers, it answers with something that is not a page, or its HTML needs JavaScript. Writes `evidence/unmeasured-hosts.json`. Standard library only, network required. |
 | [`sweep-live.py`](analysis/sweep-live.py) | Visits every catalog host with a real browser — [agent-browser](https://github.com/vercel-labs/agent-browser) driving [Lightpanda](https://lightpanda.io) (`--engine lightpanda`) — and records what it served. Finds the "empty" hosts: a name that still resolves but no longer serves a page (parked, an empty shell, a 404). Two rounds must agree before anything is proposed, and a failure is only believed after a canary proves the engine still works. By default it proposes only a parked host; `--aggressive` widens it to hosts that answered with nothing. Writes `evidence/live-sweep.json` / `.md`. **Uses the network — not in `test/test.sh`.** |
 
@@ -219,7 +219,7 @@ python3 scripts/catalog/verify-registrations.py --apply       # only after readi
 
 ```sh
 cd scripts/analysis
-python3 -m venv .venv && .venv/bin/pip install scikit-learn matplotlib
+python3 -m venv .venv && .venv/bin/pip install scikit-learn matplotlib sentence-transformers
 .venv/bin/python fetch-pages.py                 # cache each host's homepage (~16 min)
 .venv/bin/python fetch-pages.py --retry-empty   # re-fetch the ones that came back empty
 .venv/bin/python fetch-pages.py --retry-thin 100  # and the ones under the audit's floor
@@ -228,12 +228,15 @@ python3 classify-unmeasured.py                  # say why the rest were unmeasur
 ```
 
 It fetches each host's homepage, extracts the title, meta description/keywords,
-headings and body, trains a TF-IDF + LinearSVC classifier on the labels and
-cross-validates it — so the confusion matrix, per-class
+headings and body, compares nine text classifiers on the labels — eight TF-IDF
+heads (LinearSVC, logistic regression, ridge, SGD, naive Bayes, decision tree,
+random forest, k-nearest neighbours) and one multilingual sentence-embedding
+head — and keeps LinearSVC as the witness. The confusion matrix, per-class
 precision/recall/F1, chi-squared correlated terms and high-confidence errors
 land in [`docs/analysis/out/`](../docs/analysis/out/) next to the data they
 judge. It measures **self-consistency** (how predictable a label is from its
-page), not correctness. It needs `scikit-learn` and `matplotlib` and is **not**
+page), not correctness. It needs `scikit-learn`, `matplotlib` and
+`sentence-transformers` and is **not**
 run by `test/test.sh`.
 
 ## Fetching

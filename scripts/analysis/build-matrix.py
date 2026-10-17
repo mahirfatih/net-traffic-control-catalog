@@ -27,9 +27,51 @@ PAGES = Path(__file__).resolve().parent / ".pages"
 OUT = ROOT / "docs" / "analysis" / "out"
 CATALOG = ROOT / "catalog.json"
 
+# The multilingual sentence-embedding model compared against TF-IDF. The corpus
+# is not English-only (Turkish, German, Korean, Russian, Chinese), and a
+# bag-of-words model keeps those languages apart while a sentence embedding maps
+# them into one space — so the row is a genuinely different representation, not
+# a different head on the same features.
+EMBED_MODEL = "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+EMBED_CACHE = Path(__file__).resolve().parent / ".embeddings.npz"
+
 # Below this many examples a category's F1 is reported but should not be read as
 # a measurement. A class seen three times can only ever be seen once per fold.
 THIN_SUPPORT = 20
+
+
+def load_embeddings(hosts: list[str], texts: list[str], model_name: str):
+    """Embed homepage texts into vectors, cached by (model, host list).
+
+    `sentence_transformers` is imported lazily so the audit still runs without
+    the heavy dependency; the caller decides what to do when it is missing.
+    Embeddings are cached under `.embeddings.npz` (git-ignored) because the
+    first encode of ~4.5k pages is minutes of CPU work and nothing about it
+    changes between runs on the same cache.
+    """
+    import numpy as np
+
+    if EMBED_CACHE.exists():
+        cached = np.load(EMBED_CACHE, allow_pickle=True)
+        if str(cached["model"]) == model_name and list(cached["hosts"]) == list(hosts):
+            print(f"embeddings: reused cache for {len(hosts)} hosts")
+            return cached["vectors"]
+
+    from sentence_transformers import SentenceTransformer
+
+    print(f"embeddings: encoding {len(texts)} hosts with {model_name} (first run is slow)")
+    model = SentenceTransformer(model_name)
+    vectors = np.asarray(
+        model.encode(texts, batch_size=32, show_progress_bar=True, normalize_embeddings=True),
+        dtype="float32",
+    )
+    np.savez(
+        str(EMBED_CACHE),
+        hosts=np.array(list(hosts), dtype=object),
+        vectors=vectors,
+        model=model_name,
+    )
+    return vectors
 
 
 def top_predictions(classes: list[str], row, limit: int = 3) -> list[dict[str, object]]:
@@ -83,10 +125,13 @@ def main() -> int:
         ConfusionMatrixDisplay,
     )
     from sklearn.model_selection import cross_val_predict, StratifiedKFold
-    from sklearn.linear_model import LogisticRegression
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.linear_model import LogisticRegression, RidgeClassifier, SGDClassifier
     from sklearn.naive_bayes import MultinomialNB
+    from sklearn.neighbors import KNeighborsClassifier
     from sklearn.pipeline import make_pipeline
     from sklearn.svm import LinearSVC
+    from sklearn.tree import DecisionTreeClassifier
 
     catalog = json.loads(CATALOG.read_text(encoding="utf-8"))
     labels = catalog["categories"]
@@ -199,6 +244,20 @@ def main() -> int:
         ("LinearSVC", LinearSVC(C=1.0, class_weight="balanced", max_iter=5000, random_state=42)),
         ("LogisticRegression", LogisticRegression(C=4.0, class_weight="balanced", max_iter=1000)),
         ("MultinomialNB", MultinomialNB(class_prior=balanced_prior)),
+        # The linear/probabilistic family, complete: ridge and SGD are the two
+        # nearest neighbours of the witness and the reason it was chosen.
+        ("RidgeClassifier", RidgeClassifier(alpha=1.0, class_weight="balanced", random_state=42)),
+        ("SGDClassifier", SGDClassifier(loss="hinge", class_weight="balanced", max_iter=5000, random_state=42)),
+        # Non-linear heads. On sparse lexical features these are expected to
+        # trail the linear models — which is the point of measuring rather than
+        # asserting it. RandomForest accepts the sparse matrix directly, so
+        # nothing is densified.
+        ("DecisionTreeClassifier", DecisionTreeClassifier(class_weight="balanced", random_state=42)),
+        ("RandomForestClassifier", RandomForestClassifier(n_estimators=100, class_weight="balanced", random_state=42, n_jobs=-1)),
+        # KNN has no class_weight parameter, so it cannot be reweighted the way
+        # the others are and starts at a structural disadvantage on balanced
+        # accuracy. The confound is recorded rather than hidden.
+        ("KNeighborsClassifier", KNeighborsClassifier(weights="distance")),
     ]
     model_comparison: list[dict[str, object]] = []
     for name, model in models:
@@ -223,6 +282,40 @@ def main() -> int:
             f"balanced={balanced_accuracy_score(y, model_pred):.3f} "
             f"macro_f1={model_report['macro avg']['f1-score']:.3f} "
             f"weighted_f1={model_report['weighted avg']['f1-score']:.3f}"
+        )
+
+    # The embedding row is a different *representation* (dense sentence vectors,
+    # multilingual) with the same logistic head. If the dependency is missing
+    # the run still completes — but it completes with one row fewer, so the
+    # committed table must match the run that produced it.
+    embedding_ran = False
+    try:
+        X_emb = load_embeddings(kept_hosts, list(X), EMBED_MODEL)
+        emb_pipe = make_pipeline(
+            LogisticRegression(C=4.0, class_weight="balanced", max_iter=1000)
+        )
+        emb_pred = cross_val_predict(emb_pipe, X_emb, y, cv=cv, n_jobs=-1)
+        emb_report = classification_report(y, emb_pred, labels=classes, output_dict=True)
+        model_comparison.append({
+            "model": "MultilingualEmbeddingLogReg",
+            "accuracy": float(emb_report["accuracy"]),
+            "balanced_accuracy": float(balanced_accuracy_score(y, emb_pred)),
+            "macro_f1": float(emb_report["macro avg"]["f1-score"]),
+            "weighted_f1": float(emb_report["weighted avg"]["f1-score"]),
+        })
+        embedding_ran = True
+        print(
+            f"  {'MultilingualEmbLogReg':18} "
+            f"accuracy={emb_report['accuracy']:.3f} "
+            f"balanced={balanced_accuracy_score(y, emb_pred):.3f} "
+            f"macro_f1={emb_report['macro avg']['f1-score']:.3f} "
+            f"weighted_f1={emb_report['weighted avg']['f1-score']:.3f}  ({EMBED_MODEL})"
+        )
+    except ImportError:
+        print(
+            "  MultilingualEmbLogReg  SKIPPED — sentence-transformers not installed\n"
+            "    install with: .venv/bin/pip install sentence-transformers",
+            file=sys.stderr,
         )
 
     cm = confusion_matrix(y, pred, labels=classes)
@@ -417,6 +510,7 @@ def main() -> int:
         "matrix_normalized": cm_norm.tolist(),
         "counts": {c: int(counts[c]) for c in classes},
         "model_comparison": model_comparison,
+        "embedding_model": EMBED_MODEL if embedding_ran else None,
         "classification_report": {c: report[c] for c in classes},
         "accuracy": report["accuracy"],
         # finance is 56% of the sample, so accuracy and balanced accuracy differ

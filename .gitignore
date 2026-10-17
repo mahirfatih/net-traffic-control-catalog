@@ -8,6 +8,7 @@ __pycache__/
 # Analysis cache and venv (scripts/analysis/)
 scripts/analysis/.pages/
 scripts/analysis/.venv/
+scripts/analysis/.embeddings.npz
 
 # macOS
 .DS_Store

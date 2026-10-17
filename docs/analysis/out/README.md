@@ -11,7 +11,7 @@ Generated artifacts from the audit in
   and high-confidence errors
 
 `matrix-data.json` carries the fields the documents are checked against:
-`accuracy` and `balanced_accuracy` (they differ by 29 points, because `finance`
+`accuracy` and `balanced_accuracy` (they differ by 28 points, because `finance`
 is over half the sample), `classes`, `folds` (3, dropped from 5 to suit the
 smallest category), `thin_classes` (under 20 examples, so their per-class
 scores are indicative), `dropped_classes` (categories the audit could not
@@ -20,6 +20,10 @@ measure at all — empty when the whole catalog is covered), `coverage`
 much of its category it actually describes), and `unmeasured` (why the rest
 were not measured — never fetched, no response, under the character floor, or
 dropped by the class filter; the parts plus `measured_hosts` must equal
-`total_hosts`).
+`total_hosts`). `model_comparison` lists every classifier that was compared —
+nine rows, each with `accuracy`, `balanced_accuracy`, `macro_f1` and
+`weighted_f1` — and `embedding_model` names the sentence-embedding model behind
+the non-TF-IDF row (null when it was skipped because `sentence-transformers`
+was not installed).
 
 Do not edit by hand — rerun the audit.

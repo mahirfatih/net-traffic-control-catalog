@@ -1,11 +1,12 @@
 # docs
 
-Three documents, and the difference between them is who is allowed to write
+Four documents, and the difference between them is who is allowed to write
 them.
 
 | Document | Written by | Edit it? |
 | :--- | :--- | :--- |
 | [`CATALOG.md`](CATALOG.md) | `scripts/catalog/build-catalog-docs.py` | **No.** Regenerate it. |
+| [`PIPELINE.md`](PIPELINE.md) | a person | Yes |
 | [`SOURCES.md`](SOURCES.md) | a person | Yes |
 | [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md) | a person | Yes |
 
@@ -21,6 +22,13 @@ python3 scripts/catalog/build-catalog-docs.py
 
 `./test/test.sh` regenerates it and fails if it differs, so a hand edit is
 caught rather than tolerated.
+
+## `PIPELINE.md` — how a domain is removed
+
+The three independent checks behind the README's pipeline chart: the nine DNS
+questions, the live sweep, the registration sweep, every verdict, and the four
+guardrails that bound them. The README keeps the story; this page keeps the
+machinery.
 
 ## `SOURCES.md` — why each source is allowed or refused
 
@@ -52,5 +60,6 @@ A host leaves this file by getting a rule with a reason, an entry in
 | "how many hosts, and in what categories?" | [`CATALOG.md`](CATALOG.md) |
 | "why can't we use a CC BY-NC-SA list?" | [`SOURCES.md`](SOURCES.md) |
 | "what is `api.rlje.net`?" | [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md) |
+| "how exactly is a dead domain removed?" | [`PIPELINE.md`](PIPELINE.md) |
 | "how do I add a host?" | [`../CONTRIBUTING.md`](../CONTRIBUTING.md) |
 | "why is non-commercial data refused?" | [`../SECURITY.md`](../SECURITY.md) |
