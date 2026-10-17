@@ -150,6 +150,9 @@ behind them are [`probe-dead.py`](scripts/catalog/probe-dead.py),
 [`verify-registrations.py`](scripts/catalog/verify-registrations.py) and
 [`sweep-live.py`](scripts/analysis/sweep-live.py).
 
+Full detail — the nine DNS questions, every verdict, and the guardrails behind
+them — is in [`docs/PIPELINE.md`](docs/PIPELINE.md).
+
 ## How it is verified
 
 A host is removed only when independent sweeps agree it is gone, and each host

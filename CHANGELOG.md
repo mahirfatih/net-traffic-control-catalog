@@ -33,6 +33,12 @@ not for the data: `version` is bumped only on a breaking format change.
   online?", "keep it" / "remove it") rather than by script name, with the two
   points that are easy to confuse kept apart: the category is a decision, and
   reading a host's page is only a check, never the labeler.
+- **Pipeline detail** (`docs/PIPELINE.md`): the machinery behind the README's
+  pipeline chart — the three independent checks (the DNS sweep's nine questions,
+  the live sweep's real-browser visit, the registration sweep's RDAP → WHOIS → IP
+  RDAP chain), every verdict and whether it removes a host, and the four
+  guardrails (canary, two rounds, intersection, logged removal). Linked from both
+  READMEs' Pipeline sections and from `docs/README.md`.
 - **Live sweep** (`scripts/analysis/sweep-live.py`): finds catalog hosts that
   still resolve but no longer serve a page — a parked domain, a lapsed site, a
   host the owner moved — the same domain-recycling risk the dead-domain sweep

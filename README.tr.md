@@ -151,6 +151,9 @@ Ortadaki üç kontrol bir sonraki bölümün konusudur. Arkalarındaki araçlar:
 [`verify-registrations.py`](scripts/catalog/verify-registrations.py) ve
 [`sweep-live.py`](scripts/analysis/sweep-live.py).
 
+Tam ayrıntı — dokuz DNS sorusu, her verdict ve arkalarındaki koruma kuralları —
+[`docs/PIPELINE.md`](docs/PIPELINE.md) içinde.
+
 ## Nasıl doğrulanır
 
 Bir host, yalnızca bağımsız taramalar onun gittiğinde anlaştığında silinir; her
