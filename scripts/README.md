@@ -14,12 +14,13 @@ repository's checks should be runnable by anybody who opened a pull request.
 
 Registry → schema → build → validate → build fidelity → docs → licence gate →
 category overlap → category boundaries → source import quality → overrides →
-dead-domain decision table → compile. No network, no build system.
+dead-domain decision table → live-sweep decision table → compile. No network,
+no build system.
 
-The two scripts that *do* use the network — `review-source-live.py` and
-`probe-dead.py` — are deliberately not here. The sweep's decision table is
-still checked offline, at step 10.9, because CI must never depend on a network
-to tell a real bank it is dead.
+The scripts that *do* use the network — `review-source-live.py`,
+`probe-dead.py` and `sweep-live.py` — are deliberately not here. Their decision
+tables are still checked offline, at steps 10.9 and 10.10, because CI must never
+depend on a network to tell a real bank it is dead.
 
 ## What each script does
 
@@ -61,6 +62,7 @@ to tell a real bank it is dead.
 | [`fetch-pages.py`](analysis/fetch-pages.py) | Audit: fetch each catalog host's homepage and cache its title/meta/headings/body under `analysis/.pages/` (gitignored). `--retry-empty` re-fetches hosts whose page came back empty, trying `www.` too; `--retry-thin 100` also re-fetches the ones under the audit's character floor. Standard library only. |
 | [`build-matrix.py`](analysis/build-matrix.py) | Audit: classify the cached pages, cross-validate against the labels, and write the confusion matrix + report to [`docs/analysis/out/`](../docs/analysis/out/). `--min-class` keeps every category by default; the fold count drops to suit the smallest one. Needs `scikit-learn` and `matplotlib`. |
 | [`classify-unmeasured.py`](analysis/classify-unmeasured.py) | Audit: explain *why* the hosts the matrix could not measure were unmeasurable — nothing answers, it answers with something that is not a page, or its HTML needs JavaScript. Writes `evidence/unmeasured-hosts.json`. Standard library only, network required. |
+| [`sweep-live.py`](analysis/sweep-live.py) | Visits every catalog host with a real browser — [agent-browser](https://github.com/vercel-labs/agent-browser) driving [Lightpanda](https://lightpanda.io) (`--engine lightpanda`) — and records what it served. Finds the "empty" hosts: a name that still resolves but no longer serves a page (parked, an empty shell, a 404). Two rounds must agree before anything is proposed, and a failure is only believed after a canary proves the engine still works. By default it proposes only a parked host; `--aggressive` widens it to hosts that answered with nothing. Writes `evidence/live-sweep.json` / `.md`. **Uses the network — not in `test/test.sh`.** |
 
 ## Harvest workflow
 
@@ -141,6 +143,39 @@ python3 scripts/catalog/probe-dead.py --apply       # remove it from the seeds, 
 `rules.json` → `drop.hosts` with the evidence that removed it, which stops
 `harvest.py` importing it again. `nodata` and `servfail` are reported but never
 proposed for removal.
+
+## Removing a host that serves nothing
+
+A name can keep resolving and stop serving a page — a lapsed site, a parked
+domain, a host the owner moved. `probe-dead.py` cannot see that: the name
+exists, so DNS is happy. `sweep-live.py` visits every host with a real browser —
+[agent-browser](https://github.com/vercel-labs/agent-browser) driving
+[Lightpanda](https://lightpanda.io) (`--engine lightpanda`) — so it sees what a
+browser sees, and proposes the ones that answer with nothing:
+
+```sh
+python3 scripts/analysis/sweep-live.py --self-test
+python3 scripts/analysis/sweep-live.py --round 1 --aggressive
+python3 scripts/analysis/sweep-live.py --round 2 --aggressive
+python3 scripts/analysis/sweep-live.py --summary --aggressive   # proposal only
+python3 scripts/analysis/sweep-live.py --apply --aggressive     # only after you read it
+```
+
+Two rounds must agree, and the proposal cross-checks
+`evidence/dead-domain-sweep.json`, so a host that served a page in either round
+is never proposed. Four verdicts stay out of the proposal on purpose: `ok` and
+`blocked` (a live site behind Cloudflare is not empty), and `tls-error` /
+`timeout` / `dns-error`, which say *this network could not reach it*, not that
+it serves nothing — `youtube-nocookie.com` and `jsdelivr.net` land there on a
+bad afternoon. Those are printed for a person to read; `--include-flaky`
+proposes them too, but only after you have read them.
+
+By default only a **parked** host is proposed — a page that says the domain is
+for sale is the one signal that cannot be misread. `--aggressive` widens it to
+hosts that answered with no page (an empty 200, a 404/5xx, a refusal), and those
+are common on live infrastructure: `adnxs.com` and `3dsecure.akbank.com.tr` both
+answer with nothing and both belong here. So `--aggressive` is read, not applied
+blind.
 
 ## Catalog reliability analysis
 

@@ -3,13 +3,21 @@
 What the harvest fetched, and what it concluded — kept so a claim can be
 checked without re-downloading anything.
 
-Nothing here is hand-written. `scripts/sources/harvest.py` writes it all.
+Nothing here is hand-written. `scripts/sources/harvest.py`,
+`scripts/catalog/probe-dead.py`, `scripts/analysis/sweep-live.py`,
+`scripts/analysis/classify-unmeasured.py` and
+`scripts/sources/review-source-live.py` each write their own files.
 
 | File | What it is |
 | :--- | :--- |
 | `anudeepnd-<id>.txt` | The raw source file exactly as downloaded, comments and all. |
 | `harvest-summary.json` | What the last run did: which hosts it categorised, which were already covered, which were dropped **and why**, and which still need a decision. |
 | `harvested-categories.json` | The proposed `{host: category}` mapping, ready for `merge.py`. Gitignored — regenerate it with `python3 scripts/sources/harvest.py`. |
+| `dead-domain-sweep.json` / `.md` | The DNS sweep's per-host verdicts (two rounds, nine questions each) and the proposal it produced. Written by `scripts/catalog/probe-dead.py`. |
+| `live-sweep.json` / `.md` | The browser sweep's per-host verdicts — the status, final URL, title and text length a real browser saw, and the proposal when two rounds agree. Written by `scripts/analysis/sweep-live.py`. |
+| `unmeasured-hosts.json` / `.md` | Why each host the reliability audit could not measure was unmeasurable. Written by `scripts/analysis/classify-unmeasured.py`. |
+| `adguard-https-exclusions-banks-live-review.json` / `.md` | DNS/HTTP evidence for one broad source import, for triage. Written by `scripts/sources/review-source-live.py`. |
+
 
 ## Why the raw files are committed
 
