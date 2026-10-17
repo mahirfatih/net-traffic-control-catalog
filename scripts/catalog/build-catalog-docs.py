@@ -117,7 +117,7 @@ def render_treemap(counts, colors):
         entry = colors.get(name, {})
         fill = entry.get("tint", "#8E8E93")
         stroke = entry.get("tintText", fill)
-        lines.append(f"classDef c_{name} fill:{fill},stroke:{stroke},color:#FFFFFF")
+        lines.append(f"classDef c_{name} fill:{fill},stroke:{stroke},color:#FFFFFF,fill-opacity:1")
     lines += ["```", "", TREEMAP_END]
     return "\n".join(lines)
 

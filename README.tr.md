@@ -62,33 +62,33 @@ treemap-beta
     "sports": 7:::c_sports
     "maps": 3:::c_maps
 
-classDef c_finance fill:#148C57,stroke:#055C33,color:#FFFFFF
-classDef c_government fill:#6180B8,stroke:#334A78,color:#FFFFFF
-classDef c_software fill:#7880A8,stroke:#424A73,color:#FFFFFF
-classDef c_gaming fill:#5856D6,stroke:#403DBF,color:#FFFFFF
-classDef c_education fill:#2180CC,stroke:#0A4F94,color:#FFFFFF
-classDef c_news fill:#F2731F,stroke:#B84205,color:#FFFFFF
-classDef c_shopping fill:#A2845E,stroke:#7A4A21,color:#FFFFFF
-classDef c_video fill:#AF52DE,stroke:#6B2EB5,color:#FFFFFF
-classDef c_travel fill:#AD8F2E,stroke:#70570D,color:#FFFFFF
-classDef c_ads fill:#FF9500,stroke:#A85400,color:#FFFFFF
-classDef c_ai fill:#8F38F2,stroke:#631ABD,color:#FFFFFF
-classDef c_cdn fill:#30B0C7,stroke:#00696B,color:#FFFFFF
-classDef c_health fill:#29BD99,stroke:#08785C,color:#FFFFFF
-classDef c_social fill:#FF2D55,stroke:#B20F40,color:#FFFFFF
-classDef c_search fill:#268CF2,stroke:#0D5CBD,color:#FFFFFF
-classDef c_transport fill:#8A993D,stroke:#525E1A,color:#FFFFFF
-classDef c_encyclopedia fill:#389ED9,stroke:#0D6694,color:#FFFFFF
-classDef c_analytics fill:#007AFF,stroke:#0061CC,color:#FFFFFF
-classDef c_messaging fill:#34C759,stroke:#1C783D,color:#FFFFFF
-classDef c_email fill:#4C70E6,stroke:#2942AD,color:#FFFFFF
-classDef c_telecom fill:#DB4C8F,stroke:#991F59,color:#FFFFFF
-classDef c_other fill:#8E8E93,stroke:#5E5E5E,color:#FFFFFF
-classDef c_crash fill:#FF3B30,stroke:#B22121,color:#FFFFFF
-classDef c_crypto fill:#F2A61A,stroke:#9E6B00,color:#FFFFFF
-classDef c_music fill:#CC338C,stroke:#990561,color:#FFFFFF
-classDef c_sports fill:#1A9E70,stroke:#05704C,color:#FFFFFF
-classDef c_maps fill:#338CD9,stroke:#0D59A8,color:#FFFFFF
+classDef c_finance fill:#148C57,stroke:#055C33,color:#FFFFFF,fill-opacity:1
+classDef c_government fill:#6180B8,stroke:#334A78,color:#FFFFFF,fill-opacity:1
+classDef c_software fill:#7880A8,stroke:#424A73,color:#FFFFFF,fill-opacity:1
+classDef c_gaming fill:#5856D6,stroke:#403DBF,color:#FFFFFF,fill-opacity:1
+classDef c_education fill:#2180CC,stroke:#0A4F94,color:#FFFFFF,fill-opacity:1
+classDef c_news fill:#F2731F,stroke:#B84205,color:#FFFFFF,fill-opacity:1
+classDef c_shopping fill:#A2845E,stroke:#7A4A21,color:#FFFFFF,fill-opacity:1
+classDef c_video fill:#AF52DE,stroke:#6B2EB5,color:#FFFFFF,fill-opacity:1
+classDef c_travel fill:#AD8F2E,stroke:#70570D,color:#FFFFFF,fill-opacity:1
+classDef c_ads fill:#FF9500,stroke:#A85400,color:#FFFFFF,fill-opacity:1
+classDef c_ai fill:#8F38F2,stroke:#631ABD,color:#FFFFFF,fill-opacity:1
+classDef c_cdn fill:#30B0C7,stroke:#00696B,color:#FFFFFF,fill-opacity:1
+classDef c_health fill:#29BD99,stroke:#08785C,color:#FFFFFF,fill-opacity:1
+classDef c_social fill:#FF2D55,stroke:#B20F40,color:#FFFFFF,fill-opacity:1
+classDef c_search fill:#268CF2,stroke:#0D5CBD,color:#FFFFFF,fill-opacity:1
+classDef c_transport fill:#8A993D,stroke:#525E1A,color:#FFFFFF,fill-opacity:1
+classDef c_encyclopedia fill:#389ED9,stroke:#0D6694,color:#FFFFFF,fill-opacity:1
+classDef c_analytics fill:#007AFF,stroke:#0061CC,color:#FFFFFF,fill-opacity:1
+classDef c_messaging fill:#34C759,stroke:#1C783D,color:#FFFFFF,fill-opacity:1
+classDef c_email fill:#4C70E6,stroke:#2942AD,color:#FFFFFF,fill-opacity:1
+classDef c_telecom fill:#DB4C8F,stroke:#991F59,color:#FFFFFF,fill-opacity:1
+classDef c_other fill:#8E8E93,stroke:#5E5E5E,color:#FFFFFF,fill-opacity:1
+classDef c_crash fill:#FF3B30,stroke:#B22121,color:#FFFFFF,fill-opacity:1
+classDef c_crypto fill:#F2A61A,stroke:#9E6B00,color:#FFFFFF,fill-opacity:1
+classDef c_music fill:#CC338C,stroke:#990561,color:#FFFFFF,fill-opacity:1
+classDef c_sports fill:#1A9E70,stroke:#05704C,color:#FFFFFF,fill-opacity:1
+classDef c_maps fill:#338CD9,stroke:#0D59A8,color:#FFFFFF,fill-opacity:1
 ```
 
 <!-- category-treemap:end -->
