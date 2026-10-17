@@ -9,6 +9,11 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Added
 
+- **Host pipeline flowchart in `README.md`**: a Mermaid `flowchart` of how a name
+  travels from a licence-gated source list, through the DNS, registration and
+  browser sweeps, to a kept catalog entry — and how the label differs from the
+  page-reading audit. Drawn so the three sweeps and their remove/keep decisions
+  read at a glance.
 - **Live sweep** (`scripts/analysis/sweep-live.py`): finds catalog hosts that
   still resolve but no longer serve a page — a parked domain, a lapsed site, a
   host the owner moved — the same domain-recycling risk the dead-domain sweep

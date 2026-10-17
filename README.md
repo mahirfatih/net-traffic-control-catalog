@@ -98,6 +98,45 @@ pie title Catalog by category (share)
 
 <!-- category-pie:end -->
 
+## Pipeline — from a source list to a kept host
+
+Every host follows the same path: it arrives from a list, and three independent
+sweeps have to agree it is still alive and still the same owner before it keeps
+its place. Nothing is removed on a single signal, and nothing is added without a
+label a person or a rule decided.
+
+```mermaid
+flowchart TD
+    S["Source list — licence-gated (MIT or CC0)"] --> H["harvest.py — fetch, drop what the catalog already has, label from rules.json"]
+    H --> M["merge.py — write seeds/categories.json"]
+    M --> D{"DNS: does the name still exist?"}
+    D -->|"NXDOMAIN to all nine questions, both rounds"| X["rules.json drop.hosts — remove from the seeds"]
+    D -->|"answers A / AAAA / NS"| R{"Registration: same owner?"}
+    R -->|"RDAP, WHOIS, IP RDAP and traceroute say gone or expired"| X
+    R -->|registered| L{"Live: does it still serve a page?"}
+    L -->|"parked or empty, both rounds — agent-browser plus Lightpanda"| X
+    L -->|serves a page| K["keep in seeds/categories.json"]
+    K --> G["generate.py — catalog.json"]
+    G --> V["validate.py — schema and vocabulary"]
+    V --> P["build-catalog-docs.py — docs/CATALOG.md and the README blocks"]
+    P --> T["test/test.sh + check-docs-fresh.mjs"]
+    K -.-> F["fetch-pages.py — read title, meta, headings, body"]
+    F -.-> B["build-matrix.py — score how recoverable each label is"]
+```
+
+Two things are easy to confuse, so they are drawn apart:
+
+- **The label a host ships with is a decision, not a guess.** `harvest.py`
+  applies `rules.json`; anything no rule matches is left unlabelled and listed in
+  `docs/NEEDS-REVIEW.md` for a person. `drop.override` beats every rule.
+- **The meta read is an audit, not the labeler.** `fetch-pages.py` and
+  `build-matrix.py` read each host's own page and measure how *recoverable* its
+  label is (self-consistency). They never write `catalog.json`; a low score means
+  a label disagrees with its page, not that the label is wrong.
+
+The three sweeps in the middle — `probe-dead.py`, `verify-registrations.py`,
+`sweep-live.py` — are the subject of the next section.
+
 ## How it is verified
 
 A host is removed only when independent sweeps agree it is gone, and each host
