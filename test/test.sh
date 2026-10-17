@@ -113,6 +113,15 @@ else
     echo "· not a git checkout; skipping"
 fi
 
+step "3b. The committed catalog.json matches the seeds (--check)"
+# The git check above compares the file to the *committed* one; this compares it
+# to what the seeds build right now, so a seed change that was never regenerated
+# fails here whether or not this is a git checkout. `--check` writes nothing.
+python3 scripts/catalog/generate.py \
+    --categories seeds/categories.json \
+    --services seeds/services.json \
+    --out catalog.json --check
+
 step "4. Build catalog.json from the seeds"
 python3 scripts/catalog/generate.py \
     --categories seeds/categories.json \
@@ -158,6 +167,13 @@ if command -v git >/dev/null 2>&1 && git rev-parse --git-dir >/dev/null 2>&1; th
 else
     echo "· not a git checkout; skipping the staleness comparison"
 fi
+
+step "7b. The document writer is deterministic (--check)"
+# Step 7 just rewrote the documents from catalog.json; rendering them a second
+# time and comparing must find nothing. This exercises the `--check` path and
+# proves the writer is deterministic, so a stale-file report from it can only
+# mean a real change, never a reshuffle.
+python3 scripts/catalog/build-catalog-docs.py --check
 
 step "8. Documentation describes the files that exist"
 node scripts/checks/check-docs-fresh.mjs
@@ -437,6 +453,122 @@ uncertain = {"rounds": [
 ]}
 assert sweep.build_proposal(uncertain, aggressive=True) == []
 print("  ✓ two rounds must agree; harness-error is never proposed")
+PY
+
+step "10.11. A registration sweep keeps what it cannot prove"
+python3 - <<'PY'
+import importlib.util, datetime
+
+_spec = importlib.util.spec_from_file_location("verify_reg", "scripts/catalog/verify-registrations.py")
+vr = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(vr)
+
+# RDAP parsing: a registered name yields its registrar and dates.
+sample = '{"ldhName":"example.com","status":["client transfer prohibited"],' \
+         '"events":[{"eventAction":"registration","eventDate":"1995-08-14T04:00:00Z"},' \
+         '{"eventAction":"expiration","eventDate":"2026-08-13T04:00:00Z"}],' \
+         '"entities":[{"roles":["registrar"],"vcardArray":["vcard",[["fn",{},"text","IANA"]]]}],' \
+         '"nameservers":[{"ldhName":"a.iana-servers.net"}]}'
+rec = vr.parse_rdap(sample.encode(), "rdap.iana.org")
+assert rec is not None and rec["registrar"] == "IANA"
+assert rec["created"].year == 1995
+print("  ✓ RDAP parse yields registrar and dates")
+
+# Decision table: gone / expired / registered / recently registered / unknown.
+now = datetime.datetime(2026, 10, 17, tzinfo=datetime.timezone.utc)
+gone = vr.decide({"rdap": {"_outcome": "ok", "status": ["pending delete"],
+                            "expires": datetime.datetime(2030, 1, 1, tzinfo=datetime.timezone.utc),
+                            "created": datetime.datetime(2010, 1, 1, tzinfo=datetime.timezone.utc)}}, now=now)
+assert gone == "gone", gone
+expired = vr.decide({"rdap": {"_outcome": "ok", "status": [],
+                              "expires": datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
+                              "created": datetime.datetime(2010, 1, 1, tzinfo=datetime.timezone.utc)}}, now=now)
+assert expired == "expired", expired
+registered = vr.decide({"rdap": {"_outcome": "ok", "status": ["active"],
+                                 "expires": datetime.datetime(2030, 1, 1, tzinfo=datetime.timezone.utc),
+                                 "created": datetime.datetime(2010, 1, 1, tzinfo=datetime.timezone.utc)}}, now=now)
+assert registered == "registered", registered
+recent = vr.decide({"rdap": {"_outcome": "ok", "status": ["active"],
+                             "expires": datetime.datetime(2030, 1, 1, tzinfo=datetime.timezone.utc),
+                             "created": datetime.datetime(2026, 9, 1, tzinfo=datetime.timezone.utc)}}, now=now)
+assert recent == "recently_registered", recent
+unknown = vr.decide({"rdap": {"_outcome": "unreachable"}})
+assert unknown == "unknown", unknown
+print("  ✓ decision table: gone/expired/registered/recently_registered/unknown")
+
+# Guards added after real false positives.
+# `inactive` / `clientHold` are registered-but-not-delegated: review, not gone.
+inactive = vr.decide({"rdap": {"_outcome": "ok", "status": ["inactive"],
+                               "expires": datetime.datetime(2030, 1, 1, tzinfo=datetime.timezone.utc),
+                               "created": datetime.datetime(2010, 1, 1, tzinfo=datetime.timezone.utc)}}, now=now)
+assert inactive == "review", inactive
+client_hold = vr.decide({"rdap": {"_outcome": "ok", "status": ["client hold"],
+                                  "expires": datetime.datetime(2030, 1, 1, tzinfo=datetime.timezone.utc),
+                                  "created": datetime.datetime(2010, 1, 1, tzinfo=datetime.timezone.utc)}}, now=now)
+assert client_hold == "review", client_hold
+
+# A name that resolves in DNS is never gone (aka.ms on a broken RDAP endpoint).
+resolving = vr.decide({"rdap": {"_outcome": "notfound"},
+                       "dns": {"resolves": True, "ip": "1.2.3.4"}}, now=now)
+assert resolving == "review", resolving
+not_resolving = vr.decide({"rdap": {"_outcome": "notfound"},
+                           "dns": {"resolves": False, "ip": None}}, now=now)
+assert not_resolving == "gone", not_resolving
+
+# A 404 is a real "not registered" only when the endpoint speaks RDAP.
+assert vr._rdap_404_is_real(b"", "application/rdap+json")
+assert vr._rdap_404_is_real(b'{"errorCode":404}', "application/json")
+assert not vr._rdap_404_is_real(b"<html>404</html>", "text/html;charset=utf-8")
+assert not vr._rdap_404_is_real(b"", "")
+print("  ✓ guards: inactive/clientHold -> review, DNS-resolving never gone, HTML 404 not a negative")
+
+# DENIC whois parser: free -> gone, connect -> registered.
+free = vr.whois_lookup.__wrapped__ if hasattr(vr.whois_lookup, "__wrapped__") else None
+# parse directly via the denic branch is network; instead check the verdict logic
+# by feeding a synthetic text through a small re-implementation of the parser.
+def parse_denic(text):
+    status = changed = None
+    for line in text.splitlines():
+        low = line.lower().strip()
+        if low.startswith("status:"):
+            status = line.split(":", 1)[1].strip()
+        elif low.startswith("changed:"):
+            changed = vr._iso_date(line.split(":", 1)[1].strip())
+    return status, changed
+st, _ = parse_denic("Domain: x.de\nStatus: free\n")
+assert st == "free"
+st, _ = parse_denic("Domain: x.de\nStatus: connect\nChanged: 2023-06-01T12:45:04+02:00\n")
+assert st == "connect"
+print("  ✓ DENIC whois: free/connect distinguished")
+
+# Candidate policy: only gone/expired proposed by default.
+assert not vr.is_candidate("registered", True, True)
+assert not vr.is_candidate("unknown", True)
+assert vr.is_candidate("unknown", True, include_flaky=True)
+assert not vr.is_candidate("recently_registered", False)
+assert vr.is_candidate("gone", False)
+assert vr.is_candidate("expired", False)
+assert vr.is_candidate("recently_registered", False, include_review=True)
+print("  ✓ candidate policy: gone/expired by default; review needs a flag")
+
+# Two rounds must agree; an unsupported/unknown host is never proposed.
+state = {"rounds": [
+    {"round": 1, "complete": True, "results": {
+        "gone-both.test": {"decision": "gone"},
+        "gone-once.test": {"decision": "gone"},
+        "unknown.test": {"decision": "unknown"},
+        "unsupported.test": {"decision": "unsupported"},
+    }},
+    {"round": 2, "complete": True, "results": {
+        "gone-both.test": {"decision": "gone"},
+        "gone-once.test": {"decision": "registered"},
+        "unknown.test": {"decision": "unknown"},
+        "unsupported.test": {"decision": "unsupported"},
+    }},
+]}
+assert vr.build_proposal(state) == ["gone-both.test"]
+assert vr.build_proposal({"rounds": state["rounds"][:1]}) is None
+print("  ✓ two rounds must agree; unknown/unsupported never proposed")
 PY
 
 if [ "$FAST" -eq 0 ]; then

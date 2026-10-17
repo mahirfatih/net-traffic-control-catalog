@@ -31,6 +31,29 @@ not for the data: `version` is bumped only on a breaking format change.
 - **Category treemap in `README.md`**: the catalog by category, generated from
   `catalog.json` by `build-catalog-docs.py` between markers, and checked
   count-by-count by `check-docs-fresh.mjs` so the diagram cannot drift.
+- **Registration-ownership sweep** (`scripts/catalog/verify-registrations.py`):
+  checks that a host is still registered to the same owner — RDAP (IANA
+  bootstrap + verified cc supplement + convention probing), port-43 WHOIS
+  fallback (DENIC `.de`, TRABIS `.tr`, IANA referral), IP RDAP for the
+  address block, and bounded traceroute. Finds the recycling case the DNS and
+  browser sweeps cannot see: a lapsed name re-registered by someone else that
+  inherits the previous owner's category. Two rounds must agree; a host is only
+  proposed on a strong signal (`gone`, `expired`); unknown and unsupported TLDs
+  are reported, never deleted. Reference data shipped under `reference/rdap/`.
+  Its decision table is checked in `test/test.sh` step 10.11.
+- **`--check` on the generators** (`scripts/catalog/generate.py --check`,
+  `scripts/catalog/build-catalog-docs.py --check`): rebuild in memory and compare
+  with the committed `catalog.json`, `docs/CATALOG.md` and the README blocks,
+  writing nothing. The comparison ignores only the `generated` date stamp, so it
+  answers "is the committed artifact current?" without git and is not fooled by a
+  re-dated file. `test/test.sh` runs `generate.py --check` at step 3b, before the
+  build, so a seed change that was never regenerated fails there.
+- **Two-way removal ledger** (`check-docs-fresh.mjs`): `rules.json → drop.hosts`
+  is the single record of every host removed and why. The check now holds it in
+  both directions — a host that left the seeds must have an entry, and a host
+  with an entry must not be back in `seeds/categories.json`, because that is a
+  removal quietly undoing itself while `generate.py` drops it without a word.
+  Runs in `test/test.sh` step 8.
 - **HotCakeX Microsoft EASM list** as a separate MIT source (`hotcakex-microsoft-easm`). 529 exact-root gaming brand variants (Activision-Blizzard-King, ZeniMax/Bethesda, King) and developer-infrastructure hosts (GitHub, npm) were rule-matched and added; the remaining ~2,600 defensive TLD variants stay in harvest evidence as review-only.
 - **In-flight Wi-Fi allowlist** (`itsmingjie-inflight-allowlist`, MIT): airline captive-portal and connectivity domains → `travel`.
 - **Gaming platform whitelist** (`jayconius-gaming-whitelist`, MIT badge / no LICENSE file): new roots for EA, Epic, GOG, Paradox, Unity, 2K → `gaming`; ~40 subdomains were already covered by existing rules.
@@ -87,6 +110,17 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Changed
 
+- **Catalog size: 6,742 → 6,731 categories** (−11). 11 hosts the live sweep
+  found serving only a parking page were removed: `apeksbank.com.ua`, `bcr.md`,
+  `bubblewitch.com`, `canakkale-bld.gov.tr`, `dunyagazetesi.com.tr`,
+  `ibank.ekp.lv`, `online.ptclick.com.ua`, `online.unicombank.com.ua`,
+  `ssk-felsberg.de`, `visecaone.ch` and `wideup.net`. Each was re-fetched
+  individually and confirmed to serve a registrar parking page ("Buy this
+  domain", HugeDomains, "Domain Parked"). The aggressive proposal was **not**
+  applied: it contains live sites (`youtube.com`, `whatsapp.com`,
+  `washingtonpost.com`) that render empty to a non-JavaScript browser. Every
+  removed host is in `rules.json` → `drop.hosts`; evidence in
+  `evidence/live-sweep.md`.
 - **The reliability figures now say what they cover.** The audit measures 4,565
   of the catalog's 6,745 hosts — 68%. The remaining 2,180 serve no usable page
   text: 1,721 answer nothing at all and 459 return under 100 characters. The
@@ -134,6 +168,20 @@ not for the data: `version` is bumped only on a breaking format change.
   ancestor already covers the host.
 
 ### Fixed
+
+- **The registration sweep would have deleted live hosts, so it now reads a
+  `404` before it trusts one.** `rdap.nic.ms` runs an ordinary web server that
+  answers *every* lookup — including its own `nic.ms` — with a Tomcat HTML 404,
+  not an RDAP `application/rdap+json` body. The tool read that as "not
+  registered" and proposed six live Microsoft `.ms` hosts (`aka.ms`, `jwt.ms`,
+  `appcenter.ms`, …) for removal, twice, consistently. A `404` now counts as a
+  negative only when the endpoint actually speaks RDAP (the RDAP media type, or
+  a parseable RDAP error body); anything else falls through to WHOIS and then to
+  `unknown`. Two related guards landed with it: `inactive` and `clientHold` are
+  **registered-but-not-delegated** and are now a `review` rather than `gone`
+  (`investbank.com.ua`), and a host that still resolves in DNS is never `gone`
+  whatever the registry says. The offline decision table in `test/test.sh` step
+  10.11 covers all three.
 
 - **The audit was not reproducible: `LinearSVC` ran unseeded.** `random_state`
   was `None`, so liblinear shuffled its dual coordinate descent from OS entropy

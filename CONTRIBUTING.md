@@ -17,6 +17,11 @@ $EDITOR seeds/categories.json
 `catalog.json` is build output. Never edit it by hand; the next `generate.py`
 run overwrites the edit.
 
+`generate.py --check` asks the same question without git — it rebuilds from the
+seeds and compares the result with the committed `catalog.json`, writing nothing
+— and `build-catalog-docs.py --check` does it for `docs/CATALOG.md` and the
+README blocks. `test/test.sh` runs both, at steps 3b and 7b.
+
 A category name outside the vocabulary is **not** an error the app reports — it
 is silently ignored on device. `validate.py` is what turns that into a build
 failure.
@@ -82,6 +87,24 @@ not that it is empty. By default only a **parked** host is proposed;
 `3dsecure.akbank.com.tr` both answer with nothing and both belong here — so read
 the proposal before applying it.
 
+**It resolves and serves a page, but may have changed hands** — a lapsed name
+re-registered by someone else inherits the previous owner's category. Check the
+registration itself:
+
+```sh
+python3 scripts/catalog/verify-registrations.py --self-test
+python3 scripts/catalog/verify-registrations.py --round 1
+python3 scripts/catalog/verify-registrations.py --round 2     # 10 minutes later
+python3 scripts/catalog/verify-registrations.py --summary     # proposal only
+python3 scripts/catalog/verify-registrations.py --apply       # only after you read it
+```
+
+It checks RDAP (IANA bootstrap + verified cc supplement + convention probing),
+port-43 WHOIS (DENIC `.de`, TRABIS `.tr`, IANA referral), IP RDAP for the
+address block, and bounded traceroute. A host is only proposed on a strong
+signal (`gone`, `expired`); unknown and unsupported TLDs are reported, never
+deleted.
+
 ## Bulk work: harvest
 
 For finding hosts that are missing rather than guessing them:
@@ -145,11 +168,12 @@ one re-labels data on somebody's device.
 ```
 
 which runs, in order: the source registry check, the schema check, the build,
-the validator, the documentation freshness check, the catalog's own quality
-guardrails (overlaps, category boundaries, source-import quality, override
-validity, the dead-domain and live-sweep decision tables), and
-`python3 -m py_compile` over every script. All of it is Python 3 standard
-library — no dependencies, no install step.
+the `--check` that the committed `catalog.json` and documents match what the
+seeds build, the validator, the documentation freshness check, the catalog's own
+quality guardrails (overlaps, category boundaries, source-import quality,
+override validity, the dead-domain, live-sweep and registration decision
+tables), and `python3 -m py_compile` over every script. All of it is Python 3
+standard library — no dependencies, no install step.
 
 If you changed a number that appears in a document, the freshness check will
 say so.
