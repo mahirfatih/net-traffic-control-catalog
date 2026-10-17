@@ -16,7 +16,14 @@ sweep evidence: every seed host must appear in every complete round of
 `evidence/registration-verify.json`, because the sweeps probe the seeds and a
 host added since the last run leaves the evidence unable to speak for the
 catalog. And it checks that `README.tr.md` carries the same generated blocks as
-`README.md`, so the Turkish translation cannot drift from the English source.
+`README.md` and the same heading and diagram counts, so the Turkish translation
+cannot drift from the English source. And it checks the seeds provenance:
+`evidence/seeds-only.json` must be current
+(`scripts/catalog/seeds-provenance.py --check`), and the counts `docs/INGEST.md`
+and `docs/FOUNDING.md` quote must be the ones it holds. And it checks the review
+backlog: `evidence/pending-source-hosts.json` must be current
+(`scripts/sources/pending.py --check`), and `docs/NEEDS-REVIEW.md` must quote the
+counts it holds.
 No network, no build. Run it (and `test/test.sh`) before pushing.
 
 See [`../README.md`](../README.md).

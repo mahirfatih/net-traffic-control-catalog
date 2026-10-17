@@ -9,6 +9,22 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Added
 
+- **The ingest flow** (`docs/INGEST.md`): how a domain gets a category, as the
+  mirror of `PIPELINE.md`'s removal flow. It names the **three doors** a host can
+  enter through — a `harvest.py` source, the public-institution harvester, and a
+  person editing `seeds/categories.json` by hand — each with its own flow chart,
+  and repeats the point that a source carries names, never categories. `README.md`
+  and `README.tr.md` grow the entry branch in their pipeline chart and link it;
+  `docs/README.md`, `CONTRIBUTING.md`, `seeds/README.md` and `docs/SOURCES.md`
+  point at it too.
+- **Seeds provenance** (`scripts/catalog/seeds-provenance.py`,
+  `docs/FOUNDING.md`): names the hosts in `catalog.json` that **neither a rule
+  nor a source accounts for** — the founding layer. Of 6,731 hosts, 4,451 come
+  from a rule, 126 from a source, 1,233 from the Turkish public-institution
+  harvester, and **921 were typed in by hand**; the full list of the 2,154
+  unattributed hosts is committed as `evidence/seeds-only.json`. The file holds
+  no timestamp, so the same inputs render the same bytes; `check-docs-fresh.mjs`
+  runs `--check` and compares the counts the page quotes against it.
 - **Expanded model comparison** (`scripts/analysis/build-matrix.py`): the audit's
   model table grows from three TF-IDF classifiers to nine — the original three
   plus `RidgeClassifier`, `SGDClassifier`, `DecisionTreeClassifier`,

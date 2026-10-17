@@ -1,9 +1,13 @@
-# Pipeline — what happens to a domain
+# Pipeline — how a domain leaves
 
-Every host in the catalog goes through three independent checks. Each asks a
+A domain *enters* the catalog through one of three doors — a source, the
+public-institution harvester, or a person's hand (`INGEST.md`). This page is the
+other half: once a host is in, how does it get out? Every host in the catalog
+goes through three independent checks. Each asks a
 different question, runs its own tool, and a host is only removed when every
 round of every check agrees it should go. This is the machinery behind the
 README's [“Pipeline — from a list to a kept host”](../README.md#pipeline--from-a-list-to-a-kept-host).
+How a host got *in* is [`INGEST.md`](INGEST.md).
 
 ```mermaid
 flowchart TD
@@ -38,7 +42,7 @@ name this network cannot reach.
 | `dead` | every one of the nine questions answers NXDOMAIN, in both rounds | **yes** |
 | `alive` | at least one resolver answers with a record | no |
 | `nodata` | the name exists but has no address record | no |
-| `servfail` | the zone is broken | no |
+| `servfail` | the zone is broken — DNSSEC validation, or a lame delegation; the sweep asks again with checking disabled and records which | no |
 | `unknown` | the sources disagree, or the network failed | no |
 
 `nodata` and `servfail` are reported, never proposed — 181 real banks were
@@ -104,3 +108,30 @@ never `gone`, whatever a registry status suggests.
 - **Logged removal.** Every removal is written to `rules.json → drop.hosts`
   with its reason. A removal cannot quietly undo itself, and a host with a
   removal entry is not allowed back into the seeds without one.
+
+## The states are kept apart on purpose
+
+The three sweeps answer different questions, so their verdicts are different
+words for different facts. Collapsing them into one "up/down" flag is how a
+lapsed-but-alive name gets deleted. Keep these six distinct, and let the removal
+policy — not a single verdict — decide:
+
+| State | Which check | Meaning | Removed? |
+| :--- | :--- | :--- | :--- |
+| `dns_unresolved` | DNS | the name does not resolve at all (`NXDOMAIN` to all nine) | only as `dead`, two rounds |
+| `registration_expired` | registration | the registration's expiry date is in the past | **yes** |
+| `ownership_changed` | registration | `gone` / a new owner on record | **yes** |
+| `http_unavailable` | live | no response, a 404, or an empty page | only `parked` by default |
+| `parked` | live | a registrar parking page | **yes** |
+| `confirmed_retired` | all three | every check agrees, in two rounds | **yes** |
+
+`NXDOMAIN` is DNS evidence, not a removal reason on its own: a name can stop
+resolving while its owner still holds it, and a subdomain can be dropped while
+the registrable domain and its company stay up. Only the intersection — every
+check, both rounds — produces `confirmed_retired`.
+
+## When it runs
+
+None of this runs in `test/test.sh`: the sweeps need the network and a browser.
+The cadence each one should keep — weekly DNS, monthly live, quarterly
+registration — and why they differ is in [`SCHEDULE.md`](SCHEDULE.md).

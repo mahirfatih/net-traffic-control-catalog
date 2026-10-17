@@ -15,6 +15,34 @@ to be useless. So a host's category is always either **a rule in
 only ever *proposes hosts*; `merge.py` refuses to overwrite a label somebody
 already decided, and refuses any category outside the vocabulary.
 
+## Licensing policy — what may become CC0
+
+The output is dedicated to the public domain (CC0), so a source may only
+contribute if its terms are compatible with that. The gate blocks the two terms
+that are incompatible on their face — **`NC`** (a commercial app may not use it)
+and **`SA`** (the derivative would inherit the term and stop being CC0). Four
+other families need a stated answer rather than a blanket rule:
+
+| Licence family | Term | Verdict here | Why |
+| :--- | :--- | :--- | :--- |
+| **Non-commercial** (`CC-BY-NC*`) | a commercial app may not use it | **blocked** | The app is commercial; the term forbids exactly this use. |
+| **Share-alike** (`CC-BY-SA*`) | derivative inherits the term | **blocked** | The catalog is CC0; a SA term would un-license the whole file. |
+| **Copyleft** (GPL, AGPL) | derivative works inherit the licence | **blocked** unless names only, no copied text or structure | A whole-file CC0 cannot carry a GPL reach-through; importing only bare names with no copied expression is the narrow case to review case by case. |
+| **Attribution** (`CC-BY`) | credit must be given | **allowed with attribution** | A name-only factual list can carry a credit file; add `ATTRIBUTION.md` and keep the source's stated attribution text. |
+| **Database rights** (`ODbL`, EU sui generis) | share-alike of the database | **blocked** unless a waiver or dual licence | A "substantial extraction" of a protected compilation can reach this file even when the facts themselves are not copyrightable. |
+
+**The default is to take a stated licence at face value.** The catalog imports
+only *facts* — domain names — which are not protected by copyright in many
+jurisdictions; but the EU sui-generis database right can attach to a compilation,
+and `ODbL` in particular can reach a "substantial extraction". So when a licence
+is unclear the verdict is `allowed: false` with a reason, and a contributor asks
+rather than assumes. `adguard-https-exclusions-banks` is the current
+no-licence (`NOASSERTION`) case and is accepted on the no-licence source policy
+recorded with it.
+
+This table is a **draft policy for review**; it is not legal advice. Have it
+checked before a source under one of these licences is imported.
+
 ## Allowed
 
 | Source | Licence | Why |
@@ -33,10 +61,17 @@ already decided, and refuses any category outside the vocabulary.
 | `itsmingjie-inflight-allowlist` | MIT | Conservative in-flight Wi-Fi captive portal and provider domains. Mostly `travel`; provider roots like `viasat.com` are also `travel` in this context. |
 | `jayconius-gaming-whitelist` | MIT (README badge; LICENSE file missing) | Gaming platform whitelist. Contributes new roots for EA, Epic, GOG, Paradox, Unity, 2K; most subdomains are already covered by existing rules. |
 | `adguard-https-exclusions-banks` | NOASSERTION (no LICENSE file) | AdGuard HTTPS exclusions for banks and financial services. Used as a finance discovery source; IP rows are ignored, `www.` aliases are normalized, and redundant same-category subdomains are skipped. |
+| `turkish-public-directories` | unstated (public-sector directories) | Curated TBB / e-Şehir / AG Çevre / CCIFT / YÖK pages, kept for the closed `.bel.tr` / `.gov.tr` / `.edu.tr` names. Recorded here for a licence verdict, but imported by `harvest-public-institutions.py`, not `harvest.py` — so the record sets **`harvest: false`**. |
 
 Large imports are guarded by `scripts/sources/audit-source-import.py`, which checks
 source-specific false positives, same-category redundant subdomains, and review
 signals for weakly evidenced rows.
+
+A registry record may set **`harvest: false`** when a different script imports it.
+`harvest.py` skips such records; the record still carries the licence verdict, so
+the gate stays the one place a source's terms are decided. The only such record
+today is `turkish-public-directories`, read by
+[`../scripts/sources/harvest-public-institutions.py`](../scripts/sources/harvest-public-institutions.py).
 
 For a new broad source, use this workflow instead of hand-checking every row:
 
@@ -171,7 +206,11 @@ in `sources.json` with a `reason` that says so. Do not edit the gate.
 Some sources are not broad blocklists; they are curated public directories whose
 hosts are already scoped by closed Turkish public suffixes. Use
 [`../scripts/sources/harvest-public-institutions.py`](../scripts/sources/harvest-public-institutions.py)
-for those pages:
+for those pages. This is the second of the three doors a host can enter through
+(the first is a `harvest.py` source; the third is a person's hand) — see
+[`INGEST.md`](INGEST.md). The pages are recorded in the registry as
+`turkish-public-directories` with `harvest: false`, so their licence verdict
+lives with every other source's rather than only in this prose.
 
 ```sh
 python3 scripts/sources/harvest-public-institutions.py --check

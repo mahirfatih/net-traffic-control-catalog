@@ -86,6 +86,13 @@ def validate(doc):
     if doc.get("version") != 1:
         problems.append(f"version must be 1 (got {doc.get('version')!r})")
 
+    generated = doc.get("generated")
+    if generated is not None and (
+        not isinstance(generated, str)
+        or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", generated)
+    ):
+        problems.append("generated must be a YYYY-MM-DD date string")
+
     categories = doc.get("categories")
     if not isinstance(categories, dict):
         problems.append("categories must be an object")
@@ -123,13 +130,60 @@ def validate(doc):
         if not isinstance(domains, list) or not domains:
             problems.append(f"services[{index}].domains is missing")
         else:
+            seen_domains = set()
             for domain in domains:
                 domain_problem = host_problems(domain)
                 if domain_problem:
                     problems.append(f"{key!r} domain {domain!r} {domain_problem}")
+                if domain in seen_domains:
+                    problems.append(f"{key!r} lists {domain!r} more than once")
+                seen_domains.add(domain)
 
     if not categories and not services:
         problems.append("catalog has no categories and no services")
+    return problems
+
+
+def validate_hand_added(doc, hosts):
+    """Validate `seeds/hand-added.json`: door 3's per-host who/when/why.
+
+    `hosts` is the set of hosts already in `seeds/categories.json`. A record here
+    names a host a person added by hand, so every field a future reader needs is
+    mandatory — a record with no `reason` is exactly the gap this file exists to
+    close. Returns problem strings, as `validate` does.
+    """
+    problems = []
+    if not isinstance(doc, dict):
+        return ["root is not a JSON object"]
+
+    added = doc.get("added")
+    if not isinstance(added, dict):
+        return ["added must be an object mapping host to its record"]
+
+    for host, record in added.items():
+        host_problem = host_problems(host)
+        if host_problem:
+            problems.append(f"hand-added host {host!r} {host_problem}")
+        if host not in hosts:
+            problems.append(
+                f"hand-added host {host!r} is not in seeds/categories.json — "
+                "add it there first; this file only records who added it"
+            )
+        if not isinstance(record, dict):
+            problems.append(f"hand-added record for {host!r} is not an object")
+            continue
+        for field in ("by", "at", "reason"):
+            value = record.get(field)
+            if not isinstance(value, str) or not value.strip():
+                problems.append(f"hand-added host {host!r} has no {field!r}")
+        at = record.get("at")
+        if isinstance(at, str) and at.strip() and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", at):
+            problems.append(f"hand-added host {host!r} has an invalid 'at' date")
+        unexpected = set(record) - {"by", "at", "reason"}
+        if unexpected:
+            problems.append(
+                f"hand-added host {host!r} has unknown field(s): {', '.join(sorted(unexpected))}"
+            )
     return problems
 
 

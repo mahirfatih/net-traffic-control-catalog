@@ -6,6 +6,11 @@ homepage text for the hosts in `catalog.json`, compares nine text classifiers
 TF-IDF + LinearSVC as the witness, and produces a confusion matrix showing how
 consistently our labels agree with what a text model can recover.
 
+**Provenance.** The committed `out/` was produced by `scripts/analysis/build-matrix.py`
+at commit `84f549d` (2026-10-18) on 4,563 of the 6,731 catalog hosts. Re-run it
+against each catalog release so the figures describe the current data rather than a
+snapshot — the analysis is the catalog's only quantitative quality signal.
+
 **The tool lives in [`scripts/analysis/`](../../scripts/analysis/); its output
 lands here.** It is not part of the shipped catalog pipeline — the rest of
 `scripts/` is standard-library-only, while the audit needs `scikit-learn`,
@@ -16,8 +21,8 @@ run it.
 
 ```bash
 cd scripts/analysis
-python3 -m venv .venv && .venv/bin/pip install scikit-learn matplotlib sentence-transformers
-.venv/bin/python fetch-pages.py     # cache each host's homepage (~25 min from cold)
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/python fetch-pages.py     # cache each host's homepage (~16 min warm, ~25 min from cold)
 .venv/bin/python build-matrix.py    # ← writes docs/analysis/out/ (first run downloads the ~1 GB model)
 ```
 
@@ -27,6 +32,10 @@ Outputs land in `out/`:
 - `correlated-terms.md` — chi-squared **and** LinearSVC model-weight terms per category
 - `high-confidence-errors.md` — hosts where the model is confident but disagrees
 - `matrix-data.json` — raw numbers including model comparison and per-host top-3 predictions
+
+The triage of those errors — why 57 of the 69 predict `finance`, and why that is
+the model's prior rather than a relabel queue — is in
+[`finance-triage.md`](finance-triage.md).
 
 ## Result
 
@@ -86,7 +95,7 @@ balanced accuracy.
 | LinearSVC | 0.888 | 0.605 | 0.592 | 0.890 |
 | SGDClassifier | 0.889 | 0.584 | 0.589 | 0.889 |
 | LogisticRegression | 0.865 | 0.580 | 0.557 | 0.874 |
-| RandomForestClassifier | 0.821 | 0.523 | 0.506 | 0.839 |
+| RandomForestClassifier | 0.821 | 0.523 | 0.506 | 0.840 |
 | KNeighborsClassifier | 0.856 | 0.444 | 0.513 | 0.839 |
 | DecisionTreeClassifier | 0.797 | 0.395 | 0.391 | 0.800 |
 | MultinomialNB | 0.603 | 0.164 | 0.165 | 0.649 |
@@ -261,20 +270,25 @@ this column needs. **Read the model-weight column.**
 
 ### High-confidence errors
 
-Five hosts where the model is confident (≥70%) but disagrees with the catalog
-label:
+69 hosts where the model is confident (≥70%) but disagrees with the catalog
+label. The list is out of fold, like the matrix, so these are the model's real
+mistakes rather than the hosts it memorised — the previous in-sample list found
+five, and it had also "recovered" all ten `other` hosts, which the matrix never
+predicts. The five below are the shape of it, not the whole:
 
 | Host | Catalog label | Predicted | Confidence | Top 3 predictions |
 | :--- | :--- | :--- | ---: | :--- |
-| guven.com.tr | finance | health | 87% | health 87%, finance 4%, government 1% |
-| display.ugc.bazaarvoice.com | software | finance | 83% | finance 83%, government 3%, software 2% |
-| iqiyi.com | video | finance | 83% | finance 83%, government 3%, video 2% |
-| googlesyndication.com | ads | search | 77% | search 77%, ads 9%, finance 5% |
-| ilbank.gov.tr | finance | government | 71% | government 71%, finance 13%, news 2% |
+| guven.com.tr | finance | health | 85% | health 85%, government 3%, finance 2% |
+| display.ugc.bazaarvoice.com | software | finance | 82% | finance 82%, government 3%, software 2% |
+| iqiyi.com | video | finance | 82% | finance 82%, government 3%, software 2% |
+| googlesyndication.com | ads | search | 83% | search 83%, finance 5%, software 1% |
+| ilbank.gov.tr | finance | government | 87% | government 87%, news 3%, finance 2% |
 
-Two of the five are labelled `finance`, and the reason is the same in every
-case: `finance` is over half the sample, so it is both the label the model
-falls back on and the one it drifts away from.
+57 of the 69 predict `finance`, and the reason is the same in every case:
+`finance` is over half the sample, so it is both the label the model falls back
+on and the one it drifts away from. The five above are the readable ones; the
+rest are mostly infrastructure hosts with thin pages and a dominant-class pull.
+The full list is in `out/high-confidence-errors.md`.
 
 - `guven.com.tr` — a Turkish insurer; "güven" is also the common word for
   *trust*, so the text reads as health. The label is defensible, the page is
@@ -301,6 +315,24 @@ representative of the category).
 Infrastructure hosts (CDNs, analytics, ads) have no meaningful page text,
 so they are naturally filtered out by `--min-text`.
 
+### The thinnest categories
+
+Coverage is not uniform, and the gaps are not random — they follow the shape of
+the page. A category whose hosts are apps or endpoints loses them to the text
+floor:
+
+- **`gaming` — 19% measured.** Game portals are canvas apps; the homepage has
+  almost no prose.
+- **`cdn` — 31%.** A delivery host answers with bytes, not words.
+- **`software` — 35%.** Developer pages are code samples and app shells.
+
+A category measured on a fifth of its rows is scored on a fifth of its rows, so
+its recall and F1 describe the readable fifth, not the category. The fix is more
+text — a headless render ([Playwright](https://playwright.dev)) for the JS
+shells, and a certificate-organization signal for hosts that never return a page
+at all — not a relabelling. Until then, read a thin category's score next to its
+coverage, which [`../COVERAGE.md`](../COVERAGE.md) reports as its own column.
+
 ## Methodology
 
 1. **Text extraction** (`fetch-pages.py`): Fetches each host's homepage and
@@ -319,8 +351,12 @@ so they are naturally filtered out by `--min-text`.
 3. **Classification**: LinearSVC is kept for the confusion matrix, term weights
    and calibrated error review. Every host receives an out-of-fold prediction.
 
-4. **Calibration**: `CalibratedClassifierCV` (sigmoid, 3-fold) provides
-   probability estimates, enabling identification of high-confidence errors.
+4. **Calibration**: `CalibratedClassifierCV` (sigmoid) provides probability
+   estimates, and it is fitted **inside** the same cross-validation as the
+   matrix, so a host's confidence comes from a model that never saw it. The
+   earlier version read probabilities off a model fitted on all of `X`, which
+   turned "confidence" into recall: it could name a host a high-confidence error
+   while the per-host table predicted that same host correctly.
 
 5. **Chi-squared test**: For each category, the 10 terms most strongly
    associated with that category are identified, revealing what drives
@@ -331,5 +367,5 @@ so they are naturally filtered out by `--min-text`.
    complementary signal to chi-squared.
 
 7. **Per-host predictions**: Each host's top-3 predicted categories with
-   calibrated probabilities are recorded in `matrix-data.json` and shown in
-   the high-confidence errors table.
+   out-of-fold calibrated probabilities are recorded in `matrix-data.json` and
+   shown in the high-confidence errors table.

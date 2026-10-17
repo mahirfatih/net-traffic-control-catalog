@@ -32,6 +32,7 @@ dead.
 | [`generate.py`](catalog/generate.py) | Builds `catalog.json` from the `seeds/` files. Deterministic, and validates **before** writing — a bad seed writes nothing. Applies `rules.json` → `drop.override` last. `--check` rebuilds in memory and compares with the committed file (ignoring the `generated` date), writing nothing. |
 | [`validate.py`](catalog/validate.py) | Checks a `catalog.json` against the format and the category vocabulary. Exits non-zero on any problem. |
 | [`build-catalog-docs.py`](catalog/build-catalog-docs.py) | Generates `docs/CATALOG.md` and the marked README blocks from `catalog.json`, so the counts in the prose cannot drift from the shipped data. `--check` verifies they are current without writing. |
+| [`seeds-provenance.py`](catalog/seeds-provenance.py) | Names the hosts in `catalog.json` that neither a rule nor a source accounts for — the hand-entered and public-institution founding layers — and writes `evidence/seeds-only.json`. `--check` verifies the file is current without writing. |
 | [`overrides.py`](catalog/overrides.py) | Manages `rules.json` → `drop.override`, the per-host decision that beats every rule and every source. `set` / `remove` / `list` / `check`. A reason is mandatory. |
 | [`check-overlaps.py`](catalog/check-overlaps.py) | Reports category distribution, deliberate subdomain overrides, and manual overrides. Fails if a subdomain carries the same category as an ancestor, which suffix matching already covers. |
 | [`audit-category-consistency.py`](catalog/audit-category-consistency.py) | Category-boundary guardrails: names that must be a certain category, and labels that look wrong for a name. Treats an overridden host as decided. |
@@ -46,6 +47,7 @@ dead.
 | [`sources.py`](sources/sources.py) | The source registry, and the licence gate. `python3 scripts/sources/sources.py` lists every source and its verdict; `--check` validates the registry; `--allowed` lists only what may be fetched. |
 | [`harvest.py`](sources/harvest.py) | Fetches allowed sources, drops hosts the catalog already covers, applies `rules.json`, and reports what no rule matched. |
 | [`merge.py`](sources/merge.py) | Applies harvested categories to `seeds/categories.json`. Refuses to overwrite an existing label, and never overwrites an overridden host. |
+| [`pending.py`](sources/pending.py) | Names the whole review backlog — every source host no rule matched — offline, from the committed caches, and writes `evidence/pending-source-hosts.json`. `--check` verifies the file is current. `harvest.py` prints this set per run; this keeps it. |
 | [`harvest-public-institutions.py`](sources/harvest-public-institutions.py) | Fetches curated Turkish public-directory pages and merges closed-suffix hosts: `*.bel.tr` / `*.gov.tr` as `government`, `*.edu.tr` as `education`. Existing labels, explicit overrides and parked exclusions win. |
 | [`source-policies.py`](sources/source-policies.py) | Per-source review policy: the expected category, weak-signal patterns, page signals, and known false positives. Not run on its own. |
 | [`audit-source-import.py`](sources/audit-source-import.py) | Offline guardrail for broad imports: catches known false positives, same-category redundant rows, and warns on weakly evidenced rows. **In `test/test.sh`.** |
@@ -219,8 +221,8 @@ python3 scripts/catalog/verify-registrations.py --apply       # only after readi
 
 ```sh
 cd scripts/analysis
-python3 -m venv .venv && .venv/bin/pip install scikit-learn matplotlib sentence-transformers
-.venv/bin/python fetch-pages.py                 # cache each host's homepage (~16 min)
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/python fetch-pages.py                 # cache each host's homepage (timing below)
 .venv/bin/python fetch-pages.py --retry-empty   # re-fetch the ones that came back empty
 .venv/bin/python fetch-pages.py --retry-thin 100  # and the ones under the audit's floor
 .venv/bin/python build-matrix.py                # ← writes docs/analysis/out/

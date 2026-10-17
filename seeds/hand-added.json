@@ -1,0 +1,4 @@
+{
+  "_comment": "Door 3 — a host a person added by hand. seeds/categories.json records only the name and its category; this file is the who/when/why that door otherwise leaves out, so a wrong label added by a person can later be traced to a person and a reason. Shape: { \"<host>\": { \"by\": \"github-handle\", \"at\": \"YYYY-MM-DD\", \"reason\": \"<why this host belongs in the catalog>\" } }. by/at/reason are all required and checked by catalog-core.validate; a host here must already be in seeds/categories.json. This is not retroactive: hosts from the founding era are counted in evidence/seeds-only.json and stay unattributed here until someone verifies a reason for each — git knows when, not why. Doors 1 and 2 (sources.json, the public-institution harvester) carry their own provenance and do not appear here.",
+  "added": {}
+}

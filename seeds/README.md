@@ -64,3 +64,7 @@ tell you if a host cannot be matched or a category is not in the vocabulary.
 For a bulk change, do not paste a list in — see
 [`../CONTRIBUTING.md`](../CONTRIBUTING.md) § Bulk work, which routes it through
 `harvest.py` so every host ends up traceable to a rule rather than to a paste.
+
+Editing by hand is one of three doors a host can enter through. The other two —
+a source list and the public-institution harvester — and what sets the category
+in each case are in [`../docs/INGEST.md`](../docs/INGEST.md).

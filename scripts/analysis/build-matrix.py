@@ -9,10 +9,10 @@ a text model can recover.
 - Per-class precision/recall/F1 (classification_report)
 - Chi-squared correlated terms per category (what terms separate each class)
 - LinearSVC coefficient terms per category (what the fitted model weighs)
-- Calibrated top-3 predictions per host and high-confidence errors
+- Out-of-fold calibrated top-3 predictions per host and high-confidence errors
 
 Usage:
-    python3 build-matrix.py [--min-text 100] [--min-class 20] [--folds 5]
+    python3 build-matrix.py [--min-text 100] [--min-class 2] [--folds 5]
 """
 from __future__ import annotations
 
@@ -372,18 +372,37 @@ def main() -> int:
 
     # --- 3. Calibrated probabilities -> high-confidence errors ---
     print("\nCalibrating for probability estimates...")
+    # Calibration runs inside the fold, so it can only split what a training
+    # fold holds: the outer count alone is not the constraint. The smallest class
+    # keeps `min_support - ceil(min_support / n_splits)` examples in each training
+    # fold, and 3-fold cross-validation needs at least 3 of them, so the inner
+    # count must stay at or below that.
+    smallest_train = min_support - (-(-min_support // n_splits))
+    if smallest_train < 2:
+        raise SystemExit(
+            "the smallest class leaves fewer than 2 examples in a training fold, "
+            "so a calibrator cannot be split — raise --min-class"
+        )
+    inner_cv = max(2, min(3, smallest_train))
     cal_pipe = make_pipeline(
         TfidfVectorizer(sublinear_tf=True, min_df=2, ngram_range=(1, 2), max_features=20000),
         CalibratedClassifierCV(
             LinearSVC(C=1.0, class_weight="balanced", max_iter=5000, random_state=42),
-            cv=3,
+            cv=inner_cv,
             method="sigmoid",
         ),
     )
-    cal_pipe.fit(X, y)
-    proba = cal_pipe.predict_proba(X)
-    cal_pred = cal_pipe.predict(X)
-    probability_classes = list(cal_pipe.classes_)
+    # Out of fold, like the confusion matrix above. A probability read from a
+    # model fitted on all of X measures recall, not confidence: the model has
+    # already seen the host it is now "sure" about, which is why an in-sample
+    # confidence lists a host as a confident error in one place and predicts it
+    # correctly in the per-host table. cross_val_predict re-fits per fold, so a
+    # host's probability comes from a model that never saw it.
+    proba = cross_val_predict(cal_pipe, X, y, cv=cv, method="predict_proba", n_jobs=-1)
+    # The predict_proba columns follow the fitted estimator's classes_, which is
+    # np.unique(y) — sorted. Keep that order for the top-k lookup.
+    probability_classes = sorted({str(label) for label in y})
+    cal_pred = [probability_classes[int(i)] for i in proba.argmax(axis=1)]
 
     # High-confidence errors: model is confident but wrong
     high_conf_errors: list[dict] = []

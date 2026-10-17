@@ -1,0 +1,9 @@
+# The audit's dependencies — scripts/analysis/.
+#
+# Pinned to the versions the committed docs/analysis/out/ was produced with.
+# An unpinned `sentence-transformers` (and the `torch` it pulls) can move the
+# embedding model's numbers without a byte of catalog data changing, which
+# turns a reproducible audit into a moving target.
+scikit-learn==1.9.1
+matplotlib==3.11.2
+sentence-transformers==6.1.0

@@ -155,6 +155,49 @@ if problems:
 print("✓ the built file matches its seeds — nobody hand-edited the output")
 PY
 
+step "6b. The same seeds build byte-identical output (determinism)"
+# The only field that changes between runs is `generated` (today's date), so pin
+# it and prove the rest is a pure function of the seeds: same seeds, same bytes,
+# same SHA-256. This is what lets a reviewer trust that a rebuild diff is a real
+# change and not a re-run.
+python3 - <<'PY'
+import hashlib, importlib.util, json, sys
+
+spec = importlib.util.spec_from_file_location(
+    "catalog_core", "scripts/catalog/catalog-core.py")
+catalog_core = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(catalog_core)
+
+categories = json.load(open("seeds/categories.json"))
+services = json.load(open("seeds/services.json"))
+
+def build():
+    doc = catalog_core.normalize({
+        "version": 1,
+        "generated": "2026-10-18",   # pinned: today's date is the only moving part
+        "categories": categories,
+        "services": services,
+    })
+    payload = json.dumps(doc, ensure_ascii=False, indent=2).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest(), doc
+
+first, doc = build()
+second, _ = build()
+if first != second:
+    print("✗ two builds of the same seeds differ — the build is not deterministic",
+          file=sys.stderr)
+    raise SystemExit(1)
+
+# The pinned build must also validate, so determinism is not bought by producing
+# an invalid document.
+problems = catalog_core.validate(doc)
+if problems:
+    print("✗ the deterministically built document is invalid:", problems, file=sys.stderr)
+    raise SystemExit(1)
+
+print(f"✓ same seeds → same SHA-256 ({first[:16]}…), and the document validates")
+PY
+
 step "7. Regenerate the documentation and confirm it is current"
 python3 scripts/catalog/build-catalog-docs.py
 if command -v git >/dev/null 2>&1 && git rev-parse --git-dir >/dev/null 2>&1; then
@@ -174,6 +217,23 @@ step "7b. The document writer is deterministic (--check)"
 # proves the writer is deterministic, so a stale-file report from it can only
 # mean a real change, never a reshuffle.
 python3 scripts/catalog/build-catalog-docs.py --check
+
+step "7c. The coverage report is current"
+# docs/COVERAGE.md is generated from the catalog, the rules and the analysis, so
+# it rots the same way docs/CATALOG.md does. Regenerate and compare, then exercise
+# the writer's own --check.
+python3 scripts/catalog/build-coverage.py
+if command -v git >/dev/null 2>&1 && git rev-parse --git-dir >/dev/null 2>&1; then
+    if ! git diff --quiet -- docs/COVERAGE.md; then
+        echo "✗ docs/COVERAGE.md changed when regenerated — it was edited by hand" >&2
+        git --no-pager diff -- docs/COVERAGE.md | head -40
+        exit 1
+    fi
+    echo "✓ docs/COVERAGE.md is current"
+else
+    echo "· not a git checkout; skipping the staleness comparison"
+fi
+python3 scripts/catalog/build-coverage.py --check
 
 step "8. Documentation describes the files that exist"
 node scripts/checks/check-docs-fresh.mjs
@@ -236,6 +296,18 @@ problems = catalog_core.validate(good)
 if problems:
     print("✗ the validator rejected a valid host:", problems, file=sys.stderr)
     raise SystemExit(1)
+
+# A malformed date and a duplicate service domain are build-blocking too.
+for bad_doc in (
+    {"version": 1, "generated": "yesterday", "categories": {"example.com": "ads"},
+     "services": []},
+    {"version": 1, "generated": "2026-10-18", "categories": {"example.com": "ads"},
+     "services": [{"key": "a", "name": "A", "domains": ["x.com", "x.com"]}]},
+):
+    if not catalog_core.validate(bad_doc):
+        print("✗ the validator accepted a document with a blocking problem",
+              file=sys.stderr)
+        raise SystemExit(1)
 print(f"✓ {len(bad)} malformed host(s) refused, a valid one accepted")
 PY
 
@@ -452,7 +524,29 @@ uncertain = {"rounds": [
     {"round": 2, "complete": True, "results": {"h.test": {"decision": "harness-error"}}},
 ]}
 assert sweep.build_proposal(uncertain, aggressive=True) == []
+# Infrastructure that answers with nothing is never proposed, even aggressively:
+# a real endpoint with no page is not a dead site.
+infra = {"rounds": [
+    {"round": 1, "complete": True, "results": {
+        "adnxs.com": {"decision": "empty"},
+        "pixel.adnxs.com": {"decision": "no-http"},
+        "3dsecure.akbank.com.tr": {"decision": "empty"},
+        "real-empty.test": {"decision": "empty"},
+    }},
+    {"round": 2, "complete": True, "results": {
+        "adnxs.com": {"decision": "empty"},
+        "pixel.adnxs.com": {"decision": "no-http"},
+        "3dsecure.akbank.com.tr": {"decision": "empty"},
+        "real-empty.test": {"decision": "empty"},
+    }},
+]}
+assert sweep.build_proposal(infra, aggressive=True) == ["real-empty.test"]
+assert sweep.is_infrastructure("adnxs.com")
+assert sweep.is_infrastructure("pixel.adnxs.com")
+assert sweep.is_infrastructure("3dsecure.akbank.com.tr")
+assert not sweep.is_infrastructure("example.com")
 print("  ✓ two rounds must agree; harness-error is never proposed")
+print("  ✓ infrastructure is never proposed, even under --aggressive")
 PY
 
 step "10.11. A registration sweep keeps what it cannot prove"
@@ -569,6 +663,56 @@ state = {"rounds": [
 assert vr.build_proposal(state) == ["gone-both.test"]
 assert vr.build_proposal({"rounds": state["rounds"][:1]}) is None
 print("  ✓ two rounds must agree; unknown/unsupported never proposed")
+PY
+
+step "10.12. A hand-added host records who, when and why"
+python3 - <<'PY'
+import importlib.util
+
+spec = importlib.util.spec_from_file_location(
+    "catalog_core", "scripts/catalog/catalog-core.py")
+catalog_core = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(catalog_core)
+
+HOSTS = {"example.com"}
+
+good = {"added": {"example.com": {"by": "contributor", "at": "2026-10-18",
+                                  "reason": "a real site in this category"}}}
+assert catalog_core.validate_hand_added(good, HOSTS) == []
+
+# Each of the three fields is mandatory — a record with no reason is exactly the
+# gap the file exists to close.
+for field in ("by", "at", "reason"):
+    record = {"by": "contributor", "at": "2026-10-18", "reason": "why"}
+    record.pop(field)
+    assert any("no %r" % field in p
+               for p in catalog_core.validate_hand_added(
+                   {"added": {"example.com": record}}, HOSTS)), field
+
+# The host must already be in the seeds; this file only records who added it.
+assert any("not in seeds/categories.json" in p
+           for p in catalog_core.validate_hand_added(
+               {"added": {"elsewhere.net": {"by": "a", "at": "2026-10-18", "reason": "r"}}},
+               HOSTS))
+
+# A date that is not a date, and an unknown field, are both refused.
+assert any("invalid 'at' date" in p
+           for p in catalog_core.validate_hand_added(
+               {"added": {"example.com": {"by": "a", "at": "yesterday", "reason": "r"}}}, HOSTS))
+assert any("unknown field" in p
+           for p in catalog_core.validate_hand_added(
+               {"added": {"example.com": {"by": "a", "at": "2026-10-18", "reason": "r",
+                                          "extra": 1}}}, HOSTS))
+
+# The committed file itself must be clean.
+import json
+with open("seeds/hand-added.json", encoding="utf-8") as handle:
+    committed = json.load(handle)
+with open("seeds/categories.json", encoding="utf-8") as handle:
+    real = set(json.load(handle))
+assert catalog_core.validate_hand_added(committed, real) == [], "committed hand-added.json is invalid"
+
+print("  ✓ by/at/reason all required; host must be in seeds; date and extra fields checked")
 PY
 
 if [ "$FAST" -eq 0 ]; then

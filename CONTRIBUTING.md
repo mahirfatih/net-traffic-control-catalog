@@ -10,12 +10,27 @@ nobody can tell it was never checked.
 # 1. hand-edit the seed — this is the normal path for a few hosts
 $EDITOR seeds/categories.json
 
-# 2. regenerate and check
+# 2. record who/when/why, so a wrong label can be traced to a person
+$EDITOR seeds/hand-added.json
+
+# 3. regenerate and check
 ./test/test.sh
 ```
 
 `catalog.json` is build output. Never edit it by hand; the next `generate.py`
 run overwrites the edit.
+
+When you add a host by hand, add a line to `seeds/hand-added.json` too:
+
+```json
+{ "example.com": { "by": "your-handle", "at": "2026-10-18", "reason": "why it belongs" } }
+```
+
+`by`, `at` and `reason` are all required, and the host must already be in
+`seeds/categories.json` — this file records *who added it*, it is not a second
+list. `check-hand-added.py` (run by `test.sh` and `check-docs-fresh.mjs`) fails
+the build otherwise. An override's `reason` is mandatory for the same reason: a
+decision nobody can explain is indistinguishable from a mistake.
 
 `generate.py --check` asks the same question without git — it rebuilds from the
 seeds and compares the result with the committed `catalog.json`, writing nothing
@@ -93,9 +108,14 @@ answered with a certificate failure, a timeout, or a resolver miss is printed
 for review but **never** proposed — that says this network could not reach it,
 not that it is empty. By default only a **parked** host is proposed;
 `--aggressive` also adds hosts that answered with no page (an empty 200, a
-404/5xx, a refusal), which are common on live infrastructure — `adnxs.com` and
-`3dsecure.akbank.com.tr` both answer with nothing and both belong here — so read
-the proposal before applying it.
+404/5xx, a refusal), which are common on live infrastructure — so read the
+proposal before applying it.
+
+Infrastructure that answers with nothing on purpose (`adnxs.com`, an ad network;
+`3dsecure.akbank.com.tr`, a bank's 3-D Secure endpoint) is kept on an
+`INFRASTRUCTURE_ALLOWLIST` and is **never** proposed, even under `--aggressive`.
+A real endpoint that serves no human-facing page is not a dead site. Extend the
+allowlist from a proposal a person read, never by guessing.
 
 **It resolves and serves a page, but may have changed hands** — a lapsed name
 re-registered by someone else inherits the previous owner's category. Check the
@@ -127,7 +147,9 @@ python3 scripts/sources/merge.py evidence/harvested-categories.json
 
 The pipeline is fetch → parse → drop what the catalog already covers → apply
 `rules.json` → report what is left. Read
-[`docs/SOURCES.md`](docs/SOURCES.md) before adding a source.
+[`docs/SOURCES.md`](docs/SOURCES.md) before adding a source. The three doors a
+host can enter through — and what sets its category — are in
+[`docs/INGEST.md`](docs/INGEST.md).
 
 What `harvest.py` will not do, on purpose:
 

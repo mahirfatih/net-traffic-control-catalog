@@ -125,6 +125,15 @@
       "allowed": true,
       "format": "plain",
       "note": "Banking and financial-service HTTPS-exclusion hosts. No LICENSE file is published for this repository; accepted under the no-license source policy. Categories are assigned by rules only."
+    },
+    {
+      "id": "turkish-public-directories",
+      "name": "Turkish public directories (TBB, e-Şehir, AG Çevre, CCIFT, YÖK)",
+      "url": "https://www.tbb.gov.tr/tr/il-belediyeleri",
+      "license": "unstated (public-sector directories)",
+      "allowed": true,
+      "harvest": false,
+      "note": "Curated municipality, government and university directory pages whose names sit under closed .bel.tr / .gov.tr / .edu.tr suffixes. A separate script, scripts/sources/harvest-public-institutions.py, imports them, so this record sets harvest:false and harvest.py skips it. No licence is published for these pages; they are treated as allowed because they are factual public-sector listings rather than a licensed dataset, and the importer keeps only the closed-suffix names."
     }
   ]
 }

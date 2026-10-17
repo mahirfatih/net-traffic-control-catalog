@@ -5,6 +5,8 @@ Build and validate the catalog. `generate.py` writes `catalog.json` from the
 vocabulary, `build-catalog-docs.py` writes `docs/CATALOG.md` and the generated
 blocks in `README.md` and its translation `README.tr.md`, `check-overlaps.py`
 checks for category distribution and redundant domain overlaps,
+`check-hand-added.py` validates `seeds/hand-added.json` — the who/when/why a
+person records for a host they added by hand,
 `overrides.py` manages the per-host category overrides in `rules.json`,
 `probe-dead.py` finds catalog hosts that no longer resolve in DNS, and
 `verify-registrations.py` checks that a host is still registered to the same

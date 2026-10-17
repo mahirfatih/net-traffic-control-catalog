@@ -7,11 +7,13 @@
 The harvest pipeline can prove that a source row matched a rule, but it cannot
 prove that the row is a good catalog claim. This script keeps the source-level
 checks that should survive future imports: no same-category redundant
-subdomains, no known false-positive hosts from broad sources, and a reviewable
-report for weakly signalled finance names.
+subdomains, no known false-positive hosts from broad sources, a reviewable
+report for weakly signalled finance names, and a warning when one source owns
+more than 40% of a category. See also `scripts/catalog/build-coverage.py`, which
+writes the same concentration picture into `docs/COVERAGE.md`.
 """
 import argparse
-from collections import Counter
+from collections import Counter, defaultdict
 import importlib.util
 import json
 import os
@@ -93,6 +95,53 @@ def audit_source(source_id, categories, summary):
     return problems, warnings
 
 
+# A category that takes more than this share of its rows from one harvest source
+# inherits that source's blind spots wholesale. The check warns; it does not fail,
+# because a founding list legitimately owns a category on day one.
+CONCENTRATION_WARN = 0.40
+
+# Known, accepted single-source dependencies, so the warning stays about *new*
+# ones. Keyed (category, source).
+EXPECTED_CONCENTRATION = {
+    ("finance", "adguard-https-exclusions-banks"): "the founding bank list",
+}
+
+
+def audit_concentration(categories, summary):
+    """Warn when one harvest source owns more than 40% of a category.
+
+    Counts only rows that are still in the catalog under the category they were
+    harvested as — a harvested row that was later dropped is not part of the
+    category any more. The report prints every category above the threshold; the
+    warning list holds only the ones that are not already known and accepted.
+    """
+    totals = Counter(categories.values())
+    by_category = defaultdict(Counter)
+    for row in summary.get("categorized", []):
+        if categories.get(row.get("host")) == row.get("category"):
+            by_category[row["category"]][row["source"]] += 1
+
+    warnings = []
+    print("\n=== Category source concentration ===")
+    for category, total in sorted(totals.items()):
+        top = by_category.get(category, Counter()).most_common(1)
+        if not top:
+            continue
+        source, count = top[0]
+        share = count / total
+        if share <= CONCENTRATION_WARN:
+            continue
+        known = EXPECTED_CONCENTRATION.get((category, source))
+        print(f"  {category}: {count}/{total} ({share:.0%}) from {source}"
+              + (f" — known: {known}" if known else " — NEW"))
+        if not known:
+            warnings.append(
+                f"{category}: {share:.0%} of the category comes from a single source "
+                f"{source!r}; make sure it is not one list's blind spot"
+            )
+    return warnings
+
+
 def main(argv):
     parser = argparse.ArgumentParser(description="Audit source import quality guardrails.")
     parser.add_argument("--source", action="append", choices=sorted(SOURCE_POLICIES), help="source id; repeatable")
@@ -108,6 +157,8 @@ def main(argv):
         problems, warnings = audit_source(source_id, categories, summary)
         all_problems.extend(problems)
         all_warnings.extend(warnings)
+
+    all_warnings.extend(audit_concentration(categories, summary))
 
     if all_warnings:
         print("\nWarnings:")

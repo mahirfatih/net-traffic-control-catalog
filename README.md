@@ -17,10 +17,12 @@ Sites screens group and label domains correctly.
 
 ## Contents
 
-- **6,731 categories** — `host → category`.
+- **6,731 hosts** — `host → category`.
 - **22 services** — `product → hosts`.
 
-See [`docs/CATALOG.md`](docs/CATALOG.md) for the breakdown by category.
+See [`docs/CATALOG.md`](docs/CATALOG.md) for the breakdown by category, and
+[`docs/COVERAGE.md`](docs/COVERAGE.md) for how much of it the analysis can
+actually read — and which source carries which category.
 
 ## What is in it
 
@@ -95,6 +97,10 @@ classDef c_maps fill:#338CD9,stroke:#0D59A8,color:#FFFFFF,fill-opacity:1
 Regenerate it with `scripts/catalog/build-catalog-docs.py`, which writes these
 blocks from `catalog.json`.
 
+Two different `other`s appear on this page, and they are not the same number: the
+treemap's `other` is the literal `other` category (14 hosts), while the pie's
+`other (19 smaller)` is the 19 smallest categories folded together (733 hosts).
+
 As a share of the whole, with the long tail folded into `other`:
 
 <!-- category-pie:start -->
@@ -124,17 +130,27 @@ removed name cannot quietly come back.
 
 ```mermaid
 flowchart TD
-    A["A domain arrives from a trusted list"] --> B{"Is it still online?"}
-    B -->|"No"| R["Remove it"]
-    B -->|"Yes"| C{"Is it still the same owner?"}
-    C -->|"No, it changed hands"| R
-    C -->|"Yes"| D{"Does it still show a real page?"}
-    D -->|"No, it is parked or empty"| R
-    D -->|"Yes"| K["Keep it"]
-    K --> E["Give it a category"]
+    A["A domain arrives from a trusted list"] --> B{"Is it still online?<br/>(DNS sweep — two rounds)"}
+    B -->|"no"| J{"Do all three checks agree,<br/>in two rounds?"}
+    B -->|"yes"| C{"Is it still the same owner?<br/>(registration sweep)"}
+    C -->|"no, it changed hands"| J
+    C -->|"yes"| D{"Does it still serve a real page?<br/>(live sweep — parked is gone)"}
+    D -->|"no, it is parked or empty"| J
+    D -->|"yes"| K["Keep it"]
+    J -->|"yes"| R["Remove it — logged in rules.json → drop.hosts"]
+    J -->|"no, unsure — a single signal never removes"| K
+    K --> M{"Does a rule match it?"}
+    M -->|"no"| N["List it in NEEDS-REVIEW.md — no label"]
+    M -->|"yes"| E["Give it its category"]
     E --> F["Ship the list to the app"]
     K -.-> G["Read its page — only to check the category fits"]
 ```
+
+The three checks are **independent** and the gate is an **intersection**: a
+host is proposed only when every check, in two rounds, agrees it should go.
+By default the live sweep proposes only `parked` — an empty 200 or a 404 is
+common on live infrastructure (`adnxs.com`, `3dsecure.akbank.com.tr`). Full
+method, every verdict and the guardrails: [`docs/PIPELINE.md`](docs/PIPELINE.md).
 
 Two things are easy to confuse, so they are kept apart:
 
@@ -144,30 +160,46 @@ Two things are easy to confuse, so they are kept apart:
 - **Reading the page is only a check.** It measures whether a category matches
   the page; it never writes the list. A low score means a label disagrees with
   its page, not that the label is wrong.
+- **Not every host came from a list.** A host enters through one of three doors —
+  a source, the public-institution harvester, or a person's hand — and nothing
+  names the last two. [`docs/FOUNDING.md`](docs/FOUNDING.md) accounts for the
+  hosts that came from neither a rule nor a source.
 
 The three checks in the middle are the subject of the next section. The tools
 behind them are [`probe-dead.py`](scripts/catalog/probe-dead.py),
 [`verify-registrations.py`](scripts/catalog/verify-registrations.py) and
 [`sweep-live.py`](scripts/analysis/sweep-live.py).
 
-Full detail — the nine DNS questions, every verdict, and the guardrails behind
-them — is in [`docs/PIPELINE.md`](docs/PIPELINE.md).
+How a category is decided — the three doors a host can arrive through — is in
+[`docs/INGEST.md`](docs/INGEST.md). The removal machinery — the nine DNS
+questions, every verdict, and the guardrails behind them — is in
+[`docs/PIPELINE.md`](docs/PIPELINE.md); how often each sweep should run is in
+[`docs/SCHEDULE.md`](docs/SCHEDULE.md).
 
-## How it is verified
+## How presence is verified
+
+This verifies that a host is still **there** — online, still the same owner,
+still serving a page. It does **not** verify that its *category* is correct.
+That is a separate question, and it is answered by the
+[Catalog Consistency Analysis](#catalog-consistency-analysis) below, not here.
 
 A host is removed only when independent sweeps agree it is gone, and each host
 is probed in two rounds before anything is removed. The DNS sweep below asks
-three resolvers directly about `A`, `AAAA` and `NS` — nine questions — in two
-rounds ten minutes apart, and only a host that answers `NXDOMAIN` to all nine in
-both rounds is called dead. The browser sweep (agent-browser + Lightpanda)
-checks what a host still serves, and the registration sweep checks RDAP/WHOIS/IP
-to catch a name that changed hands.
+**Cloudflare**, **Google** and **AdGuard** (its *unfiltered* endpoint — the default
+one answers blocked ad and tracker names with `0.0.0.0`, so measuring through it
+would be measuring its own blocklist) directly about `A`, `AAAA` and `NS` — nine
+questions — in two rounds ten minutes apart, and only a host that answers `NXDOMAIN`
+to all nine in both rounds is called dead. When every resolver says `SERVFAIL`
+the sweep asks once more with checking disabled, so a DNSSEC validation failure is
+not mistaken for a delegation that never worked. The browser sweep
+(agent-browser + Lightpanda) checks what a host still serves, and the registration
+sweep checks RDAP/WHOIS/IP to catch a name that changed hands.
 
 <!-- verification-status:start -->
 
 ```mermaid
 xychart-beta
-    title "Dead-domain sweep — verdicts (last round)"
+    title "Dead-domain sweep — verdicts (last round, 6,745 probed)"
     x-axis [alive, nodata, servfail, dead, unknown]
     y-axis "hosts" 0 --> 6419
     bar [6419, 37, 269, 4, 16]
@@ -175,312 +207,29 @@ xychart-beta
 
 <!-- verification-status:end -->
 
-Full method, evidence and the removal policy: [`scripts/README.md`](scripts/README.md).
+The last round probes the sweep's own list, which still holds hosts already
+removed through `rules.json → drop.hosts` — so its total need not equal the
+catalog's. Full method, evidence and the removal policy:
+[`scripts/README.md`](scripts/README.md).
 
-## Format (v1)
+## Format and maintaining
 
-```json
-{
-  "version": 1,
-  "generated": "YYYY-MM-DD",
-  "categories": { "<host>": "<category>" },
-  "services": [
-    { "key": "<id>", "name": "<Display Name>", "domains": ["<host>", "..."] }
-  ]
-}
-```
+The file format — the schema, the matching rules, the vocabulary and the
+precedence order — is in [`docs/FORMAT.md`](docs/FORMAT.md). How to generate,
+add, correct and remove a host, and the discipline behind it, is in
+[`docs/MAINTAINING.md`](docs/MAINTAINING.md).
 
-### Fields
-
-| Field | Type | Meaning |
-| :--- | :--- | :--- |
-| `version` | integer | Format version. Bumped only on a breaking change. |
-| `generated` | string | Date the file was produced. Informational. |
-| `categories` | object | `host → category` (a name from the vocabulary below). |
-| `services` | array | One object per product; see below. |
-| `services[].key` | string | Stable id the app may cache by. **Never renumber or reuse.** |
-| `services[].name` | string | Display name (a product, not a company). |
-| `services[].domains` | array | The hosts that belong to this product. |
-
-### Matching
-
-- A `categories` host matches itself **and every subdomain** — `facebook.com`
-  covers `*.facebook.com`, so listing the registrable domain is enough.
-- A `services` domain matches the same way — `microsoft.com` already covers
-  `teams.microsoft.com`, and you do not list it again.
-- Matching is case-insensitive.
-
-## Categories
-
-The vocabulary the app understands. A name outside this list is **ignored**.
-
-```
-analytics, ads, social, messaging, cdn, crash, video, music, gaming, shopping,
-search, news, email, encyclopedia, software, ai, finance, government, health,
-transport, telecom, travel, education, sports, crypto, dating, maps, adult,
-gambling, other
-```
-
-`ipAddress` is also a category, but it is **not** a hostname category — it is what
-the app files a literal address under, so it does not belong in this file.
-
-## Services
-
-One entry per **product**, not per company: **Facebook**, **Instagram**,
-**WhatsApp** and **Threads** are separate entries on purpose. The app groups by the
-product a domain belongs to, because a DNS filter sees domains, not apps — and a
-product is what a person recognizes.
-
-Example:
-
-```json
-{ "key": "twitter", "name": "Twitter / X",
-  "domains": ["twitter.com", "x.com", "t.co", "twimg.com", "twttr.com"] }
-```
-
-A **role** (`api.`, `vpn.`, `dns.`) is *not* a service and does not belong here —
-the app derives roles from the hostname and shows them as badges, so a role never
-splits a product across groups.
-
-## Precedence in the app
-
-```
-user correction  >  imported / remote data (this file)  >  bundled catalog
-                 >  public-suffix rules  >  institutional label  >  name patterns
-                 >  "other"
-```
-
-The **institutional-label** rule is the one between the suffix rules and the
-patterns: it reads the label in front of a real country-code domain and calls
-`ox.ac.uk` a university and `tokyo.lg.jp` a prefecture. It is a rule, not
-content, so it lives in the app — but it sits in the chain, and a name that has
-no row anywhere is decided by it before `"other"`.
-
-A **user correction** outranks everything, including this file: the user looked
-at the name and said otherwise, and the app treats that as a label, not a rule.
-
-## Validation
-
-- The app **tests a URL before adding it**: it fetches the file and runs the same
-  validation the store uses, then reports **Valid · N entries** or the exact reason
-  (not JSON, bad schema, empty, too large, 404, 5xx, no network).
-- A failed or invalid download **never replaces the last working data**.
-
-## Raw URL
+The catalog is served raw from:
 
 ```
 https://raw.githubusercontent.com/mahirfatih/net-traffic-control-catalog/main/catalog.json
 ```
 
-## Generating
-
-`seeds/` is the source of truth (see [`scripts/`](scripts/README.md)); `catalog.json`
-is the build output. Regenerate and validate:
-
-```sh
-python3 scripts/catalog/generate.py \
-    --categories seeds/categories.json \
-    --services   seeds/services.json \
-    --out        catalog.json
-python3 scripts/catalog/validate.py
-```
-
-Do not edit `catalog.json` by hand — edit `seeds/` instead.
-
-To check the committed output is current without writing anything, use `--check`:
-`generate.py --check` rebuilds from the seeds and compares with `catalog.json`,
-and `build-catalog-docs.py --check` does the same for `docs/CATALOG.md` and the
-marked README blocks. Neither needs git; `./test/test.sh` runs both.
-
-Run everything — registry, schema, build, validator, docs, licence gate — with:
-
-```sh
-./test/test.sh
-```
-
-### Harvesting from an external source
-
-An external list can tell you that a host exists. It cannot tell you what the
-host *is*, so it never assigns a category: `harvest.py` proposes hosts and
-`rules.json` (or a person) labels them.
-
-```sh
-python3 scripts/sources/harvest.py
-python3 scripts/sources/merge.py evidence/harvested-categories.json --dry-run
-python3 scripts/sources/merge.py evidence/harvested-categories.json
-```
-
-For broad imports, run the durable source audits before committing:
-
-```sh
-python3 scripts/sources/audit-source-import.py
-python3 scripts/sources/review-source-live.py --source adguard-https-exclusions-banks --only weak --limit 200
-```
-
-`audit-source-import.py` is offline and runs in the test suite. It catches known
-false positives and redundant same-category rows. `review-source-live.py` uses
-DNS/HTTP and writes evidence under `evidence/`; use it for spot-checking weak or
-new source rows. Source-specific review policies live in
-`scripts/sources/source-policies.py`; add new broad-source policies there, then
-move confirmed mistakes to `rules.json` → `drop.hosts`.
-
-### Correcting one host by hand
-
-A category that is wrong for a single host is a human decision, not a rule. Put
-it in `rules.json` → `drop.override`, which **beats every rule and every source**:
-
-```sh
-python3 scripts/catalog/overrides.py set example.com shopping --reason "sells goods, not a bank"
-python3 scripts/catalog/overrides.py list
-python3 scripts/catalog/overrides.py remove example.com
-python3 scripts/catalog/generate.py --categories seeds/categories.json --services seeds/services.json --out catalog.json
-```
-
-Precedence is fixed and enforced by code: **`override` > `rules` > harvested
-source**. `generate.py` applies overrides last, `merge.py` never overwrites an
-overridden host, and the audits treat an override as deliberate. Every override
-needs a `reason`; `scripts/catalog/overrides.py check` (run by the test suite)
-refuses one without it, one outside the vocabulary, or one that is also in
-`drop.hosts`.
-
-### Removing a host that no longer exists
-
-A domain that stops resolving is not harmless dead weight: it can be bought by
-somebody else and keep the category the previous owner had. Removing one is a
-correctness fix. The hard part is that *unreachable* and *dead* look identical
-from inside this network — a firewall that drops NXDOMAIN-only names, a captive
-portal and a lapsed domain all answer the same way. Nearly all of the AdGuard
-banks look unreachable from here, and 181 real banks were almost dropped on
-that evidence.
-
-So `scripts/catalog/probe-dead.py` asks the resolvers directly and reads the
-response code they return, which settles it:
-
-```sh
-python3 scripts/catalog/probe-dead.py --self-test
-python3 scripts/catalog/probe-dead.py --round 1     # ~11 minutes, 6,731 hosts
-python3 scripts/catalog/probe-dead.py --round 2     # 10 minutes later, minimum enforced
-python3 scripts/catalog/probe-dead.py --summary
-```
-
-Cloudflare, Google and AdGuard are each asked about A, AAAA and NS, so a host
-has nine chances to prove it is alive and has to fail all nine to be called
-dead — in **both** rounds. Round 2 refuses to run until the minimum gap has
-passed, because a resolver outage is a snapshot the same way a dead name is.
-
-The summary prints a **proposal**. It is not a deletion: applying it means adding
-the host to `rules.json` → `drop.hosts` with a reason that cites the evidence.
-Two verdicts are never proposed for removal, by design:
-
-- **`nodata`** — `NOERROR` with no address record. The name exists; a mail-only
-  domain looks exactly like this.
-- **`servfail`** — every resolver says the zone is broken. Usually a lapsed
-  registration, so it is reported under "Worth a look", but a broken zone is not
-  proof of anything.
-
-The script is deliberately absent from `test/test.sh`: it needs the network, and
-CI must never depend on a network to tell a real bank it is dead. See
-`docs/SOURCES.md` for the full workflow.
-
-### Removing a host that still resolves but serves nothing
-
-DNS is not the whole story: a name can keep resolving after its site has gone.
-`scripts/analysis/sweep-live.py` visits every host with a real browser
-([agent-browser](https://github.com/vercel-labs/agent-browser) driving
-[Lightpanda](https://lightpanda.io) with `--engine lightpanda`) and proposes the
-hosts that answer with nothing — a parked page, an empty shell, a 404:
-
-```sh
-python3 scripts/analysis/sweep-live.py --self-test
-python3 scripts/analysis/sweep-live.py --round 1 --aggressive
-python3 scripts/analysis/sweep-live.py --round 2 --aggressive
-python3 scripts/analysis/sweep-live.py --summary --aggressive   # proposal only
-python3 scripts/analysis/sweep-live.py --apply --aggressive     # only after you read it
-```
-
-Two rounds must agree, the proposal is cross-checked against the DNS sweep above,
-and a failure is only believed after a canary proves the browser still works —
-because a long sweep is far more likely to lose its engine than to meet thousands
-of dead hosts. A host that answered with a certificate failure or a timeout is
-reported for review, never proposed: that says this network could not reach it,
-not that the host is empty. By default only a **parked** host is proposed;
-`--aggressive` widens that to hosts that answered with no page at all, which is
-common on live infrastructure — `adnxs.com` and `3dsecure.akbank.com.tr` both
-answer with nothing and both belong in a DNS-filter catalog — so the proposal is
-meant to be read, not applied blind. The script needs the network and a
-`lightpanda` binary, so it stays out of `test/test.sh`, like the DNS sweep.
-Method and tools: [`scripts/analysis/`](scripts/analysis/README.md).
-
-### Verifying a host is still the same owner
-
-DNS and a browser can both say a name is "alive" while it has changed hands: a
-lapsed domain is re-registered by someone else and inherits the previous owner's
-category. `scripts/catalog/verify-registrations.py` checks the registration
-itself:
-
-1. **RDAP** for the domain (IANA bootstrap + verified cc supplement + convention
-   probing).
-2. **Port-43 WHOIS** fallback for registries with no RDAP (DENIC `.de`,
-   TRABIS `.tr`, and anything IANA refers to).
-3. **IP RDAP** for the host's address block (ARIN/RIPE/...), so the network
-   owner is on record.
-4. **traceroute** as a bounded reachability diagnostic (unprivileged on macOS).
-
-```sh
-python3 scripts/catalog/verify-registrations.py --self-test
-python3 scripts/catalog/verify-registrations.py --round 1
-python3 scripts/catalog/verify-registrations.py --round 2     # 10 minutes later
-python3 scripts/catalog/verify-registrations.py --summary
-```
-
-The same discipline applies: a canary before the run, two rounds that must agree,
-and a host is only proposed on a strong signal (`gone`, `expired`). Unknown and
-unsupported TLDs are reported, never deleted. Reference data:
-[`reference/rdap/`](reference/rdap/README.md). Method and tools:
-[`scripts/catalog/`](scripts/catalog/README.md).
-
-Rules for a generator:
-
-- **Output must use our vocabulary** (see above). An unknown category is not
-  reported by the app — it is silently ignored, so `validate.py` fails the
-  build instead.
-- **`key` must stay stable.** The app may cache by it; changing a key re-labels data.
-- **Deterministic output** (sorted keys) so diffs stay reviewable.
-- **Only permitted sources**, enforced in code rather than by convention: every
-  source lives in [`sources.json`](sources.json) with its licence, and
-  [`scripts/sources/sources.py`](scripts/sources/sources.py) refuses a non-commercial or
-  share-alike licence *before* fetching it. See
-  [`docs/SOURCES.md`](docs/SOURCES.md) for the reasoning, and
-  [`SECURITY.md`](SECURITY.md) for why it is a gate rather than a note.
-
-## Contributing
-
-- Add entries by hand, or with a generator.
-- Every entry should be **traceable to a source** — a wrong label is worse than no
-  label, because it looks authoritative.
-- Category names must be from the vocabulary; anything else is ignored by the app.
-- Keep `services` at the **product** level (Facebook, Instagram, WhatsApp are
-  separate), not the parent company.
-- Keep the file sorted by host so diffs stay small.
-- **Do not commit NonCommercial or share-alike data.** `NC` forbids use in a
-  commercial app and `SA` would stop the derivative being CC0 — the two terms in
-  `CC BY-NC-SA 4.0`. This is no longer a convention:
-  [`sources.json`](sources.json) records the licence of every source and
-  [`scripts/sources/sources.py`](scripts/sources/sources.py) refuses the blocked ones before
-  fetching, and `./test/test.sh` fails if a record claims otherwise.
-
-Full guide: [`CONTRIBUTING.md`](CONTRIBUTING.md).
-
-## Versioning
-
-- The app reads `version`; it accepts the versions it knows and ignores the rest.
-- Unknown fields and unknown category names are ignored, never fatal.
-- `version` is bumped only on a breaking format change.
-
 ## Catalog Consistency Analysis
 
-A one-off analysis ([`scripts/analysis/`](scripts/analysis/), results in
-[`docs/analysis/`](docs/analysis/)) fetches homepage text for catalog hosts,
+The catalog's only quantitative quality signal, rebuilt with each release
+([`scripts/analysis/`](scripts/analysis/), results in
+[`docs/analysis/`](docs/analysis/)): it fetches homepage text for catalog hosts,
 compares nine text classifiers — eight on TF-IDF features and one on
 multilingual sentence embeddings — keeps LinearSVC as the audit witness, and
 renders a confusion matrix showing how consistently our labels agree with what a
@@ -490,8 +239,9 @@ text model can recover.
 
 **Accuracy: 89%** (4,054/4,563, 27 classes, 3-fold CV) — **balanced accuracy
 61%**. `finance` is 53% of the catalog, so the two numbers differ by 28 points
-and the second is the meaningful one: roughly two of every five labels cannot
-be recovered from page text, which accuracy hides.
+and the second is the meaningful one: it is the mean per-class recall, so on
+average about two in five *per-category* recognitions are lost when the model
+meets a category it rarely sees — a cost accuracy hides.
 
 This measures *self-consistency*, not correctness — it shows whether our labels
 are predictable from page content. High diagonal = our labels are predictable
@@ -509,7 +259,7 @@ multilingual sentence embeddings — and LinearSVC is kept as the audit witness:
 | LinearSVC | 0.888 | 0.605 | 0.592 | 0.890 |
 | SGDClassifier | 0.889 | 0.584 | 0.589 | 0.889 |
 | LogisticRegression | 0.865 | 0.580 | 0.557 | 0.874 |
-| RandomForestClassifier | 0.821 | 0.523 | 0.506 | 0.839 |
+| RandomForestClassifier | 0.821 | 0.523 | 0.506 | 0.840 |
 | KNeighborsClassifier | 0.856 | 0.444 | 0.513 | 0.839 |
 | DecisionTreeClassifier | 0.797 | 0.395 | 0.391 | 0.800 |
 | MultinomialNB | 0.603 | 0.164 | 0.165 | 0.649 |
@@ -525,27 +275,32 @@ maps Turkish, German, Korean and Chinese pages into one space, so it recovers
 the small, non-English categories that bag-of-words keeps apart.
 
 - **Highest F1:** `government` 0.97, `finance` 0.96, `education` 0.91, `news`
-  0.85, `email` 0.79. These categories have strong, distinctive page signals.
+  0.85 — strong, distinctive page signals. (`email` also scores 0.79, but on only
+  19 hosts, so it stays out of this list; see below.)
 - **Lowest F1:** `crypto` 0.29, `encyclopedia` 0.31, `cdn` 0.35, `music` 0.40,
   `social` 0.40, `video` 0.41 — some of these are infrastructure (page text is
   meaningless or ambiguous). Correlated terms and model-weight terms reveal
   potential miscategorizations.
 - **Thin evidence:** eight categories have under 20 examples, so their F1 is
   indicative rather than measured — `maps` 3, `sports` 7, `music` 8, `crypto` 8,
-  `other` 10, `crash` 11, `telecom` 11, `email` 19. This is why the matrix is
-  3-fold, not 5.
+  `other` 10, `crash` 11, `telecom` 11, `email` 19. `email`'s 0.79 would look
+  "highest" only by ignoring how thin it is, which is why it is kept off the
+  list above. This is why the matrix is 3-fold, not 5.
 - **Coverage is 68%, and unevenly spread:** 4,563 of 6,731 hosts yield usable
   page text. The failures cluster in canvas/JS-heavy categories — `gaming` is
   measured on 69 hosts of 358 (19%), `software` 168 of 476 (35%) — while
   static ones do well (`government` 87%, `news` 89%). Every per-class score
   describes the hosts that produced text, not the category. Full table in
   [`docs/analysis/README.md`](docs/analysis/README.md).
-- **High-confidence errors:** 5 hosts — `guven.com.tr` (`finance` → `health`,
-  87%), `display.ugc.bazaarvoice.com` (`software` → `finance`, 83%), `iqiyi.com`
-  (`video` → `finance`, 83%), `googlesyndication.com` (`ads` → `search`, 77%)
-  and `ilbank.gov.tr` (`finance` → `government`, 71%). Two are `finance` — the
-  label the model both falls back to and drifts from — and the rest are
-  infrastructure or cross-language pages with no distinctive text of their own.
+- **High-confidence errors:** 69 hosts — the model is ≥70% sure and the label
+  disagrees. The list is computed out of fold, like the matrix; the five it
+  listed before (`guven.com.tr` `finance` → `health` 85%,
+  `display.ugc.bazaarvoice.com` `software` → `finance` 82%, `iqiyi.com`
+  `video` → `finance` 82%, `googlesyndication.com` `ads` → `search` 83%,
+  `ilbank.gov.tr` `finance` → `government` 87%) are still there, joined by the
+  hosts the in-sample probabilities had hidden. 57 of the 69 predict `finance`
+  — the label is 53% of the catalog and the model's fallback. Full list in
+  [`docs/analysis/out/high-confidence-errors.md`](docs/analysis/out/high-confidence-errors.md).
 
 See [`docs/analysis/README.md`](docs/analysis/README.md) for full methodology,
 per-class metrics, correlated terms (chi-squared + LinearSVC weights), and the

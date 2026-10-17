@@ -29,7 +29,7 @@ failure. `./test/test.sh --fast` runs the same list minus step 11.
 | 6 | `catalog.json` is what the seeds say it is | the built file differing from the seeds it was built from |
 | 7 | Regenerate the documentation and confirm it is current | a document that changed when regenerated — i.e. edited by hand |
 | 7b | The document writer is deterministic (`build-catalog-docs.py --check`) | a writer that renders the same input two different ways; exercises `--check` on the just-written files |
-| 8 | Documentation describes the files that exist | broken links, renamed scripts, stale counts, a licence verdict that contradicts itself, a removal that undid itself, a sweep that no longer covers the catalog, a category treemap that disagrees with `catalog.json`, a Turkish README whose blocks diverged from the English one (see the nineteen sub-checks below) |
+| 8 | Documentation describes the files that exist | broken links, renamed scripts, stale counts, a licence verdict that contradicts itself, a removal that undid itself, a sweep that no longer covers the catalog, a category treemap that disagrees with `catalog.json`, a stale seeds-provenance file, a stale review backlog, a Turkish README whose blocks diverged from the English one (see the twenty-one sub-checks below) |
 | 9 | The licence gate refuses, whatever the registry happens to list | `NC` and `SA` licences refused even when a record claims `allowed` — tested against synthetic records, so it does not depend on a blocked source being present |
 | 10 | A malformed host is refused, a valid one accepted | 11 malformed names (`*.example.com`, `exa mple.com`, `exämple.com`, `example.com.`…) the app could never match |
 | 10.5 | Catalog overlap and distribution check | one host claimed by two categories, an implausible category split |
@@ -41,9 +41,9 @@ failure. `./test/test.sh --fast` runs the same list minus step 11.
 | 10.11 | A registration sweep keeps what it cannot prove | an RDAP record parsed wrong, a gone/expired/registered/recently-registered decision flipped, an `inactive`/`clientHold` name called gone, a DNS-resolving host called gone, an HTML 404 mistaken for an RDAP negative, a DENIC/TRABIS whois verdict misread, a candidate that is not the intersection of both rounds |
 | 11 | Every script compiles | a script that no longer parses (**skipped by `--fast`**) |
 
-### Step 8 runs nineteen sub-checks
+### Step 8 runs twenty-one sub-checks
 
-`node scripts/checks/check-docs-fresh.mjs` is one step but nineteen checks, run in
+`node scripts/checks/check-docs-fresh.mjs` is one step but twenty-one checks, run in
 this order:
 
 1. `checkLinks` — every relative link in the docs points at a file that exists.
@@ -64,7 +64,9 @@ this order:
 16. `checkCategoryPie` — the README pie's slices, folded tail and colours match `catalog.json` and `reference/category-colors.json`.
 17. `checkCatalogBadges` — the README badges' headline numbers match `catalog.json`.
 18. `checkVerificationStatus` — the README verification chart matches the DNS sweep's last round.
-19. `checkTurkishMirror` — `README.tr.md` exists and carries the same generated blocks as `README.md`, so the Turkish translation cannot drift from the English source.
+19. `checkTurkishMirror` — `README.tr.md` exists and carries the same generated blocks as `README.md`, and the same number of headings and diagrams, so the Turkish translation cannot drift from the English source.
+20. `checkSeedsProvenance` — `evidence/seeds-only.json` is current (`scripts/catalog/seeds-provenance.py --check`), and the counts `docs/INGEST.md` and `docs/FOUNDING.md` quote are the ones it holds.
+21. `checkPendingBacklog` — `evidence/pending-source-hosts.json` is current (`scripts/sources/pending.py --check`), and the counts `docs/NEEDS-REVIEW.md` quotes are the ones it holds.
 
 ## Why step 3 is where it is
 

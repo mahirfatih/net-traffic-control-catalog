@@ -189,6 +189,16 @@ def render_verification():
     present = [(k, counts.get(k, 0)) for k in order if k in counts]
     if not present:
         return None
+    results = rounds[-1].get("results") or {}
+    probed = sum(v for _, v in present)
+    # The chart claims a total, so it has to add up to the round it is drawn from.
+    # A round whose verdicts do not cover every host it probed would leave the bar
+    # summing to the wrong number, and nothing would say so.
+    if results and probed != len(results):
+        raise SystemExit(
+            f"dead-domain sweep: the verdicts total {probed} but the last round "
+            f"records {len(results)} hosts — the chart would not add up"
+        )
     names = ", ".join(k for k, _ in present)
     values = ", ".join(str(v) for _, v in present)
     ceiling = max(v for _, v in present)
@@ -197,7 +207,7 @@ def render_verification():
         "",
         "```mermaid",
         "xychart-beta",
-        '    title "Dead-domain sweep — verdicts (last round)"',
+        f'    title "Dead-domain sweep — verdicts (last round, {probed:,} probed)"',
         f"    x-axis [{names}]",
         f'    y-axis "hosts" 0 --> {ceiling}',
         f"    bar [{values}]",

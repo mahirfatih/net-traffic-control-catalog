@@ -6,7 +6,9 @@ checked without re-downloading anything.
 Nothing here is hand-written. `scripts/sources/harvest.py`,
 `scripts/catalog/probe-dead.py`, `scripts/catalog/verify-registrations.py`,
 `scripts/analysis/sweep-live.py`,
-`scripts/analysis/classify-unmeasured.py` and
+`scripts/analysis/classify-unmeasured.py`,
+`scripts/catalog/seeds-provenance.py`,
+`scripts/sources/pending.py` and
 `scripts/sources/review-source-live.py` each write their own files.
 
 | File | What it is |
@@ -18,6 +20,8 @@ Nothing here is hand-written. `scripts/sources/harvest.py`,
 | `live-sweep.json` / `.md` | The browser sweep's per-host verdicts — the status, final URL, title and text length a real browser saw, and the proposal when two rounds agree. Written by `scripts/analysis/sweep-live.py`. |
 | `registration-verify.json` / `.md` | The registration-ownership sweep's per-host **verdict** (`"registered"`, `"gone"`, …), one per round, and the proposal when two rounds agree. The RDAP/WHOIS/IP-RDAP bodies behind a verdict are not kept — a verdict is what a review reads, and the raw records ran to tens of megabytes. Written by `scripts/catalog/verify-registrations.py`; re-run a round to see a host's record again. |
 | `unmeasured-hosts.json` / `.md` | Why each host the reliability audit could not measure was unmeasurable. Written by `scripts/analysis/classify-unmeasured.py`. |
+| `seeds-only.json` | The catalog's provenance: how many hosts a rule or a source accounts for, and the full list of those that came from **neither** — the hand-entered and public-institution founding layers. Written by `scripts/catalog/seeds-provenance.py`. |
+| `pending-source-hosts.json` | The review backlog: every source host no rule matched, recomputed offline from the caches here rather than from a live fetch. `harvest.py` prints this set on a run, but the run leaves no lasting record; this file does. Written by `scripts/sources/pending.py`. |
 | `adguard-https-exclusions-banks-live-review.json` / `.md` | DNS/HTTP evidence for one broad source import, for triage. Written by `scripts/sources/review-source-live.py`. |
 
 

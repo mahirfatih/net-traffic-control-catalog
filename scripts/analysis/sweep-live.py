@@ -134,6 +134,16 @@ STRONG_CANDIDATE = {"parked"}
 # answer a browser with nothing and still belong in a DNS-filter catalog, so
 # these are proposed only when a person reads the proposal and asks for them.
 WEAK_CANDIDATE = {"empty", "no-http"}
+# Infrastructure that answers a browser with nothing and still belongs here — the
+# hosts the comment above names. They are never proposed, not even under
+# `--aggressive`: a real endpoint that serves no human-facing page is not a dead
+# site, and the aggressive mode exists to catch the ones that are. Extend this
+# from a proposal a person read, never by guessing.
+INFRASTRUCTURE_ALLOWLIST = {
+    "adnxs.com",                  # ad network, no page by design
+    "3dsecure.akbank.com.tr",     # a bank's 3-D Secure endpoint
+    "api.pluto.tv",               # an app's API, not a site
+}
 # Never proposed automatically, whatever the mode: a certificate failure, a
 # timeout, a resolver miss on this network says *this environment could not
 # reach the host*, not that the host serves nothing. `youtube-nocookie.com` and
@@ -276,6 +286,18 @@ def host_decision(outcomes):
     return DECISION_NAMES.get(best, "error")
 
 
+def is_infrastructure(host):
+    """Is this host on the infrastructure allowlist — a real endpoint with no page?
+
+    Matched on the host itself or a parent, so `pixel.adnxs.com` is kept by
+    `adnxs.com`. Kept out of the proposal even under `--aggressive`.
+    """
+    return any(
+        host == entry or host.endswith("." + entry)
+        for entry in INFRASTRUCTURE_ALLOWLIST
+    )
+
+
 def is_candidate(decision, aggressive, include_flaky=False):
     """Is this decision a reason to propose removal?"""
     if decision in NEVER_CANDIDATE:
@@ -294,7 +316,8 @@ def round_candidates(round_entry, aggressive, include_flaky=False):
     return {
         host
         for host, result in round_entry.get("results", {}).items()
-        if is_candidate(result.get("decision"), aggressive, include_flaky)
+        if not is_infrastructure(host)
+        and is_candidate(result.get("decision"), aggressive, include_flaky)
     }
 
 

@@ -106,14 +106,20 @@ def load_categories(path=CATEGORIES):
         return json.load(handle)
 
 
-def doh_query(resolver_url, name, rrtype, timeout):
+def doh_query(resolver_url, name, rrtype, timeout, cd=False):
     """Return `(status, answer_count)`, or `(None, 0)` when the network failed.
 
     A `None` status means "this resolver did not answer", which is an unknown —
     never dead. Distinguishing that from a real rcode is the entire point of
     talking to a resolver directly.
+
+    `cd=True` sets the Checking Disabled flag, so DNSSEC validation is skipped:
+    the same question asked a second way, to tell a validation failure from a
+    delegation that never worked.
     """
     url = f"{resolver_url}?name={urllib.parse.quote(name)}&type={rrtype}"
+    if cd:
+        url += "&cd=1"
     request = urllib.request.Request(url, headers={"accept": "application/dns-json", "user-agent": USER_AGENT})
     for attempt in (0, 1):
         try:
@@ -176,10 +182,27 @@ def probe_one(host, timeout):
             status, count = doh_query(url, host, rrtype, timeout)
             statuses[resolver][rrtype] = status
             answers += count
+    decision = classify(statuses, answers)
+    cd = None
+    if decision == "servfail":
+        # SERVFAIL is two different failures wearing the same rcode: DNSSEC
+        # validation, or a lame delegation. One query with checking disabled
+        # tells them apart — a name that answers once validation is off was
+        # never "broken", it was just unvalidated. This does not change the
+        # verdict: SERVFAIL is still never proposed for removal.
+        checked = [
+            doh_query(url, host, "A", timeout, cd=True)[0]
+            for url in sorted(RESOLVERS.values())
+        ]
+        if any(s == 0 for s in checked):
+            cd = "dnssec"
+        elif checked and all(s == 2 for s in checked):
+            cd = "lame"
     return {
         "statuses": statuses,
         "answers": answers,
-        "decision": classify(statuses, answers),
+        "decision": decision,
+        "cd": cd,
     }
 
 

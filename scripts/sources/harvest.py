@@ -193,7 +193,10 @@ def main(argv):
     drop = rules.get("drop", {}).get("hosts", {})
     os.makedirs(EVIDENCE, exist_ok=True)
 
-    chosen = [s for s in registry.get("sources", []) if not args.source or s["id"] in args.source]
+    chosen = [
+        s for s in registry.get("sources", [])
+        if s.get("harvest", True) and (not args.source or s["id"] in args.source)
+    ]
     if args.source:
         missing = set(args.source) - {s["id"] for s in registry.get("sources", [])}
         if missing:

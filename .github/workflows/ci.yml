@@ -1,0 +1,27 @@
+name: checks
+
+# Every static check in one place, so a guarantee that only lives in
+# test/test.sh runs on every push and pull request instead of only when a
+# person remembers to run it.
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # seeds-provenance.py reads the first commit that wrote
+          # seeds/categories.json, so a shallow clone cannot reproduce it.
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # Node is preinstalled on the runner; check-docs-fresh.mjs needs it.
+      - name: Run the checks
+        run: ./test/test.sh
