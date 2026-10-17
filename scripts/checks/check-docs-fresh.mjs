@@ -662,6 +662,141 @@ function checkSweepEvidence() {
   );
 }
 
+/**
+ * 10. The live sweep's evidence must still describe this catalog.
+ *
+ * The DNS sweep asks whether a name exists; the live sweep asks whether it
+ * still serves a page, with a real browser (agent-browser + Lightpanda). Same
+ * staleness risk, so the same coverage rule applies: the sweep probes the
+ * seeds, so every seed host must appear in every complete round. Unlike the DNS
+ * sweep, applying the proposal is discretionary — a 404 finance endpoint may
+ * belong here anyway — so "a candidate is still in the catalog" is not a
+ * failure; only an *unexplained* departure is.
+ */
+function checkLiveSweepEvidence() {
+  const evidencePath = "evidence/live-sweep.json";
+  if (!existsSync(join(ROOT, evidencePath))) {
+    notes.push("no live sweep evidence — skipped the live coverage checks");
+    return;
+  }
+  const sweep = json(evidencePath);
+  const seeds = json("seeds/categories.json");
+  const drops = (json("rules.json").drop || {}).hosts || {};
+
+  const rounds = (sweep.rounds || [])
+    .filter((r) => r.complete && r.results)
+    .sort((a, b) => a.round - b.round);
+  if (rounds.length < 2) {
+    problems.push(
+      `${evidencePath}: ${rounds.length} complete round(s) with results — a host is only ` +
+        `proposed when two independent rounds agree, so at least two are required`
+    );
+    return;
+  }
+
+  // The evidence is only meaningful when it was the browser that produced it.
+  // A run that fell back to a plain fetch would report an empty shell for every
+  // modern page and call the catalog dead.
+  for (const round of rounds) {
+    if (round.engine !== "lightpanda") {
+      problems.push(
+        `${evidencePath}: round ${round.round} was produced by ` +
+          `engine ${JSON.stringify(round.engine)}, not lightpanda — rerun it`
+      );
+    }
+  }
+
+  // Coverage: the sweep probes the seeds, so a host added since the last sweep
+  // leaves the evidence unable to speak for the catalog.
+  const seedCount = Object.keys(seeds).length;
+  for (const round of rounds) {
+    const results = round.results;
+    const missing = Object.keys(seeds).filter((h) => !(h in results));
+    if (missing.length) {
+      problems.push(
+        `${evidencePath}: round ${round.round} covers ${Object.keys(results).length} host(s) ` +
+          `but seeds/categories.json has ${seedCount} — ${missing.length} never visited ` +
+          `(e.g. ${missing.slice(0, 3).join(", ")}) — rerun the sweep`
+      );
+    }
+    const sum = Object.values(round.counts || {}).reduce((a, b) => a + b, 0);
+    if (round.counts && sum !== Object.keys(results).length) {
+      problems.push(
+        `${evidencePath}: round ${round.round} counts add up to ${sum} but it has ` +
+          `${Object.keys(results).length} result(s) — the table in the report would lie`
+      );
+    }
+  }
+
+  // A host the sweep visited that the seeds no longer has was removed; the
+  // reason has to be on record or the removal cannot be explained later.
+  const probed = new Set(Object.keys(rounds[0].results));
+  const unrecorded = [...probed].filter((h) => !(h in seeds) && !(h in drops));
+  if (unrecorded.length) {
+    problems.push(
+      `${evidencePath}: ${unrecorded.length} host(s) left seeds/categories.json with no ` +
+        `rules.json → drop.hosts entry (e.g. ${unrecorded.slice(0, 3).join(", ")})`
+    );
+  }
+
+  const dates = rounds
+    .map((r) => (r.generated || "").slice(0, 10))
+    .filter(Boolean)
+    .sort();
+  notes.push(
+    `checked the live sweep evidence: ${rounds.length} complete round(s) over ` +
+      `${seedCount} host(s)${dates.length ? `, latest ${dates.at(-1)}` : ""}`
+  );
+}
+
+/**
+ * 11. The category treemap in README.md must match the catalog.
+ *
+ * A treemap of "this category, this many hosts" is exactly the kind of figure
+ * that drifts quietly: nothing about a host changing makes the numbers on the
+ * diagram look wrong. So the counts are read back out of the mermaid block and
+ * compared, category by category, against catalog.json.
+ */
+function checkCategoryTreemap() {
+  const text = read("README.md");
+  const block = text.match(/```mermaid\n(treemap-beta[\s\S]*?)```/);
+  if (!block) {
+    notes.push("no category treemap in README.md — skipped the treemap check");
+    return;
+  }
+  const catalog = json("catalog.json");
+  const counts = {};
+  for (const category of Object.values(catalog.categories || {})) {
+    counts[category] = (counts[category] || 0) + 1;
+  }
+
+  const quoted = {};
+  for (const m of block[1].matchAll(/"([a-z]+)":\s*([\d,]+)/g)) {
+    quoted[m[1]] = Number(m[2].replace(/,/g, ""));
+  }
+
+  let checked = 0;
+  for (const category of Object.keys(counts).sort()) {
+    if (!(category in quoted)) {
+      problems.push(`README.md: the category treemap has no \`${category}\` leaf`);
+      continue;
+    }
+    checked++;
+    if (quoted[category] !== counts[category]) {
+      problems.push(
+        `README.md: the treemap says \`${category}\` has ${quoted[category]}, ` +
+          `catalog.json has ${counts[category]}`
+      );
+    }
+  }
+  for (const category of Object.keys(quoted)) {
+    if (!(category in counts)) {
+      problems.push(`README.md: the treemap has \`${category}\`, which is not a category`);
+    }
+  }
+  notes.push(`checked ${checked} category count(s) in the README treemap`);
+}
+
 for (const check of [
   checkLinks,
   checkScriptNames,
@@ -673,6 +808,8 @@ for (const check of [
   checkAnalysisFigures,
   checkMeasuredRuntimes,
   checkSweepEvidence,
+  checkLiveSweepEvidence,
+  checkCategoryTreemap,
 ]) {
   try {
     check();
