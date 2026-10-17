@@ -7,9 +7,15 @@ source). It maps host names to a **category** (what a name is) and to the
 **service/product** it belongs to (whose it is), so the Live Traffic and Allowed
 Sites screens group and label domains correctly.
 
+<!-- catalog-badges:start -->
+
+![hosts](https://img.shields.io/badge/hosts-6731-blue) ![categories](https://img.shields.io/badge/categories-27-brightgreen) ![services](https://img.shields.io/badge/services-22-blueviolet) ![removed](https://img.shields.io/badge/removed-489-red)
+
+<!-- catalog-badges:end -->
+
 ## Contents
 
-- **6,742 categories** — `host → category`.
+- **6,731 categories** — `host → category`.
 - **22 services** — `product → hosts`.
 
 See [`docs/CATALOG.md`](docs/CATALOG.md) for the breakdown by category.
@@ -24,12 +30,12 @@ are most of it, and the long tail is small on purpose:
 ```mermaid
 treemap-beta
 "Catalog by category"
-    "finance": 3,579
-    "government": 1,065
+    "finance": 3,571
+    "government": 1,064
     "software": 476
-    "gaming": 359
+    "gaming": 358
     "education": 212
-    "news": 130
+    "news": 129
     "shopping": 101
     "video": 87
     "travel": 80
@@ -55,8 +61,66 @@ treemap-beta
 
 <!-- category-treemap:end -->
 
-Regenerate it with `scripts/catalog/build-catalog-docs.py`, which writes this
-block from `catalog.json`.
+Regenerate it with `scripts/catalog/build-catalog-docs.py`, which writes these
+blocks from `catalog.json`.
+
+The same data ranked — height makes the long tail comparable in a way a
+treemap's fixed area cannot:
+
+<!-- category-bar:start -->
+
+```mermaid
+xychart-beta
+    title "Hosts by category (top 10)"
+    x-axis [finance, government, software, gaming, education, news, shopping, video, travel, ads]
+    y-axis "hosts" 0 --> 3571
+    bar [3571, 1064, 476, 358, 212, 129, 101, 87, 80, 74]
+```
+
+<!-- category-bar:end -->
+
+As a share of the whole, with the long tail folded into `other`:
+
+<!-- category-pie:start -->
+
+```mermaid
+pie title Catalog by category (share)
+    "finance" : 3571
+    "government" : 1064
+    "software" : 476
+    "gaming" : 358
+    "education" : 212
+    "news" : 129
+    "shopping" : 101
+    "video" : 87
+    "other (19 smaller)" : 733
+```
+
+<!-- category-pie:end -->
+
+## How it is verified
+
+A host is removed only when independent sweeps agree it is gone, and each host
+is probed in two rounds before anything is removed. The DNS sweep below asks
+three resolvers directly about `A`, `AAAA` and `NS` — nine questions — in two
+rounds ten minutes apart, and only a host that answers `NXDOMAIN` to all nine in
+both rounds is called dead. The browser sweep (agent-browser + Lightpanda)
+checks what a host still serves, and the registration sweep checks RDAP/WHOIS/IP
+to catch a name that changed hands.
+
+<!-- verification-status:start -->
+
+```mermaid
+xychart-beta
+    title "Dead-domain sweep — verdicts (last round)"
+    x-axis [alive, nodata, servfail, dead, unknown]
+    y-axis "hosts" 0 --> 6419
+    bar [6419, 37, 269, 4, 16]
+```
+
+<!-- verification-status:end -->
+
+Full method, evidence and the removal policy: [`scripts/README.md`](scripts/README.md).
 
 ## Format (v1)
 
@@ -168,6 +232,11 @@ python3 scripts/catalog/validate.py
 
 Do not edit `catalog.json` by hand — edit `seeds/` instead.
 
+To check the committed output is current without writing anything, use `--check`:
+`generate.py --check` rebuilds from the seeds and compares with `catalog.json`,
+and `build-catalog-docs.py --check` does the same for `docs/CATALOG.md` and the
+marked README blocks. Neither needs git; `./test/test.sh` runs both.
+
 Run everything — registry, schema, build, validator, docs, licence gate — with:
 
 ```sh
@@ -234,7 +303,7 @@ response code they return, which settles it:
 
 ```sh
 python3 scripts/catalog/probe-dead.py --self-test
-python3 scripts/catalog/probe-dead.py --round 1     # ~11 minutes, 6,742 hosts
+python3 scripts/catalog/probe-dead.py --round 1     # ~11 minutes, 6,731 hosts
 python3 scripts/catalog/probe-dead.py --round 2     # 10 minutes later, minimum enforced
 python3 scripts/catalog/probe-dead.py --summary
 ```
@@ -286,6 +355,34 @@ answer with nothing and both belong in a DNS-filter catalog — so the proposal 
 meant to be read, not applied blind. The script needs the network and a
 `lightpanda` binary, so it stays out of `test/test.sh`, like the DNS sweep.
 Method and tools: [`scripts/analysis/`](scripts/analysis/README.md).
+
+### Verifying a host is still the same owner
+
+DNS and a browser can both say a name is "alive" while it has changed hands: a
+lapsed domain is re-registered by someone else and inherits the previous owner's
+category. `scripts/catalog/verify-registrations.py` checks the registration
+itself:
+
+1. **RDAP** for the domain (IANA bootstrap + verified cc supplement + convention
+   probing).
+2. **Port-43 WHOIS** fallback for registries with no RDAP (DENIC `.de`,
+   TRABIS `.tr`, and anything IANA refers to).
+3. **IP RDAP** for the host's address block (ARIN/RIPE/...), so the network
+   owner is on record.
+4. **traceroute** as a bounded reachability diagnostic (unprivileged on macOS).
+
+```sh
+python3 scripts/catalog/verify-registrations.py --self-test
+python3 scripts/catalog/verify-registrations.py --round 1
+python3 scripts/catalog/verify-registrations.py --round 2     # 10 minutes later
+python3 scripts/catalog/verify-registrations.py --summary
+```
+
+The same discipline applies: a canary before the run, two rounds that must agree,
+and a host is only proposed on a strong signal (`gone`, `expired`). Unknown and
+unsupported TLDs are reported, never deleted. Reference data:
+[`reference/rdap/`](reference/rdap/README.md). Method and tools:
+[`scripts/catalog/`](scripts/catalog/README.md).
 
 Rules for a generator:
 
