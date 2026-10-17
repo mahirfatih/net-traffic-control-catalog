@@ -144,6 +144,11 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Changed
 
+- **The model comparison is a table in both READMEs.** `README.md` and
+  `README.tr.md` now show the three text classifiers as a markdown table
+  (accuracy / balanced accuracy / macro-F1 / weighted-F1) instead of a one-line
+  quote, and `checkAnalysisFigures` validates every cell, in both languages,
+  against `docs/analysis/out/matrix-data.json`.
 - **Registration evidence keeps the verdict, not the record.**
   `evidence/registration-verify.json` now stores one decision per host per round
   (`"registered"`, `"gone"`, …) instead of the full RDAP/WHOIS/IP-RDAP bodies and

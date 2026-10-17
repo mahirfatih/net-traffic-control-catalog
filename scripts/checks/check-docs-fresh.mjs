@@ -411,13 +411,31 @@ function checkAnalysisFigures() {
     );
   }
 
+  // The READMEs show the same comparison as a table. Each row and value has to
+  // be the report's own numbers, or the figure a reader sees would be a
+  // hand-typed copy that nothing recomputes.
   const readmeComparison = read("README.md");
-  for (const row of comparison) {
-    const accuracyValue = row.accuracy.toFixed(3);
-    const balancedValue = row.balanced_accuracy.toFixed(3);
-    const needle = `${row.model} ${accuracyValue} / ${balancedValue}`;
-    if (!readmeComparison.includes(needle)) {
-      problems.push(`README.md: missing model comparison quote \`${needle}\``);
+  const fieldNames = ["accuracy", "balanced_accuracy", "macro_f1", "weighted_f1"];
+  for (const file of ["README.md", "README.tr.md"]) {
+    let rows = 0;
+    for (const line of read(file).split("\n")) {
+      const m = line.match(comparisonRow);
+      if (!m || !(m[1] in comparisonByName)) continue;
+      rows++;
+      const actual = comparisonByName[m[1]];
+      m.slice(2).forEach((quoted, i) => {
+        const want = actual[fieldNames[i]].toFixed(3);
+        if (Number(quoted) !== Number(want)) {
+          problems.push(
+            `${file}: ${m[1]} ${fieldNames[i]} says ${quoted}, ${dataPath} has ${want}`
+          );
+        }
+      });
+    }
+    if (comparison.length && rows !== comparison.length) {
+      problems.push(
+        `${file}: the model comparison table has ${rows} row(s), ${dataPath} has ${comparison.length}`
+      );
     }
   }
 

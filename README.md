@@ -494,9 +494,15 @@ are predictable from page content. High diagonal = our labels are predictable
 from page text. Off-diagonal = our label disagrees with what the text suggests
 (either the label is wrong, or the page is not representative of the category).
 
-All 27 categories are measured, including the small ones. Model comparison:
-LinearSVC 0.886 / 0.595, LogisticRegression 0.862 / 0.576,
-MultinomialNB 0.605 / 0.166 (accuracy / balanced accuracy).
+All 27 categories are measured, including the small ones. Three text
+classifiers were compared on the same split, and LinearSVC is kept for the
+detailed audit:
+
+| model | accuracy | balanced acc | macro-F1 | weighted-F1 |
+| --- | ---: | ---: | ---: | ---: |
+| LinearSVC | 0.886 | 0.595 | 0.584 | 0.889 |
+| LogisticRegression | 0.862 | 0.576 | 0.548 | 0.871 |
+| MultinomialNB | 0.605 | 0.166 | 0.166 | 0.650 |
 
 - **Highest F1:** `government` 0.97, `finance` 0.96, `education` 0.92, `news`
   0.86, `email` 0.72. These categories have strong, distinctive page signals.

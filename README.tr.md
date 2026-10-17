@@ -510,9 +510,14 @@ içeriğinden tahmin edilebilir olup olmadığını gösterir. Yüksek köşegen
 etiketlerimiz sayfa metninden öngörülebilir. Köşegen dışı = etiketimiz metnin
 ima ettiğiyle çelişir (ya etiket yanlış, ya sayfa kategoriyi temsil etmiyor).
 
-Küçük olanlar dahil 27 kategorinin tamamı ölçülür. Model karşılaştırması:
-LinearSVC 0.886 / 0.595, LogisticRegression 0.862 / 0.576, MultinomialNB
-0.605 / 0.166 (doğruluk / dengeli doğruluk).
+Küçük olanlar dahil 27 kategorinin tamamı ölçülür. Aynı bölme üzerinde üç metin
+sınıflandırıcısı karşılaştırılır; ayrıntılı denetim için LinearSVC tutulur:
+
+| model | doğruluk | dengeli doğruluk | macro-F1 | weighted-F1 |
+| --- | ---: | ---: | ---: | ---: |
+| LinearSVC | 0.886 | 0.595 | 0.584 | 0.889 |
+| LogisticRegression | 0.862 | 0.576 | 0.548 | 0.871 |
+| MultinomialNB | 0.605 | 0.166 | 0.166 | 0.650 |
 
 - **En yüksek F1:** `government` 0.97, `finance` 0.96, `education` 0.92, `news`
   0.86, `email` 0.72. Bu kategorilerin güçlü, ayırt edici sayfa sinyalleri
