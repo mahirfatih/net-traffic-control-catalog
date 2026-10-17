@@ -25,9 +25,12 @@ README blocks. `test/test.sh` runs both, at steps 3b and 7b.
 The documentation is bilingual: `README.md` is the source of truth and
 `README.tr.md` is its Turkish translation, with a language link at the top of
 each. Keep them in step — a change to one is a change to both. The generated
-blocks (badges, category treemap, bar and pie, and the verification chart) are
+blocks (badges, category treemap and pie, and the verification chart) are
 written into both files by `build-catalog-docs.py`, so they cannot drift by
-language; `check-docs-fresh.mjs` fails the build if they do.
+language; `check-docs-fresh.mjs` fails the build if they do. A category's colour
+is not written in either README: it comes from
+`reference/category-colors.json`, the app's palette copied from the iOS project,
+so change a colour there and rerun the generator.
 
 A category name outside the vocabulary is **not** an error the app reports — it
 is silently ignored on device. `validate.py` is what turns that into a build

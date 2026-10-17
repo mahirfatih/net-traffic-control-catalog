@@ -12,11 +12,21 @@ not for the data: `version` is bumped only on a breaking format change.
 - **Turkish README** (`README.tr.md`): a full translation of `README.md`,
   section for section, with a language link at the top of both. `README.md` is
   the source of truth; the Turkish file mirrors it. The generated blocks
-  (badges, category treemap, bar and pie, and the verification chart) are
+  (badges, category treemap and pie, and the verification chart) are
   written into both files by `build-catalog-docs.py`, so the two languages
   cannot disagree about the catalog, and `check-docs-fresh.mjs` fails the build
   if a hand-edit changes one file's blocks and not the other's
   (`checkTurkishMirror`, `test/test.sh` step 8).
+- **Category palette** (`reference/category-colors.json`): the app's category
+  colours — each category's `tint`, a darkened `tintText`, and its colour
+  `family` — copied from the iOS project's `DomainCategoryStyle.swift` so a
+  colour lives in one place instead of being re-derived from the app each time.
+  The README treemap colours every leaf from it (a `classDef` per category) and
+  the pie tints its slices in order through `themeVariables.pieN`.
+  `build-catalog-docs.py` refuses to run if a category has no colour, and
+  `check-docs-fresh.mjs` reads the colours back out and compares them with the
+  file (`checkCategoryColors`, plus the treemap and pie checks), so the diagrams
+  cannot silently drift from the palette.
 - **Host pipeline flowchart in `README.md`**: a Mermaid `flowchart` of how a name
   travels from a trusted source list, through the DNS, registration and browser
   checks, to a kept catalog entry — drawn in plain language ("is it still
@@ -43,8 +53,10 @@ not for the data: `version` is bumped only on a breaking format change.
   Its decision table is checked in `test/test.sh` step 10.10; the script needs
   the network and stays out of CI.
 - **Category treemap in `README.md`**: the catalog by category, generated from
-  `catalog.json` by `build-catalog-docs.py` between markers, and checked
-  count-by-count by `check-docs-fresh.mjs` so the diagram cannot drift.
+  `catalog.json` by `build-catalog-docs.py` between markers, coloured per
+  category from `reference/category-colors.json`, and checked
+  count-by-count and colour-by-colour by `check-docs-fresh.mjs` so the diagram
+  cannot drift.
 - **Registration-ownership sweep** (`scripts/catalog/verify-registrations.py`):
   checks that a host is still registered to the same owner — RDAP (IANA
   bootstrap + verified cc supplement + convention probing), port-43 WHOIS
@@ -122,8 +134,22 @@ not for the data: `version` is bumped only on a breaking format change.
   for proxy exception lists and a stricter Ultimate whitelist parser that skips
   `ALL`, `REG`, `RZD`, IP, local and sample-domain rows.
 
+### Removed
+
+- **The `xychart-beta` bar chart in both READMEs.** Mermaid colours a bar series
+  as a whole, not bar by bar, so it could not be drawn in the category palette
+  the treemap and pie now use, and leaving it would have shown one chart in the
+  wrong colours. The same figures remain in the treemap (by area) and the pie
+  (by share), both per-category coloured. `checkCategoryBar` is gone with it.
+
 ### Changed
 
+- **Registration evidence keeps the verdict, not the record.**
+  `evidence/registration-verify.json` now stores one decision per host per round
+  (`"registered"`, `"gone"`, …) instead of the full RDAP/WHOIS/IP-RDAP bodies and
+  a duplicated `_norm` copy, dropping the file from ~54 MB to ~0.5 MB. The
+  verdict is what a review and `check-docs-fresh.mjs` read; the underlying record
+  is a re-run away.
 - **Catalog size: 6,742 → 6,731 categories** (−11). 11 hosts the live sweep
   found serving only a parking page were removed: `apeksbank.com.ua`, `bcr.md`,
   `bubblewitch.com`, `canakkale-bld.gov.tr`, `dunyagazetesi.com.tr`,

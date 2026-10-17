@@ -59,9 +59,9 @@ this order:
 11. `checkDropListSeparation` — a host in `rules.json → drop.hosts` is not also back in `seeds/categories.json` (a removal silently undoing itself).
 12. `checkLiveSweepEvidence` — the live-sweep evidence has ≥2 complete rounds on the Lightpanda engine and covers every seed host.
 13. `checkRegistrationEvidence` — the registration evidence has ≥2 complete rounds and covers every seed host.
-14. `checkCategoryTreemap` — the README mermaid treemap's counts match `catalog.json`.
-15. `checkCategoryBar` — the README bar chart's counts match `catalog.json`.
-16. `checkCategoryPie` — the README pie's slices and folded tail match `catalog.json`.
+14. `checkCategoryTreemap` — the README mermaid treemap's counts and colours match `catalog.json` and `reference/category-colors.json`.
+15. `checkCategoryColors` — `reference/category-colors.json` gives a valid tint for every category in the catalog.
+16. `checkCategoryPie` — the README pie's slices, folded tail and colours match `catalog.json` and `reference/category-colors.json`.
 17. `checkCatalogBadges` — the README badges' headline numbers match `catalog.json`.
 18. `checkVerificationStatus` — the README verification chart matches the DNS sweep's last round.
 19. `checkTurkishMirror` — `README.tr.md` exists and carries the same generated blocks as `README.md`, so the Turkish translation cannot drift from the English source.

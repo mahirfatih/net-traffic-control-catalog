@@ -11,8 +11,8 @@ a second copy to keep in step. This writes that copy on purpose, from the same
 file the app reads, so the documentation cannot claim a count the shipped data
 does not have. Run it after `generate.py` and commit the result.
 
-It also refreshes the generated blocks (badges, category treemap, bar and pie,
-and the verification bar) in `README.md` and its translation `README.tr.md`,
+It also refreshes the generated blocks (badges, category treemap and pie, and
+the verification bar) in `README.md` and its translation `README.tr.md`,
 between matching `<!-- ...:start -->` and `<!-- ...:end -->` markers. README.md
 is the source of truth and README.tr.md mirrors it; both receive the identical
 block content, so the numbers cannot drift between the two languages. The rest
@@ -20,6 +20,11 @@ of each README is written by hand and is left untouched; the markers are only a
 convenience so the diagrams below cannot drift from the counts above them. The
 test suite checks those counts independently, in
 `scripts/checks/check-docs-fresh.mjs`.
+
+The category colours in those blocks are not written here: they come from
+`reference/category-colors.json`, the app's palette copied from the iOS project,
+so a colour is edited in one place. A catalog category with no colour there is an
+error, not a silent grey.
 
 `docs/NEEDS-REVIEW.md` is written by hand, not by this script — it explains
 why a host is unresolved, which needs a person.
@@ -40,26 +45,62 @@ README_TR = os.path.join(ROOT, "README.tr.md")
 # the same marked blocks, so the counts cannot drift between the two languages.
 READMES = (README, README_TR)
 ANALYSIS = os.path.join(ROOT, "docs", "analysis", "out", "matrix-data.json")
+# The app's category palette, copied from net-traffic-control-ios. Read here, not
+# re-derived, so a colour is remembered in one place and the charts follow it.
+COLORS = os.path.join(ROOT, "reference", "category-colors.json")
 
 TREEMAP_START = "<!-- category-treemap:start -->"
 TREEMAP_END = "<!-- category-treemap:end -->"
-BAR_START = "<!-- category-bar:start -->"
-BAR_END = "<!-- category-bar:end -->"
 PIE_START = "<!-- category-pie:start -->"
 PIE_END = "<!-- category-pie:end -->"
 BADGES_START = "<!-- catalog-badges:start -->"
 BADGES_END = "<!-- catalog-badges:end -->"
 SWEEP_START = "<!-- verification-status:start -->"
 SWEEP_END = "<!-- verification-status:end -->"
+# The grey the pie uses for the categories it folds into one slice (the app's
+# `foldedTailTint`, systemGray3), so a folded tail is not read as the `other`
+# category's own grey.
+FOLDED_TAIL = "#C7C7CC"
 
 
-def render_treemap(counts):
-    """A mermaid `treemap-beta` of the catalog, biggest category first.
+def load_colors():
+    """The category palette from `reference/category-colors.json`.
+
+    Returns `(colors, folded_tail)`. Missing or malformed data is a hard error:
+    the charts would silently fall back to mermaid's own palette, which is the
+    thing this file exists to prevent.
+    """
+    try:
+        with open(COLORS, encoding="utf-8") as handle:
+            doc = json.load(handle)
+    except (OSError, ValueError) as error:
+        print(f"✗ cannot read {COLORS}: {error}", file=sys.stderr)
+        return None, None
+    colors = doc.get("categories") or {}
+    tail = doc.get("foldedTail") or FOLDED_TAIL
+    for name, entry in colors.items():
+        if not _is_hex(entry.get("tint")):
+            print(f"✗ reference/category-colors.json: {name} has no valid tint", file=sys.stderr)
+            return None, None
+    return colors, tail
+
+
+def _is_hex(value):
+    return isinstance(value, str) and len(value) == 7 and value.startswith("#") and all(
+        c in "0123456789abcdefABCDEF" for c in value[1:]
+    )
+
+
+def render_treemap(counts, colors):
+    """A mermaid `treemap-beta` of the catalog, biggest category first, in colour.
 
     A treemap reads as a picture of the whole catalog — what share `finance`
-    is, how small `maps` is — in a way a table cannot. It is generated rather
-    than drawn so the numbers in it are the numbers in `catalog.json`.
+    is, how small `maps` is — in a way a table cannot. Every leaf is coloured
+    with its category's tint from `reference/category-colors.json`, so the
+    diagram reads like the app's own legend. Generated rather than drawn so the
+    numbers in it are the numbers in `catalog.json`.
     """
+    ranked = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))
     lines = [
         TREEMAP_START,
         "",
@@ -67,48 +108,44 @@ def render_treemap(counts):
         "treemap-beta",
         '"Catalog by category"',
     ]
-    for name, count in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])):
-        lines.append(f'    "{name}": {count:,}')
+    # A leaf's class selector must abut the value (`3,571:::c_finance`); a space
+    # before `:::` breaks mermaid 11's treemap parser.
+    for name, count in ranked:
+        lines.append(f'    "{name}": {count:,}:::c_{name}')
+    lines.append("")
+    for name, _ in ranked:
+        entry = colors.get(name, {})
+        fill = entry.get("tint", "#8E8E93")
+        stroke = entry.get("tintText", fill)
+        lines.append(f"classDef c_{name} fill:{fill},stroke:{stroke},color:#FFFFFF")
     lines += ["```", "", TREEMAP_END]
     return "\n".join(lines)
 
 
-def render_bar(counts, top=10):
-    """A mermaid `xychart-beta` bar of the biggest categories.
+def render_pie(counts, colors, folded_tail, top=8):
+    """A mermaid `pie` of the category share, the long tail folded into one slice.
 
-    Reads as a ranked list at a glance — the same information as the treemap,
-    but comparable in height, which a treemap's fixed area cannot show for a
-    long tail.
+    Slices are tinted through `themeVariables.pieN`, which mermaid applies in
+    order, so the palette is written in the same order as the slices: each named
+    category gets its own tint and the folded tail gets the app's grey.
     """
-    ranked = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))[:top]
-    names = ", ".join(name for name, _ in ranked)
-    values = ", ".join(str(c) for _, c in ranked)
-    ceiling = ranked[0][1] if ranked else 0
-    return "\n".join([
-        BAR_START,
-        "",
-        "```mermaid",
-        "xychart-beta",
-        '    title "Hosts by category (top %d)"' % top,
-        f"    x-axis [{names}]",
-        f'    y-axis "hosts" 0 --> {ceiling}',
-        f"    bar [{values}]",
-        "```",
-        "",
-        BAR_END,
-    ])
-
-
-def render_pie(counts, top=8):
-    """A mermaid `pie` of the category share, the long tail folded into `other`."""
     ranked = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))
     head = ranked[:top]
-    tail_total = sum(c for _, c in ranked[top:])
-    lines = [PIE_START, "", "```mermaid", "pie title Catalog by category (share)"]
-    for name, count in head:
+    tail = ranked[top:]
+    slices = [(name, count, colors.get(name, {}).get("tint", "#8E8E93")) for name, count in head]
+    if tail:
+        total = sum(c for _, c in tail)
+        slices.append((f"other ({len(tail)} smaller)", total, folded_tail))
+    theme = ", ".join(f"'pie{i}':'{color}'" for i, (_, _, color) in enumerate(slices, 1))
+    lines = [
+        PIE_START,
+        "",
+        "```mermaid",
+        f"%%{{init: {{'theme':'base','themeVariables':{{{theme}}}}}}}%%",
+        "pie title Catalog by category (share)",
+    ]
+    for name, count, _ in slices:
         lines.append(f'    "{name}" : {count}')
-    if tail_total:
-        lines.append(f'    "other ({len(ranked) - top} smaller)" : {tail_total}')
     lines += ["```", "", PIE_END]
     return "\n".join(lines)
 
@@ -179,7 +216,7 @@ def _replace_block(text, start, end, content):
     return f"{before}{content}{after}"
 
 
-def apply_readme_blocks(text, counts, catalog, rules):
+def apply_readme_blocks(text, counts, catalog, rules, colors, folded_tail):
     """Return `(text, skipped)` with every marked block rewritten in place.
 
     Pure: it does not touch the file, so `--check` can ask what the README would
@@ -188,9 +225,8 @@ def apply_readme_blocks(text, counts, catalog, rules):
     skipped = 0
     for start, end, content in (
         (BADGES_START, BADGES_END, render_badges(catalog, rules)),
-        (TREEMAP_START, TREEMAP_END, render_treemap(counts)),
-        (BAR_START, BAR_END, render_bar(counts)),
-        (PIE_START, PIE_END, render_pie(counts)),
+        (TREEMAP_START, TREEMAP_END, render_treemap(counts, colors)),
+        (PIE_START, PIE_END, render_pie(counts, colors, folded_tail)),
     ):
         replaced = _replace_block(text, start, end, content)
         if replaced is None:
@@ -207,7 +243,7 @@ def apply_readme_blocks(text, counts, catalog, rules):
     return text, skipped
 
 
-def update_readme_blocks(path, counts, catalog, rules):
+def update_readme_blocks(path, counts, catalog, rules, colors, folded_tail):
     """Rewrite every marked block in `path`. Returns (changed, skipped).
 
     A block whose markers are missing is skipped, not a failure — the README is
@@ -220,7 +256,7 @@ def update_readme_blocks(path, counts, catalog, rules):
             original = handle.read()
     except OSError:
         return None, 0
-    text, skipped = apply_readme_blocks(original, counts, catalog, rules)
+    text, skipped = apply_readme_blocks(original, counts, catalog, rules, colors, folded_tail)
     if text == original:
         return False, skipped
     with open(path, "w", encoding="utf-8") as handle:
@@ -279,7 +315,7 @@ ORDER = [
 ]
 
 
-def check_artifacts(rendered, counts, catalog, rules):
+def check_artifacts(rendered, counts, catalog, rules, colors, folded_tail):
     """Report whether the committed artifacts match what this run would write.
 
     Nothing is written. `docs/CATALOG.md` is compared byte for byte; each README
@@ -301,7 +337,7 @@ def check_artifacts(rendered, counts, catalog, rules):
                 readme = handle.read()
         except OSError:
             continue
-        updated, _ = apply_readme_blocks(readme, counts, catalog, rules)
+        updated, _ = apply_readme_blocks(readme, counts, catalog, rules, colors, folded_tail)
         if updated != readme:
             problems.append(
                 f"{os.path.basename(path)}'s marked blocks are stale — rerun build-catalog-docs.py"
@@ -342,6 +378,16 @@ def main(argv):
     unknown = sorted(set(counts) - {name for name, _ in ORDER})
     if unknown:
         print(f"✗ ORDER lists categories the catalog does not use: {', '.join(unknown)}", file=sys.stderr)
+        return 1
+
+    colors, folded_tail = load_colors()
+    if colors is None:
+        return 1
+    missing_colors = sorted(set(counts) - set(colors))
+    if missing_colors:
+        print(f"✗ no colour for: {', '.join(missing_colors)}", file=sys.stderr)
+        print("  add it to reference/category-colors.json, or the charts fall back to grey.",
+              file=sys.stderr)
         return 1
 
     used = [(name, note) for name, note in ORDER if counts[name]]
@@ -486,25 +532,22 @@ def main(argv):
         rules = {}
 
     if args.check:
-        return check_artifacts(rendered, counts, doc, rules)
+        return check_artifacts(rendered, counts, doc, rules, colors, folded_tail)
 
     with open(OUT, "w", encoding="utf-8") as handle:
         handle.write(rendered)
     print(f"✓ wrote docs/CATALOG.md: {total} names, {len(used)} categories, {len(services)} services")
 
-    changed, skipped = False, 0
     for path in READMES:
-        this_changed, this_skipped = update_readme_blocks(path, counts, doc, rules)
+        this_changed, this_skipped = update_readme_blocks(path, counts, doc, rules, colors, folded_tail)
         name = os.path.basename(path)
         if this_changed is None:
             print(f"· {name} has no marked blocks; left it alone")
         elif this_changed:
-            print(f"✓ refreshed the {name} blocks (badges, treemap, bar, pie, verification)"
+            print(f"✓ refreshed the {name} blocks (badges, treemap, pie, verification)"
                   + (f"; {this_skipped} marker(s) absent" if this_skipped else ""))
         else:
             print(f"· the {name} blocks were already current")
-        changed = changed or bool(this_changed)
-        skipped += this_skipped
     return 0
 
 

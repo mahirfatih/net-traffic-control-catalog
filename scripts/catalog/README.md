@@ -26,6 +26,14 @@ translation. `build-catalog-docs.py` writes the *same* block content to both, an
 changes one language's blocks and not the other's fails the build rather than
 shipping two documents that disagree about the catalog.
 
+The category charts are coloured from
+[`../../reference/category-colors.json`](../../reference/category-colors.json),
+the app's palette copied from the iOS project. Each treemap leaf carries its own
+`classDef`, and the pie is tinted through `themeVariables.pieN` in slice order, so
+a colour is edited in exactly one place and both READMEs follow. `build-catalog-docs.py`
+refuses to run if a catalog category has no colour, and `check-docs-fresh.mjs`
+reads the colours back out and compares them with the file.
+
 Every removed host is recorded in `rules.json → drop.hosts` with the reason and
 the category it used to carry. That map *is* the ledger; there is deliberately no
 second copy to drift from it. `check-docs-fresh.mjs` keeps it honest in both

@@ -1,0 +1,162 @@
+{
+  "$comment": "The app's category palette, copied from net-traffic-control-ios so the catalog's charts use the same colours the app does instead of a palette someone has to remember. tint is the bright dot/icon colour, tintText is the same hue darkened for text in light mode, and family groups neighbouring categories. foldedTail is the grey the pie uses for the categories it folds together. Edit this file to change a colour; build-catalog-docs.py reads it and never re-derives it from the app.",
+  "source": "net-traffic-control-ios/NetTrafficControl/DomainCategoryStyle.swift",
+  "foldedTail": "#C7C7CC",
+  "categories": {
+    "ads": {
+      "tint": "#FF9500",
+      "tintText": "#A85400",
+      "family": "amber"
+    },
+    "adult": {
+      "tint": "#D9334C",
+      "tintText": "#9E0F29",
+      "family": "red"
+    },
+    "ai": {
+      "tint": "#8F38F2",
+      "tintText": "#631ABD",
+      "family": "purple"
+    },
+    "analytics": {
+      "tint": "#007AFF",
+      "tintText": "#0061CC",
+      "family": "blue"
+    },
+    "cdn": {
+      "tint": "#30B0C7",
+      "tintText": "#00696B",
+      "family": "green"
+    },
+    "crash": {
+      "tint": "#FF3B30",
+      "tintText": "#B22121",
+      "family": "red"
+    },
+    "crypto": {
+      "tint": "#F2A61A",
+      "tintText": "#9E6B00",
+      "family": "green"
+    },
+    "dating": {
+      "tint": "#E64C73",
+      "tintText": "#A81A47",
+      "family": "rose"
+    },
+    "education": {
+      "tint": "#2180CC",
+      "tintText": "#0A4F94",
+      "family": "blue"
+    },
+    "email": {
+      "tint": "#4C70E6",
+      "tintText": "#2942AD",
+      "family": "blue"
+    },
+    "encyclopedia": {
+      "tint": "#389ED9",
+      "tintText": "#0D6694",
+      "family": "blue"
+    },
+    "finance": {
+      "tint": "#148C57",
+      "tintText": "#055C33",
+      "family": "green"
+    },
+    "gambling": {
+      "tint": "#BF268C",
+      "tintText": "#850561",
+      "family": "red"
+    },
+    "gaming": {
+      "tint": "#5856D6",
+      "tintText": "#403DBF",
+      "family": "purple"
+    },
+    "government": {
+      "tint": "#6180B8",
+      "tintText": "#334A78",
+      "family": "blue"
+    },
+    "health": {
+      "tint": "#29BD99",
+      "tintText": "#08785C",
+      "family": "green"
+    },
+    "ipAddress": {
+      "tint": "#C7C7CC",
+      "tintText": "#4A4A4A",
+      "family": "grey"
+    },
+    "maps": {
+      "tint": "#338CD9",
+      "tintText": "#0D59A8",
+      "family": "blue"
+    },
+    "messaging": {
+      "tint": "#34C759",
+      "tintText": "#1C783D",
+      "family": "green"
+    },
+    "music": {
+      "tint": "#CC338C",
+      "tintText": "#990561",
+      "family": "purple"
+    },
+    "news": {
+      "tint": "#F2731F",
+      "tintText": "#B84205",
+      "family": "amber"
+    },
+    "other": {
+      "tint": "#8E8E93",
+      "tintText": "#5E5E5E",
+      "family": "grey"
+    },
+    "search": {
+      "tint": "#268CF2",
+      "tintText": "#0D5CBD",
+      "family": "blue"
+    },
+    "shopping": {
+      "tint": "#A2845E",
+      "tintText": "#7A4A21",
+      "family": "amber"
+    },
+    "social": {
+      "tint": "#FF2D55",
+      "tintText": "#B20F40",
+      "family": "rose"
+    },
+    "software": {
+      "tint": "#7880A8",
+      "tintText": "#424A73",
+      "family": "blue"
+    },
+    "sports": {
+      "tint": "#1A9E70",
+      "tintText": "#05704C",
+      "family": "green"
+    },
+    "telecom": {
+      "tint": "#DB4C8F",
+      "tintText": "#991F59",
+      "family": "rose"
+    },
+    "transport": {
+      "tint": "#8A993D",
+      "tintText": "#525E1A",
+      "family": "amber"
+    },
+    "travel": {
+      "tint": "#AD8F2E",
+      "tintText": "#70570D",
+      "family": "amber"
+    },
+    "video": {
+      "tint": "#AF52DE",
+      "tintText": "#6B2EB5",
+      "family": "purple"
+    }
+  }
+}

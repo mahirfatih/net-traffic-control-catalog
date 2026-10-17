@@ -25,40 +25,69 @@ See [`docs/CATALOG.md`](docs/CATALOG.md) for the breakdown by category.
 ## What is in it
 
 The catalog by category, as a share of the whole — `finance` and `government`
-are most of it, and the long tail is small on purpose:
+are most of it, and the long tail is small on purpose. Each category is drawn in
+the colour the iOS app uses for it, taken from `reference/category-colors.json`:
 
 <!-- category-treemap:start -->
 
 ```mermaid
 treemap-beta
 "Catalog by category"
-    "finance": 3,571
-    "government": 1,064
-    "software": 476
-    "gaming": 358
-    "education": 212
-    "news": 129
-    "shopping": 101
-    "video": 87
-    "travel": 80
-    "ads": 74
-    "ai": 68
-    "cdn": 67
-    "health": 67
-    "social": 65
-    "search": 57
-    "transport": 42
-    "encyclopedia": 40
-    "analytics": 39
-    "messaging": 33
-    "email": 28
-    "telecom": 16
-    "other": 14
-    "crash": 13
-    "crypto": 10
-    "music": 10
-    "sports": 7
-    "maps": 3
+    "finance": 3,571:::c_finance
+    "government": 1,064:::c_government
+    "software": 476:::c_software
+    "gaming": 358:::c_gaming
+    "education": 212:::c_education
+    "news": 129:::c_news
+    "shopping": 101:::c_shopping
+    "video": 87:::c_video
+    "travel": 80:::c_travel
+    "ads": 74:::c_ads
+    "ai": 68:::c_ai
+    "cdn": 67:::c_cdn
+    "health": 67:::c_health
+    "social": 65:::c_social
+    "search": 57:::c_search
+    "transport": 42:::c_transport
+    "encyclopedia": 40:::c_encyclopedia
+    "analytics": 39:::c_analytics
+    "messaging": 33:::c_messaging
+    "email": 28:::c_email
+    "telecom": 16:::c_telecom
+    "other": 14:::c_other
+    "crash": 13:::c_crash
+    "crypto": 10:::c_crypto
+    "music": 10:::c_music
+    "sports": 7:::c_sports
+    "maps": 3:::c_maps
+
+classDef c_finance fill:#148C57,stroke:#055C33,color:#FFFFFF
+classDef c_government fill:#6180B8,stroke:#334A78,color:#FFFFFF
+classDef c_software fill:#7880A8,stroke:#424A73,color:#FFFFFF
+classDef c_gaming fill:#5856D6,stroke:#403DBF,color:#FFFFFF
+classDef c_education fill:#2180CC,stroke:#0A4F94,color:#FFFFFF
+classDef c_news fill:#F2731F,stroke:#B84205,color:#FFFFFF
+classDef c_shopping fill:#A2845E,stroke:#7A4A21,color:#FFFFFF
+classDef c_video fill:#AF52DE,stroke:#6B2EB5,color:#FFFFFF
+classDef c_travel fill:#AD8F2E,stroke:#70570D,color:#FFFFFF
+classDef c_ads fill:#FF9500,stroke:#A85400,color:#FFFFFF
+classDef c_ai fill:#8F38F2,stroke:#631ABD,color:#FFFFFF
+classDef c_cdn fill:#30B0C7,stroke:#00696B,color:#FFFFFF
+classDef c_health fill:#29BD99,stroke:#08785C,color:#FFFFFF
+classDef c_social fill:#FF2D55,stroke:#B20F40,color:#FFFFFF
+classDef c_search fill:#268CF2,stroke:#0D5CBD,color:#FFFFFF
+classDef c_transport fill:#8A993D,stroke:#525E1A,color:#FFFFFF
+classDef c_encyclopedia fill:#389ED9,stroke:#0D6694,color:#FFFFFF
+classDef c_analytics fill:#007AFF,stroke:#0061CC,color:#FFFFFF
+classDef c_messaging fill:#34C759,stroke:#1C783D,color:#FFFFFF
+classDef c_email fill:#4C70E6,stroke:#2942AD,color:#FFFFFF
+classDef c_telecom fill:#DB4C8F,stroke:#991F59,color:#FFFFFF
+classDef c_other fill:#8E8E93,stroke:#5E5E5E,color:#FFFFFF
+classDef c_crash fill:#FF3B30,stroke:#B22121,color:#FFFFFF
+classDef c_crypto fill:#F2A61A,stroke:#9E6B00,color:#FFFFFF
+classDef c_music fill:#CC338C,stroke:#990561,color:#FFFFFF
+classDef c_sports fill:#1A9E70,stroke:#05704C,color:#FFFFFF
+classDef c_maps fill:#338CD9,stroke:#0D59A8,color:#FFFFFF
 ```
 
 <!-- category-treemap:end -->
@@ -66,26 +95,12 @@ treemap-beta
 Regenerate it with `scripts/catalog/build-catalog-docs.py`, which writes these
 blocks from `catalog.json`.
 
-The same data ranked — height makes the long tail comparable in a way a
-treemap's fixed area cannot:
-
-<!-- category-bar:start -->
-
-```mermaid
-xychart-beta
-    title "Hosts by category (top 10)"
-    x-axis [finance, government, software, gaming, education, news, shopping, video, travel, ads]
-    y-axis "hosts" 0 --> 3571
-    bar [3571, 1064, 476, 358, 212, 129, 101, 87, 80, 74]
-```
-
-<!-- category-bar:end -->
-
 As a share of the whole, with the long tail folded into `other`:
 
 <!-- category-pie:start -->
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables':{'pie1':'#148C57', 'pie2':'#6180B8', 'pie3':'#7880A8', 'pie4':'#5856D6', 'pie5':'#2180CC', 'pie6':'#F2731F', 'pie7':'#A2845E', 'pie8':'#AF52DE', 'pie9':'#C7C7CC'}}}%%
 pie title Catalog by category (share)
     "finance" : 3571
     "government" : 1064

@@ -4,7 +4,9 @@ The repository's static checks. `check-docs-fresh.mjs` catches documentation
 drift — broken links, renamed scripts, stale counts, a licence verdict that
 contradicts itself, any figure quoted from the reliability audit that
 `docs/analysis/out/matrix-data.json` does not agree with, and a count in the
-README's category treemap that `catalog.json` no longer has. It also checks the
+README's category treemap that `catalog.json` no longer has. It also compares the
+treemap and pie colours with `reference/category-colors.json` and insists every
+catalog category has a colour there. It also checks the
 two-way removal ledger: a host that left the seeds must have a
 `rules.json → drop.hosts` reason, and a host carrying such a reason must not be
 back in `seeds/categories.json`, which would mean a removal undoing itself. And
