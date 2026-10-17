@@ -22,6 +22,13 @@ seeds and compares the result with the committed `catalog.json`, writing nothing
 — and `build-catalog-docs.py --check` does it for `docs/CATALOG.md` and the
 README blocks. `test/test.sh` runs both, at steps 3b and 7b.
 
+The documentation is bilingual: `README.md` is the source of truth and
+`README.tr.md` is its Turkish translation, with a language link at the top of
+each. Keep them in step — a change to one is a change to both. The generated
+blocks (badges, category treemap, bar and pie, and the verification chart) are
+written into both files by `build-catalog-docs.py`, so they cannot drift by
+language; `check-docs-fresh.mjs` fails the build if they do.
+
 A category name outside the vocabulary is **not** an error the app reports — it
 is silently ignored on device. `validate.py` is what turns that into a build
 failure.

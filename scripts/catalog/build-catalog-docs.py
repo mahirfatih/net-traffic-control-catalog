@@ -11,10 +11,13 @@ a second copy to keep in step. This writes that copy on purpose, from the same
 file the app reads, so the documentation cannot claim a count the shipped data
 does not have. Run it after `generate.py` and commit the result.
 
-It also refreshes the category treemap in `README.md`, between the markers
-`<!-- category-treemap:start -->` and `<!-- category-treemap:end -->`. The rest
-of the README is written by hand and is left untouched; the markers are only a
-convenience so the diagram below cannot drift from the counts above it. The
+It also refreshes the generated blocks (badges, category treemap, bar and pie,
+and the verification bar) in `README.md` and its translation `README.tr.md`,
+between matching `<!-- ...:start -->` and `<!-- ...:end -->` markers. README.md
+is the source of truth and README.tr.md mirrors it; both receive the identical
+block content, so the numbers cannot drift between the two languages. The rest
+of each README is written by hand and is left untouched; the markers are only a
+convenience so the diagrams below cannot drift from the counts above them. The
 test suite checks those counts independently, in
 `scripts/checks/check-docs-fresh.mjs`.
 
@@ -32,6 +35,10 @@ CATALOG = os.path.join(ROOT, "catalog.json")
 RULES = os.path.join(ROOT, "rules.json")
 OUT = os.path.join(ROOT, "docs", "CATALOG.md")
 README = os.path.join(ROOT, "README.md")
+README_TR = os.path.join(ROOT, "README.tr.md")
+# README.md is the source of truth; README.tr.md is its translation. Both carry
+# the same marked blocks, so the counts cannot drift between the two languages.
+READMES = (README, README_TR)
 ANALYSIS = os.path.join(ROOT, "docs", "analysis", "out", "matrix-data.json")
 
 TREEMAP_START = "<!-- category-treemap:start -->"
@@ -200,21 +207,23 @@ def apply_readme_blocks(text, counts, catalog, rules):
     return text, skipped
 
 
-def update_readme_blocks(counts, catalog, rules):
-    """Rewrite every marked block in README.md. Returns (changed, skipped).
+def update_readme_blocks(path, counts, catalog, rules):
+    """Rewrite every marked block in `path`. Returns (changed, skipped).
 
     A block whose markers are missing is skipped, not a failure — the README is
-    a hand-written document and must not become required furniture.
+    a hand-written document and must not become required furniture. A path that
+    does not exist returns (None, 0), so a checkout without the translation
+    still works.
     """
     try:
-        with open(README, encoding="utf-8") as handle:
+        with open(path, encoding="utf-8") as handle:
             original = handle.read()
     except OSError:
         return None, 0
     text, skipped = apply_readme_blocks(original, counts, catalog, rules)
     if text == original:
         return False, skipped
-    with open(README, "w", encoding="utf-8") as handle:
+    with open(path, "w", encoding="utf-8") as handle:
         handle.write(text)
     return True, skipped
 
@@ -273,9 +282,9 @@ ORDER = [
 def check_artifacts(rendered, counts, catalog, rules):
     """Report whether the committed artifacts match what this run would write.
 
-    Nothing is written. `docs/CATALOG.md` is compared byte for byte; the README
-    blocks are compared as the text they would become, so a hand-written README
-    with no marked blocks is left alone, exactly as the writer leaves it.
+    Nothing is written. `docs/CATALOG.md` is compared byte for byte; each README
+    is compared as the text it would become, so a hand-written README with no
+    marked blocks is left alone, exactly as the writer leaves it.
     """
     problems = []
     try:
@@ -286,15 +295,17 @@ def check_artifacts(rendered, counts, catalog, rules):
     if committed != rendered:
         problems.append("docs/CATALOG.md is stale — rerun build-catalog-docs.py")
 
-    try:
-        with open(README, encoding="utf-8") as handle:
-            readme = handle.read()
-    except OSError:
-        readme = None
-    if readme is not None:
+    for path in READMES:
+        try:
+            with open(path, encoding="utf-8") as handle:
+                readme = handle.read()
+        except OSError:
+            continue
         updated, _ = apply_readme_blocks(readme, counts, catalog, rules)
         if updated != readme:
-            problems.append("README.md's marked blocks are stale — rerun build-catalog-docs.py")
+            problems.append(
+                f"{os.path.basename(path)}'s marked blocks are stale — rerun build-catalog-docs.py"
+            )
 
     if problems:
         for problem in problems:
@@ -481,14 +492,19 @@ def main(argv):
         handle.write(rendered)
     print(f"✓ wrote docs/CATALOG.md: {total} names, {len(used)} categories, {len(services)} services")
 
-    changed, skipped = update_readme_blocks(counts, doc, rules)
-    if changed is None:
-        print("· README.md has no marked blocks; left it alone")
-    elif changed:
-        print(f"✓ refreshed the README blocks (badges, treemap, bar, pie, verification)"
-              + (f"; {skipped} marker(s) absent" if skipped else ""))
-    else:
-        print("· the README blocks were already current")
+    changed, skipped = False, 0
+    for path in READMES:
+        this_changed, this_skipped = update_readme_blocks(path, counts, doc, rules)
+        name = os.path.basename(path)
+        if this_changed is None:
+            print(f"· {name} has no marked blocks; left it alone")
+        elif this_changed:
+            print(f"✓ refreshed the {name} blocks (badges, treemap, bar, pie, verification)"
+                  + (f"; {this_skipped} marker(s) absent" if this_skipped else ""))
+        else:
+            print(f"· the {name} blocks were already current")
+        changed = changed or bool(this_changed)
+        skipped += this_skipped
     return 0
 
 
