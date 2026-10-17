@@ -8,6 +8,13 @@ a second copy to keep in step. This writes that copy on purpose, from the same
 file the app reads, so the documentation cannot claim a count the shipped data
 does not have. Run it after `generate.py` and commit the result.
 
+It also refreshes the category treemap in `README.md`, between the markers
+`<!-- category-treemap:start -->` and `<!-- category-treemap:end -->`. The rest
+of the README is written by hand and is left untouched; the markers are only a
+convenience so the diagram below cannot drift from the counts above it. The
+test suite checks those counts independently, in
+`scripts/checks/check-docs-fresh.mjs`.
+
 `docs/NEEDS-REVIEW.md` is written by hand, not by this script — it explains
 why a host is unresolved, which needs a person.
 """
@@ -20,7 +27,55 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 CATALOG = os.path.join(ROOT, "catalog.json")
 RULES = os.path.join(ROOT, "rules.json")
 OUT = os.path.join(ROOT, "docs", "CATALOG.md")
+README = os.path.join(ROOT, "README.md")
 ANALYSIS = os.path.join(ROOT, "docs", "analysis", "out", "matrix-data.json")
+
+TREEMAP_START = "<!-- category-treemap:start -->"
+TREEMAP_END = "<!-- category-treemap:end -->"
+
+
+def render_treemap(counts):
+    """A mermaid `treemap-beta` of the catalog, biggest category first.
+
+    A treemap reads as a picture of the whole catalog — what share `finance`
+    is, how small `maps` is — in a way a table cannot. It is generated rather
+    than drawn so the numbers in it are the numbers in `catalog.json`.
+    """
+    lines = [
+        TREEMAP_START,
+        "",
+        "```mermaid",
+        "treemap-beta",
+        '"Catalog by category"',
+    ]
+    for name, count in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])):
+        lines.append(f'    "{name}": {count:,}')
+    lines += ["```", "", TREEMAP_END]
+    return "\n".join(lines)
+
+
+def update_readme_treemap(counts):
+    """Rewrite the marked treemap block in README.md, if the markers are there.
+
+    Returns True when the file changed, False when it was already current, and
+    None when README.md has no markers (a note, not a failure — the README is a
+    hand-written document and must not become required furniture).
+    """
+    try:
+        with open(README, encoding="utf-8") as handle:
+            text = handle.read()
+    except OSError:
+        return None
+    if TREEMAP_START not in text or TREEMAP_END not in text:
+        return None
+    before, rest = text.split(TREEMAP_START, 1)
+    _, after = rest.split(TREEMAP_END, 1)
+    updated = f"{before}{render_treemap(counts)}{after}"
+    if updated == text:
+        return False
+    with open(README, "w", encoding="utf-8") as handle:
+        handle.write(updated)
+    return True
 
 
 def other_from_rules():
@@ -232,6 +287,14 @@ def main(argv):
     with open(OUT, "w", encoding="utf-8") as handle:
         handle.write("\n".join(lines) + "\n")
     print(f"✓ wrote docs/CATALOG.md: {total} names, {len(used)} categories, {len(services)} services")
+
+    changed = update_readme_treemap(counts)
+    if changed is None:
+        print("· README.md has no category-treemap markers; left it alone")
+    elif changed:
+        print("✓ refreshed the category treemap in README.md")
+    else:
+        print("· the category treemap in README.md was already current")
     return 0
 
 

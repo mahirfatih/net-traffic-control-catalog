@@ -9,10 +9,54 @@ Sites screens group and label domains correctly.
 
 ## Contents
 
-- **6,745 categories** — `host → category`.
+- **6,742 categories** — `host → category`.
 - **22 services** — `product → hosts`.
 
 See [`docs/CATALOG.md`](docs/CATALOG.md) for the breakdown by category.
+
+## What is in it
+
+The catalog by category, as a share of the whole — `finance` and `government`
+are most of it, and the long tail is small on purpose:
+
+<!-- category-treemap:start -->
+
+```mermaid
+treemap-beta
+"Catalog by category"
+    "finance": 3,579
+    "government": 1,065
+    "software": 476
+    "gaming": 359
+    "education": 212
+    "news": 130
+    "shopping": 101
+    "video": 87
+    "travel": 80
+    "ads": 74
+    "ai": 68
+    "cdn": 67
+    "health": 67
+    "social": 65
+    "search": 57
+    "transport": 42
+    "encyclopedia": 40
+    "analytics": 39
+    "messaging": 33
+    "email": 28
+    "telecom": 16
+    "other": 14
+    "crash": 13
+    "crypto": 10
+    "music": 10
+    "sports": 7
+    "maps": 3
+```
+
+<!-- category-treemap:end -->
+
+Regenerate it with `scripts/catalog/build-catalog-docs.py`, which writes this
+block from `catalog.json`.
 
 ## Format (v1)
 
@@ -213,6 +257,35 @@ Two verdicts are never proposed for removal, by design:
 The script is deliberately absent from `test/test.sh`: it needs the network, and
 CI must never depend on a network to tell a real bank it is dead. See
 `docs/SOURCES.md` for the full workflow.
+
+### Removing a host that still resolves but serves nothing
+
+DNS is not the whole story: a name can keep resolving after its site has gone.
+`scripts/analysis/sweep-live.py` visits every host with a real browser
+([agent-browser](https://github.com/vercel-labs/agent-browser) driving
+[Lightpanda](https://lightpanda.io) with `--engine lightpanda`) and proposes the
+hosts that answer with nothing — a parked page, an empty shell, a 404:
+
+```sh
+python3 scripts/analysis/sweep-live.py --self-test
+python3 scripts/analysis/sweep-live.py --round 1 --aggressive
+python3 scripts/analysis/sweep-live.py --round 2 --aggressive
+python3 scripts/analysis/sweep-live.py --summary --aggressive   # proposal only
+python3 scripts/analysis/sweep-live.py --apply --aggressive     # only after you read it
+```
+
+Two rounds must agree, the proposal is cross-checked against the DNS sweep above,
+and a failure is only believed after a canary proves the browser still works —
+because a long sweep is far more likely to lose its engine than to meet thousands
+of dead hosts. A host that answered with a certificate failure or a timeout is
+reported for review, never proposed: that says this network could not reach it,
+not that the host is empty. By default only a **parked** host is proposed;
+`--aggressive` widens that to hosts that answered with no page at all, which is
+common on live infrastructure — `adnxs.com` and `3dsecure.akbank.com.tr` both
+answer with nothing and both belong in a DNS-filter catalog — so the proposal is
+meant to be read, not applied blind. The script needs the network and a
+`lightpanda` binary, so it stays out of `test/test.sh`, like the DNS sweep.
+Method and tools: [`scripts/analysis/`](scripts/analysis/README.md).
 
 Rules for a generator:
 
