@@ -9,6 +9,20 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Added
 
+- **Turkish README** (`README.tr.md`): a full translation of `README.md`,
+  section for section, with a language link at the top of both. `README.md` is
+  the source of truth; the Turkish file mirrors it. The generated blocks
+  (badges, category treemap, bar and pie, and the verification chart) are
+  written into both files by `build-catalog-docs.py`, so the two languages
+  cannot disagree about the catalog, and `check-docs-fresh.mjs` fails the build
+  if a hand-edit changes one file's blocks and not the other's
+  (`checkTurkishMirror`, `test/test.sh` step 8).
+- **Host pipeline flowchart in `README.md`**: a Mermaid `flowchart` of how a name
+  travels from a trusted source list, through the DNS, registration and browser
+  checks, to a kept catalog entry — drawn in plain language ("is it still
+  online?", "keep it" / "remove it") rather than by script name, with the two
+  points that are easy to confuse kept apart: the category is a decision, and
+  reading a host's page is only a check, never the labeler.
 - **Live sweep** (`scripts/analysis/sweep-live.py`): finds catalog hosts that
   still resolve but no longer serve a page — a parked domain, a lapsed site, a
   host the owner moved — the same domain-recycling risk the dead-domain sweep

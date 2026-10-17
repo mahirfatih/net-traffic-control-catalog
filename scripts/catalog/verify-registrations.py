@@ -23,6 +23,12 @@ itself, three ways:
 A host is only proposed when two independent rounds agree, and traceroute is
 run as a reachability diagnostic (bounded, opt-in) rather than as a gate.
 
+The evidence written to `evidence/registration-verify.json` keeps one verdict
+per host per round — `{"host": "registered"}` — not the RDAP/WHOIS bodies that
+produced it. A verdict is what a review needs; the raw records run to tens of
+megabytes across two rounds and say nothing the decision does not. Re-run a
+round to see the underlying record for a host again.
+
 Standard library only. It needs the network, so it stays out of test/test.sh;
 its parsing/decision tables are checked there offline.
 """
@@ -878,25 +884,7 @@ def process_host(host, do_traceroute=False, flagged=False):
     else:
         res["traceroute"] = {"skipped": True}
 
-    # normalize datetimes for json
-    res["_norm"] = _normalize_for_json(res)
     return res
-
-
-def _normalize_for_json(obj):
-    if isinstance(obj, datetime):
-        return obj.isoformat()
-    if isinstance(obj, dict):
-        return {k: _normalize_for_json(v) for k, v in obj.items()}
-    if isinstance(obj, list):
-        return [_normalize_for_json(x) for x in obj]
-    return obj
-
-
-def _denormalize_result(r):
-    # convert iso strings back to datetime for decision? decisions already stored as strings in json.
-    # We keep decision string; no need to recompute on load.
-    return r
 
 
 def run_round(round_no, limit=None, workers=WORKERS, do_traceroute=False, flagged=None):
@@ -953,7 +941,7 @@ def run_round(round_no, limit=None, workers=WORKERS, do_traceroute=False, flagge
         "generated": datetime.now(timezone.utc).isoformat(),
         "elapsed_seconds": round(elapsed, 1),
         "counts": counts,
-        "results": {h: _normalize_for_json(results[h]) for h in results},
+        "results": {h: results[h].get("decision", "unknown") for h in results},
     }
     rounds.append(round_obj)
     state["rounds"] = rounds
@@ -982,7 +970,7 @@ def _save_round_progress(round_no, results, counts, complete):
         "engine": "rdap+whois",
         "generated": datetime.now(timezone.utc).isoformat(),
         "counts": dict(counts),
-        "results": {h: _normalize_for_json(results[h]) for h in results},
+        "results": {h: results[h].get("decision", "unknown") for h in results},
     }
     rounds.append(round_obj)
     state["rounds"] = rounds
@@ -1046,7 +1034,7 @@ def build_proposal(state, aggressive=False, include_flaky=False, include_review=
         cs = set()
         for host, info in (r.get("results") or {}).items():
             all_hosts.add(host)
-            dec = info.get("decision") if isinstance(info, dict) else None
+            dec = info if isinstance(info, str) else (info.get("decision") if isinstance(info, dict) else None)
             if dec == "harness-error":
                 # never propose
                 pass
@@ -1059,7 +1047,7 @@ def build_proposal(state, aggressive=False, include_flaky=False, include_review=
     # drop hosts that were harness-error/unknown in any round
     for r in rounds:
         for host, info in (r.get("results") or {}).items():
-            dec = info.get("decision") if isinstance(info, dict) else None
+            dec = info if isinstance(info, str) else (info.get("decision") if isinstance(info, dict) else None)
             if dec in ("harness-error", "unknown", "unsupported"):
                 prop.discard(host)
     return sorted(prop)
@@ -1162,13 +1150,19 @@ def self_test():
     assert not _rdap_404_is_real(b"<html><h1>404</h1></html>", "text/html;charset=utf-8")
     assert not _rdap_404_is_real(b"", "")
     print("✓ _rdap_404_is_real")
-    # build_proposal
+    # build_proposal — evidence stores the verdict as a bare string
     st = {"rounds": [
-        {"round": 1, "complete": True, "results": {"a.test": {"decision": "gone"}, "b.test": {"decision": "gone"}, "c.test": {"decision": "registered"}}},
-        {"round": 2, "complete": True, "results": {"a.test": {"decision": "gone"}, "b.test": {"decision": "registered"}, "c.test": {"decision": "registered"}}},
+        {"round": 1, "complete": True, "results": {"a.test": "gone", "b.test": "gone", "c.test": "registered"}},
+        {"round": 2, "complete": True, "results": {"a.test": "gone", "b.test": "registered", "c.test": "registered"}},
     ]}
     assert build_proposal(st) == ["a.test"]
     assert build_proposal({"rounds": st["rounds"][:1]}) is None
+    # a full-record round from before the format shrank still reads
+    legacy = {"rounds": [
+        {"round": 1, "complete": True, "results": {"a.test": {"decision": "gone"}, "b.test": {"decision": "gone"}}},
+        {"round": 2, "complete": True, "results": {"a.test": {"decision": "gone"}, "b.test": {"decision": "registered"}}},
+    ]}
+    assert build_proposal(legacy) == ["a.test"]
     print("✓ build_proposal")
     print("self-test OK")
 

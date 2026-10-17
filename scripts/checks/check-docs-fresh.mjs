@@ -987,8 +987,7 @@ function checkCatalogBadges() {
 }
 
 /** The verification chart must match the dead-domain sweep evidence. */
-function checkVerificationStatus() {
-  const text = read("README.md");
+function checkVerificationStatus() {  const text = read("README.md");
   const block = text.match(/<!-- verification-status:start -->([\s\S]*?)<!-- verification-status:end -->/);
   if (!block) {
     notes.push("no verification-status block in README.md — skipped");
@@ -1028,6 +1027,56 @@ function checkVerificationStatus() {
   notes.push(`checked ${checked} verification verdict(s) against the DNS sweep`);
 }
 
+/**
+ * README.tr.md is the Turkish translation of README.md and must carry the same
+ * generated blocks.
+ *
+ * README.md is the source of truth; the Turkish file mirrors it. The generator
+ * writes the identical block content to both, so the counts cannot drift by
+ * language. This compares the two files' marked blocks directly, so a hand-edit
+ * that changes one and not the other fails the build rather than shipping two
+ * documents that disagree about the catalog.
+ */
+function checkTurkishMirror() {
+  const tr = "README.tr.md";
+  if (!existsSync(join(ROOT, tr))) {
+    problems.push(`${tr} is missing — it mirrors README.md`);
+    return;
+  }
+  const enText = read("README.md");
+  const trText = read(tr);
+  const block = (text, name) => {
+    const m = text.match(
+      new RegExp(`<!-- ${name}:start -->([\\s\\S]*?)<!-- ${name}:end -->`)
+    );
+    return m ? m[1].trim() : null;
+  };
+  let checked = 0;
+  for (const name of [
+    "catalog-badges",
+    "category-treemap",
+    "category-bar",
+    "category-pie",
+    "verification-status",
+  ]) {
+    const expected = block(enText, name);
+    if (expected === null) continue;
+    const actual = block(trText, name);
+    if (actual === null) {
+      problems.push(`${tr}: missing the ${name} block that README.md has`);
+      continue;
+    }
+    checked++;
+    if (actual !== expected) {
+      problems.push(
+        `${tr}: the ${name} block differs from README.md — both are written by ` +
+          `build-catalog-docs.py and must stay identical`
+      );
+    }
+  }
+  notes.push(`checked README.tr.md mirrors ${checked} generated block(s) from README.md`);
+}
+
 for (const check of [
   checkLinks,
   checkScriptNames,
@@ -1047,6 +1096,7 @@ for (const check of [
   checkCategoryPie,
   checkCatalogBadges,
   checkVerificationStatus,
+  checkTurkishMirror,
 ]) {
   try {
     check();

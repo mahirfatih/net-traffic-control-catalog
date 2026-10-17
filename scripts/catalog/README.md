@@ -2,7 +2,8 @@
 
 Build and validate the catalog. `generate.py` writes `catalog.json` from the
 `seeds/`, `validate.py` checks a `catalog.json` against the format and the
-vocabulary, `build-catalog-docs.py` writes `docs/CATALOG.md`, `check-overlaps.py`
+vocabulary, `build-catalog-docs.py` writes `docs/CATALOG.md` and the generated
+blocks in `README.md` and its translation `README.tr.md`, `check-overlaps.py`
 checks for category distribution and redundant domain overlaps,
 `overrides.py` manages the per-host category overrides in `rules.json`,
 `probe-dead.py` finds catalog hosts that no longer resolve in DNS, and
@@ -15,9 +16,15 @@ others import by path (the hyphen in its name is legal on disk but not in an
 Both writers take `--check`: `generate.py --check` rebuilds from the seeds and
 compares the result with the committed `catalog.json`, and
 `build-catalog-docs.py --check` does the same for `docs/CATALOG.md` and the
-README blocks. They write nothing, so "is the committed artifact current?" is
-answerable without touching it — and without git, which is what lets `test/test.sh`
-prove it in a plain checkout.
+README blocks in both languages. They write nothing, so "is the committed
+artifact current?" is answerable without touching it — and without git, which is
+what lets `test/test.sh` prove it in a plain checkout.
+
+`README.md` is the source of truth and `README.tr.md` is its Turkish
+translation. `build-catalog-docs.py` writes the *same* block content to both, and
+`check-docs-fresh.mjs` compares them (`checkTurkishMirror`), so a hand-edit that
+changes one language's blocks and not the other's fails the build rather than
+shipping two documents that disagree about the catalog.
 
 Every removed host is recorded in `rules.json → drop.hosts` with the reason and
 the category it used to carry. That map *is* the ledger; there is deliberately no

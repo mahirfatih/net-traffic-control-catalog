@@ -1,5 +1,7 @@
 # Net Traffic Control — Catalog
 
+**English** · [Türkçe](README.tr.md)
+
 Category and service data for **Net Traffic Control**.
 
 The app loads this file as a **Category Data source** (Settings → Category Data → Add
@@ -97,6 +99,41 @@ pie title Catalog by category (share)
 ```
 
 <!-- category-pie:end -->
+
+## Pipeline — from a list to a kept host
+
+A domain arrives from a trusted list. Three independent checks have to agree it
+is still online and still the same owner before it keeps its place. If any check
+is unsure, the domain stays — nothing is removed on a single signal, and a
+removed name cannot quietly come back.
+
+```mermaid
+flowchart TD
+    A["A domain arrives from a trusted list"] --> B{"Is it still online?"}
+    B -->|"No"| R["Remove it"]
+    B -->|"Yes"| C{"Is it still the same owner?"}
+    C -->|"No, it changed hands"| R
+    C -->|"Yes"| D{"Does it still show a real page?"}
+    D -->|"No, it is parked or empty"| R
+    D -->|"Yes"| K["Keep it"]
+    K --> E["Give it a category"]
+    E --> F["Ship the list to the app"]
+    K -.-> G["Read its page — only to check the category fits"]
+```
+
+Two things are easy to confuse, so they are kept apart:
+
+- **The category is a decision, not a guess.** A rule or a person sets it; the
+  page is never asked to invent one. A name no rule matches is listed for a
+  person in [`docs/NEEDS-REVIEW.md`](docs/NEEDS-REVIEW.md).
+- **Reading the page is only a check.** It measures whether a category matches
+  the page; it never writes the list. A low score means a label disagrees with
+  its page, not that the label is wrong.
+
+The three checks in the middle are the subject of the next section. The tools
+behind them are [`probe-dead.py`](scripts/catalog/probe-dead.py),
+[`verify-registrations.py`](scripts/catalog/verify-registrations.py) and
+[`sweep-live.py`](scripts/analysis/sweep-live.py).
 
 ## How it is verified
 
