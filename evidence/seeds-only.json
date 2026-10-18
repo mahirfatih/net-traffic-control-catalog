@@ -941,7 +941,7 @@
     }
   },
   "founding": {
-    "commit": "aaeff43",
+    "commit": "9aa36a3",
     "date": "2026-10-10",
     "hosts_in_first_commit": 1116,
     "still_in_catalog": 1101,

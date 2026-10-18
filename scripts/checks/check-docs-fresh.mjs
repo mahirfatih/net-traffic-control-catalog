@@ -1299,6 +1299,12 @@ function checkSeedsProvenance() {
       }
     }
   }
+  // The founding commit is a hash, so it is not covered by the figures above.
+  // A history rewrite changes that hash; FOUNDING.md must follow it or the page
+  // would point at a commit that no longer exists.
+  if (data.founding && data.founding.commit && !read("docs/FOUNDING.md").includes(data.founding.commit)) {
+    problems.push(`docs/FOUNDING.md: does not quote the founding commit ${data.founding.commit}`);
+  }
   notes.push(
     `checked seeds provenance (${n(data.unattributed.total)} unattributed of ${n(data.catalog_hosts)})`
   );

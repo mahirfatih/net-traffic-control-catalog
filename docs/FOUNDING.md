@@ -44,7 +44,7 @@ The 2,154 split in two, and the split matters:
 
 ## The original list
 
-`seeds/categories.json` was created in commit **`aaeff43`** on **2026-10-10**
+`seeds/categories.json` was created in commit **`9aa36a3`** on **2026-10-10**
 with **1,116** hosts — before any source was harvested. Of those:
 
 | | Hosts |
