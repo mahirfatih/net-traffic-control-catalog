@@ -1992,6 +1992,14 @@
   },
   "accuracy": 0.8884505807582731,
   "balanced_accuracy": 0.6053754032102658,
+  "leakage": {
+    "grouping": "registrable_domain (eTLD+1)",
+    "n_groups": 4535,
+    "accuracy": 0.8840674994521148,
+    "balanced_accuracy": 0.5527206244915104,
+    "stratified_balanced_accuracy": 0.6053754032102658,
+    "delta_balanced_accuracy": 0.0527
+  },
   "macro_avg": {
     "precision": 0.6024109815435911,
     "recall": 0.6053754032102657,

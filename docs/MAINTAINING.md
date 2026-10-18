@@ -152,6 +152,14 @@ CI must never depend on a network to tell a real bank it is dead. See
 [`SOURCES.md`](SOURCES.md) for the full workflow, and [`SCHEDULE.md`](SCHEDULE.md)
 for how often to run it.
 
+The same probe runs without typing the commands by hand: a **manual GitHub
+Actions workflow**
+([`.github/workflows/sweep.yml`](../.github/workflows/sweep.yml)) probes both
+rounds ten minutes apart and files or updates one tracking issue with the
+proposal. Start it from the Actions tab or with `gh workflow run sweeps`. It runs
+by hand on purpose — a sweep is a decision, not a clock (see
+[`SCHEDULE.md`](SCHEDULE.md)) — and it never edits catalog data.
+
 ### Removing a host that still resolves but serves nothing
 
 DNS is not the whole story: a name can keep resolving after its site has gone.

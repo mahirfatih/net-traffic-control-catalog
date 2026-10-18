@@ -198,6 +198,13 @@ def build(catalog, rules, categories, summary, matrix):
              "correct on the measured sample, majority-class weighted"),
             ("Balanced accuracy", f"{matrix.get('balanced_accuracy', 0):.0%}",
              "correct per class, averaged — the honest headline"),
+        ]
+        leakage = matrix.get("leakage") or {}
+        if leakage:
+            rows.append(("Grouped balanced accuracy", f"{leakage.get('balanced_accuracy', 0):.0%}",
+                         "balanced accuracy with a host's owner held out of its fold "
+                         f"({leakage.get('grouping', 'owner')}); the gap is owner leakage"))
+        rows += [
             ("Macro F1", f"{macro.get('f1-score', 0):.2f}",
              "unweighted mean F1 across classes"),
             ("Weighted F1", f"{weighted.get('f1-score', 0):.2f}",

@@ -40,9 +40,12 @@ the one thing on this page the app itself cites.
   a category and for a service alike.
 - **A public suffix is not a product.** A record for `co.uk`, or a multi-tenant
   suffix such as `github.io`, `blogspot.com`, `amazonaws.com`, `cloudfront.net`
-  or `herokuapp.com`, does **not** swallow unrelated subdomains. Listing one is
-  refused by default; it takes an explicit exception and a reason, because
-  otherwise it mislabels every tenant on that suffix.
+  or `herokuapp.com`, does **not** swallow unrelated subdomains. Listing one
+  mislabels every tenant on that suffix, so it is refused unless the suffix is
+  named in
+  [`seeds/public-suffix-exceptions.json`](../seeds/public-suffix-exceptions.json)
+  with a reason — enforced by
+  [`scripts/catalog/check-overlaps.py`](../scripts/catalog/check-overlaps.py).
 - **Conflicts are reported, never silently resolved.** A host listed in two
   `services`, or carrying two categories, is flagged by
   [`scripts/catalog/check-overlaps.py`](../scripts/catalog/check-overlaps.py) and

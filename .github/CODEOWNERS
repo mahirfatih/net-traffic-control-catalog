@@ -1,0 +1,14 @@
+# Who owns what. A review request follows the path of the change, so the seed
+# data and the checks that guard it reach the maintainer who knows the rules in
+# docs/PIPELINE.md.
+*                                   @mahirfatih
+
+# The source of truth. A change here moves labels on real devices; it deserves a
+# slower read than a docs edit.
+/seeds/                             @mahirfatih
+/catalog.json                       @mahirfatih
+
+# The guarantees. If one of these loosens, the check it backs is only theatre.
+/test/                              @mahirfatih
+/scripts/checks/                    @mahirfatih
+/.github/workflows/                 @mahirfatih

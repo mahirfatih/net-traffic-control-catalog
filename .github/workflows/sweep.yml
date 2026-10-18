@@ -1,0 +1,79 @@
+name: sweeps
+
+# The DNS sweep, run by hand. It is the one sweep CI can drive (the live sweep
+# needs a browser and registration is quarterly), so it lives here — but a sweep
+# is a deliberate act, not a robot on a clock, so there is no cron: start it from
+# the Actions tab or with `gh workflow run sweeps`. The cadence in
+# docs/SCHEDULE.md is a checklist reminder, not a trigger. Nothing here blocks a
+# pull request, and the branch can never change catalog data — a person decides,
+# per docs/PIPELINE.md.
+
+on:
+  # Manual trigger only.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: dns-sweep
+  cancel-in-progress: false
+
+jobs:
+  dns:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Round 1
+        run: python3 scripts/catalog/probe-dead.py --round 1
+
+      - name: Wait out the round gap
+        run: sleep 600
+
+      - name: Round 2
+        run: python3 scripts/catalog/probe-dead.py --round 2
+
+      - name: Propose — reads both rounds, changes nothing
+        run: python3 scripts/catalog/probe-dead.py --summary | tee "$RUNNER_TEMP/summary.txt"
+
+      - name: Put the proposal on the run page
+        run: cat "$RUNNER_TEMP/summary.txt" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the proposal as an artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dns-sweep-summary
+          path: ${{ runner.temp }}/summary.txt
+          retention-days: 30
+
+      - name: Raise or update the tracking issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          count=$(sed -n 's/^proposal: \([0-9]*\) host.*/\1/p' "$RUNNER_TEMP/summary.txt")
+          if [ "${count:-0}" = "0" ]; then
+            echo "No dead host proposed this week — nothing to file."
+            exit 0
+          fi
+          plural=$([ "$count" = "1" ] && echo host || echo hosts)
+          {
+            echo "The weekly DNS sweep found **$count $plural** dead in two rounds."
+            echo
+            echo "This is a proposal, not a deletion — a person decides, per [PIPELINE.md](https://github.com/$GITHUB_REPOSITORY/blob/main/docs/PIPELINE.md)."
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/summary.txt"
+            echo '```'
+          } > "$RUNNER_TEMP/issue.md"
+          existing=$(gh issue list --state open --search 'in:title "DNS sweep proposal"' \
+            --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body-file "$RUNNER_TEMP/issue.md"
+          else
+            gh issue create \
+              --title "DNS sweep proposal ($count $plural dead)" \
+              --body-file "$RUNNER_TEMP/issue.md"
+          fi

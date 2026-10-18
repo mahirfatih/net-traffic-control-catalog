@@ -168,6 +168,45 @@ not for the data: `version` is bumped only on a breaking format change.
 - **Harvest parsers for structured/mixed allowlists**: a small YAML subset parser
   for proxy exception lists and a stricter Ultimate whitelist parser that skips
   `ALL`, `REG`, `RZD`, IP, local and sample-domain rows.
+- **Coverage report** (`scripts/catalog/build-coverage.py`, `docs/COVERAGE.md`):
+  how much of each category the analysis can actually read, and which single
+  source carries it. `finance` is over half the rows and 98% of it comes from one
+  bank list; both are reported as warnings (or allowlisted as expected) rather
+  than accepted silently. Generated, with `--check`, so the numbers cannot drift
+  from the data, and a `>40%` single-source concentration is a warning in
+  `audit-source-import.py`.
+- **Owner-leakage measurement** (`scripts/analysis/build-matrix.py`):
+  `StratifiedKFold` can scatter two hosts of the same owner across folds and let
+  the model memorise one to score the other. The matrix is re-run under
+  `GroupKFold`, every host grouped by its registrable domain (eTLD+1), and both
+  numbers land in `matrix-data.json` → `leakage`: balanced accuracy 61% → 55%,
+  accuracy 89% → 88%, the majority class absorbing the difference.
+- **Browser fallback for thin pages** (`scripts/analysis/fetch-pages.py
+  --render-thin N`): a JS-heavy page reaches `curl` as a shell with no prose,
+  which is why `gaming`, `cdn` and `software` are measured on a fifth to a third
+  of their hosts. The fallback re-fetches a thin page through the **same browser
+  harness the live sweep uses** (`agent-browser` + Lightpanda) and keeps the
+  longer text. `--self-test` covers the parsing without a network, and
+  `test/test.sh` step 10.13 runs it.
+- **Tenant-suffix and two-service guard** (`scripts/catalog/check-overlaps.py`,
+  `seeds/public-suffix-exceptions.json`): `docs/FORMAT.md` promised two rules
+  that nothing enforced — a bare multi-tenant suffix (`github.io`,
+  `amazonaws.com`, …) is refused unless it carries a reason, and a domain claimed
+  by two services is flagged. Both now fail the check, the nine existing listings
+  are documented as reasoned exceptions, and `test/test.sh` step 10.5b proves the
+  guard catches a violation instead of only passing on today's data.
+- **Hand-read label precision** (`scripts/analysis/precision-sample.py`,
+  `docs/analysis/precision.md`): a model's score cannot vouch for a label that
+  helped train it, so a seeded sample of 300 hosts (200 finance, 100 government)
+  is read against its cached homepage text and judged independently of the
+  classifier. finance **98.5%** (95.7–99.5), government **100%** (96.3–100); the
+  three misses are a telecom validation page, a betting-spam page and a casino.
+- **Manual DNS sweep workflow** (`.github/workflows/sweep.yml`) and
+  **`CODEOWNERS`** (`.github/CODEOWNERS`): the weekly DNS probe runs by hand from
+  the Actions tab (`gh workflow run sweeps`) — two rounds ten minutes apart, one
+  tracking issue as the proposal, never on a push, and it cannot touch catalog
+  data. `CODEOWNERS` routes a seed, catalog, test or check change to the
+  maintainer who knows `docs/PIPELINE.md`.
 
 ### Removed
 

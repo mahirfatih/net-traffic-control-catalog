@@ -24,6 +24,8 @@ cd scripts/analysis
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python fetch-pages.py     # cache each host's homepage (~16 min warm, ~25 min from cold)
 .venv/bin/python build-matrix.py    # ← writes docs/analysis/out/ (first run downloads the ~1 GB model)
+python3 precision-sample.py --emit  # draw the hand-read precision sample (stdlib; reads .pages/)
+python3 precision-sample.py --score # precision + Wilson interval, from the filled verdicts
 ```
 
 Outputs land in `out/`:
@@ -327,18 +329,25 @@ floor:
 - **`software` — 35%.** Developer pages are code samples and app shells.
 
 A category measured on a fifth of its rows is scored on a fifth of its rows, so
-its recall and F1 describe the readable fifth, not the category. The fix is more
-text — a headless render ([Playwright](https://playwright.dev)) for the JS
-shells, and a certificate-organization signal for hosts that never return a page
-at all — not a relabelling. Until then, read a thin category's score next to its
-coverage, which [`../COVERAGE.md`](../COVERAGE.md) reports as its own column.
+its recall and F1 describe the readable fifth, not the category. Part of the fix
+is already in the repo: `fetch-pages.py --render-thin N` re-fetches a host whose
+plain-HTML text is under `N` characters through the **same browser harness the
+live sweep uses** — [`agent-browser`](https://github.com/vercel-labs/agent-browser)
+with [Lightpanda](https://lightpanda.io) (`--engine lightpanda`) — so a JS shell
+that `curl` sees as empty becomes a page with a title and prose. What that still
+cannot fix is a host that never returns a document at all; those need a
+different signal, not a different renderer. Read a thin category's score next to
+its coverage, which [`../COVERAGE.md`](../COVERAGE.md) reports as its own column.
 
 ## Methodology
 
 1. **Text extraction** (`fetch-pages.py`): Fetches each host's homepage and
    extracts `<title>`, meta description, meta keywords, headings (h1–h6),
    and body text. Title/meta/headings are placed first because they carry
-   the strongest category signal.
+   the strongest category signal. `--render-thin N` re-fetches a page whose
+   plain-HTML text is under `N` characters through the **same browser harness
+   the live sweep uses** (`agent-browser` + Lightpanda), which turns a JS shell
+   into readable text; the longer of the two is kept.
 
 2. **Model comparison** (`build-matrix.py`): nine models are evaluated with
    stratified cross-validation, at as many folds as the smallest category
@@ -369,3 +378,20 @@ coverage, which [`../COVERAGE.md`](../COVERAGE.md) reports as its own column.
 7. **Per-host predictions**: Each host's top-3 predicted categories with
    out-of-fold calibrated probabilities are recorded in `matrix-data.json` and
    shown in the high-confidence errors table.
+
+8. **Owner-leakage check**: StratifiedKFold can scatter two hosts of the same
+   owner across folds, letting the model memorise one to score the other. The
+   same pipeline is re-run under `GroupKFold` with every host grouped by its
+   registrable domain (eTLD+1), and both numbers land in `matrix-data.json` →
+   `leakage`. The gap is small but real — balanced accuracy drops from 61% to
+   55% once an owner is held out, while raw accuracy barely moves (89% → 88%),
+   which is the majority class absorbing the difference. Read the balanced
+   number as the one that includes a little owner signal.
+ 9. **Hand-read label precision** (`precision-sample.py`): a model's score is not
+    evidence that a *label* is right — finance is half the catalog and its labels
+    partly come from a bank list, so a model fitted on them is graded on the very
+    signal that made them. A fixed, seeded sample of 300 hosts (200 finance, 100
+    government) is read against its cached homepage text and judged independently
+    of the classifier. Result in [`precision.md`](precision.md): finance
+    **98.5%** (95.7–99.5%), government **100%** (96.3–100%); the three finance
+    misses are a telecom validation page, a betting-spam page and a casino.

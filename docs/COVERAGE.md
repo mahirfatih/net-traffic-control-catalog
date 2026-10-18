@@ -89,6 +89,7 @@ much of each category it could actually measure.
 | Human overrides | 0 | rows relabelled by hand in `rules.json → drop.override` |
 | Accuracy | 89% | correct on the measured sample, majority-class weighted |
 | Balanced accuracy | 61% | correct per class, averaged — the honest headline |
+| Grouped balanced accuracy | 55% | balanced accuracy with a host's owner held out of its fold (registrable_domain (eTLD+1)); the gap is owner leakage |
 | Macro F1 | 0.59 | unweighted mean F1 across classes |
 | Weighted F1 | 0.89 | F1 weighted by class size |
 | Ambiguous predictions | 5% (223) | measured hosts whose top two categories are within 10 points |

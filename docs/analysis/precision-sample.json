@@ -1,0 +1,1811 @@
+{
+ "seed": 20261018,
+ "min_text": 100,
+ "plan": {
+  "finance": 200,
+  "government": 100
+ },
+ "note": "verdict: true = label right, false = label wrong, null = not yet reviewed",
+ "sampled": [
+  {
+   "host": "1822direkt.de",
+   "label": "finance",
+   "evidence": "1822direkt: Direkt-Banking Produkte mit Top-Konditionen Werden Sie jetzt 1822direkt Kunde und überzeugen Sie sich vom modernen Direct Banking mit Top Konditionen. Zahl dich glücklich Kunden werben Tagesgeldkonto Baufinan",
+   "verdict": null
+  },
+  {
+   "host": "accessbank.az",
+   "label": "finance",
+   "evidence": "AccessBank - Sizin Yerli Avropa Bankınız | Kredit | Depozit | AccessBank – la bank xidmətlərindən rahatlıqla yararlanın! KREDİT | DEPOZİT | KREDİT VƏ DEBİT KART | BİZNES KREDİTİ | MOBİL BANKİNQ | PUL KÖÇÜRMƏLƏRİ | Access",
+   "verdict": null
+  },
+  {
+   "host": "akb.ch",
+   "label": "finance",
+   "evidence": "Am richtigen Ort | Aargauische Kantonalbank Sicherheitswarnung Vorsicht vor betrügerischen Anrufen und E-Mails Aktuelles Aargauer Unternehmenspreis feiert 2027 Jubiläum Neue AKB Green Bond Anleihe Aargauer Konjunkturbaro",
+   "verdict": null
+  },
+  {
+   "host": "audibank.de",
+   "label": "finance",
+   "evidence": "Audi Bank Der Plus Sparbrief. Unser Online-Banking: Einfach und sicher. Das Girokonto mit Visa Card (Kreditkarte): eine clevere Kombination. Wissenswertes rund um Finanzen. Das Magazin. Das Finanzlexikon. Die Themenwelte",
+   "verdict": null
+  },
+  {
+   "host": "augusta-bank.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer VR Bank Augsburg-Ostallgäu eG - VR Bank Augsburg-Ostallgäu eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Wir ",
+   "verdict": null
+  },
+  {
+   "host": "bancofalabella.cl",
+   "label": "finance",
+   "evidence": "Banco Falabella ¡Oops, tuvimos un problema! No pudimos conectarnos a nuestro sitio. Inténtalo nuevamente en unos minutos. Si el problema persiste, escríbenos por WhatsApp al +56 2 2390 6000 y te respondemos en línea. 😉 a",
+   "verdict": null
+  },
+  {
+   "host": "bancointer.com.br",
+   "label": "finance",
+   "evidence": "Inter: o Super App da sua vida financeira Conta digital, cartão de crédito, investimentos, AI e muito mais - está chegando a 2ª edição do Inter Invest Summit na Arena MRV, em BH. Garanta sua vaga. inter, super, vida, fin",
+   "verdict": null
+  },
+  {
+   "host": "bancoprocredit.com.co",
+   "label": "finance",
+   "evidence": "Xoso66 Forex ⭐️ Link Trang Chủ XOSO66.COM Chính Thức 2026 +999k Xoso66 (xổ số 66) ra mắt ngày 06/06/2016 tại Vương Quốc Anh, Xs66 là nền tảng xổ số trực tuyến uy tín, được cấp phép hoạt động và thu hút 10 triệu lượt chơi",
+   "verdict": null
+  },
+  {
+   "host": "bancosecurity.cl",
+   "label": "finance",
+   "evidence": "Home | Banca Personas Banco security, convierte tus quiero en puedo. Banco, financiamiento, tarjeta de crédito, crédito, beneficios, tasa, hipotecario ¡Que nada te detenga! ¡40% de dcto. en cafeterías, chocolaterías y pa",
+   "verdict": null
+  },
+  {
+   "host": "bank.com.ua",
+   "label": "finance",
+   "evidence": "Attention Required! | Cloudflare Sorry, you have been blocked You are unable to access bank.com.ua Why have I been blocked? What can I do to resolve this? Please enable cookies. Sorry, you have been blocked You are unabl",
+   "verdict": null
+  },
+  {
+   "host": "bankid.org.ua",
+   "label": "finance",
+   "evidence": "BankID The Page Description --> BankID – спосіб верифікації громадян через українські банки для надання адміністративних та iнших послуг через Інтернет Використовуємо міжнародний досвід Державний орган або інший суб’єкт ",
+   "verdict": null
+  },
+  {
+   "host": "banking.co.at",
+   "label": "finance",
+   "evidence": "403 - Zugriff verweigert Zugriff verweigert Error 403 Bitte rufen Sie die Loginseite über die Homepage Ihres Bankinstitutes auf.",
+   "verdict": null
+  },
+  {
+   "host": "bankofscotland.co.uk",
+   "label": "finance",
+   "evidence": "BOS - Internet Banking - Unavailable We are sorry an error has occurred, please try again later. Contact us Internet Banking Helpdesk Textphone We are sorry an error has occurred, please try again later. We are currently",
+   "verdict": null
+  },
+  {
+   "host": "bankpozitif.com.tr",
+   "label": "finance",
+   "evidence": "Anasayfa BankPozitif, kişiselleştirilmiş finansal çözümler sunarak hayatınıza özel bir bankacılık deneyimi sağlar, inovasyon ve yeni teknolojilerle donanmış bir dijital yatırım bankası olarak geleceğe odaklanır ve finans",
+   "verdict": null
+  },
+  {
+   "host": "barclaycard.co.uk",
+   "label": "finance",
+   "evidence": "Homepage | Barclaycard Apply for a credit card, access your online banking and learn more about incentives, balance transfers and other benefits of being a Barclaycard holder View our range of cards Amazon Rewards credit",
+   "verdict": null
+  },
+  {
+   "host": "bcc.kz",
+   "label": "finance",
+   "evidence": "Банк ЦентрКредит в Казахстане. Банковские услуги онлайн Банк ЦентрКредит (BCC) - один из лидеров банковской системы Казахстана. Мы оказываем банковские услуги онлайн в Алматы, Астане, Актобе, Актау, Павлодаре, Шымкенте и",
+   "verdict": null
+  },
+  {
+   "host": "bcr.ro",
+   "label": "finance",
+   "evidence": "BCR Persoane fizice | Cont online, Carduri, Credite de nevoi si imobiliare, Economii si Investitii Intra pe BCR si descopera servicii, conturi, operatiuni bancare avantajoase. Avem tot ce iti poate fi de folos: cont onli",
+   "verdict": null
+  },
+  {
+   "host": "bendigobank.com.au",
+   "label": "finance",
+   "evidence": "Credit cards, bank accounts, home loans and more | Bendigo Bank Discover Bendigo Bank's large range of personal & business products. Credit cards, home loans, business loans, insurance, superannuation, bank accounts & mo",
+   "verdict": null
+  },
+  {
+   "host": "bernhauser-bank.de",
+   "label": "finance",
+   "evidence": "Startseite - Bernhauser Bank eG MoveIt 30 Tage. 30 Marathons. Für die Helden des Alltags. 22.10.2026, 15:30 Uhr Fleinsbachstadion in Bernhausen Unsere aktuellen Themen und Angebote MitgliedervorteilsCheck Sanierungsbedar",
+   "verdict": null
+  },
+  {
+   "host": "betterment.com",
+   "label": "finance",
+   "evidence": "Betterment | Automated investing & Financial planning Betterment can help grow your money by making saving and investing easy. Invest in a tailored portfolio, set buckets for your goals, and earn rewards. Build wealth wi",
+   "verdict": null
+  },
+  {
+   "host": "bib.eway2pay.com",
+   "label": "finance",
+   "evidence": "Request Rejected The requested URL was rejected. Please consult with your administrator. Your support ID is: 12157352235183208013 [Go Back]",
+   "verdict": null
+  },
+  {
+   "host": "bibessen.de",
+   "label": "finance",
+   "evidence": "BIB FAIRBANKING - Spezialbank mit sozial-ethischer Ausrichtung - BIB FAIRBANKING Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. 60",
+   "verdict": null
+  },
+  {
+   "host": "bil.com",
+   "label": "finance",
+   "evidence": "Banque Internationale à Luxembourg Banque de premier plan depuis 1856, la BIL offre des services innovants adaptés aux besoins des particuliers, des entreprises et du Private Banking. Particuliers Entreprises Banque Inst",
+   "verdict": null
+  },
+  {
+   "host": "bkc-paderborn.de",
+   "label": "finance",
+   "evidence": "Startseite - Pax-Bank für Kirche und Caritas eG Startseite Phishing-Meldungen Kundin oder Kunde werden Unsere offenen Stellen Herzlich willkommen bei der Pax-Bank für Kirche und Caritas! Wenn Sie christlich-nachhaltige L",
+   "verdict": null
+  },
+  {
+   "host": "blkb.ch",
+   "label": "finance",
+   "evidence": "BLKB: Die zukunftsorientierte Bank der Schweiz Willkommen bei der Basellandschaftlichen Kantonalbank BLKB - Ihrer zuverlässigen und innovativen Partnerin für Privat- und Firmengeschäfte. In 10 Minuten zum BLKB-Konto Immo",
+   "verdict": null
+  },
+  {
+   "host": "bmcedirect.ma",
+   "label": "finance",
+   "evidence": "BMCE Direct | BANK OF AFRICA Accédez à vos comptes et réalisez vos transactions à tout moment en toute sécurité et autonomie à travers BMCE Direct. Menu de premier niveau Identification Espace dédié Contenu principal Lie",
+   "verdict": null
+  },
+  {
+   "host": "card-transfer.tele2.ru",
+   "label": "finance",
+   "evidence": "T2 - validation JavaScript отключён Настраиваем тарифы Пересчитываем вышки Красим пиксели в розовый Меняем правила — они другие Подтвердите, что вы не робот Пройдите проверку для продолжения. Ваш запрос к веб-ресурсу не ",
+   "verdict": null
+  },
+  {
+   "host": "card.uplati.ru",
+   "label": "finance",
+   "evidence": "������� ������ � ������ ������� ������� ����� ��������� ������� ������� �������� card.uplati.ru ����������. � ��������� ������ ������ ������� ��������� �� ������ lk.uplati.ru . � ������, ���� � ��� �������� ������� �� ��",
+   "verdict": null
+  },
+  {
+   "host": "cathaybk.com.tw",
+   "label": "finance",
+   "evidence": "國泰世華銀行 國泰世華商業銀行提供完整個人金融服務，涵蓋存款、外匯、信用卡、貸款與財富管理，以專業穩健與貼心服務，打造值得信賴的金融夥伴關係。 國泰世華銀行 You need to enable JavaScript to run this app.",
+   "verdict": null
+  },
+  {
+   "host": "cbar.az",
+   "label": "finance",
+   "evidence": "Azərbaycan Respublikasının Mərkəzi Bankı - Ana səhifə Mərkəzi Bankın sədri Taleh Kazımovun rəhbərlik etdiyi nümayəndə heyəti Özbəkistan Mərkəzi Bankına işgüzar səfər edib Mərkəzi Bankın sədri Taleh Kazımov “İstanbul İqti",
+   "verdict": null
+  },
+  {
+   "host": "centrinvest.ru",
+   "label": "finance",
+   "evidence": "Банк Центр-инвест — расчётный счёт, карты, вклады, ипотека, кредиты Банк «Центр-инвест»: расчётный счёт для бизнеса от 0 ₽/мес, вклады до 14,5% годовых, ипотека, кредиты, карты для физических лиц. Оформление онлайн. Банк",
+   "verdict": null
+  },
+  {
+   "host": "ch6c.com.tw",
+   "label": "finance",
+   "evidence": "彰化六信 網路銀行、網路ATM、營業單位設置24小時自動化服務區、提款機、補摺機，提供24小時全天候服務 彰化六信,彰化第六信用合作社,六信,ch6c ※您的瀏覽器不支援JavaScript功能，若網頁功能無法正常使用時，請啟用Javascript才能正常使用，請確定瀏覽器開啟Javascript後重新整理。 ⏸ 防災0 防災1 全民機車安全健檢 零違規抽獎 金蛇迎春 線上開戶 80周年籃球賽 80周年籃球賽頒獎 救護車捐助 救護車捐助",
+   "verdict": null
+  },
+  {
+   "host": "coastcapitalsavings.com",
+   "label": "finance",
+   "evidence": "Welcome | Coast Capital Savings With us, you’re not just a customer, you’re a member. 500,000+ Members · Low Mortgage Rates · Online Banking · Friendly Service · Tools and Calculators Types: Chequing Accounts, Savings Ac",
+   "verdict": null
+  },
+  {
+   "host": "cotabank.com.tw",
+   "label": "finance",
+   "evidence": "三信商業銀行 – 百年三信，世紀傳承。在穩健中成長，在蛻變中展翅。 三信商銀，用心服務您! 三信商業銀行提供網路銀行、匯利率查詢、理財試算、黃金存摺、貸款、基金、信用卡等優質服務。 ${link_str} 網路銀行 網路ATM 數位服務專區 基金理財網 信用卡 信用貸款 代收學雜費 保險服務網 最新消息 網路銀行 您可進行存款、基金、信用卡等業務查詢，或線上轉帳、申購商品等作業。 網路ATM 您可於網路上進行「轉帳」、「查詢餘額」、「繳",
+   "verdict": null
+  },
+  {
+   "host": "cultureland.co.kr",
+   "label": "finance",
+   "evidence": "컬쳐랜드 컬쳐랜드 컬쳐랜드 죄송합니다. 일시적 시스템 오류 가 발생하였습니다. 정보보호관리체계 인증 {0} 메뉴 바로가기 본문 바로가기 로그인/로그아웃 바로가기 바닥글 바로가기 를 시작페이지로 --> 를 즐겨찾기로 --> 로그인 회원가입 상품권 구매 구매/선물 교환소 캐쉬 충전 충전 수단 모아보기 상품권 전용상품권 휴대폰 간편·예약충전 간편충전(페이) 카드 계좌이체 제휴상품권 편의점 포인트 ",
+   "verdict": null
+  },
+  {
+   "host": "currency.com",
+   "label": "finance",
+   "evidence": "One regulated platform for fiat, crypto and global payments - Currency.com Grow your portfolio with instant and secure digital asset operations. Currencies move better this way Changing finance. Making it easy. Highlight",
+   "verdict": null
+  },
+  {
+   "host": "cvw-privatbank-ag.de",
+   "label": "finance",
+   "evidence": "Startseite - .de Ihre CVW-Privatbank AG Der Mensch im Mittelpunkt - seit über 140 Jahren Die beliebtesten Themen unserer Kunden Deutschland-Kreditkarte CVW-Baufinanzierungsvergleich Goldsparplan Allianz SchatzBrief Immer",
+   "verdict": null
+  },
+  {
+   "host": "deutsche-bank.de",
+   "label": "finance",
+   "evidence": "Banking, Geldanlage und Beratung | Deutsche Bank Finanziell bestens aufgehoben ✓ sicheres Online-Banking ✓ flexible Kredite & Geldanlagen ✓ kompetente Beratung ➧ Jetzt informieren. Geldanlage, Altersvorsorge, Nullzins, I",
+   "verdict": null
+  },
+  {
+   "host": "deutsche-factoring.de",
+   "label": "finance",
+   "evidence": "Factoring solutions for companies | Deutsche Factoring Bank SMEs benefit from flexible solutions. Deutsche Factoring Bank provides you with fast liquidity and financial flexibility. Contact Headquarters Hotline Applicati",
+   "verdict": null
+  },
+  {
+   "host": "docfcu.org",
+   "label": "finance",
+   "evidence": "Home - Department of Commerce Federal Credit Union Department of Commerce - Federal Credit Union Auto loan and Refi options Ready for your new ride? Make Your Home Goals a Reality Discover a 20% credit at closing Superch",
+   "verdict": null
+  },
+  {
+   "host": "eantrag.ibb.de",
+   "label": "finance",
+   "evidence": "eantrag.ibb.de www.ibb.de AGB Impressum Datenschutz JavaScript ist nicht aktiviert. Aktivieren Sie JavaScript in Ihrem Browser, oder bitten Sie den Systemadministrator um Unterstützung. Zum Öffnen einer neuen Sitzung bit",
+   "verdict": null
+  },
+  {
+   "host": "eckernfoerder-bank.de",
+   "label": "finance",
+   "evidence": "Startseite - Eckernförder Bank eG Volksbank-Raiffeisenbank Für alles, was dein Leben bereithält Unsere aktuellen Themen und Angebote Girokonto Online-Nachhilfe mit ubiMaster Gewinnsparen Karriere Mitgliedschaft Gut aufge",
+   "verdict": null
+  },
+  {
+   "host": "efbank.ru",
+   "label": "finance",
+   "evidence": "АО АКБ «МОСНАРБАНК» - Расчеты в рупиях, Кредиты, Депозиты, Вклады, Сейфовые ячейки, Финансирование... Как универсальная кредитно-финансовая организация АО АКБ «МОСНАРБАНК» обладает всеми необходимыми лицензиями на осущес",
+   "verdict": null
+  },
+  {
+   "host": "egolomt.mn",
+   "label": "finance",
+   "evidence": "Голомт банк | Интернет банк Голом банк-Интернет банк | Golomt bank-Internet banking Та веб хөтөчөө шинэчлэнэ үү / You need to enable JavaScript to run this app.",
+   "verdict": null
+  },
+  {
+   "host": "emiratesnbd.com",
+   "label": "finance",
+   "evidence": "Attention Required! | Cloudflare Sorry, you have been blocked You are unable to access emiratesnbd.com Why have I been blocked? What can I do to resolve this? Please enable cookies. Sorry, you have been blocked You are u",
+   "verdict": null
+  },
+  {
+   "host": "federalbank.co.in",
+   "label": "finance",
+   "evidence": "Radware Captcha Page We apologize for the inconvenience... ...but your activity and behavior on this site made us think that you are a bot. Note: A number of things could be going on here. If you are attempting to access",
+   "verdict": null
+  },
+  {
+   "host": "federseebank.de",
+   "label": "finance",
+   "evidence": "Startseite VRDO - VR Bank Donau-Oberschwaben eG Für uns heißt da sein, auch füreinander da zu sein. Und das geht am besten vor Ort. Erfahren Sie hier mehr über die Leistungen und das Angebot Ihrer VR Bank Donau-Oberschwa",
+   "verdict": null
+  },
+  {
+   "host": "flip.id",
+   "label": "finance",
+   "evidence": "Flip — Kirim, Bayar, Hemat Lebih Banyak Transfer antar bank gratis, biaya tagihan lebih rendah, biaya transfer luar negeri terendah, dan cashback setiap belanja. Semua dalam satu aplikasi. flip, transfer, e-wallet, tagih",
+   "verdict": null
+  },
+  {
+   "host": "frankenberger-bank.de",
+   "label": "finance",
+   "evidence": "Startseite - Waldeck-Frankenberger Bank eG 3 Gewinnt Clever anlegen mit unser Dreier-Kombination Unsere aktuellen Themen und Angebote Online-Nachhilfe mit ubiMaster Hausbankwelt Willkommen bei uns TagesGeld IMMO360.de Ka",
+   "verdict": null
+  },
+  {
+   "host": "frankfurter-sparkasse.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Frankfurter Sparkasse Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Digital und persönlich, wir sind für Sie da: S-Neo – einfac",
+   "verdict": null
+  },
+  {
+   "host": "genoba-weil.de",
+   "label": "finance",
+   "evidence": "Startseite - Genossenschaftsbank Weil im Schönbuch eG Gemeinsam durchstarten Unsere aktuellen Themen und Angebote Frühstart-Rente Empfängerüberprüfung Ihr digitales Banking PIA Gut aufgestellt Die beliebtesten Produkte f",
+   "verdict": null
+  },
+  {
+   "host": "grupobancolombia.com",
+   "label": "finance",
+   "evidence": "Grupo Bancolombia Grupo Bancolombia Web Content Viewer Transversal Web Content Viewer Web Content Viewer Grupo Bancolombia Titulo Promovemos el desarrollo económico sostenible para lograr el bienestar de todos Informacio",
+   "verdict": null
+  },
+  {
+   "host": "hajjfinance.net",
+   "label": "finance",
+   "evidence": "Hajj Finance Company Limited Hajj Finance Company PLC Corporate Affairs Financing Facilities Deposit Product Stakeholder Information Head Office Principal Branch Dhanmondi Branch Uttara Branch Chattogram Branch Gazipur B",
+   "verdict": null
+  },
+  {
+   "host": "harzsparkasse.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Harzsparkasse Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Mit dem Joker °punkten und gewinnen Mit dem Joker °punkten und gewi",
+   "verdict": null
+  },
+  {
+   "host": "hausbank.de",
+   "label": "finance",
+   "evidence": "Hausbank München: Mietkautionen, WEG-Darlehen & Software | Hausbank München eG Hausbank München eG: Mietkautionen digital verwalten, WEG-Darlehen online beantragen und Verwaltersoftware sowie Beratungscenter entdecken. H",
+   "verdict": null
+  },
+  {
+   "host": "hokuyobank.co.jp",
+   "label": "finance",
+   "evidence": "�k�m��s�b�l�̂��q���� ������Жk�m��s�̃z�[���y�[�W�ł��B�n���k�C���̊F���܂̂����ɗ��Ă�A�g�߂ň��S�ȋ��Z�@�ւƂ��āA�T�[�r�X����̒񋟂ɓw�߂Ă���܂��B �����ӂ������� �l�̂��q���� �d�v�Ȃ��m�点 �d�v�Ȃ��m�点 ���𗧂���� ��ȏ��i�E�T�[�r�X���炳���� ���C�",
+   "verdict": null
+  },
+  {
+   "host": "hsbc.com",
+   "label": "finance",
+   "evidence": "HSBC Group corporate website | HSBC Holdings plc HSBC, one of the largest banking and financial services institutions in the world, serves millions of customers through its four global businesses. hsbc holdings, hsbc gro",
+   "verdict": null
+  },
+  {
+   "host": "ibank.unexbank.ua",
+   "label": "finance",
+   "evidence": "iBank 2 UA | I�������-������ iBank 2 UA - �� ���������� ������� ������������� ����������� �������������� �� �������� DBO Soft, ��� ����� ������ �������������� � �������-�������������� �������������� ��������� ���. �� ���",
+   "verdict": null
+  },
+  {
+   "host": "ibk.ofkbank.ru",
+   "label": "finance",
+   "evidence": "ofkbank.ru — деньги онлайн: легальные ставки, бонусы и микрозаймы Разбираем деньги онлайн по фактам: как устроены бонусы легальных букмекеров и микрозаймы, какие условия у договоров и требования к заёмщику. Без обещаний.",
+   "verdict": null
+  },
+  {
+   "host": "ifilbd.com",
+   "label": "finance",
+   "evidence": "Islamic Finance and Investment Limited (IFIL) is a financial Institution incorporated in Bangladesh on February 27, 2001 as a Public Limited Company under the Companies Act, 1994.",
+   "verdict": null
+  },
+  {
+   "host": "ikb.de",
+   "label": "finance",
+   "evidence": "IKB – Sparen, Anlegen & Finanzprodukte für Privatkunden Die IKB bietet Privatkunden attraktive Sparprodukte, sichere Geldanlagen und digitale Services. Informieren Sie sich über aktuelle Angebote und Zinskonditionen. Spa",
+   "verdict": null
+  },
+  {
+   "host": "inicis.com",
+   "label": "finance",
+   "evidence": "Premium PG – KG이니시스 | 온라인/오프라인 결제, 화이트라벨 간편결제 WPAY KG이니시스는 온라인·오프라인 결제, 화이트라벨 간편결제(WPAY), 해외결제, 부가세 환급, 이니톡/스마트결제까지 아우르는 국내 대표 PG(전자지급결제대행) 입니다. 지금 바로 가맹점 신청을 확인해보세요. 안과 밖 경계없이 연결되는 스마트결제 안과 밖 경계없이 연결되는 스마트결제 별도 홈페이지 없이 ",
+   "verdict": null
+  },
+  {
+   "host": "kbstar.com",
+   "label": "finance",
+   "evidence": "KB국민은행 KB국민은행 KB국민은행 빠른메뉴 새소식 이벤트 인사이트 금융상품 금융사고예방 소비자권익보호 KB 국민은행 APP 본문이동 브라우저 업데이트에 대한 ASTx 이용안내 항상 을 이용해주시는 고객님께 깊은 감사를 드립니다. 크롬 브라우저 143 버전 정책변경으로 인한 일부 크롬 브라우저의 오류 발생시 보안프로그램 이용 방법에 관해 안내드립니다. 보안프로그램 이용 방법 안내 > 1일동",
+   "verdict": null
+  },
+  {
+   "host": "kiwibank.co.nz",
+   "label": "finance",
+   "evidence": "Kiwibank - 100% Kiwi owned We were born to buck the system and make Kiwi better off. Whether you want to save a nest egg, deal with bills, pay down debt, grow a business or buy a house, we've got accounts, tools and expe",
+   "verdict": null
+  },
+  {
+   "host": "klikbca.com",
+   "label": "finance",
+   "evidence": "Internet Banking - KlikBCA Senantiasa di Sisi Anda English Version Aplikasi Online | BCA mobile | | Tips Keamanan Perbankan 15-Okt-2026 / 03:38 WIB USD 17.875,00 17.995,00 SGD 13.845,45 14.070,56 EUR 19.843,89 20.168,04 ",
+   "verdict": null
+  },
+  {
+   "host": "ksk-ratzeburg.de",
+   "label": "finance",
+   "evidence": "Kreissparkasse Herzogtum Lauenburg | Internet-Filiale Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Zur Anmeldung Zum Hauptinhalt Zur Suche Privat",
+   "verdict": null
+  },
+  {
+   "host": "ksk-stendal.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Kreissparkasse Stendal Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Servicezeiten Service-Telefon 24h-Sperrnotruf S-Immobilien",
+   "verdict": null
+  },
+  {
+   "host": "ksk-vulkaneifel.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Kreissparkasse Vulkaneifel Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Zur Anmeldung Zum Hauptinhalt Zur Suche Privatkunden F",
+   "verdict": null
+  },
+  {
+   "host": "kskbb.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Kreissparkasse Böblingen Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Sicher und entspannt fahren Sicher und entspannt fahren ",
+   "verdict": null
+  },
+  {
+   "host": "kskmse.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Kreissparkasse München Starnberg Ebersberg Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Sicher bezahlen, weltweit flexibel ble",
+   "verdict": null
+  },
+  {
+   "host": "kskwn.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Kreissparkasse Waiblingen Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Altersvorsorge ab 2027 – staatlich gefördert! Altersvor",
+   "verdict": null
+  },
+  {
+   "host": "ktb.com.tw",
+   "label": "finance",
+   "evidence": "京城銀行 - 不一樣的銀行 京城商業銀行官網,京城銀行,京城,銀行,數位帳戶,Goyee,Fintech,金融科技,台南中小企銀,網路銀行,企業網路銀行,基金理財,信託開戶,數位證券帳戶,KTB,King NEWS 成立一甲子， 深根 寶島 我們的專業您看得見 --> --> --> 165報案 開立數位帳戶 開立京匯通 合併專區 最新消息 防詐騙專區 菁英招募 金融友善 公告專區 ::: 個人服務 企業服務 數位金融 關於京城 永續發",
+   "verdict": null
+  },
+  {
+   "host": "lhv.ee",
+   "label": "finance",
+   "evidence": "LHV Rahastame asjatundlikult ja usaldusega. Pakume finantseerimistooteid nii eraisikule kui ka ettevõttele. IGAPÄEVAPANGANDUS Tule kliendiks Arveldused Pangakaardid Teeninduskanalid RAHA KASVATAMINE Säästmine Investeerim",
+   "verdict": null
+  },
+  {
+   "host": "llb.li",
+   "label": "finance",
+   "evidence": "Private clients | LLB Alerts.Headline What are you looking for? Website With a smart plan for me and my loved ones. Your future in safe hands – join us digitally now! Our roots, your future: your trust, our most valuable",
+   "verdict": null
+  },
+  {
+   "host": "marcard.de",
+   "label": "finance",
+   "evidence": "Home - Marcard Stein & Co - The Family Office Bank Private Family Office bank in Hamburg focused on bespoke wealth preservation, independent advice & long-term support for affluent families. Our aim is to fulfill the exp",
+   "verdict": null
+  },
+  {
+   "host": "mbz19n.accounts.clickbank.com",
+   "label": "finance",
+   "evidence": "ERROR: The request could not be satisfied 403 ERROR The request could not be satisfied. Request blocked. We can't connect to the server for this app or website at this time. There might be too much traffic or a configura",
+   "verdict": null
+  },
+  {
+   "host": "meinebank.de",
+   "label": "finance",
+   "evidence": "Willkommen bei MEINE BANK MEINE BANK: Kostenloses Girokonto, attraktives Tages- und Festgeld sowie modernes OnlineBanking. Digital, einfach, unabhängig. Willkommen bei MEINE BANK. Aktuelles Finanzen jetzt gemeinsam im Gr",
+   "verdict": null
+  },
+  {
+   "host": "mercantildobrasil.com.br",
+   "label": "finance",
+   "evidence": "Access Denied Access Denied You don't have permission to access \"http://mercantildobrasil.com.br/\" on this server. Reference #18.d7c41302.1792010467.289314b3 https://errors.edgesuite.net/18.d7c41302.1792010467.289314b3",
+   "verdict": null
+  },
+  {
+   "host": "mercedes-benz-bank.de",
+   "label": "finance",
+   "evidence": "Die Mercedes-Benz Bank Entdecken Sie alle Services, Angebote und Leistungen der Mercedes-Benz Bank auf einen Blick. Die Mercedes-Benz Bank. Top Themen. Kontaktmöglichkeiten. Mercedes Credit Card. Finanzierungsangebote fü",
+   "verdict": null
+  },
+  {
+   "host": "mfb.hu",
+   "label": "finance",
+   "evidence": "MFB | Magyar Fejlesztési Bank MFB MFB, Magyar Fejlesztési Bank Weboldalunkon sütiket használunk. 2026. október 14. szerda Karrier GYIK Kik vagyunk? Bankról Vezetőség Brüsszeli képviselet Cégstruktúra China-CEEC Coordinat",
+   "verdict": null
+  },
+  {
+   "host": "mohela.com",
+   "label": "finance",
+   "evidence": "Home Page MOHELA Homepage Secure Login Don't Have an Account? Important Features and Options Update Your Income Driven Repayment (IDR) Plan Account Management Tools Need a Lower Payment? Upload Documents New to MOHELA Pu",
+   "verdict": null
+  },
+  {
+   "host": "moneyou.de",
+   "label": "finance",
+   "evidence": "Moneyou Auf Wiedersehen! Hatten Sie noch Geld auf Ihrem Tagesgeldkonto oder Ihrem Moneyou Go Konto? Häufige Fragen Warum hat die ABN AMRO Bank N.V. Moneyou geschlossen? Was bedeutet die Schließung für mich? Kann ich mich",
+   "verdict": null
+  },
+  {
+   "host": "monzo.com",
+   "label": "finance",
+   "evidence": "Monzo | Open a Free Account Your salary sorted into Pots. Your spare change turned into savings. Your money, doing what it should with Monzo. Spend your money on life, not your life on money Get the most out of Monzo Cur",
+   "verdict": null
+  },
+  {
+   "host": "mueritz-sparkasse.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Müritz-Sparkasse Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Das S-Neo Depot ist Ihr Einstieg in die Geldanlage mit ETFs, Fon",
+   "verdict": null
+  },
+  {
+   "host": "my.helaba.bank",
+   "label": "finance",
+   "evidence": "Helaba - Service Alle Infos zu Services der Helaba für Kunden, Lieferanten und Interessierte. Kunden Geschäftsfelder Nachhaltigkeit Investor Relations Karriere Presse Über uns Miteinander mehr Service Hinweis: Helaba Kun",
+   "verdict": null
+  },
+  {
+   "host": "nabtrade.com.au",
+   "label": "finance",
+   "evidence": "nabtrade | Trade Australian & International shares online - nabtrade Buy and sell shares online & enjoy competitive fees with nabtrade -NAB’s online share trading platform. Stay informed with the latest ASX and internati",
+   "verdict": null
+  },
+  {
+   "host": "nedbank.co.za",
+   "label": "finance",
+   "evidence": "Make better money choices with us | Nedbank Get a financial partner who will help, guide and support you on your personal journey. For endless rewards as you bank Better banking. Better rewards. What we can do for you Ac",
+   "verdict": null
+  },
+  {
+   "host": "olb.de",
+   "label": "finance",
+   "evidence": "OLB - die Bank für Privat- & Firmenkunden Girokonten, Investmentfonds, Sofortkredit, Baufinanzierung: OLB - die Bank für Privat- & Firmenkunden, Freiberufler sowie Private Banking. Von Mensch zu Mensch. Vor Ort und digit",
+   "verdict": null
+  },
+  {
+   "host": "online.dfcc.lk",
+   "label": "finance",
+   "evidence": "Request Rejected The requested URL was rejected. Please consult with your administrator. Your support ID is 6495b71e-1678-474f-8eb1-2dbb31f432ec [Go Back]",
+   "verdict": null
+  },
+  {
+   "host": "online.gemvisa.com.au",
+   "label": "finance",
+   "evidence": "Latitude Service Centre The Latitude Service Centre allows you to manage all of your GEM & Latitude products and credit card accounts in one place",
+   "verdict": null
+  },
+  {
+   "host": "online.kamkombank.ru",
+   "label": "finance",
+   "evidence": "Новая открытая платформа Digital2Go Открытость. Актуальность. Надежность. Речевая аналитика для компаний любого масштаба Повышайте эффективность Контакт-центров Возможность перевода через СБП для клиентов любого банка На",
+   "verdict": null
+  },
+  {
+   "host": "online.osmanlimenkul.com.tr",
+   "label": "finance",
+   "evidence": "E-ŞUBE - Osmanlı Yatırım Güvenliğiniz için lütfen dikkat ediniz. Bize Ulaşın GİZLİLİK SÖZLEŞMESİ Sermaye Piyasası Kurulu’nun Basın Açıklaması – 04.06.2020 34 && event.keyCode Beni Hatırla Dikkat: Eski e-şube kullanımına ",
+   "verdict": null
+  },
+  {
+   "host": "online.piraeusbank.ua",
+   "label": "finance",
+   "evidence": "Piraeus Online Login Piraeus Online Banking cистема інтернет-банкінгу для юридичних осіб Виберіть токен зі списку Вхід у систему Вхід з токеном www.piraeusbank.ua Piraeus Online Banking cистема інтернет-банкінгу для юрид",
+   "verdict": null
+  },
+  {
+   "host": "otpbankdirekt.hu",
+   "label": "finance",
+   "evidence": "OTP Bank - OTPdirekt belépés Intézd pénzügyeidet online az OTPdirekt szolgáltatással! Az átutaláshoz, egyenleglekérdezéshez és vásárlási kedvezményekhez lépj be az internetbankba! Fejléc navigáció Új internetbank lakossá",
+   "verdict": null
+  },
+  {
+   "host": "pagbrasil.com",
+   "label": "finance",
+   "evidence": "PagBrasil - Step beyond | Innovating Digital Payments Digital payment solutions to boost your business - PagBrasil offers credit, debit, boleto, Pix, and more. Explore now! PagBrasil | Payments for Brazil The local payme",
+   "verdict": null
+  },
+  {
+   "host": "param.com.tr",
+   "label": "finance",
+   "evidence": "Param: Nakit �ade Avantaj� ve D���k Komisyon Oran� - Param Nakit iade avantaj�, d���k komisyon oranlar� ile Param, Paradan fazlas�! ParamKart her an�nda yan�nda! Param Bireysel Avantajlar Param Kurumsal Param ile �deme A",
+   "verdict": null
+  },
+  {
+   "host": "paranabanco.com.br",
+   "label": "finance",
+   "evidence": "Error Page Error 403 - Forbidden The requested URL was rejected. Please consult with your administrator. Your support ID is 31e85efe-70b1-4cd1-9354-cc9ae200a682 F5 site: mil1-mil [Go Back]",
+   "verdict": null
+  },
+  {
+   "host": "paycell.com.tr",
+   "label": "finance",
+   "evidence": "Paycell Nedir? | Harcadıkça Kazandıran Alışveriş Kartı Operatör ve banka bağımsız bir ön ödemeli kart olan Paycell ile bireysel ve kurumsal finansal ihtiyaçlarını yönetebilir, tek tıkla güvenli alışveriş yapabilirsin. He",
+   "verdict": null
+  },
+  {
+   "host": "paysecure.ru",
+   "label": "finance",
+   "evidence": "Assist | Ведущий разработчик и интегратор платежных решений Оптимальные платежные решения для любого бизнеса. Интернет-эквайринг, мобильный эквайринг, онлайн-фискализация, антифрод, токенизация. NaN Assist Разработчик и ",
+   "verdict": null
+  },
+  {
+   "host": "procreditbank.de",
+   "label": "finance",
+   "evidence": "ProCredit Bank Deutschland Die Bank mit Wirkung. Für Unternehmen und für Privatkund*innen: Wir sorgen für positiven Impact! Banking mit Verantwortung. Vor Ort. Verlässlich. Professionell. So arbeiten wir: Vernetzt. Partn",
+   "verdict": null
+  },
+  {
+   "host": "psd-berlin-brandenburg.de",
+   "label": "finance",
+   "evidence": "Home - BBBank Die BBBank ist die größte genossenschaftliche Privatkundenbank in Deutschland. Eine moderne Digitalbank mit bundesweitem Filialnetz. Das bessere Tagesgeld! Starke Zinsen. Clever Geld anlegen. Girokonto Bauf",
+   "verdict": null
+  },
+  {
+   "host": "raiba-fkh.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Volksbank Euskirchen eG - Volksbank Euskirchen eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Wir sind da, wo ",
+   "verdict": null
+  },
+  {
+   "host": "raiba-gaimbux.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Raiffeisenbank im Donautal eG - Raiffeisenbank im Donautal eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Leic",
+   "verdict": null
+  },
+  {
+   "host": "raiba-schwabmuenchen.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Raiffeisenbank Schwabmünchen-Stauden eG - Raiffeisenbank Schwabmünchen-Stauden eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihn",
+   "verdict": null
+  },
+  {
+   "host": "raibadirekt.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Raiffeisenbank Aichhalden-Hardt-Sulgen eG - Raiffeisenbank Aichhalden-Hardt-Sulgen eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen",
+   "verdict": null
+  },
+  {
+   "host": "raiffeisenbank-bs.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Raiffeisenbank Burgebrach-Stegaurach eG - Raiffeisenbank Burgebrach-Stegaurach eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihn",
+   "verdict": null
+  },
+  {
+   "host": "raiffeisenbank-elztal.de",
+   "label": "finance",
+   "evidence": "Startseite - Raiffeisenbank eG Eine starke Gemeinschaft mit vielen Vorteilen Unsere aktuellen Themen und Angebote easyCredit Mitgliedschaft Gewinnsparen Fondssparplan Gut aufgestellt Die beliebtesten Produkte für Privatk",
+   "verdict": null
+  },
+  {
+   "host": "raiffeisenbank-gmund.de",
+   "label": "finance",
+   "evidence": "Startseite - RB Gmund am Tegernsee Berufserfahrene Unsere aktuellen Themen und Angebote Alle Apps im Überblick Aktuelle Börseninformationen easyCredit Fondssparplan Gut aufgestellt Die beliebtesten Produkte für Privatkun",
+   "verdict": null
+  },
+  {
+   "host": "rb-af.de",
+   "label": "finance",
+   "evidence": "Startseite - Raiffeisenbank Auerbach-Freihung eG Kryptowerte handeln Ihr Einstieg in den Kryptohandel Unsere aktuellen Themen und Angebote Festgeld SOLIT Wertekauf Online-Geschäftsstelle Mitgliedschaft Alle Apps im Überb",
+   "verdict": null
+  },
+  {
+   "host": "rb-ebrachgrund.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Raiffeisenbank DreiFranken eG - Raiffeisenbank DreiFranken eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Vors",
+   "verdict": null
+  },
+  {
+   "host": "rb-fuchstal.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Raiffeisenbank Lechrain eG - Raiffeisenbank Lechrain eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Sofort fin",
+   "verdict": null
+  },
+  {
+   "host": "rb-kieselbronn.de",
+   "label": "finance",
+   "evidence": "Startseite - Raiffeisenbank Kieselbronn eG Für uns heißt da sein, auch füreinander da zu sein. Und das geht am besten vor Ort. Erfahren Sie hier mehr über die Leistungen und das Angebot Ihrer Raiffeisenbank Kieselbronn e",
+   "verdict": null
+  },
+  {
+   "host": "rb-thannhausen.de",
+   "label": "finance",
+   "evidence": "Startseite - Raiffeisenbank Thannhausen eG Wir sind da, wo Sie sind Unsere aktuellen Themen und Angebote Wero Girokonto Gut aufgestellt Die beliebtesten Produkte für Privatkunden im Überblick Girokonto & Bezahlen: Produk",
+   "verdict": null
+  },
+  {
+   "host": "rb-wegscheid.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Raiffeisenbank Wegscheid eG - Raiffeisenbank Wegscheid eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Wir sind",
+   "verdict": null
+  },
+  {
+   "host": "rileg.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Raiffeisenbank Isar-Loisachtal eG - Raiffeisenbank Isar-Loisachtal eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weit",
+   "verdict": null
+  },
+  {
+   "host": "rindalsbanken.no",
+   "label": "finance",
+   "evidence": "Orkla Sparebank Orkla Sparebank Velkommen til Orkla Sparebank Boliglån Ung Nyheter Hold av datoen: Velkommen til SKAP! 2026 Advarer mot svindel Åtte ansatte har over 40 år i banken: – En fantastisk reise Snarveier Noen a",
+   "verdict": null
+  },
+  {
+   "host": "rv-ebe.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Raiffeisen-Volksbank Ebersberg eG - Raiffeisen-Volksbank Ebersberg eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weit",
+   "verdict": null
+  },
+  {
+   "host": "rvbfresena.de",
+   "label": "finance",
+   "evidence": "Startseite Raiffeisen-Volksbank Fresena eG - Raiffeisen-Volksbank Fresena eG Starte deine Karriere bei uns. Wir verlosen 3x 2 Tickets... Wir suchen Verstärkung in Norden Gemeinsam schlau statt einsam büffeln Auslandsreis",
+   "verdict": null
+  },
+  {
+   "host": "rvbmil.de",
+   "label": "finance",
+   "evidence": "Startseite - Raiffeisenbank-Volksbank Miltenberg Fragen zur Riester-Reform? Unsere aktuellen Themen und Angebote Aktuelle Betrugsmaschen im Umlauf Echtzeitüberweisungen Energie Modernisierungskredit Gründung & Nachfolge ",
+   "verdict": null
+  },
+  {
+   "host": "saalesparkasse.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Saalesparkasse Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Cockpit Immobilie Das Immobilien-Tool Ihrer Sparkasse. Cockpit Imm",
+   "verdict": null
+  },
+  {
+   "host": "sabinco.com.bd",
+   "label": "finance",
+   "evidence": "Saudi Bangladesh Industrial and Agricultural Investment Company Limited (SABINCO) – Your Trusted Business Partner 43 YEARS OF EXPERIENCE BEST INDUSTRY EXPERTS Industrial Sectors Promoted Membership Welcome to Saudi Bangl",
+   "verdict": null
+  },
+  {
+   "host": "safra.com.br",
+   "label": "finance",
+   "evidence": "Banco Safra: excelência para os seus investimentos | Safra Conheça a conta do banco Safra com gestão personalizada, investimentos robustos e soluções financeiras para potencializar o seu patrimônio. A excelência Safra pa",
+   "verdict": null
+  },
+  {
+   "host": "scu.org.tw",
+   "label": "finance",
+   "evidence": "�w����{�n�ꤤ�� �� �s �� �� �t�Τ��i �s�D��T �žɵu�� ��L�s�� ����/����ATM/��ʻ�2.0 �� �L �M �� �x �W P A Y �� �� �s �� ::: A- A A+ ² �� �n��²�� �~��²�� �A �� �|���A�� �z�]�A�� �� �i �x�~���i ���ʤ��i �|���@�� �@�η|�����@�� �x�",
+   "verdict": null
+  },
+  {
+   "host": "sekerbank.com.tr",
+   "label": "finance",
+   "evidence": "Ana Sayfa Türkiye'nin sosyal ve çevresel bankası Şekerbank'ın ürün ve hizmetlerine göz atmak için web sitemizi ziyaret edebilirsiniz. Şekerbank'tan kadın girişmcilere ve genç girişimcilere EBRD ve KGF destekli finansman!",
+   "verdict": null
+  },
+  {
+   "host": "selco.org",
+   "label": "finance",
+   "evidence": "SELCO Community Credit Union | SELCO Oregon-based SELCO Community Credit Union offers auto loans, mortgage loans, business banking, insurance, and investment services to help you grow financially. Introducing High-Yield ",
+   "verdict": null
+  },
+  {
+   "host": "service.fuib.com",
+   "label": "finance",
+   "evidence": "��������� ������� ������ ��� ����� Web-�볺��� �������� ������������ ���� ������������ ������� ������ ������������ ������� ���� ���� Internet-�볺���� ������-��������� ������- � ����� ��������� (ATM watch) ������� � �� (Shee",
+   "verdict": null
+  },
+  {
+   "host": "servus.ca",
+   "label": "finance",
+   "evidence": "Servus Credit Union - Servus Credit Union Earn 5.00% with a Premium Savings Account* Are you living your best Servus life? I need expert advice about… Become a Servus member Keep up with Servus No bank has ever treated m",
+   "verdict": null
+  },
+  {
+   "host": "sicredi.com.br",
+   "label": "finance",
+   "evidence": "Access Denied Access Denied You don't have permission to access \"http://sicredi.com.br/\" on this server. Reference #18.9ec11302.1792018437.1d139a8e https://errors.edgesuite.net/18.9ec11302.1792018437.1d139a8e",
+   "verdict": null
+  },
+  {
+   "host": "sigortam.net",
+   "label": "finance",
+   "evidence": "Sigortam.net: Sigortada Güvenin Adresi | Sigorta Teklifi Al Sigortam.net’te 30’a yakın sigorta şirketinin tekliflerini hemen karşılaştır, fiyatları ve teminatları incele, 2 dakikada sigortanı online satın al. Sigortada G",
+   "verdict": null
+  },
+  {
+   "host": "skb-hammah.de",
+   "label": "finance",
+   "evidence": "Startseite - Spar- und Kreditbank eG, Hammah Eine starke Gemeinschaft mit vielen Vorteilen Unsere aktuellen Themen und Angebote Kontowechselservice Immobilien Alle Apps im Überblick Ihr digitales Banking Mitgliedschaft G",
+   "verdict": null
+  },
+  {
+   "host": "smbc.co.jp",
+   "label": "finance",
+   "evidence": "�O��Z�F��s �O��Z�F��s�̃z�[���y�[�W�ł��B�����J�݁A�Z��[���A�O�ݗa���A�����M�����̊e�폤�i�E�T�[�r�X�ɂ��Čf�ڂ��Ă��܂��B�C���^�[�l�b�g�o���L���O�ł́A�c���Ɖ��U���A�O�ݗa���Ⓤ���M���̂��������̑��A�֗���Web�ʒ��������p���������܂��B �O��Z",
+   "verdict": null
+  },
+  {
+   "host": "southeastbank.com.bd",
+   "label": "finance",
+   "evidence": "Southeast Bank PLC. --> --> --> --> --> --> --> --> --> Home | About Us Profile Board of Directors Executive Committee Audit Committee Risk Management Committee Shariah Supervisory Committee Executive Committee Audit Com",
+   "verdict": null
+  },
+  {
+   "host": "sparkasse-gera-greiz.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Sparkasse Gera-Greiz Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Neue Wege der privaten Vorsorge nutzen Neue Wege der private",
+   "verdict": null
+  },
+  {
+   "host": "sparkasse-hochrhein.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Sparkasse Hochrhein Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Sparkassenbrief Jetzt durchstarten! Sparkassenbrief Jetzt dur",
+   "verdict": null
+  },
+  {
+   "host": "sparkasse-rhein-nahe.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Sparkasse Rhein-Nahe Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Mach was aus deinem Geld Mach was aus deinem Geld Das Immobi",
+   "verdict": null
+  },
+  {
+   "host": "sparkasse-rottal-inn.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Sparkasse Rottal-Inn Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Das S-Neo Depot ist Ihr Einstieg in die Geldanlage mit ETFs,",
+   "verdict": null
+  },
+  {
+   "host": "sparkasse-st-blasien.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Sparkasse St. Blasien Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Wenige Klicks, alle Freigaben – in einer App Wenige Klicks,",
+   "verdict": null
+  },
+  {
+   "host": "sparkasse-wuppertal.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Stadtsparkasse Wuppertal Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Abenteuer im Kopf – Kredit in der Tasche Abenteuer im Ko",
+   "verdict": null
+  },
+  {
+   "host": "sparkasse.at",
+   "label": "finance",
+   "evidence": "Das modernste Banking Österreichs | Erste Sparkasse Das modernste Banking Österreichs: Girokonto und Internetbanking, Sparen und Kredit, Anlegen und Vorsorgen – hier finden Sie alles für Ihr Geldleben. GLAUB AN DICH Unli",
+   "verdict": null
+  },
+  {
+   "host": "spk-arnstadt-ilmenau.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Sparkasse Arnstadt-Ilmenau Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Giro Young Unser mitwachsendes Konto Giro Young Unser ",
+   "verdict": null
+  },
+  {
+   "host": "spk-frg.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Sparkasse Freyung-Grafenau Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Prüfen und schalten – Daten behalten Prüfen und schalt",
+   "verdict": null
+  },
+  {
+   "host": "sskm.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Stadtsparkasse München Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Das kostenlose* Depot direkt in deiner Sparkassen-App. Das",
+   "verdict": null
+  },
+  {
+   "host": "standardchartered.com.tw",
+   "label": "finance",
+   "evidence": "403 - Forbidden: Access is denied. Server Error 403 - Forbidden: Access is denied. You do not have permission to view this directory or page using the credentials that you supplied. Server Error You do not have permissio",
+   "verdict": null
+  },
+  {
+   "host": "tossinvest.com",
+   "label": "finance",
+   "evidence": "토스증권 - 주식 투자를 더 쉽게 더 큰 화면으로, 더 자세하게 거래해요 | 토스증권 | 주식 | PC 토스증권, 주식, PC, WTS, Web Trading System 지수 목록 실시간 차트 필터 지원하지 않는 브라우저예요 윈도우, 맥, 안드로이드 태블릿 크롬 또는 엣지 최신 버전을 이용해주세요. 크롬 다운로드 아이패드 OS를 최신 버전으로 업데이트해 주세요. OS 업데이트 홈 피드 주식",
+   "verdict": null
+  },
+  {
+   "host": "ubinco.com",
+   "label": "finance",
+   "evidence": "UBICO – The UAE-Bangladesh Investment Company Limited Primary menu Home Welcome To The UAE-BANGLADESH INVESTMENT COMPANY LIMITED. Calendar Visitor Counters Visitor Counter Message Us Thursday, October 15, 2026 UBICO The ",
+   "verdict": null
+  },
+  {
+   "host": "unserevolksbank.de",
+   "label": "finance",
+   "evidence": "Willkommen bei Ihrer Bank 1 Saar eG - Bank 1 Saar · Ihre Volksbank im Saarland Wir sind die Bank für das Saarland - digital und lokal. Aus Sparen wird Anlegen Zeit, mehr aus Ihrem Geld zu machen Wir haben da etwas für Si",
+   "verdict": null
+  },
+  {
+   "host": "valiant.ch",
+   "label": "finance",
+   "evidence": "Valiant Bank: Ihre Schweizer Bank für Privat & KMU - Valiant Javascript ist deaktiviert Übersicht Privat Konten und Karten Finanzieren Anlegen Vorsorgen Digitales Banking Blog Übersicht Geschäftlich Zahlen Finanzieren Sp",
+   "verdict": null
+  },
+  {
+   "host": "vb-alzey-worms.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Volksbank Alzey-Worms eG - Volksbank Alzey-Worms eG mit Niederlassung VR-Bank Mainz Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen I",
+   "verdict": null
+  },
+  {
+   "host": "vb-bad-saulgau.de",
+   "label": "finance",
+   "evidence": "Startseite VRDO - VR Bank Donau-Oberschwaben eG Für uns heißt da sein, auch füreinander da zu sein. Und das geht am besten vor Ort. Erfahren Sie hier mehr über die Leistungen und das Angebot Ihrer VR Bank Donau-Oberschwa",
+   "verdict": null
+  },
+  {
+   "host": "vb-elsen-wewer-borchen.de",
+   "label": "finance",
+   "evidence": "Startseite - Volksbank Elsen-Wewer-Borchen eG Ihre Online-Geschäftsstelle Jederzeit Bankgeschäfte erledigen Unsere aktuellen Themen und Angebote Premium-Bankreise im Februar 2027 Riester-Rente und Altersvorsorgedepot Fon",
+   "verdict": null
+  },
+  {
+   "host": "vb-gescher.de",
+   "label": "finance",
+   "evidence": "Startseite - Volksbank Gescher eG Riester-Rente und Altersvorsorgedepot Unsere aktuellen Themen und Angebote Festgeld Bauen, kaufen oder sanieren? Wir sagen: Baufi geht’s! Veranstaltungen Altersvorsorgedepot Viel free Za",
+   "verdict": null
+  },
+  {
+   "host": "vb-is.de",
+   "label": "finance",
+   "evidence": "Startseite - Volksbank in Schaumburg und Nienburg eG MeinPlus Cashback Unsere aktuellen Themen und Angebote Wahnsinnswohnträume Wero Vom Traum zur Adresse Online-Nachhilfe geschenkt Beste Kundenberatung Gut aufgestellt D",
+   "verdict": null
+  },
+  {
+   "host": "vb-limbach.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Volksbank Limbach eG - Volksbank Limbach eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Wir sind da, wo Sie si",
+   "verdict": null
+  },
+  {
+   "host": "vb-regensburg.de",
+   "label": "finance",
+   "evidence": "Startseite - Volksbank Raiffeisenbank Regensburg-Schwandorf eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Der Herbst bringt me",
+   "verdict": null
+  },
+  {
+   "host": "vb-ruhrmitte.de",
+   "label": "finance",
+   "evidence": "Startseite Volksbank Ruhr Mitte eG - Volksbank Ruhr Mitte eG Azubi-Beratertage Jetzt einen Termin vom 02.09.2026 bis 16.10.2026 vereinbaren und gewinnen! Unsere beliebtesten Online-Services Konto eröffnen easyCredit bere",
+   "verdict": null
+  },
+  {
+   "host": "vb-saarpfalz.de",
+   "label": "finance",
+   "evidence": "Willkommen bei Ihrer Bank 1 Saar eG - Bank 1 Saar · Ihre Volksbank im Saarland Wir sind die Bank für das Saarland - digital und lokal. Aus Sparen wird Anlegen Zeit, mehr aus Ihrem Geld zu machen Wir haben da etwas für Si",
+   "verdict": null
+  },
+  {
+   "host": "vb-wittingen-kloetze.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Volksbank eG Südheide - Isenhagener Land - Altmark - Wir sind Ihre Bank vor Ort. Besuchen Sie uns in unseren Filialen, auf unserer Homepage oder rufen Sie uns einfach an. Herzlich Willkommen auf unserer ",
+   "verdict": null
+  },
+  {
+   "host": "vbboesel.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Volksbank eG - deiner Volksbank eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. 26.–30. Oktober ist wieder Spar",
+   "verdict": null
+  },
+  {
+   "host": "vbhaaren.de",
+   "label": "finance",
+   "evidence": "Online-Geschäftsstelle - Raiffeisenbank Eifel eG Entdecken Sie Online-Services rund um Girokonto, Bezahlen, Kredit, Vorsorge, Versicherung, Geldanlage, Dokumente, OnlineBanking und Apps – einfach online erledigen. Online",
+   "verdict": null
+  },
+  {
+   "host": "vbhalle.de",
+   "label": "finance",
+   "evidence": "Startseite - Volksbank Halle (Saale) eG Wahnsinnswohnträume Unsere aktuellen Themen und Angebote Gibt’s für Mitglieder was on top? Das kriegen wir hin! Kfz-Versicherung Gold und Silber kaufen Engster Kreis oder doch die ",
+   "verdict": null
+  },
+  {
+   "host": "vbhaseluenne.de",
+   "label": "finance",
+   "evidence": "Startseite - Volksbank Haselünne eG Altersvorsorgedepot Unsere aktuellen Themen und Angebote Eine starke Gemeinschaft Volksbank Haselünne eG blickt auf erfolgreiches Jahr 2025 zurück Jetzt Wero freischalten! Öffnungszeit",
+   "verdict": null
+  },
+  {
+   "host": "vbhawa.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Volksbank eG Südheide - Isenhagener Land - Altmark - Wir sind Ihre Bank vor Ort. Besuchen Sie uns in unseren Filialen, auf unserer Homepage oder rufen Sie uns einfach an. Herzlich Willkommen auf unserer ",
+   "verdict": null
+  },
+  {
+   "host": "vbwildeshauser-geest.de",
+   "label": "finance",
+   "evidence": "Startseite - Volksbank eG Oldenburg-Land Delmenhorst Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Empfehlen. Freuen. Prämie sich",
+   "verdict": null
+  },
+  {
+   "host": "verkkopalkka.maventa.fi",
+   "label": "finance",
+   "evidence": "Valitettavasti tunnistautuminen palveluun epäonnistui. Pääset siirtymään palveluun uudelleen verkkopankkisi kautta. Powered by:",
+   "verdict": null
+  },
+  {
+   "host": "vlvb.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Volksbank Raiffeisenbank eG - VReG - Volksbank Raiffeisenbank eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. H",
+   "verdict": null
+  },
+  {
+   "host": "voba-mainspitze.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Volksbank Mainspitze eG - Volksbank Mainspitze eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Altersvorsorgede",
+   "verdict": null
+  },
+  {
+   "host": "voba-rheinahreifel.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer VR Bank RheinAhrEifel eG - VR Bank RheinAhrEifel eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Vertreterwahl ",
+   "verdict": null
+  },
+  {
+   "host": "vobadill.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer VR Bank Lahn-Dill eG - VR Bank Lahn-Dill Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Sonderkontingent - VR Opt",
+   "verdict": null
+  },
+  {
+   "host": "vobasandhofen.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Volksbank Sandhofen eG - Volksbank Sandhofen eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Ihre Bank vor Ort ",
+   "verdict": null
+  },
+  {
+   "host": "vobawhv.de",
+   "label": "finance",
+   "evidence": "Startseite - Volksbank Wilhelmshaven eG Weltsparwoche 2026 Heute sparen. Morgen machen. Unsere aktuellen Themen und Angebote Baufinanzierung? Dann mach den Fair-Gleich. meinDepot Sicherheit Karte und OnlineBanking sperre",
+   "verdict": null
+  },
+  {
+   "host": "volksbank-boerde-bernburg.de",
+   "label": "finance",
+   "evidence": "Produkte und Leistungen für Privatkundinnen und Privatkunden Für die Ziele und Wünsche unserer Privatkundinnen und Privatkunden setzen wir als Genossenschaftsbank auf die Stärke unserer Gruppe. Wahnsinnswohnträume Gut au",
+   "verdict": null
+  },
+  {
+   "host": "volksbank-brawo.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Volksbank BRAWO eG - Volksbank BRAWO eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Eine starke Gemeinschaft m",
+   "verdict": null
+  },
+  {
+   "host": "volksbank-dingolfing.de",
+   "label": "finance",
+   "evidence": "VR-Bank Ostbayern Mitte eG – Modernes Banking & regionale Beratung - VR-Bank Ostbayern-Mitte eG Erleben Sie modernes Banking mit regionaler Verbundenheit – die VR-Bank Ostbayern Mitte eG verbindet persönliche Beratung mi",
+   "verdict": null
+  },
+  {
+   "host": "volksbank-esslingen.de",
+   "label": "finance",
+   "evidence": "Startseite - Volksbank Mittlerer Neckar eG Jetzt 3,10 % p.a. für 18 Monate sichern! GiroOnline VR Banking App Kreditkarten easyCredit Ihr Einstieg in den Kryptohandel - meinKrypto Mitgliedschaft Gewinnspiel Altersvorsorg",
+   "verdict": null
+  },
+  {
+   "host": "volksbank-langendernbach.de",
+   "label": "finance",
+   "evidence": "Startseite - Volksbank Langendernbach eG GoldCard Unsere aktuellen Themen und Angebote Raus hier – ins Eigenheim mit Auslauf Schutz vor Phishing Einkommensschutz Hunde-OP-Versicherung Börseninformationen easyCredit VR Ba",
+   "verdict": null
+  },
+  {
+   "host": "volksbank-lingen.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Emsländische Volksbank eG - Emsländische Volksbank eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Einladung zu",
+   "verdict": null
+  },
+  {
+   "host": "volksbank-nottuln.de",
+   "label": "finance",
+   "evidence": "Startseite - Volksbank Nottuln eG TeilhaBÄR-Aktion 2026 Unsere aktuellen Themen und Angebote Unsere Ansprechpartner OnlineBanking Erben und vererben Börseninformationen Mitgliedschaft Ihr digitales Banking Karriere Firme",
+   "verdict": null
+  },
+  {
+   "host": "volksbank-pfullendorf.de",
+   "label": "finance",
+   "evidence": "Startseite - Volksbank Pfullendorf eG Siehst du schon, wer du morgen bist? Deine Zukunft beginnt hier. Unsere aktuellen Themen und Angebote Alle Apps im Überblick Ihr digitales Banking Sicherheit Karte und OnlineBanking ",
+   "verdict": null
+  },
+  {
+   "host": "volksbank-strohgaeu.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Volksbank Leonberg-Strohgäu eG - Volksbank Leonberg-Strohgäu eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Vo",
+   "verdict": null
+  },
+  {
+   "host": "volksbank-ueberlingen.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Volksbank Überlingen - volksbank-ueberlingen Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Weltsparwoche Riester",
+   "verdict": null
+  },
+  {
+   "host": "volksbank-ulrichstein.de",
+   "label": "finance",
+   "evidence": "Startseite - Volksbank Ulrichstein eG Ihre Online-Geschäftsstelle Jederzeit Bankgeschäfte erledigen Unsere aktuellen Themen und Angebote Schutz vor Phishing Karte und OnlineBanking sperren OnlineBanking freischalten Alle",
+   "verdict": null
+  },
+  {
+   "host": "volksbank-wissmar.de",
+   "label": "finance",
+   "evidence": "Startseite - Volksbank Wißmar eG Herbstaktion 2026 Unsere aktuellen Themen und Angebote Tagesgeld Festgeld Goldsparplan Brokerage mit GENO Broker OnlineBanking Gut aufgestellt Die beliebtesten Produkte für Privatkunden i",
+   "verdict": null
+  },
+  {
+   "host": "volksbank-wittenberg.de",
+   "label": "finance",
+   "evidence": "Startseite Unsere Angebote zum Weltspartag OnlineBanking-Limitänderung jetzt noch einfacher Änderungen über Serviceaufträge oder Online-Formular Änderungen im OnlineBanking Unsere aktuellen Kampangen, Aktionen und Hinwei",
+   "verdict": null
+  },
+  {
+   "host": "vorne.de",
+   "label": "finance",
+   "evidence": "Startseite VR-Bank Ludwigsburg eG - VR-Bank Ludwigsburg eG Für uns heißt da sein, auch füreinander da zu sein. Und das geht am besten vor Ort. Erfahren Sie hier mehr über die Leistungen und das Angebot Ihrer VR-Bank Ludw",
+   "verdict": null
+  },
+  {
+   "host": "vr-bayernmitte.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer Volksbank Raiffeisenbank Bayern Mitte eG - Volksbank Raiffeisenbank Bayern Mitte eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen I",
+   "verdict": null
+  },
+  {
+   "host": "vr-partnerbank.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer VR PartnerBank eG - VR PartnerBank eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Mehr als ein Zuhause. Wir be",
+   "verdict": null
+  },
+  {
+   "host": "vrb-eisenach.de",
+   "label": "finance",
+   "evidence": "Startseite - VR-Bank Ihre Heimatbank eG Für alles, was dein Leben bereithält Unsere aktuellen Themen und Angebote Gestalte deine Zukunft mit uns Altersvorsorgedepot Wahnsinnswohnträume Betrug beim OnlineBanking Unsere Im",
+   "verdict": null
+  },
+  {
+   "host": "vrb-meinebank.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer VR-Bank in Nordhessen Westthüringen eG - VR-Bank in Nordhessen Westthüringen Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen ge",
+   "verdict": null
+  },
+  {
+   "host": "vrbank-isar-vils.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer VR-Bank Landshut-Isar-Vils eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Fusion zur VR-Bank Landshut-Isar-Vil",
+   "verdict": null
+  },
+  {
+   "host": "vrbank-weimar.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer VR Bank Weimar eG - VR Bank Weimar eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. VR-SparBonus Unsere aktuelle",
+   "verdict": null
+  },
+  {
+   "host": "vrbk.de",
+   "label": "finance",
+   "evidence": "Startseite Ihrer VR-Bank Rottal-Inn eG - VR-Bank Rottal-Inn eG Herzlich Willkommen auf unserer Startseite: Informieren Sie sich hier über unsere Produkte und Leistungen. Wir helfen Ihnen gern weiter. Altersvorsorge- depo",
+   "verdict": null
+  },
+  {
+   "host": "vtb.az",
+   "label": "finance",
+   "evidence": "Fiziki şəxslər üçün bank xidmətləri vtb, kredit, bank, vtb bank, vtb bank kredit, nagd kredit, istehlak krediti, tecili kredit, kredit pul, pul kredit, onlayn kredit, nağd kredit, kredit kalkulyatoru, ipoteka, ipoteka kr",
+   "verdict": null
+  },
+  {
+   "host": "wallet.rapida.ru",
+   "label": "finance",
+   "evidence": "Займы на электронный кошелек - взять микрозайм на электронный кошелек онлайн без карты Получите онлайн займ на электронный кошелек без указания карты срочно и круглосуточно в проверенных микрофинансовых организациях. Зай",
+   "verdict": null
+  },
+  {
+   "host": "wespa.de",
+   "label": "finance",
+   "evidence": "Internet-Filiale - Weser-Elbe Sparkasse Ihr Finanzpartner im Internet. Mit sicherem Online-Banking, vielen Angeboten und Services für Privat- und Firmenkunden. Der Weltspartag ist zurück! Wespi ist schon ganz aufgeregt D",
+   "verdict": null
+  },
+  {
+   "host": "wmtransfer.com",
+   "label": "finance",
+   "evidence": "Webmoney — Universal Payment System Webmoney Transfer is a global settlement system and environment for online business activities Webmoney Transfer, settlement system, purses, statistics Webmoney For Business For Indivi",
+   "verdict": null
+  },
+  {
+   "host": "xn--80aae3af7av6a7a.xn--p1ai",
+   "label": "finance",
+   "evidence": "JetTon Casino Россия — игры, бонусы и доступ к платформе JetTon для пользователей из России: 11 500+ игр, 85 провайдеров, бонус до 425% + 250 FS, RUB, СБП, криптоплатежи и вход через Telegram. JetTon Casino Россия - игры",
+   "verdict": null
+  },
+  {
+   "host": "yapikredi.com.az",
+   "label": "finance",
+   "evidence": "Yapı Kredi YAŞAT Fonduna ianə edin! Yeni Premium Mastercard World Elite - Unikal üstünlüklər sizinlə! Yeni mobil tətbiqimiz istifadənizdədir! Planlarınızı həyata keçirən kredit fürsəti! Daha çox qazandıran əmanət fürsəti",
+   "verdict": null
+  },
+  {
+   "host": "ziraatbank.de",
+   "label": "finance",
+   "evidence": "Ziraat Bank International AG Financial Institutions Privatkunde Firmenkunde Unsere Filialen Wichtige Änderungen im Zahlungsverkehr zum 9. Oktober 2025 ##sembol## Kauf Verkauf ##sembol## ##gunlukyuzde## Buy Sell Sosyal ağ",
+   "verdict": null
+  },
+  {
+   "host": "ziraatbank.ru",
+   "label": "finance",
+   "evidence": "Ziraat Bank Россия Россия Физические Лица Юридические Лица Зираат Банк в мире Зираат Финанс Групп Объявления Полезные Ссылки Свяжитесь с нами ##sembol## Покупка Продажа ##sembol## ##gunlukyuzde## Buy Sell Sosyal ağ ile g",
+   "verdict": null
+  },
+  {
+   "host": "ziraatkatilim.com.tr",
+   "label": "finance",
+   "evidence": "Ziraat Katılım Ziraat Katılım, Katılım Bankacılığı prensiplerine uygun ürünleri ve alternatif dağıtım kanalları ile her zaman müşterilerinin yanındadır. Ziraat Katılım Bankası Katılım Bankacılığını Tanıyın Katılım Bankac",
+   "verdict": null
+  },
+  {
+   "host": "adalar.bel.tr",
+   "label": "government",
+   "evidence": "Adalar Belediyesi HABERLER Adalar Belediyesi’nin 2027 Yılı Bütçesi Oy Birliğiyle Kabul Edildi Ekiplerimiz Sahada Temizlik Çalışmalarını Aralıksız Südürüyor Adalarımızın İhtiyaçları İçin Çalışmalar Değerlendirildi Ekim Me",
+   "verdict": null
+  },
+  {
+   "host": "afad.gov.tr",
+   "label": "government",
+   "evidence": "T.C. İçişleri Bakanlığı Afet ve Acil Durum Yönetimi Başkanlığı T.C. İçişleri Bakanlığı Afet ve Acil Durum Yönetimi Başkanlığı Resmi İnternet Sitesi AFAD, deprem, bağış, sel, heyelan, yardım, arama, kurtarma, kbrn, afet, ",
+   "verdict": null
+  },
+  {
+   "host": "afsin.bel.tr",
+   "label": "government",
+   "evidence": "Afşin Belediyesi - Resmi Web Sitesi AFŞİN’İN YENİ NEFES ALANI KAYAPINAR, AÇILIŞ İÇİN GÜN SAYIYOR AFŞİN’DE ENGELSİZ NEFES EVİ AÇILIŞ İÇİN GÜN SAYIYOR TANIR MESİRE ALANI YOLUNDA ULAŞIM DÜZENLEMESİ GÜZELYURT MAHALLESİNDE OR",
+   "verdict": null
+  },
+  {
+   "host": "aglasun.bel.tr",
+   "label": "government",
+   "evidence": "Ağlasun Belediye Başkanlığı – Burdur – Ağlasun Belediyesi E-Belediye İhale İlanları Belediye Birimleri Haber Arşivi Duyurular Başkanla Fotoğrafım İlçemizden Haberler Çalışmalarımız Ağlasun Belediyesi Alt Yapı Çalışmaları",
+   "verdict": null
+  },
+  {
+   "host": "ahlat.bel.tr",
+   "label": "government",
+   "evidence": "Ahlat Belediye Başkanlığı - Bitlis ASKI İLANI Ahlat Belediye Meclisinin 04.09.2026 tarih ve 09 sayılı, 2026/55 numaralı kararı ile onaylanan Erkizan Mahallesine ilişkin 1/5000 ölçekli Revizyon Nazım İmar Planı ile 1/1000",
+   "verdict": null
+  },
+  {
+   "host": "akkisla.bel.tr",
+   "label": "government",
+   "evidence": "Anasayfa - Akkışla Belediyesi Cumhuriyet Halk Partisi Grup Toplantısı Duman ve Varol Ailelerinin Nikah Akdini Gerçekleştirdik En Çok Yatırım Yapan Büyükşehir Belediyesi Tarım Kredi Kooperatifi kilitli parke çalışması Rab",
+   "verdict": null
+  },
+  {
+   "host": "aksaray.bel.tr",
+   "label": "government",
+   "evidence": "Aksaray Belediyesi Dr. Evren Dinçer Dr. Evren Dinçer DEĞER KATAN PROJELER Bilim ve Gençlik Merkezi Katı Atık Depolama Tesisi Selçuklu Külliyesi 1 MW Güneş Enerji Santrali Konut Projesi Yeni Belediye Hizmet Binası Atık Su",
+   "verdict": null
+  },
+  {
+   "host": "alapli.bel.tr",
+   "label": "government",
+   "evidence": "T.C. Alaplı Belediyesi T.C. Alaplı Belediyesi T.C. Alaplı Belediyesi KURUM İÇİ ZABITA MEMURU ALIMI BAŞVURU LİSTESİ KURUM İÇİ ZABITA MEMURU ALIMI SINAV İLANI MERKEZ MAHALLESİ 196 ADA 4-5-14 VE 15 SAYILI PARSELİ KAPSAYAN İ",
+   "verdict": null
+  },
+  {
+   "host": "andirin.bel.tr",
+   "label": "government",
+   "evidence": "Andırın Belediyesi - Resmi Web Sitesi Doğa ile uyumlu, kültür ve turizm odaklı bir Andırın için hizmet üretiyoruz. Andırın, Andırın Belediyesi, Kahramanmaraş, Ahmet Sinan Gökşen ANDIRIN Uluslararası Demokratlar Birliği (",
+   "verdict": null
+  },
+  {
+   "host": "aydintepe.bel.tr",
+   "label": "government",
+   "evidence": "T.C Aydıntepe Belediyesi Resmi İnternet Sitesi Sitede Arayın Geleceğin Şehri, Bugünün Mutluluğu Geleceğin Şehri, Bugünün Mutluluğu Geleceğin Şehri, Bugünün Mutluluğu Geleceğin Şehri, Bugünün Mutluluğu 24 Kasım Pazar günü",
+   "verdict": null
+  },
+  {
+   "host": "ayvacik.bel.tr",
+   "label": "government",
+   "evidence": "Ayvacık Belediyesi Whatsapp İhbar Hattı Ayvacık Belediyesi Öneri, İstek, Şikayet Refahittin ŞENCAN Ayvacık Belediyesi Başkanı Belediyemiz Meclis Üyeleri Başkan Yardımcıları Müdürlükler ve Birimler Mahallelerimiz ve Muhta",
+   "verdict": null
+  },
+  {
+   "host": "aziziye.bel.tr",
+   "label": "government",
+   "evidence": "Aziziye Belediyesi Aziziye Belediyesi Aziziye Belediyesi,ılıca,ilica,termal,kaplıca,vergi,ödeme,aziziye,belediye Online İşlemler Online İşlemler Online İşlemler Çözüm Merkezi Başkan Yardımcıları Misyon, Vizyon ve İlkeler",
+   "verdict": null
+  },
+  {
+   "host": "bahcesaray.bel.tr",
+   "label": "government",
+   "evidence": "BAHÇESARAY BELEDİYE BAŞKANLIĞI https://bahcesaray.bel.tr/ BAHÇESARAY BELEDİYE BAŞKANLIĞI,Bahçesaray Belediyesi TAMAMLANAN PROJELER Tümünü Gör PLANLANAN PROJELER Tümünü Gör DEVAM EDEN PROJELER Tümünü Gör GENEL HABERLER Tü",
+   "verdict": null
+  },
+  {
+   "host": "balcova.bel.tr",
+   "label": "government",
+   "evidence": "Balçova Belediyesi - Resmi Web Sitesi Balçova Belediyesi resmi web sitesi. Haberler, duyurular, etkinlikler, projeler ve daha fazlası. balçova, belediye, izmir, haberler, duyurular, etkinlikler, projeler Hizmetlerimiz Pr",
+   "verdict": null
+  },
+  {
+   "host": "balikesir.bel.tr",
+   "label": "government",
+   "evidence": "Balıkesir Büyükşehir Belediyesi Site içi Arama (Duyuru ve Haberler) Akın ve Büyükkılıç, Guinness Heyecanına Ortak Oldu Türkiye’nin Kent Konseyleri Balıkesir’de Buluştu Vactorler Sahaya İndi, Çalışmalar Hızlandı 10.10 Dün",
+   "verdict": null
+  },
+  {
+   "host": "balikesirgonen.bel.tr",
+   "label": "government",
+   "evidence": "Gönen Belediyesi Planlar & Kararlar Gönen Belediye Başkanlığı Halk Masası Mail Belediye Başkanlığı Santral Faks Güncel GÖNEN E-Belediye İşlemleri Vergi Ödeme Kent Rehberi Evlendirme İşlemleri Cenaze İşlemleri Ruhsat İşle",
+   "verdict": null
+  },
+  {
+   "host": "bayramic.bel.tr",
+   "label": "government",
+   "evidence": "Bayramiç Belediyesi Bayramiç Belediyesi Resmi Web sitesi , Bayramiç Belediyesi, Bayramiç, Çanakkale Bayramiç, Bayramiç e-Belediye, Borç Sorgulama, e-Yönetim , Button Effects HABERLER Tüm Haberler MEHMET AKİF ERSOY MÜZE E",
+   "verdict": null
+  },
+  {
+   "host": "beylikova.bel.tr",
+   "label": "government",
+   "evidence": "Beylikova Belediyesi | Eskişehir Beyikova Belediyesi Eskişehir Beylikova Belediyesi resmi web sayfamızdan, Beylikova Belediye Başkanı Özkan ALP, Beylikova Belediye Meclisi, Beylikova Belediyesi iletişim bilgileri, Beylik",
+   "verdict": null
+  },
+  {
+   "host": "beyoglu.bel.tr",
+   "label": "government",
+   "evidence": "Beyoğlu Belediyesi - Beyoğlu’nun hakkı #BizeEmanet Beyoğlu’nun hakkı #BizeEmanet Sefer Karaahmetoğlu BEYOĞLU BELEDİYE BAŞKAN VEKİLİ Duyurular --> Kurumsal Hizmetler Duyurular Hızlı Ödeme E-Devlet ile Ödeme Kent Rehberi İ",
+   "verdict": null
+  },
+  {
+   "host": "birecik.bel.tr",
+   "label": "government",
+   "evidence": "Birecik Belediyesi Birecik Belediyesi Birecik Belediyesi Çözüm Merkezi E-BELEDİYE Meclis Kararları Faaliyet Raporları Başkan Yardımcıları Belediye Meclisi Belediye Encümeni Güncel Duyurular Güncel İhaleler Etkinlikler Fo",
+   "verdict": null
+  },
+  {
+   "host": "bozcaada.bel.tr",
+   "label": "government",
+   "evidence": "Ana Sayfa - Bozcaada Belediye Başkanlığı Resmi Internet Sitesi Bozcaada Kart E-Belediye Mavi Masa Pratik Bilgiler İlanlar Başkan'ın Mesajı bozcaadabld Önemli Bağlantılar İletişim Bilgilerimiz Copyright © 2026 Bozcaada Be",
+   "verdict": null
+  },
+  {
+   "host": "bucak.bel.tr",
+   "label": "government",
+   "evidence": "Bucak Belediyesi | bucak.bel.tr Bucak belediyesi resmi web sitesidir. Belediye'ye dair haberler, projeler, duyurular, ilanlar, etkilikler ve sosyal hizmetler ile t�m konular hakk�nda bilgi ve duyuru hizmeti platformudur.",
+   "verdict": null
+  },
+  {
+   "host": "bulanik.bel.tr",
+   "label": "government",
+   "evidence": "Türkiye Cumhuriyeti Bulanık Belediye Başkanlığı Bulanık Belediyesi Resmi İnternet Sitesidir. Bu sitede Muş'un Bulanık İlçesi Belediyesine ilişkin bilgileri bulabilirsiniz. Muş, Bulanık, Belediye, Kaymakamlık, Valilik Tek",
+   "verdict": null
+  },
+  {
+   "host": "bunyan.bel.tr",
+   "label": "government",
+   "evidence": "Anasayfa | Bünyan Belediyesi Hızlı Menu Bize Ulaşın 0352 712 10 40 Dilek & Şikayet Formu Müdürlükler Belediye Hakkında Vizyon & Misyon Yönetim Şeması DENETİM RAPORLARI FAALİYET RAPORLARI Muhtarlıklar Önceki Başkanlar Kur",
+   "verdict": null
+  },
+  {
+   "host": "camardi.bel.tr",
+   "label": "government",
+   "evidence": "Çamardı Belediyesi Resmi Web Sitesi Çamardı Belediyesi Çamardı Belediyesi Çamardı Belediyesi Çamardı Belediyesi Çamardı Belediyesi Ali PINAR Son Haberler İŞÇİ ALIMI ÇAMARDI BELEDİYESİ TAŞINMAZ MAL SATIŞ İLANI BELEDİYEMİZ",
+   "verdict": null
+  },
+  {
+   "host": "cankiri.bel.tr",
+   "label": "government",
+   "evidence": "T.C. Çankırı Belediyesi Resmi İnternet Sitesi Hızlı Menü İletişim Bize ulaşın Telefon Rehberi Sıkça Sorulan Sorular 153 | 444 03 18 E-Belediye E-Belediye Giriş Yeni Üyelik Resmi Evrak Sorgulama Önemli Linkler Cumhurbaşka",
+   "verdict": null
+  },
+  {
+   "host": "cardak.bel.tr",
+   "label": "government",
+   "evidence": "�ardak Belediyesi Ali ALTINER Havaalan�na nas�l giderim? G�ncel Haberler Videolar Site Haritas� Projelerimiz Toggle navigation Kurumsal Belediye Ba�kan� �ardak Hakk�nda Birimlerimiz Misyon - Vizyon Projeler Tamamlanan Pr",
+   "verdict": null
+  },
+  {
+   "host": "cavdir.bel.tr",
+   "label": "government",
+   "evidence": "Çavdır Belediyesi Resmi Web Sitesi Çavdır Belediyesi Resmi Web Sitesi Çavdır Belediyesi, çavdır, burdur Çavdır Belediyesi Resmi Web Sitesi Bir Fikrim Var E-Belediye İletişim Güncel Haberler TÜMÜNÜ GÖSTER Uzm. Ecz. Ali Ok",
+   "verdict": null
+  },
+  {
+   "host": "ciftlik.bel.tr",
+   "label": "government",
+   "evidence": "Çiftlik Belediyesi Çiftlik Belediyesi resmi web sitesi. Güncel haberler, duyurular, ihale ilanları ve belediye hizmetlerine buradan ulaşabilirsiniz. Çiftlik Belediyesi, Çiftlik Belediye, Niğde, Çiftlik, belediye, haberle",
+   "verdict": null
+  },
+  {
+   "host": "cumayeri.bel.tr",
+   "label": "government",
+   "evidence": "Cumayeri Belediyesi | Doğanın ve Kültürün Buluştuğu Şehir Halkımız için daha yaşanabilir, modern ve sürdürülebilir bir gelecek inşa ediyoruz. Best of City’s Arts & Culture Online Online Ödeme Adres Sorgulama E-Belediye S",
+   "verdict": null
+  },
+  {
+   "host": "cumra.bel.tr",
+   "label": "government",
+   "evidence": "Çumra Belediyesi | Çatalhöyük Şehri | BAŞKAN Mehmet AYDIN KURUMSAL {{vm.days}} Days {{vm.hours}} Saat {{vm.minutes}} Dakika {{vm.seconds}} Saniye BELEDİYEMİZDEN HABERLER İNTERAKTİF HİZMETLER DUYURULAR VİDEO GALERİSİ RESİ",
+   "verdict": null
+  },
+  {
+   "host": "derbent.bel.tr",
+   "label": "government",
+   "evidence": "Derbent Belediyesi Hüseyin Ayten DERBENT Belediye Başkanı D.7 nolu Düzenleme Sahası; Parselasyon planı ve dağıtım cetvelleri Eski Derbent Evleri: Zamanın Durduğu Sokaklar Tarihi Derbent Taş Köprü: Yolun Hafızası Derbent ",
+   "verdict": null
+  },
+  {
+   "host": "diyarbakir.bel.tr",
+   "label": "government",
+   "evidence": "Diyarbakır Büyükşehir Belediyesi Belediye hizmetlerinin detayları, güncel haberler ve çeşitli konularda bilgi edinme bölümleri bulunuyor. diyarbakır,büyüksehir,belediyesi,iletisim,online,bilgi,edinme,amed,diyarbekir,bele",
+   "verdict": null
+  },
+  {
+   "host": "duzkoy.bel.tr",
+   "label": "government",
+   "evidence": "T.C. Düzköy Belediye Başkanlığı Etkinlik Takvimi Güncel Kurumsal Başkan Kent Rehberi Bağlantılar Bilgilendirme İletişim 1 ‹ › × × Geri İleri İletişim (0462) 811 26 66 (0462) 811 22 40 WHATSAPP İLETİŞİM HATTI : 0542361516",
+   "verdict": null
+  },
+  {
+   "host": "egm.gov.tr",
+   "label": "government",
+   "evidence": "T.C. İçişleri Bakanlığı Emniyet Genel Müdürlüğü T.C. İçişleri Bakanlığı Emniyet Genel Müdürlüğü Polis, Emniyet, Narkotik, Kaçakçılık, Trafik, Asayiş, güvenlik, egm, terör, huzur, kades Teknik olarak web sitemizde kullanı",
+   "verdict": null
+  },
+  {
+   "host": "emirgazi.bel.tr",
+   "label": "government",
+   "evidence": "EMİRGAZİ BELEDİYE BAŞKANLIĞI EMİRGAZİ BELEDİYESİ EMİRGAZİ BELEDİYESİ TAMAMLANAN PROJELER Tümünü Gör PLANLANAN PROJELER Tümünü Gör DEVAM EDEN PROJELER Tümünü Gör GENEL HABERLER Tümünü Gör BAYRAM ÖNCESİ ÇEVRE TEMİZLİK ÇALI",
+   "verdict": null
+  },
+  {
+   "host": "erzincan.bel.tr",
+   "label": "government",
+   "evidence": "Erzincan Belediyesi Resmi Web Sayfası Erzincan Belediyesi Resmi Web Sayfası. Erzincan Belediyesi haberleri, duyuruları, hizmetleri ve güncel etkinlikleri. ERZİNCAN BELEDİYESİ Kurumsal Yapı Başkan Yardımcıları Meclis Kara",
+   "verdict": null
+  },
+  {
+   "host": "genc.bel.tr",
+   "label": "government",
+   "evidence": "Genç Belediyesi Genç Belediyesi Resmi Web Sitesi Genç Belediyesi, Genç Haberleri, Genç Nöbetçi Eczane, Genç E-Belediye GENÇ BELEDİYESİ GES Halk Katılım Toplantısı GENÇ OSMANLI DÖNEMİ CUMHURİYET DÖNEMİ COĞRAFYA GENÇ BELED",
+   "verdict": null
+  },
+  {
+   "host": "gerze.bel.tr",
+   "label": "government",
+   "evidence": "Gerze Belediyesi - Resmi İnternet Sitesi Gerze, Sinop GERZE HAKKINDA GERZE'NİN TARİHÇESİ KENT REHBERİ CİTTA SLOW 360° SANAL TUR HABERLER MUHTARLAR TOPLANTISI YAPILDI OSMAN BAŞKANDAN 1.YIL MESAJI OSMAN BAŞKAN; “İDARİ İZİN",
+   "verdict": null
+  },
+  {
+   "host": "goksun.bel.tr",
+   "label": "government",
+   "evidence": "Göksun Belediyesi Resmi Web Sitesi Göksun Belediyesi Resmi Web Sitesi Anasayfa İletişim TR | EN BAŞKAN Başkanın Özgeçmişi Başkanın Albümü Başkanın Mesajı Başkanla Fotoğraflarım Başkana Mesaj Gönder KURUMSAL Organizasyon ",
+   "verdict": null
+  },
+  {
+   "host": "golcuk.bel.tr",
+   "label": "government",
+   "evidence": "G�LC�K BELED�YES� G�LC�K, G�LC�K BELED�YES�, KOCAEL�, B�RL�KTE BA�ARDIK, ILICA, YAZLIK, AH�AP, HEYKEL, SERAM�K, KIRKYAMA, FORD, FOTO�RAF YARI�MASI, DONANMA, ELMA, FINDIK, ULA�LI, HALIDERE, DE��RMENDERE, �HSAN�YE, H�SAREY",
+   "verdict": null
+  },
+  {
+   "host": "gulagac.bel.tr",
+   "label": "government",
+   "evidence": "Gülağaç Belediyesi Gülağaç Belediye Gülağaç / Aksaray GülağaçBelediyesi,AkgülMedya,A.G.M TAMAMLANAN PROJELER Tümünü Gör PLANLANAN PROJELER Tümünü Gör DEVAM EDEN PROJELER Tümünü Gör GENEL HABERLER Tümünü Gör Aksaray'da Ka",
+   "verdict": null
+  },
+  {
+   "host": "guzelbahce.bel.tr",
+   "label": "government",
+   "evidence": "Güzelbahçe Belediyesi Sevdamız Güzelbahçe... Güzelbahçe'ye Hoş Geldiniz. Sevdamız Güzelbahçe... Sevdamız Güzelbahçe... Hızlı Çözümler E-Belediye Belediye İhaleler e-imar İmar Durumu Yaklaşan Etkinlikler Nikah İşlemleri D",
+   "verdict": null
+  },
+  {
+   "host": "hopa.bel.tr",
+   "label": "government",
+   "evidence": "Hopa Belediyesi E-Belediye E-Devlet Duyuru / İlan Çözüm Merkezi Kent Bilgi Sistemi Hopa Atölye Haberler Ekim Ayı Meclis Toplantısı 2. Birleşimi Yapıldı Ekim Ayı Meclis Toplantısı 1.Oturum 1. Birleşimi Yapıldı Eylül Ayı M",
+   "verdict": null
+  },
+  {
+   "host": "ibradi.bel.tr",
+   "label": "government",
+   "evidence": "İbradı Belediyesi İbradı Belediyesi TAMAMLANAN PROJELER Tümünü Gör PLANLANAN PROJELER Tümünü Gör DEVAM EDEN PROJELER Tümünü Gör GENEL HABERLER Tümünü Gör 59. Ormana Üzüm Festivali Üzümdere Köyü Sosyal Kültürel ve Dayanış",
+   "verdict": null
+  },
+  {
+   "host": "igdir.bel.tr",
+   "label": "government",
+   "evidence": "Index of / Index of / Name Last Modified Size Proudly Served by LiteSpeed Web Server at igdir.bel.tr Port 443",
+   "verdict": null
+  },
+  {
+   "host": "ikizce.bel.tr",
+   "label": "government",
+   "evidence": "�kizce Belediye Ba�kanl��� ikizce belediyesi,ikizce,ikizce belediye ba�kanl���,ikizce meslek y�ksek okulu ikizce belediyesi,ikizce,ikizce belediye ba�kanl���,ikizce meslek y�ksek okulu --> OSMAN KAYGI KENT TAR�H� KENT CO",
+   "verdict": null
+  },
+  {
+   "host": "iletisim.gov.tr",
+   "label": "government",
+   "evidence": "Türkiye Cumhuriyeti | İletişim Başkanlığı Türkiye Cumhuriyeti Cumhurbaşkanlığı İletişim Başkanlığı Resmî Sitesi Cumhurbaşkanı Erdoğan, UID 9. Olağan Genel Kurulu’na video mesaj gönderdi Haberler Cumhurbaşkanı Erdoğan, İl",
+   "verdict": null
+  },
+  {
+   "host": "kangal.bel.tr",
+   "label": "government",
+   "evidence": "Kangal Belediyesi | 0 (850) 550 50 58 | bilgi@kangal.bel.tr Kangal Belediyesi | 0 (850) 550 50 58 | bilgi@kangal.bel.tr | Gürsel Mahallesi, Çarşı İçi No:1, 58900 Kangal / Sivas Kangal Belediyesi TAMAMLANAN PROJELER Tümün",
+   "verdict": null
+  },
+  {
+   "host": "karamursel.bel.tr",
+   "label": "government",
+   "evidence": "Karamürsel Belediyesi Çerez kullanımı Bize Ulaşın İletişim Bilgileri Bilgi Edinme İstek ve Öneri Önemli Linkler CUMHURBAŞKANLIĞI CİMER E-DEVLET İÇİŞLERİ BAKANLIĞI KDK TBMM E-Belediye VERGİ BORCU ÖDEME EVRAK DOĞRULAMA E-İ",
+   "verdict": null
+  },
+  {
+   "host": "kargi.bel.tr",
+   "label": "government",
+   "evidence": "Kargı Belediyesi T.C. Kargı Belediyesi çorum kargı,kargı belediyesi,t.c. kargı belediyesi E-Belediye Çözüm Merkezi Çağrı Merkezi Meclis Kararları Faaliyet Raporları Başkan Yardımcıları Belediye Meclisi Belediye Encümeni ",
+   "verdict": null
+  },
+  {
+   "host": "kayseri.bel.tr",
+   "label": "government",
+   "evidence": "Kayseri Büyükşehir Belediyesi Kayseri Büyükşehir Belediyesi kurumsal web sitesi. Belediye hakkında bilgi, hizmetler, haberler, duyurular, projeler, ihaleler ve iletişim bilgileri yer alıyor Kayseri, Tarihini, Kültürünü v",
+   "verdict": null
+  },
+  {
+   "host": "kesan.bel.tr",
+   "label": "government",
+   "evidence": "Teknik olarak web sitemizde kullanılan çerez türleri aşağıdaki tabloda gösterilmektedir. 29.09.2026 Keşan’da Öğrenciler İtfaiyecilik Haftası’nda Yangın Eğitimi Aldı 28.09.2026 Keşan Sanayi Sitesi’nde Asfalt Çalışmaları S",
+   "verdict": null
+  },
+  {
+   "host": "kofcaz.bel.tr",
+   "label": "government",
+   "evidence": "Kofçaz Belediyesi Kofçaz Belediyesi kofçaz belediyesi [email protected] 0 288 762 21 00 29 EKİM CUMHURİYET BAYRAMI KUTLAMALARI 19 EKİM MUHTARLAR GÜNÜ KUTLAMALARI BAŞKAN'IN ANKARA ZİYARETİ Projelerimiz Kofçaz El Emeği Kül",
+   "verdict": null
+  },
+  {
+   "host": "kulu.bel.tr",
+   "label": "government",
+   "evidence": "T.C. Kulu Belediyesi T.C. Kulu Belediyesi - Kulu Belediyesi GÜNCEL HABERLER Tümünü Gör ÇALIŞMALAR YERİNDE İNCELENDİ Dipdede Mahallemizde Çalışmaları Yerinde İnceledik Kilitli Parke Taş Çalışmaları Devam Ediyor İÇİŞLERİ B",
+   "verdict": null
+  },
+  {
+   "host": "kure.bel.tr",
+   "label": "government",
+   "evidence": "Küre Belediye Başkanlığı | KASTAMONU Tarihi ve Doğasıyla Kastamonu'nun İncisi Küre kastamonu, kastamonu belediyeleri, küre, kure, Küre Belediyesi KÜRE BELEDİYE BAŞKANI Salih TURAN TÜM VATANDAŞLARIMIZIN DİKKATİNE BELEDİYE",
+   "verdict": null
+  },
+  {
+   "host": "lapseki.bel.tr",
+   "label": "government",
+   "evidence": "Lapseki Belediyesi Lapseki Belediyesi Lapseki Belediyesi,belediye,lapseki,çanakkale,lapseki haber,çanakkale köprüsü Lapseki Belediyesi Tarih, Doğa ve Kültür Kenti Çevreye Saygılı Şehir HABERLER ETKİNLİKLER PROJELER FOTOĞ",
+   "verdict": null
+  },
+  {
+   "host": "masak.gov.tr",
+   "label": "government",
+   "evidence": "T.C. Hazine ve Maliye Bakanlığı T.C. Hazine ve Maliye Bakanlığı Resmi Web Sayfası You need to enable JavaScript to run this app.",
+   "verdict": null
+  },
+  {
+   "host": "mersin.bel.tr",
+   "label": "government",
+   "evidence": "Mersin Büyükşehir Belediyesi Mersin Büyükşehir Belediyesi Tüm Etkinlikler Mersin ve Türkiye’nin Güvenliği İçin Mersin İtfaiyesi Liyakatli Bir Sınav Sürecini Tamamladı Mersin Büyükşehir, Sanatı Kentin Dört Bir Yanına Taşı",
+   "verdict": null
+  },
+  {
+   "host": "mesudiye.bel.tr",
+   "label": "government",
+   "evidence": "Mesudiye Belediyesi Mesudiye Belediyesi Öneri, İstek, Şikayet Cengiz KOÇYİĞİT Mesudiye Belediyesi Başkanı Belediyemiz Meclis Üyeleri Meclis Gündemi Müdürlükler ve Birimler Mahallelerimiz ve Muhtarlarımız Yayınlarımız Ver",
+   "verdict": null
+  },
+  {
+   "host": "mezitli.bel.tr",
+   "label": "government",
+   "evidence": "Anasayfa | Mezitli Belediyesi Mezitli Belediyesi resmi web sitesi anasayfası. İLETİŞİM BAĞLANTILAR SOSYAL MEDYA © 2026 Mersin Mezitli Belediyesi | Tüm hakları saklıdır. Tasarım & Kodlama: Mezitli Belediyesi Bilgi İşlem M",
+   "verdict": null
+  },
+  {
+   "host": "mit.gov.tr",
+   "label": "government",
+   "evidence": "Milli İstihbarat Teşkilatı ZSEA2060 --> EN EN Hakkımızda Biz Kimiz? MİT BAŞKANI Kale Ne Yapıyoruz? Dış İstihbarat Eğitim İstihbarat Koordinasyonu Özel Faaliyetler Siber İstihbarat Sinyal İstihbaratı Terörle Mücadele Kari",
+   "verdict": null
+  },
+  {
+   "host": "mudanya.bel.tr",
+   "label": "government",
+   "evidence": "Mudanya Belediyesi Nette Erişilebilirlik Menüsü (Ctrl + y) TR TR EN SESLİ KÜTÜPHANE --> HAVA KALİTESİ ARAMA ÇÖZÜM MASASI WHATSAPP 444 8 922 ÇÖZÜM MASASI 444 8 922 11.10.2026 PAZAR TR TR EN Belediyemiz Başkan Başkanın Mes",
+   "verdict": null
+  },
+  {
+   "host": "mutki.bel.tr",
+   "label": "government",
+   "evidence": "Mutki Belediyesi Mutki Belediyesi; hizmetler, haberler, duyurular, projeler, tarihi ve kültürel mirasımız hakkında bilgilere buradan ulaşabilirsiniz. Mutki, Mutki belediyesi, Bitlis Mutki belediyesi, Mutki haberleri, Mut",
+   "verdict": null
+  },
+  {
+   "host": "noaa.gov",
+   "label": "government",
+   "evidence": "ERROR: The request could not be satisfied 403 ERROR The request could not be satisfied. Request blocked. We can't connect to the server for this app or website at this time. There might be too much traffic or a configura",
+   "verdict": null
+  },
+  {
+   "host": "of.bel.tr",
+   "label": "government",
+   "evidence": "Of Belediyesi Belediyemize ait tüm haberlere, duyurulara, etkinliklere Başdanışman Saral ve Başkan Sarıalioğlu'ndan Bahçeli'... Başkan Sarıalioğlu, Of'umuza önemli bir eğitim yatırı... Başkan Sarıalioğlu 'Of için birlik ",
+   "verdict": null
+  },
+  {
+   "host": "olur.bel.tr",
+   "label": "government",
+   "evidence": "Olur Belediyesi Olur Belediyesi'ne Hoş Geldiniz! Olur Belediyesi'ne Hoş Geldiniz! Birlikte Yönetiyoruz Haberler Başkanımız Vedat Ergün Görevine Başladı Duyurular İşyeri Ruhsat Başvurusu Evlendirme-Nikah Başvurusu Başkanı",
+   "verdict": null
+  },
+  {
+   "host": "onikisubat.bel.tr",
+   "label": "government",
+   "evidence": "Onikişubat Belediyesi Başkan Toptaş’tan 5 Nisan Madalya Günü mesajı Başkan Hanifi Toptaş’tan Ramazan Bayramı mesajı Şampiyon Onikişubat Belediye Spor kupasına kavuştu İlçe Umumi Hıfzıssıhha Kurul Kararları KIR DÜĞÜN SALO",
+   "verdict": null
+  },
+  {
+   "host": "orhangazi.bel.tr",
+   "label": "government",
+   "evidence": "T.C. Orhangazi Belediyesi Resmi İnternet Sitesi E-İmar Hizmeti Sık Kullanılanlar Orhangazi Belediyesi Güncel YAZI İŞLERİ MÜDÜRLÜĞÜ EKİM AYI GÜNDEM MADDELERİ DUYURU YAZI İŞLERİ MÜDÜRLÜĞÜ EYLÜL AYI GÜNDEM MADDELERİ DUYURU ",
+   "verdict": null
+  },
+  {
+   "host": "polatli.bel.tr",
+   "label": "government",
+   "evidence": "Polatlı Belediyesi Polatlı Belediyesi Polatlı Belediyesi Ana Sayfası, Polatlı Belediyesi Çerez kullanımı MÜRSEL YILDIZKAYA Polatlı Belediye Başkanı Adınız & Soyadınız* Cep Telefonunuz * E-Mail Adresiniz * Konu * İstek & ",
+   "verdict": null
+  },
+  {
+   "host": "safranbolu.bel.tr",
+   "label": "government",
+   "evidence": "Safranbolu Belediyesi Tarih, Doğa ve Kültür Kenti Safranbolu Safranbolu Belediyesi, altın safran, safranbolu, karabük, karabük belediyesi Çözüm Merkezi BAŞKAN YARDIMCILARI KARDEŞ ŞEHİRLER PERFORMANS PROGRAMI ETİK KOMİSYO",
+   "verdict": null
+  },
+  {
+   "host": "sakaryakaynarca.bel.tr",
+   "label": "government",
+   "evidence": "Kaynarca Belediyesi Kaynarca Belediyesi Web Sitesi GENEL HABERLER Tümünü Gör İlçemizde Spor haftası kutlandı Kaynarca'nın Düşman İşgalinden Kurtuluşunun 105. Yıl Dönümü EĞİTİM Tümünü Gör SPOR Tümünü Gör ULAŞIM Tümünü Gör",
+   "verdict": null
+  },
+  {
+   "host": "salpazari.bel.tr",
+   "label": "government",
+   "evidence": "T.C. Şalpazarı Belediye Başkanlığı Etkinlik Takvimi Güncel Kurumsal Başkan Kent Rehberi Bilgilendirme Bağlantılar İletişim 0 ‹ › × × Geri İleri İletişim +(90) 462 891 20 +(90) 462 891 35 Ara --> --> Toggle navigation -->",
+   "verdict": null
+  },
+  {
+   "host": "saray.bel.tr",
+   "label": "government",
+   "evidence": "SARAY BELEDİYESİ SARAY BELEDİYESİ,SARAY,BELEDİYE saray,saraybel,belediye,belediyecilik,abdül,özgen,bizimözgen,bızımozgen,abdul,ayaspaşa,ayaspasa TAMAMLANAN PROJELER Tümünü Gör PLANLANAN PROJELER Tümünü Gör DEVAM EDEN PRO",
+   "verdict": null
+  },
+  {
+   "host": "sarayduzu.bel.tr",
+   "label": "government",
+   "evidence": "Saraydüzü Belediye Başkanlığı 0 368 485 81 55 Saraydüzü Belediye Başkanlığı 0 368 485 81 55 saraydüzü belediyesi,saraydüzü belediye,sinop saraydüzü belediyesi,saraydüzü belediye başkanlığı,hasan peker,saraydüzü,sinop sar",
+   "verdict": null
+  },
+  {
+   "host": "saricakaya.bel.tr",
+   "label": "government",
+   "evidence": "Sarıcakaya İçin Hep Birlikte Daha İyiye ONLİNE TAHSİLAT E-BELEDİYE HİZMETLER ULAŞIM MAHALLELERİMİZ Sarıcakaya İçin Hep Birlikte Daha İyiye Haberler ve Duyurlar Laçin Mahallesi Metruk Yapı Tespiti 2025 Yılı Faaliyet Rapor",
+   "verdict": null
+  },
+  {
+   "host": "sarioglan.bel.tr",
+   "label": "government",
+   "evidence": "Sarıoğlan Belediyesi Sarıoğlan Belediye Başkanlığı Resmi Web Sitesi Sarıoğlan Belediyesi, Kayseri, Sarıoğlan, Sarıoğlan Belediye Başkanlığı,GüzelyazI, Bekir Ayyıldırım Teknik olarak web sitemizde kullanılan çerez türleri",
+   "verdict": null
+  },
+  {
+   "host": "savsat.bel.tr",
+   "label": "government",
+   "evidence": "Şavşat Belediyesi Şavşat Belediyesi Resmi Web Sitesi Site İçi Arama SAKLI CENNET EFKAR TEPESİ ŞAVŞAT KALESİ KARAGÖL ŞAVŞAT EVİ VE SEYİR TERASI BALIK GÖLÜ TİBET KİLİSESİ Öne Çıkan Haberler Trabzon Büyükşehir’den Şavşat Ke",
+   "verdict": null
+  },
+  {
+   "host": "selcuk.bel.tr",
+   "label": "government",
+   "evidence": "T.C. Selçuk Belediyesi Resmi Web Sitesi Mübadelenin ilk yıllarında köyün ileri gelenleri tarafından yönetilen Şirince Belediyesi 1941 yılında kapatılıyor. Bu süre zarfında Kuşadası’na bağlıdır Şirince. 1941 yılında kapat",
+   "verdict": null
+  },
+  {
+   "host": "senate.gov",
+   "label": "government",
+   "evidence": "Access Denied Access Denied You don't have permission to access \"http://senate.gov/$(SERVE_403)/?\" on this server. Reference #18.176d1402.1791654410.453354b https://errors.edgesuite.net/18.176d1402.1791654410.453354b",
+   "verdict": null
+  },
+  {
+   "host": "seyitgazi.bel.tr",
+   "label": "government",
+   "evidence": "SEYİTGAZİ BELEDİYESİ Seyitgazi Belediyesi Resmi Web Sitesi , Seyitgazi Belediyesi,Seyitgazi ,Eskişehir Seyitgazi , Seyitgazie-Belediye, Borç Sorgulama, e-Yönetim , Header style Primary Color Secoundary Color Layout Mode ",
+   "verdict": null
+  },
+  {
+   "host": "si.edu",
+   "label": "government",
+   "evidence": "Smithsonian request verification Please continue when verification is complete. Request verification Enable JavaScript and cookies to continue Smithsonian Institution Privacy Terms of Use",
+   "verdict": null
+  },
+  {
+   "host": "sisli.bel.tr",
+   "label": "government",
+   "evidence": "T.C. Şişli Belediyesi Şişli Belediyesi resmi web sitesi ALİ İKRAM TUNA İMAR DURUM BELGESİ BAŞVURULARININ DİJİTAL ORTAMDA ALINMASI ARAMA KURTARMA EKİBİ TATBİKATLARLA AFETLERE HAZIRLANIYOR DUYURU MAHALLE MUTFAĞI KURSLARI B",
+   "verdict": null
+  },
+  {
+   "host": "soke.bel.tr",
+   "label": "government",
+   "evidence": "Söke Belediyesi Söke Belediyesi Resmi Websitesi Söke Belediyesi Ana Sayfası, Söke Belediyesi Çerez kullanımı DR. MUSTAFA İBERYA ARIKAN Söke Belediyesi Başkanı DEĞERLİ HEMŞEHRİLERİM... Adınız & Soyadınız* Cep Telefonunuz ",
+   "verdict": null
+  },
+  {
+   "host": "sorgun.bel.tr",
+   "label": "government",
+   "evidence": "T.C. Sorgun Belediyesi Resmi İnternet Sitesi Hızlı Menü Güncel Sosyal Medya Hesaplarımız SÖZLEŞMELİ VETERİNER HEKİM ALIMI SÖZLÜ SINAV BİLGİ... KAMUOYUNA ÖNEMLE DUYURULUR! Yozgat İli Sorgun İlçesi Caferli Mahallesi 1 Nolu",
+   "verdict": null
+  },
+  {
+   "host": "sultanhisar.bel.tr",
+   "label": "government",
+   "evidence": "Sultanhisar Belediyesi Sultanhisar Belediyesi Resmi Web Sitesidir. sultanhisar belediyesi, aydın, sultanhisar “Önce İş, Önce Ahlak, Önce İnsan” Osman YILDIRIMKAYA Sultanhisar Belediye Başkanı BELEDİYE OTELİMİZ ONLİNE İŞL",
+   "verdict": null
+  },
+  {
+   "host": "sungurlu.bel.tr",
+   "label": "government",
+   "evidence": "Sungurlu Belediyesi Dijital Sungurlu Belediyesi'ne Hoşgeldiniz Online Ödeme Çevre Temizlik İnşaat Maliyeti Rayiç Sorgulama Bina Aşınma Oranı İstek ve Şikayet \"Önce Kolaylık, Sonra Konfor: E-Belediyecilikle Hayatınızı Dij",
+   "verdict": null
+  },
+  {
+   "host": "turkoglu.bel.tr",
+   "label": "government",
+   "evidence": "Türkoğlu Belediyesi Türkoğlu Belediyesi Türkoğlu Belediyesi PROJELER Tümünü Gör HOPURLU TAZİYE EVİ VE SOSYAL TESİSLERİ KOCA REİS MEHMET DARICI PARKI YEŞİLYÖRE İŞYERLERİ TÜRKOĞLU ETÜT MERKEZİ Park Yenileme Parke Çalışmala",
+   "verdict": null
+  },
+  {
+   "host": "tusba.bel.tr",
+   "label": "government",
+   "evidence": "Şaredariya Tuşbayê | Tuşba Belediyesi Şaredariya Tuşbayê a Wanê Van Tuşba Belediyesi Van,Van Belediye,Van Belediyeler,Tuşba,Tusba,Tuşba Belediyesi,Tusba Belediyesi,tuşbabel,tusbabel TÜM HABERLER Tümünü Gör Tuşba Belediye",
+   "verdict": null
+  },
+  {
+   "host": "ulas.bel.tr",
+   "label": "government",
+   "evidence": "Ulaş Belediyesi Ulaş Gölü Tecer Dağı Basında Biz Kültür Köşesi Projelerimiz Faydalı Linkler SİVASIMIZIN GÜZİDE İLÇESİ ULAŞ GELİŞMEYE DEVAM EDİYOR +90(346)781 20 06 +90(346)781 24 95 bilgi@ulas.bel.tr Başkanımız Turan İLB",
+   "verdict": null
+  },
+  {
+   "host": "van.bel.tr",
+   "label": "government",
+   "evidence": "T.C. Van Büyükşehir Belediyesi T.C. Van Büyükşehir Belediyesi Resmi Web Sitesidir. van, van büyükşehir belediyesi, van haber, van belediyesi, van bel, personel.van.bel.tr, webmail.van.bel.tr VAN BÜYÜKŞEHİR HABER DUYURULA",
+   "verdict": null
+  },
+  {
+   "host": "varto.bel.tr",
+   "label": "government",
+   "evidence": "Varto Belediyesi Bize Ulaşın Haber Alın Haberler 📍 JES PANELİNE KATILIM 5 NİSAN AVUKATLAR GÜNÜ KUTLU OLSUN 📍 İLÇEMİZDE YENİ BİR İŞLETME DAHA HİZMETE AÇILDI 📍 NALBUR MALZEMESİ ALIMI İÇİN KURA ÇEKİMİ GERÇEKLEŞTİRİLDİ 📍 İLÇ",
+   "verdict": null
+  },
+  {
+   "host": "yalvac.bel.tr",
+   "label": "government",
+   "evidence": "Yalvaç Belediyesi - Resmi Web Sitesi Yalvaç Belediyesi - Resmi Web Sitesi Vefat Edenler Tümünü Gör Nöbetçi Eczane Hava Durumu HABERLER Tümünü Gör HABERLER Tüm Haberler Başkandan Mesaj DUYURULAR Tümünü Gör 10 ADET TAŞINMA",
+   "verdict": null
+  },
+  {
+   "host": "yazihan.bel.tr",
+   "label": "government",
+   "evidence": "T.C. Yazıhan Belediyesi | Malatya Yazıhan Belediyesi | Malatya yazıhan belediyesi,Yazıhan Belediyesi | Malatya TAMAMLANAN PROJELER Tümünü Gör PLANLANAN PROJELER Tümünü Gör DEVAM EDEN PROJELER Tümünü Gör GENEL HABERLER Tü",
+   "verdict": null
+  },
+  {
+   "host": "yedisu.bel.tr",
+   "label": "government",
+   "evidence": "Bing�l �li Yedisu Belediyesi Yedisu Belediyesi Haberleri, Foto�raflar�, Etkinlikleri, Canl� Kamera G�r�nt�leri bing�l, yedisu, yedisu belediyesi Sitemiz Yay�n Hayat�na Ba�lad� Belediye Ba�kan�m�z �yi Parti''den �stifa Et",
+   "verdict": null
+  },
+  {
+   "host": "yenisehir.bel.tr",
+   "label": "government",
+   "evidence": "Mersin Yenişehir Belediyesi | Resmi Web Sitesi Mersin Yenişehir Belediyesi resmi web sitesi. Haberler, duyurular, hizmetler, projeler ve başvurular için tek adres. Hizmet Rehberi BAŞKAN KURUMSAL YENİŞEHİR HIZLI ERİŞİM İL",
+   "verdict": null
+  },
+  {
+   "host": "yesilova.bel.tr",
+   "label": "government",
+   "evidence": "Yeşilova Belediyesi Yeşilova Belediyesi Yeşilova Belediyesi, Aksaray, Acem,Yeşilovaya hizmet yolunda, Acemliler Sayfası, Aksaray/Yeşilova, YEŞİLOVA KASABASI, AKSARAY ADNAN BAYRAKTAR Yerinde Tespit Yerinde Çözüm 16 Ekim 2",
+   "verdict": null
+  },
+  {
+   "host": "yesilyurt.bel.tr",
+   "label": "government",
+   "evidence": "Yeşilyurt Belediyesi HIZLI MENÜ WEB SİTELERİMİZ ONLİNE İŞLEMLER WEB SİTELERİMİZ HIZLI İŞLEMLER WEB SİTELERİMİZ Haberler Yeşilyurt Belediyesi’nden Üreticilere 60 Ton Arpa Desteği! Yeşilyurt’ta Metruk Yapı Yıkıldı Yeşilyur",
+   "verdict": null
+  },
+  {
+   "host": "yildirim.bel.tr",
+   "label": "government",
+   "evidence": "Yıldırım Belediyesi Yıldırım Sizinle Güzel Yıldırım Belediyesi Değerli Yıldırımlılar, Haberler ve Gelişmeler YILDIRIM ÖZGÜVEN İNŞA EDİYOR YILDIRIM'IN GENÇ GÜREŞÇİLERİNDEN BÜYÜK BAŞARI YILDIRIM’DA GENÇLER YAPAY ZEKA ÇAĞIN",
+   "verdict": null
+  },
+  {
+   "host": "yuregir.bel.tr",
+   "label": "government",
+   "evidence": "Yüreğir Belediyesi – Adana Yüreğir İlçe Belediyesi Yüreğir Bilgi Edinme İstek Şikayet Öneri Gezici Tahsilat Güvenli Yaşam Semt Pazarları Kent Bilgi Sistemi GÜNCEL YÜREĞİR’DE DÜNYA UZAY HAFTASI’NA ÖZEL GÜNEŞ GÖZLEMİ BAŞKA",
+   "verdict": null
+  }
+ ]
+}

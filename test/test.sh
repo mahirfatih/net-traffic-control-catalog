@@ -314,6 +314,46 @@ PY
 step "10.5. Catalog overlap and distribution check"
 python3 scripts/catalog/check-overlaps.py
 
+step "10.5b. A multi-tenant suffix and a two-service domain are refused"
+# docs/FORMAT.md promises two rules the catalog must obey; this proves the
+# guard catches a violation rather than only passing on the current data.
+python3 - <<'PY'
+import importlib.util
+
+_spec = importlib.util.spec_from_file_location(
+    "check_overlaps", "scripts/catalog/check-overlaps.py"
+)
+co = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(co)
+
+# A bare suffix with no reason is a problem, ...
+assert co.suffix_conflicts({"github.io": "software"}, [], {})[0] == ["github.io"]
+# ... a reason clears it, ...
+assert co.suffix_conflicts({"github.io": "software"}, [], {"github.io": "Pages"})[0] == []
+# ... and an empty reason does not count.
+assert co.suffix_conflicts({"github.io": "software"}, [], {"github.io": "  "})[0] == ["github.io"]
+
+# A service domain claimed twice is a clash; a service key repeated is a duplicate.
+services = [
+    {"key": "a", "domains": ["x.com"]},
+    {"key": "b", "domains": ["x.com", "y.com"]},
+    {"key": "b", "domains": ["z.com"]},
+]
+clashes, duplicate_keys = co.service_conflicts(services)
+assert clashes == {"x.com": ["a", "b"]}, clashes
+assert duplicate_keys == ["b"], duplicate_keys
+
+# The committed catalog itself must be clean.
+import json
+categories = json.load(open("seeds/categories.json", encoding="utf-8"))
+real_services = json.load(open("seeds/services.json", encoding="utf-8"))
+exceptions = co.load_suffix_exceptions()
+unexcused, stale, _ = co.suffix_conflicts(categories, real_services, exceptions)
+assert unexcused == [], f"multi-tenant suffix without a reason: {unexcused}"
+assert stale == [], f"stale suffix exception: {stale}"
+print("  ✓ suffix and service conflicts are caught; committed data is clean")
+PY
+
 step "10.6. Category consistency guardrails"
 python3 scripts/catalog/audit-category-consistency.py
 
@@ -714,6 +754,12 @@ assert catalog_core.validate_hand_added(committed, real) == [], "committed hand-
 
 print("  ✓ by/at/reason all required; host must be in seeds; date and extra fields checked")
 PY
+
+step "10.13. Render output is assembled like plain-HTML output"
+# The browser fallback in fetch-pages.py must feed the classifier the same shape
+# of text the curl path does, and a malformed render must write nothing. Both
+# are pure functions, so this runs without a network or a browser.
+python3 scripts/analysis/fetch-pages.py --self-test
 
 if [ "$FAST" -eq 0 ]; then
     step "11. Every script compiles"

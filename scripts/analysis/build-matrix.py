@@ -82,6 +82,33 @@ def top_predictions(classes: list[str], row, limit: int = 3) -> list[dict[str, o
     ]
 
 
+# A small set of two-part suffixes so the registrable-domain guess below does not
+# read `bank.com.tr` as the domain `com.tr`. It is deliberately short: it needs to
+# cover the ccTLDs a bank/telecom catalog actually meets, not the whole PSL — the
+# grouping only has to be *consistent*, not authoritative.
+_MULTI_PART_SUFFIXES = {
+    "co", "com", "org", "net", "gov", "edu", "ac", "gen", "bel", "web", "info",
+    "biz", "mil", "int",
+}
+
+
+def registrable_domain(host: str) -> str:
+    """The host under its registrable domain (eTLD+1), as a grouping key.
+
+    StratifiedKFold can put two hosts of the same owner in different folds, so
+    the model can memorize one sibling's page and score the other — the fold
+    then reports the owner, not the category. Grouping by this key keeps them
+    together. `foo.bank.com.tr` and `bar.bank.com.tr` share a group; so do a
+    domain and its subdomains.
+    """
+    parts = host.split(".")
+    if len(parts) <= 2:
+        return host
+    if len(parts[-1]) == 2 and parts[-2] in _MULTI_PART_SUFFIXES:
+        return ".".join(parts[-3:])
+    return ".".join(parts[-2:])
+
+
 def load_pages(min_text: int) -> tuple[dict[str, str], dict[str, int]]:
     """Usable pages, plus every cached host's length so the rest can be explained.
 
@@ -124,7 +151,7 @@ def main() -> int:
         confusion_matrix,
         ConfusionMatrixDisplay,
     )
-    from sklearn.model_selection import cross_val_predict, StratifiedKFold
+    from sklearn.model_selection import cross_val_predict, GroupKFold, StratifiedKFold
     from sklearn.ensemble import RandomForestClassifier
     from sklearn.linear_model import LogisticRegression, RidgeClassifier, SGDClassifier
     from sklearn.naive_bayes import MultinomialNB
@@ -318,11 +345,36 @@ def main() -> int:
             file=sys.stderr,
         )
 
+    # --- 0b. Leakage check: StratifiedKFold vs GroupKFold by registrable domain ---
+    # The headline numbers above come from StratifiedKFold, which can scatter two
+    # hosts of the same owner across folds and let the model memorize one to score
+    # its sibling. The gap between the two is the part of the accuracy that is the
+    # owner rather than the category — measured, not assumed away.
+    groups = np.array([registrable_domain(host) for host in kept_hosts])
+    group_cv = GroupKFold(n_splits=n_splits)
+    group_pred = cross_val_predict(pipe, X, y, cv=group_cv, groups=groups, n_jobs=-1)
+    stratified_balanced = float(balanced_accuracy_score(y, pred))
+    grouped_balanced = float(balanced_accuracy_score(y, group_pred))
+    leakage = {
+        "grouping": "registrable_domain (eTLD+1)",
+        "n_groups": int(len(set(groups))),
+        "accuracy": float((group_pred == y).mean()),
+        "balanced_accuracy": grouped_balanced,
+        "stratified_balanced_accuracy": stratified_balanced,
+        "delta_balanced_accuracy": round(stratified_balanced - grouped_balanced, 4),
+    }
+    print(
+        f"\nLeakage check (GroupKFold by registrable domain, {leakage['n_groups']} groups):\n"
+        f"  accuracy={leakage['accuracy']:.3f} "
+        f"balanced={grouped_balanced:.3f} "
+        f"(stratified balanced={stratified_balanced:.3f}, "
+        f"delta={leakage['delta_balanced_accuracy']:+.3f})"
+    )
+
     cm = confusion_matrix(y, pred, labels=classes)
     np.set_printoptions(linewidth=200)
     print("\nConfusion matrix (rows=true, cols=predicted):")
     print(cm)
-
     # --- 1. Classification report (precision/recall/F1) ---
     report = classification_report(y, pred, labels=classes, output_dict=True)
     print("\nPer-class metrics:")
@@ -536,6 +588,7 @@ def main() -> int:
         # by 23 points. Quoting only the first is how a catalog gets told its
         # labels are 90% recoverable when per-class they are about 67%.
         "balanced_accuracy": float(balanced_accuracy_score(y, pred)),
+        "leakage": leakage,
         "macro_avg": report["macro avg"],
         "weighted_avg": report["weighted avg"],
         "correlated_terms": {c: correlated_terms[c] for c in classes},
