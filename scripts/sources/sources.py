@@ -19,7 +19,7 @@ import os
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-DEFAULT = os.path.join(ROOT, "sources.json")
+DEFAULT = os.path.join(ROOT, "config/sources.json")
 
 # Licences that must never reach the shipped catalog, with the reason stated
 # once so a contributor sees *why* rather than just a refusal.

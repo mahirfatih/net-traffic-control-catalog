@@ -87,7 +87,7 @@ list; this page explains what it means.
 ## `SOURCES.md` — why each source is allowed or refused
 
 Every external list, its licence, and the verdict on it. The machine-readable
-version is [`../sources.json`](../sources.json).
+version is [`../config/sources.json`](../config/sources.json).
 
 It exists because a refusal nobody can rediscover becomes a rule people work
 around — so the refusal is a table keyed on the **licence**, not a list of
@@ -96,7 +96,7 @@ to a list first.
 
 ## `NEEDS-REVIEW.md` — what is still open
 
-Hosts a source listed that no rule in [`../rules.json`](../rules.json) matched.
+Hosts a source listed that no rule in [`../config/rules.json`](../config/rules.json) matched.
 They are in neither the seeds nor `catalog.json`.
 
 That is the point. A host with no category is an open question; writing it as

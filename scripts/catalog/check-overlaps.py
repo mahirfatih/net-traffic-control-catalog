@@ -23,7 +23,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 CATEGORIES_PATH = os.path.join(ROOT, "seeds", "categories.json")
 SERVICES_PATH = os.path.join(ROOT, "seeds", "services.json")
 EXCEPTIONS_PATH = os.path.join(ROOT, "seeds", "public-suffix-exceptions.json")
-RULES = os.path.join(ROOT, "rules.json")
+RULES = os.path.join(ROOT, "config/rules.json")
 
 # A bare multi-tenant suffix swallows every tenant beneath it — `github.io`
 # also covers `someone.github.io`. Listing one is therefore a deliberate choice,

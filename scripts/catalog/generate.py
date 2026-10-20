@@ -42,7 +42,7 @@ overrides_module = importlib.util.module_from_spec(_overrides_spec)
 _overrides_spec.loader.exec_module(overrides_module)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-RULES = os.path.join(ROOT, "rules.json")
+RULES = os.path.join(ROOT, "config/rules.json")
 
 
 def _structure(document):

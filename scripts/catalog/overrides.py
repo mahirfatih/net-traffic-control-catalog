@@ -22,7 +22,7 @@ import os
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-RULES = os.path.join(ROOT, "rules.json")
+RULES = os.path.join(ROOT, "config/rules.json")
 
 _spec = importlib.util.spec_from_file_location(
     "catalog_core", os.path.join(ROOT, "scripts", "catalog", "catalog-core.py")

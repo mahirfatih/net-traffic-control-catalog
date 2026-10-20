@@ -10,7 +10,7 @@ regenerate without touching it.
 
 The canonical source is [`../catalog/generate.py`](../catalog/generate.py), which
 writes the field, and [`../catalog/catalog-core.py`](../catalog/catalog-core.py),
-which validates it. The script updates both, [`../../schema.json`](../../schema.json)
+which validates it. The script updates both, [`../../config/schema.json`](../../config/schema.json)
 and the version fixtures in [`../../test/test.sh`](../../test/test.sh), then
 regenerates `catalog.json` from the seeds so the shipped file matches, and
 re-derives [`../../manifest.json`](../../manifest.json) from the new bytes — it

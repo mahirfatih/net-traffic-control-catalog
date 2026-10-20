@@ -52,7 +52,7 @@ import urllib.parse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CATEGORIES = os.path.join(ROOT, "seeds", "categories.json")
-RULES = os.path.join(ROOT, "rules.json")
+RULES = os.path.join(ROOT, "config/rules.json")
 EVIDENCE = os.path.join(ROOT, "evidence")
 STATE = os.path.join(EVIDENCE, "live-sweep.json")
 MARKDOWN = os.path.join(EVIDENCE, "live-sweep.md")

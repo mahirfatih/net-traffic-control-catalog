@@ -22,7 +22,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CATALOG = os.path.join(ROOT, "catalog.json")
-RULES = os.path.join(ROOT, "rules.json")
+RULES = os.path.join(ROOT, "config/rules.json")
 CATEGORIES = os.path.join(ROOT, "seeds", "categories.json")
 SUMMARY = os.path.join(ROOT, "evidence", "harvest-summary.json")
 MATRIX = os.path.join(ROOT, "docs", "analysis", "out", "matrix-data.json")

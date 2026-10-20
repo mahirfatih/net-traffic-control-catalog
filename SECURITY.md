@@ -39,7 +39,7 @@ somebody else's commit.
 The gate checks the **licence**, not the **content**. A permissively licensed
 list could still be wrong, out of date, or malicious — a poisoned host mapped to
 a category that misleads a user. That is a data-quality problem; it is handled
-by review and by [`rules.json`](rules.json), not by this file.
+by review and by [`config/rules.json`](config/rules.json), not by this file.
 
 ## API terms
 
@@ -48,7 +48,7 @@ same grounds, whatever its data licence says: the VirusTotal Public API, for
 instance, states it must not be used in commercial products or services.
 
 If you hold an agreement that permits your use, change the record in
-[`sources.json`](sources.json) and say so in its `reason` field. Do not edit the
+[`config/sources.json`](config/sources.json) and say so in its `reason` field. Do not edit the
 gate to route around it.
 
 ## Reporting a problem

@@ -16,7 +16,7 @@ import importlib.util
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CATEGORIES = os.path.join(ROOT, "seeds", "categories.json")
-RULES = os.path.join(ROOT, "rules.json")
+RULES = os.path.join(ROOT, "config/rules.json")
 
 _overrides_spec = importlib.util.spec_from_file_location(
     "overrides", os.path.join(ROOT, "scripts", "catalog", "overrides.py")

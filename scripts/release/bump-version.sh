@@ -24,7 +24,7 @@ set -euo pipefail
 
 GENERATE="scripts/catalog/generate.py"
 CORE="scripts/catalog/catalog-core.py"
-SCHEMA="schema.json"
+SCHEMA="config/schema.json"
 TEST="test/test.sh"
 CATALOG="catalog.json"
 MANIFEST="manifest.json"
@@ -108,7 +108,7 @@ snake_exp='s/("format_version": )[0-9]+/\1'"${new}"'/g; s/("generated_unix": )[0
 python3 "$GENERATE" \
   --categories seeds/categories.json \
   --services   seeds/services.json \
-  --rules      rules.json \
+  --rules      config/rules.json \
   --out        "$CATALOG"
 
 # 5. Re-derive manifest.json from the new bytes. It mirrors this field as

@@ -37,7 +37,7 @@ from collections import Counter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CATALOG = os.path.join(ROOT, "catalog.json")
-RULES = os.path.join(ROOT, "rules.json")
+RULES = os.path.join(ROOT, "config/rules.json")
 OUT = os.path.join(ROOT, "docs", "CATALOG.md")
 README = os.path.join(ROOT, "README.md")
 README_TR = os.path.join(ROOT, "README.tr.md")

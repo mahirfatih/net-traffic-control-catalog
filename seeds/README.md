@@ -27,7 +27,7 @@ A flat `{host: category}` object. Sorted by host — `generate.py` sorts it, and
 ```
 
 Category names must come from the vocabulary in
-[`../schema.json`](../schema.json) (`scripts/catalog/catalog-core.py` holds the same
+[`../config/schema.json`](../config/schema.json) (`scripts/catalog/catalog-core.py` holds the same
 list for the validator). **A name outside it is not reported by the app — it is
 ignored on device.** `validate.py` turns that silent no-op into a build failure,
 which is the only reason the vocabulary is enforced here rather than there.

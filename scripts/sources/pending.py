@@ -25,8 +25,8 @@ import os
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-SOURCES = os.path.join(ROOT, "sources.json")
-RULES = os.path.join(ROOT, "rules.json")
+SOURCES = os.path.join(ROOT, "config/sources.json")
+RULES = os.path.join(ROOT, "config/rules.json")
 EVIDENCE = os.path.join(ROOT, "evidence")
 OUT = os.path.join(EVIDENCE, "pending-source-hosts.json")
 

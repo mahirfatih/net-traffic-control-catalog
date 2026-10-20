@@ -49,7 +49,7 @@ from datetime import datetime, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CATEGORIES = os.path.join(ROOT, "seeds", "categories.json")
-RULES = os.path.join(ROOT, "rules.json")
+RULES = os.path.join(ROOT, "config/rules.json")
 REFERENCE = os.path.join(ROOT, "reference", "rdap")
 EVIDENCE = os.path.join(ROOT, "evidence")
 STATE = os.path.join(EVIDENCE, "registration-verify.json")

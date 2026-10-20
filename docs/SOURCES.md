@@ -1,7 +1,7 @@
 # Sources
 
 Every external list this repository has ever drawn on, and the verdict on each.
-The machine-readable version is [`../sources.json`](../sources.json); this file
+The machine-readable version is [`../config/sources.json`](../config/sources.json); this file
 is where the reasoning lives, so a refusal is never a mystery.
 
 ## The rule this repository runs on
@@ -11,7 +11,7 @@ is where the reasoning lives, so a refusal is never a mystery.
 An external list can tell you that `plex.tv` exists. It cannot tell you that
 Plex is a media server, and a list that claimed to would be wrong often enough
 to be useless. So a host's category is always either **a rule in
-[`rules.json`](../rules.json)** or **a person who wrote down why**. Harvesting
+[`rules.json`](../config/rules.json)** or **a person who wrote down why**. Harvesting
 only ever *proposes hosts*; `merge.py` refuses to overwrite a label somebody
 already decided, and refuses any category outside the vocabulary.
 

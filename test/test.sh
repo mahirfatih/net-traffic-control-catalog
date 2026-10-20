@@ -815,7 +815,7 @@ LITERAL = re.compile(
 FILES = (
     "scripts/catalog/generate.py",
     "scripts/catalog/catalog-core.py",
-    "schema.json",
+    "config/schema.json",
 )
 NEXT_VER = int(os.environ.get("NEXT_VER", "0"))
 stale = []

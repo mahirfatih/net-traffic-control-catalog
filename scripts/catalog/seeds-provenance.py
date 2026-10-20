@@ -23,8 +23,8 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CATALOG = os.path.join(ROOT, "catalog.json")
-RULES = os.path.join(ROOT, "rules.json")
-SOURCES = os.path.join(ROOT, "sources.json")
+RULES = os.path.join(ROOT, "config/rules.json")
+SOURCES = os.path.join(ROOT, "config/sources.json")
 EVIDENCE = os.path.join(ROOT, "evidence")
 OUT = os.path.join(EVIDENCE, "seeds-only.json")
 SEEDS = os.path.join(ROOT, "seeds", "categories.json")

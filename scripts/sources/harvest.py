@@ -45,7 +45,7 @@ _spec.loader.exec_module(catalog_core)
 import sources as source_registry  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-RULES = os.path.join(ROOT, "rules.json")
+RULES = os.path.join(ROOT, "config/rules.json")
 EVIDENCE = os.path.join(ROOT, "evidence")
 SEEDS = os.path.join(ROOT, "seeds")
 REVIEW = os.path.join(ROOT, "docs", "NEEDS-REVIEW.md")

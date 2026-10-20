@@ -41,7 +41,7 @@ Rules for a generator:
 - **`key` must stay stable.** The app may cache by it; changing a key re-labels data.
 - **Deterministic output** (sorted keys) so diffs stay reviewable.
 - **Only permitted sources**, enforced in code rather than by convention: every
-  source lives in [`sources.json`](../sources.json) with its licence, and
+  source lives in [`sources.json`](../config/sources.json) with its licence, and
   [`scripts/sources/sources.py`](../scripts/sources/sources.py) refuses a non-commercial or
   share-alike licence *before* fetching it. See
   [`SOURCES.md`](SOURCES.md) for the reasoning, and
@@ -232,7 +232,7 @@ unsupported TLDs are reported, never deleted. Reference data:
 - **Do not commit NonCommercial or share-alike data.** `NC` forbids use in a
   commercial app and `SA` would stop the derivative being CC0 — the two terms in
   `CC BY-NC-SA 4.0`. This is no longer a convention:
-  [`sources.json`](../sources.json) records the licence of every source and
+  [`sources.json`](../config/sources.json) records the licence of every source and
   [`scripts/sources/sources.py`](../scripts/sources/sources.py) refuses the blocked ones before
   fetching, and `./test/test.sh` fails if a record claims otherwise.
 

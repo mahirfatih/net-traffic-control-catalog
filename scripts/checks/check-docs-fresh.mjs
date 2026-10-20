@@ -94,7 +94,7 @@ function checkScriptNames() {
 
 /** 3. Every source id in rules.json must exist in sources.json. */
 function checkSourceIds() {
-  const sources = json("sources.json");
+  const sources = json("config/sources.json");
   const ids = new Set(sources.sources.map((s) => s.id));
   const summaryPath = join(ROOT, "evidence", "harvest-summary.json");
   if (!existsSync(summaryPath)) return;
@@ -202,7 +202,7 @@ function checkCoverageDoc() {
 
 /** 6. A source may not claim to be allowed when its licence blocks it. */
 function checkLicenseGate() {
-  const sources = json("sources.json");
+  const sources = json("config/sources.json");
   // The same table scripts/sources/sources.py enforces, so this check and the gate can
   // never disagree. Proprietary APIs are deliberately absent: terms differ per
   // provider, so those records carry their own verdict and reason.
@@ -659,7 +659,7 @@ function checkSweepEvidence() {
   const sweep = json(evidencePath);
   const seeds = json("seeds/categories.json");
   const catalog = json("catalog.json").categories || {};
-  const drops = (json("rules.json").drop || {}).hosts || {};
+  const drops = (json("config/rules.json").drop || {}).hosts || {};
 
   const rounds = (sweep.rounds || [])
     .filter((r) => r.complete && r.results)
@@ -770,7 +770,7 @@ function checkLiveSweepEvidence() {
   }
   const sweep = json(evidencePath);
   const seeds = json("seeds/categories.json");
-  const drops = (json("rules.json").drop || {}).hosts || {};
+  const drops = (json("config/rules.json").drop || {}).hosts || {};
 
   const rounds = (sweep.rounds || [])
     .filter((r) => r.complete && r.results)
@@ -854,7 +854,7 @@ function checkRegistrationEvidence() {
   }
   const sweep = json(evidencePath);
   const seeds = json("seeds/categories.json");
-  const drops = (json("rules.json").drop || {}).hosts || {};
+  const drops = (json("config/rules.json").drop || {}).hosts || {};
 
   const rounds = (sweep.rounds || [])
     .filter((r) => r.complete && r.results)
@@ -1104,7 +1104,7 @@ function checkCategoryPie() {
  */
 function checkDropListSeparation() {
   const seeds = json("seeds/categories.json");
-  const drops = (json("rules.json").drop || {}).hosts || {};
+  const drops = (json("config/rules.json").drop || {}).hosts || {};
   const overlap = Object.keys(drops).filter((h) => h in seeds);
   if (overlap.length) {
     problems.push(
@@ -1130,7 +1130,7 @@ function checkCatalogBadges() {
   for (const m of block[1].matchAll(/badge\/([a-z]+)-([\d]+)-[a-z]+/g)) {
     badges[m[1]] = Number(m[2]);
   }
-  const drops = ((json("rules.json").drop || {}).hosts) || {};
+  const drops = ((json("config/rules.json").drop || {}).hosts) || {};
   const expected = {
     hosts: Object.keys(catalog.categories || {}).length,
     categories: Object.keys(counts).length,
