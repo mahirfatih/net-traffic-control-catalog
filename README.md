@@ -3,7 +3,7 @@
 [![CI](https://github.com/mahirfatih/net-traffic-control-catalog/actions/workflows/ci.yml/badge.svg)](https://github.com/mahirfatih/net-traffic-control-catalog/actions/workflows/ci.yml)
 ![Type](https://img.shields.io/badge/type-data%20catalog-blue)
 ![Format](https://img.shields.io/badge/format-JSON%20v1-blue)
-![Checks](https://img.shields.io/badge/checks-26%20defined-brightgreen)
+![Checks](https://img.shields.io/badge/checks-27%20defined-brightgreen)
 ![Measured](https://img.shields.io/badge/measured-68%25-brightgreen)
 ![License](https://img.shields.io/badge/license-CC0%201.0-lightgrey)
 
@@ -223,7 +223,9 @@ catalog's. Full method, evidence and the removal policy:
 The file format — the schema, the matching rules, the vocabulary and the
 precedence order — is in [`docs/FORMAT.md`](docs/FORMAT.md). How to generate,
 add, correct and remove a host, and the discipline behind it, is in
-[`docs/MAINTAINING.md`](docs/MAINTAINING.md).
+[`docs/MAINTAINING.md`](docs/MAINTAINING.md). Reading it from **another
+application** — the pinned URL, `manifest.json` and the SHA-256 check — is in
+[`docs/INTEGRATION.md`](docs/INTEGRATION.md).
 
 The catalog is served raw from:
 

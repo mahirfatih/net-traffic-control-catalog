@@ -1,0 +1,10 @@
+{
+  "manifestVersion": 1,
+  "catalog": "catalog.json",
+  "formatVersion": 1,
+  "generated": "2026-10-20",
+  "bytes": 232119,
+  "sha256": "f9a0daf3d31f16cbafc71419798095f00baf2c8ca8fcbff326bde831fcc2642e",
+  "hosts": 6731,
+  "services": 22
+}

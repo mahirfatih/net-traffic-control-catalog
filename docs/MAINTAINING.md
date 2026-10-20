@@ -246,3 +246,25 @@ Full guide: [`CONTRIBUTING.md`](../CONTRIBUTING.md).
   does it: it updates the writer (`scripts/catalog/generate.py`), validator
   (`scripts/catalog/catalog-core.py`), schema (`schema.json`) and test contract,
   then regenerates `catalog.json`. It rejects zero and backwards bumps.
+
+### Cutting a release
+
+The format and the data move separately: `version` only on a breaking shape
+change, the data on every regenerate. A **tag** freezes both for a consumer that
+must reproduce a state.
+
+```sh
+# the changelog carries the entry and the tree is clean
+git tag v0.2.0
+git push origin main v0.2.0
+```
+
+Pushing the tag runs [`.github/workflows/release.yml`](../.github/workflows/release.yml):
+the checks, the tagged bytes restored over the rebuild's re-stamped `generated`
+date, then a GitHub Release carrying `catalog.json`, `manifest.json` and
+`catalog.json.sha256`. The file ships plain — no gzip.
+
+Regenerating `catalog.json` without `scripts/release/build-manifest.py` fails
+`./test/test.sh` at **step 3c**: a manifest that no longer quotes the bytes it
+sits next to is the one thing an integrating application is told to trust. The
+contract those consumers read is [`INTEGRATION.md`](INTEGRATION.md).

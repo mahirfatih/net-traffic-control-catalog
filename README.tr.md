@@ -3,7 +3,7 @@
 [![CI](https://github.com/mahirfatih/net-traffic-control-catalog/actions/workflows/ci.yml/badge.svg)](https://github.com/mahirfatih/net-traffic-control-catalog/actions/workflows/ci.yml)
 ![Type](https://img.shields.io/badge/type-data%20catalog-blue)
 ![Format](https://img.shields.io/badge/format-JSON%20v1-blue)
-![Checks](https://img.shields.io/badge/checks-26%20defined-brightgreen)
+![Checks](https://img.shields.io/badge/checks-27%20defined-brightgreen)
 ![Measured](https://img.shields.io/badge/measured-68%25-brightgreen)
 ![License](https://img.shields.io/badge/license-CC0%201.0-lightgrey)
 
@@ -224,7 +224,9 @@ olmayabilir. Tam yöntem, kanıt ve kaldırma politikası:
 Dosya formatı — şema, eşleşme kuralları, sözlük ve öncelik sırası —
 [`docs/FORMAT.md`](docs/FORMAT.md) içinde. Bir host'un nasıl üretileceği,
 ekleneceği, düzeltileceği ve kaldırılacağı ile arkasındaki disiplin ise
-[`docs/MAINTAINING.md`](docs/MAINTAINING.md) içinde.
+[`docs/MAINTAINING.md`](docs/MAINTAINING.md) içinde. Katalogı **başka bir
+uygulamadan** okumak — sabit URL, `manifest.json` ve SHA-256 doğrulaması — ise
+[`docs/INTEGRATION.md`](docs/INTEGRATION.md) içinde.
 
 Katalog ham hâlde şuradan sunulur:
 

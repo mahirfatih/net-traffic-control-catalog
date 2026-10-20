@@ -69,6 +69,13 @@ dead.
 | [`classify-unmeasured.py`](analysis/classify-unmeasured.py) | Audit: explain *why* the hosts the matrix could not measure were unmeasurable — nothing answers, it answers with something that is not a page, or its HTML needs JavaScript. Writes `evidence/unmeasured-hosts.json`. Standard library only, network required. |
 | [`sweep-live.py`](analysis/sweep-live.py) | Visits every catalog host with a real browser — [agent-browser](https://github.com/vercel-labs/agent-browser) driving [Lightpanda](https://lightpanda.io) (`--engine lightpanda`) — and records what it served. Finds the "empty" hosts: a name that still resolves but no longer serves a page (parked, an empty shell, a 404). Two rounds must agree before anything is proposed, and a failure is only believed after a canary proves the engine still works. By default it proposes only a parked host; `--aggressive` widens it to hosts that answered with nothing. Writes `evidence/live-sweep.json` / `.md`. **Uses the network — not in `test/test.sh`.** |
 
+### Release — [`release/`](release/)
+
+| Script | What it does |
+| :--- | :--- |
+| [`bump-version.sh`](release/bump-version.sh) | Bumps the catalog **format version** across the generator, the validator, `schema.json` and the test fixtures, then regenerates `catalog.json`. Refuses `0` and a backwards bump. A breaking shape change only. |
+| [`build-manifest.py`](release/build-manifest.py) | Writes `manifest.json` — the SHA-256, size, format version and totals an application reads before downloading the catalog. `--check` proves the committed one still describes `catalog.json`. **In `test/test.sh`.** |
+
 ## Harvest workflow
 
 ```sh

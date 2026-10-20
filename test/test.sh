@@ -123,6 +123,14 @@ python3 scripts/catalog/generate.py \
     --services seeds/services.json \
     --out catalog.json --check
 
+step "3c. The release manifest describes catalog.json"
+# Before the build again, for step 3's reason: the rebuild re-stamps `generated`,
+# while `manifest.json` records the hash of the bytes as shipped. A catalog
+# regenerated without its manifest would otherwise publish a checksum that lies
+# about the file sitting next to it — which is the one thing an integrating
+# application is told to trust.
+python3 scripts/release/build-manifest.py --check
+
 step "4. Build catalog.json from the seeds"
 python3 scripts/catalog/generate.py \
     --categories seeds/categories.json \

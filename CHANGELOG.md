@@ -9,6 +9,22 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Added
 
+- **A distribution contract for other applications**
+  (`manifest.json`, `docs/INTEGRATION.md`,
+  `scripts/release/build-manifest.py`): the catalog stays plain JSON — no gzip —
+  and gains the surface around it an integrating app needs. `manifest.json` is a
+  kilobyte holding the catalog's SHA-256, byte count, format version and totals,
+  so a consumer can learn whether the data changed before pulling the whole file;
+  `--check` proves it still describes `catalog.json` and runs as **step 3c** of
+  `test/test.sh`. `docs/INTEGRATION.md` states the two addresses (moving `main`
+  versus an immutable `v*` tag) and draws the line between what is guaranteed —
+  `version`, `services[].key`, the vocabulary — and what moves on every
+  regenerate.
+- **Tagged releases** (`.github/workflows/release.yml`): pushing a `v*` tag runs
+  the checks, restores the tagged bytes over the rebuild's re-stamped date, and
+  publishes a GitHub Release carrying `catalog.json`, `manifest.json` and
+  `catalog.json.sha256`. Third-party actions stay commit-pinned and each job has a
+  timeout. No asset is compressed.
 - **A release helper** (`scripts/release/bump-version.sh`,
   `scripts/release/README.md`): bumps the catalog **format version** — the integer
   `version` field in `catalog.json` — across its canonical source
@@ -233,6 +249,12 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Changed
 
+- **The test suite's document caught up with the suite.** `test/README.md`
+  claimed 21 steps and 21 sub-checks; the suite runs **27** and **23**. The six
+  missing steps (6b, 7c, 10.5b, 10.12, 10.13 and the new 3c) are now described,
+  the two missing sub-checks (`checkCoverageDoc`, `checkHandAdded`) are named in
+  their real invocation order, and the `checks-N defined` badge in both READMEs
+  reads 27.
 - **The README header is tidied** (`README.md`, `README.tr.md`): the hand-written
   badge row dropped its duplicate `categories` badge — the generated
   `catalog-badges` block already carries it — and the language selector moved

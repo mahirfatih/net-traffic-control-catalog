@@ -1,6 +1,6 @@
 # docs
 
-Twelve documents, and the difference between them is who is allowed to write
+Thirteen documents, and the difference between them is who is allowed to write
 them.
 
 | Document | Written by | Edit it? |
@@ -10,6 +10,7 @@ them.
 | [`FORMAT.md`](FORMAT.md) | a person | Yes |
 | [`FOUNDING.md`](FOUNDING.md) | a person; the counts come from `evidence/seeds-only.json` | Yes |
 | [`INGEST.md`](INGEST.md) | a person | Yes |
+| [`INTEGRATION.md`](INTEGRATION.md) | a person | Yes |
 | [`IPADDRESS.md`](IPADDRESS.md) | a person | Yes |
 | [`MAINTAINING.md`](MAINTAINING.md) | a person | Yes |
 | [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md) | a person | Yes |
@@ -59,6 +60,14 @@ The three doors a host can enter through — a source list, the public-instituti
 harvester, and a person's hand — with the flow chart, and what each one does and
 does not decide. A source carries names, never categories; the category comes
 from a rule or a person. The mirror image of `PIPELINE.md`.
+
+## `INTEGRATION.md` — reading the file from another application
+
+The distribution contract for anything that is not the iOS app: the pinned tag
+URL beside the moving `main` one, the kilobyte `manifest.json` that says whether
+the catalog changed before the whole file is pulled, the SHA-256 check, and the
+line between what is guaranteed (`version`, `services[].key`) and what moves on
+every regenerate (counts, the date). The file ships plain — no gzip.
 
 ## `PIPELINE.md` — how a domain is removed
 
@@ -133,6 +142,7 @@ explains it.
 | "how many hosts, and in what categories?" | [`CATALOG.md`](CATALOG.md) |
 | "how much is measured, and from where?" | [`COVERAGE.md`](COVERAGE.md) |
 | "what does the file look like, and how does matching work?" | [`FORMAT.md`](FORMAT.md) |
+| "how do I consume this from another app?" | [`INTEGRATION.md`](INTEGRATION.md) |
 | "how does a domain get a category?" | [`INGEST.md`](INGEST.md) |
 | "why can't we use a CC BY-NC-SA list?" | [`SOURCES.md`](SOURCES.md) |
 | "did every host come from a source?" | [`FOUNDING.md`](FOUNDING.md) |

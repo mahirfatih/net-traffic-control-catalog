@@ -21,4 +21,28 @@ One place is left to a person, because a format change is exactly when it needs
 a second look: [`../../docs/FORMAT.md`](../../docs/FORMAT.md) shows the shape by
 hand. Update that document when the JSON shape changes.
 
+## `build-manifest.py`
+
+`build-manifest.py` writes [`../../manifest.json`](../../manifest.json) — the
+SHA-256, byte count, format version and totals an application reads **before** it
+downloads the catalog. Everything comes from `catalog.json`'s bytes alone: no
+clock, no git, so the same file always yields the same manifest.
+
+    python3 scripts/release/build-manifest.py          # write manifest.json
+    python3 scripts/release/build-manifest.py --check  # prove it is current
+
+`--check` runs as step 3c of [`../../test/test.sh`](../../test/test.sh), before
+the build, because the build re-stamps `generated` while the manifest records the
+hash of the bytes as shipped.
+
+## Publishing
+
+Pushing a `v*` tag runs
+[`.github/workflows/release.yml`](../../.github/workflows/release.yml): the
+checks, the tagged bytes restored over the rebuild's re-stamped date, the
+checksum rebuilt from the manifest, then a GitHub Release carrying `catalog.json`,
+`manifest.json` and `catalog.json.sha256`. The file ships **plain** — no gzip.
+The contract an integrating application reads is
+[`../../docs/INTEGRATION.md`](../../docs/INTEGRATION.md).
+
 Standard library only. See [`../README.md`](../README.md).
