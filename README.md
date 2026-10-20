@@ -1,8 +1,7 @@
 # Net Traffic Control — Catalog
 
-[![CI](https://github.com/mahirfatih/net-traffic-control-catalog/actions/workflows/ci.yml/badge.svg)](https://github.com/mahirfatih/net-traffic-control-catalog/actions/workflows/ci.yml)
 ![Type](https://img.shields.io/badge/type-data%20catalog-blue)
-![Format](https://img.shields.io/badge/format-JSON%20v1-blue)
+![Format](https://img.shields.io/badge/format-JSON%20v3-blue)
 ![Checks](https://img.shields.io/badge/checks-28%20defined-brightgreen)
 ![Measured](https://img.shields.io/badge/measured-68%25-brightgreen)
 ![License](https://img.shields.io/badge/license-CC0%201.0-lightgrey)

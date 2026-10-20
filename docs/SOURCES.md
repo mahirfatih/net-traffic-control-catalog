@@ -164,12 +164,11 @@ Two verdicts are deliberately never proposed for removal:
   broken zone is not proof of anything. It is reported under "Worth a look".
 
 The script is deliberately absent from `test/test.sh`. It needs the network, and
-CI must never depend on a network to tell a real bank it is dead. It is instead
-wired into a **manual GitHub Actions workflow**
-([`.github/workflows/sweep.yml`](../.github/workflows/sweep.yml)): start it from
-the Actions tab (or `gh workflow run sweeps`) and it probes both rounds, then
-files or updates one tracking issue with the proposal. See
-[`SCHEDULE.md`](SCHEDULE.md) for the cadence.
+CI must never depend on a network to tell a real bank it is dead. It can be run
+manually via a GitHub Actions workflow (create `.github/workflows/sweep.yml` from
+the template in `scripts/catalog/README.md`): start it from the Actions tab (or
+`gh workflow run sweeps`) and it probes both rounds, then files or updates one
+tracking issue with the proposal. See [`SCHEDULE.md`](SCHEDULE.md) for the cadence.
 
 ## Blocked
 

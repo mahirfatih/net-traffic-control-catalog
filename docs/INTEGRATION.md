@@ -12,7 +12,7 @@ The same file, two different promises:
 | You want | URL | Changes? |
 | :--- | :--- | :--- |
 | Always current | `https://raw.githubusercontent.com/mahirfatih/net-traffic-control-catalog/main/catalog.json` | **Yes** — `main` moves on every regenerate |
-| A version you can rely on | `https://raw.githubusercontent.com/mahirfatih/net-traffic-control-catalog/v0.1.0/catalog.json` | **No** — a tag is immutable |
+| A version you can rely on | `https://raw.githubusercontent.com/mahirfatih/net-traffic-control-catalog/v0.0.1/catalog.json` | **No** — a tag is immutable |
 
 Pin a tag if the consumer must be able to reproduce yesterday's behaviour. Track
 `main` if it only ever wants the latest data. Every tag also becomes a GitHub
@@ -33,10 +33,11 @@ https://raw.githubusercontent.com/mahirfatih/net-traffic-control-catalog/main/ma
 
 | Field | Type | Meaning |
 | :--- | :--- | :--- |
-| `manifestVersion` | integer | Version of *this* file's shape. Bumped only on a breaking change. |
+| `manifest_version` | integer | Version of *this* file's shape. Bumped only on a breaking change. |
 | `catalog` | string | The file described. Resolved against the address you fetched from. |
-| `formatVersion` | integer | The catalog's `version`. Skip the download if you do not know it. |
+| `format_version` | integer | The catalog's `version`. Skip the download if you do not know it. |
 | `generated` | string | When the catalog was rebuilt. Informational. |
+| `generated_unix` | integer | Unix timestamp of `generated`. |
 | `bytes` | integer | Exact size of the catalog, so you can check `Content-Length` too. |
 | `sha256` | string | 64 hex characters: the catalog's SHA-256. |
 | `hosts` | integer | Entries in `categories`. |
@@ -49,7 +50,7 @@ fetch manifest.json ──► sha256 == last applied? ──► yes ──► do
         │                        │
         │                        no
         ▼                        ▼
-  formatVersion known?      fetch catalog.json
+  format_version known?      fetch catalog.json
         │                        │
        no ──► refuse, keep       ▼
         └──────────────► sha256 matches? ──► no ──► refuse, keep last good

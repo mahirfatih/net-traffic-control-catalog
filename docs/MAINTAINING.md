@@ -152,12 +152,12 @@ CI must never depend on a network to tell a real bank it is dead. See
 [`SOURCES.md`](SOURCES.md) for the full workflow, and [`SCHEDULE.md`](SCHEDULE.md)
 for how often to run it.
 
-The same probe runs without typing the commands by hand: a **manual GitHub
-Actions workflow**
-([`.github/workflows/sweep.yml`](../.github/workflows/sweep.yml)) probes both
-rounds ten minutes apart and files or updates one tracking issue with the
-proposal. Start it from the Actions tab or with `gh workflow run sweeps`. It runs
-by hand on purpose — a sweep is a decision, not a clock (see
+The same probe runs without typing the commands by hand via a **manual GitHub
+Actions workflow** (create `.github/workflows/sweep.yml` from the template in
+`scripts/catalog/README.md` if you want to run sweeps via GitHub Actions) — it
+probes both rounds ten minutes apart and files or updates one tracking issue
+with the proposal. Start it from the Actions tab or with `gh workflow run sweeps`.
+It runs by hand on purpose — a sweep is a decision, not a clock (see
 [`SCHEDULE.md`](SCHEDULE.md)) — and it never edits catalog data.
 
 ### Removing a host that still resolves but serves nothing
@@ -246,7 +246,7 @@ Full guide: [`CONTRIBUTING.md`](../CONTRIBUTING.md).
   does it: it updates the writer (`scripts/catalog/generate.py`), validator
   (`scripts/catalog/catalog-core.py`), schema (`schema.json`) and test contract,
   then regenerates `catalog.json` **and `manifest.json`** — the manifest mirrors
-  the field as `formatVersion` and carries the catalog's sha256, so it is
+  the field as `format_version` and carries the catalog's sha256, so it is
   re-derived rather than edited. It rejects zero and backwards bumps.
 
 ### Cutting a release
@@ -257,8 +257,8 @@ must reproduce a state.
 
 ```sh
 # the changelog carries the entry and the tree is clean
-git tag v0.2.0
-git push origin main v0.2.0
+git tag v0.0.1
+git push origin main v0.0.1
 ```
 
 Pushing the tag runs [`.github/workflows/release.yml`](../.github/workflows/release.yml):
@@ -270,3 +270,7 @@ Regenerating `catalog.json` without `scripts/release/build-manifest.py` fails
 `./test/test.sh` at **step 3c**: a manifest that no longer quotes the bytes it
 sits next to is the one thing an integrating application is told to trust. The
 contract those consumers read is [`INTEGRATION.md`](INTEGRATION.md).
+
+> **Note:** The release workflow ([`.github/workflows/release.yml`](../.github/workflows/release.yml))
+> uses `format_version` (snake_case) in the generated notes, matching the
+> `manifest.json` schema.

@@ -5,16 +5,20 @@ and the order in which a label is decided. This is the reference the README used
 to carry inline; the README keeps the overview and points here. The raw URL is
 the one thing on this page the app itself cites.
 
-## Format (v1)
+## Format (v3)
 
 ```json
 {
-  "version": 1,
+  "version": 3,
   "generated": "YYYY-MM-DD",
+  "generated_unix": 1792443600,
   "categories": { "<host>": "<category>" },
   "services": [
     { "key": "<id>", "name": "<Display Name>", "domains": ["<host>", "..."] }
-  ]
+  ],
+  "format_version": 3,
+  "manifest_version": 2,
+  "manifest_file": "manifest.json"
 }
 ```
 
@@ -24,11 +28,15 @@ the one thing on this page the app itself cites.
 | :--- | :--- | :--- |
 | `version` | integer | Format version. Bumped only on a breaking change. |
 | `generated` | string | Date the file was produced. Informational. |
+| `generated_unix` | integer | Unix timestamp (seconds since epoch) of `generated`. |
 | `categories` | object | `host → category` (a name from the vocabulary below). |
 | `services` | array | One object per product; see below. |
 | `services[].key` | string | Stable id the app may cache by. **Never renumber or reuse.** |
 | `services[].name` | string | Display name (a product, not a company). |
 | `services[].domains` | array | The hosts that belong to this product. |
+| `format_version` | integer | Format version (mirrors `version` for self-verification). |
+| `manifest_version` | integer | Manifest format version (see `manifest.json`). |
+| `manifest_file` | string | Path to the manifest file (`manifest.json`). |
 
 ### Matching
 

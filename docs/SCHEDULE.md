@@ -50,10 +50,10 @@ python3 scripts/catalog/probe-dead.py --apply        # only after you read it
 
 ## Automating it
 
-The DNS sweep has a workflow —
-[`.github/workflows/sweep.yml`](../.github/workflows/sweep.yml) — with a weekly
-Monday schedule and a manual dispatch option. It probes two rounds ten minutes
-apart and files or updates one tracking issue with the proposal. It is
+The DNS sweep can be automated with a GitHub Actions workflow — create
+`.github/workflows/sweep.yml` from the template in `scripts/catalog/README.md`
+to run weekly on Monday with a manual dispatch option. It probes two rounds ten
+minutes apart and files or updates one tracking issue with the proposal. It is
 **non-blocking** — never a required check — and it cannot touch catalog data: the
 result of a sweep is a human decision (the four rules in `PIPELINE.md`), and a
 job that could auto-delete a live host because a resolver hiccuped is the failure

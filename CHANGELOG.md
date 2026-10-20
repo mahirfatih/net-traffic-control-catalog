@@ -8,8 +8,57 @@ catalog's `version` is a **single integer** — it is SemVer's *major* axis alon
 because a data file has no minor or patch: a field added, removed or renamed is
 the only thing that can make a reader change code, and that is a breaking
 change. It is not a data version; the data changes on every regenerate without
-touching it. The release tags (`v0.1.0`) are what move when the data moves, and
+touching it. The release tags (`v0.0.1`) are what move when the data moves, and
 `manifest.json`'s `sha256` says whether two files are the same bytes at all.
+
+## [v0.0.1] - 2026-10-20
+
+### Added
+
+- **Catalog format v3** — `catalog.json` now includes `format_version`,
+  `manifest_version`, `manifest_file`, and `generated_unix` (snake_case) for
+  self-verification by consumers. `manifest.json` upgraded to v2 with snake_case
+  keys and `generated_unix`.
+- **Distribution contract** — `manifest.json` (sha256, byte count, format
+  version, totals) enables consumers to verify freshness before downloading the
+  full catalog. `docs/INTEGRATION.md` documents the contract.
+- **Release workflow** — `.github/workflows/release.yml` with `workflow_dispatch`
+  for manual rehearsal runs; `v*` tag pushes publish `catalog.json`,
+  `manifest.json`, `catalog.json.sha256` as a GitHub Release.
+- **Bump script overhaul** — `scripts/release/bump-version.sh` now updates
+  `format_version`, `manifest_version`, `manifest_file`, `generated_unix`
+  across generator, validator, schema, and test fixtures; also rebuilds
+  `manifest.json`. `manifest_version` is separate from catalog format version.
+- **Test hardening** — `test/test.sh` step 10.14 runs the bumper on a throwaway
+  copy of the tree on every suite run, asserting every version literal moves,
+  manifest follows, and backwards/repeat/zero bumps are refused.
+- **Method note** — `docs/analysis/METHOD.md` walks the scikit-learn estimator
+  selection chart gate-by-gate with real `matrix-data.json` numbers, includes a
+  mermaid flowchart, and documents three deliberate departures from the chart.
+- **Project audit** — `docs/audit.md` read-only review: category imbalance,
+  source concentration, mislabel, backlog, provenance gaps.
+
+### Changed
+
+- **Catalog format version** 1 → 3 (breaking: new required fields).
+- **Manifest format version** 1 → 2 (snake_case keys, added `generated_unix`).
+- **Badge updates** — `README.md` / `README.tr.md`: format badge v1→v3, CI badge
+  removed (workflows simplified), checks badge 27→28.
+- **`bump-version.sh`** — manifest now regenerated alongside `catalog.json`;
+  `manifest_version` tracked separately; snake_case field patterns added.
+- **Versioning model** clarified in `CHANGELOG.md`: single integer = SemVer
+  major axis only; release tags (`v0.0.1`) carry data versions; `sha256` for
+  byte-level identity.
+- **Workflows** — `.github/workflows/release.yml` restored with `workflow_dispatch`
+  for manual rehearsal runs (default tag `v0.0.1`); `.github/workflows/ci.yml`
+  and `.github/workflows/sweep.yml` removed.
+
+### Fixed
+
+- `bump-version.sh` now updates `manifest.json` (was stale, causing consumer
+  checksum mismatch).
+- `bump-version.sh` now updates the bare `built.get("version") != 1` comparison
+  in `test/test.sh` step 6 (was reporting contradictory `version is 2, expected 2`).
 
 ## [Unreleased]
 
