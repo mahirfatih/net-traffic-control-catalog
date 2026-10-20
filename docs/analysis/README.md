@@ -35,7 +35,7 @@ Outputs land in `out/`:
 - `high-confidence-errors.md` — hosts where the model is confident but disagrees
 - `matrix-data.json` — raw numbers including model comparison and per-host top-3 predictions
 
-The triage of those errors — why 57 of the 69 predict `finance`, and why that is
+The triage of those errors — why 57 of the 68 predict `finance`, and why that is
 the model's prior rather than a relabel queue — is in
 [`finance-triage.md`](finance-triage.md).
 
@@ -272,7 +272,7 @@ this column needs. **Read the model-weight column.**
 
 ### High-confidence errors
 
-69 hosts where the model is confident (≥70%) but disagrees with the catalog
+68 hosts where the model is confident (≥70%) but disagrees with the catalog
 label. The list is out of fold, like the matrix, so these are the model's real
 mistakes rather than the hosts it memorised — the previous in-sample list found
 five, and it had also "recovered" all ten `other` hosts, which the matrix never
@@ -280,21 +280,17 @@ predicts. The five below are the shape of it, not the whole:
 
 | Host | Catalog label | Predicted | Confidence | Top 3 predictions |
 | :--- | :--- | :--- | ---: | :--- |
-| guven.com.tr | finance | health | 85% | health 85%, government 3%, finance 2% |
 | display.ugc.bazaarvoice.com | software | finance | 82% | finance 82%, government 3%, software 2% |
 | iqiyi.com | video | finance | 82% | finance 82%, government 3%, software 2% |
 | googlesyndication.com | ads | search | 83% | search 83%, finance 5%, software 1% |
 | ilbank.gov.tr | finance | government | 87% | government 87%, news 3%, finance 2% |
 
-57 of the 69 predict `finance`, and the reason is the same in every case:
+57 of the 68 predict `finance`, and the reason is the same in every case:
 `finance` is over half the sample, so it is both the label the model falls back
 on and the one it drifts away from. The five above are the readable ones; the
 rest are mostly infrastructure hosts with thin pages and a dominant-class pull.
 The full list is in `out/high-confidence-errors.md`.
 
-- `guven.com.tr` — a Turkish insurer; "güven" is also the common word for
-  *trust*, so the text reads as health. The label is defensible, the page is
-  just not distinctive.
 - `bazaarvoice.com` — UGC review infrastructure. `software` looks right; a
   customer-review platform reads as finance to a model.
 - `iqiyi.com` — a Chinese video platform. The `video` label is clearly right

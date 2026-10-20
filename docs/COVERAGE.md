@@ -10,7 +10,7 @@ carries a category alone.
 
 **6,731 names** across **27 categories**, plus **22 services**.
 
-The two largest categories are `finance` (3,571, 53%)
+The two largest categories are `finance` (3,570, 53%)
 and `government` (1,064, 16%) — together
 **69%** of the catalog. This is the single
 most important fact about the data: a page-text model trained on it learns
@@ -19,7 +19,7 @@ the majority class first, which is why accuracy (89%) and balanced accuracy
 
 | Category | Hosts | Share |
 | :--- | --: | --: |
-| `finance` | 3,571 | 53.1% |
+| `finance` | 3,570 | 53.0% |
 | `government` | 1,064 | 15.8% |
 | `software` | 476 | 7.1% |
 | `gaming` | 358 | 5.3% |
@@ -29,8 +29,8 @@ the majority class first, which is why accuracy (89%) and balanced accuracy
 | `video` | 87 | 1.3% |
 | `travel` | 80 | 1.2% |
 | `ads` | 74 | 1.1% |
+| `health` | 68 | 1.0% |
 | `ai` | 68 | 1.0% |
-| `health` | 67 | 1.0% |
 | _15 more_ | 444 | 6.6% |
 
 ## Source concentration
@@ -40,7 +40,7 @@ that leans on one list inherits that list's blind spots. Above 40% is flagged.
 
 | Category | Hosts | Top source | Share | Note |
 | :--- | --: | :--- | --: | :--- |
-| `finance` | 3,571 | `adguard-https-exclusions-banks` | 98% | known: the founding bank list |
+| `finance` | 3,570 | `adguard-https-exclusions-banks` | 98% | known: the founding bank list |
 
 ## Measured coverage
 

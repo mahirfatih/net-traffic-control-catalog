@@ -18,9 +18,9 @@ whole, so `facebook.com` covers `graph.facebook.com` without listing it.
 | `software` | 476 | a tool, a platform, a developer utility |
 | `shopping` | 101 | a store, a marketplace, a payment provider |
 | `video` | 87 | streaming, live TV, a broadcaster |
-| `finance` | 3571 | banks, cards, trading, markets |
+| `finance` | 3570 | banks, cards, trading, markets |
 | `news` | 129 | press, and the reporting it depends on |
-| `health` | 67 | hospitals, pharmacies, health apps |
+| `health` | 68 | hospitals, pharmacies, health apps |
 | `ai` | 68 | model providers and the products built on them |
 | `ads` | 74 | ad networks, affiliate platforms, retargeting |
 | `government` | 1064 | ministries, municipalities, agencies |
