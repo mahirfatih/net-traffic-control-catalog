@@ -2,6 +2,14 @@
 
 [English](README.md) · **Türkçe**
 
+[![CI](https://github.com/mahirfatih/net-traffic-control-catalog/actions/workflows/ci.yml/badge.svg)](https://github.com/mahirfatih/net-traffic-control-catalog/actions/workflows/ci.yml)
+![Type](https://img.shields.io/badge/type-data%20catalog-blue)
+![Format](https://img.shields.io/badge/format-JSON%20v1-blue)
+![Categories](https://img.shields.io/badge/categories-27-brightgreen)
+![Checks](https://img.shields.io/badge/checks-26%20defined-brightgreen)
+![Measured](https://img.shields.io/badge/measured-68%25-brightgreen)
+![License](https://img.shields.io/badge/license-CC0%201.0-lightgrey)
+
 **Net Traffic Control** için kategori ve servis verisi.
 
 Uygulama bu dosyayı bir **Category Data source** olarak yükler (Settings → Category
@@ -36,7 +44,7 @@ iOS uygulamasının kullandığı renkle çizilir; bu renkler
 ```mermaid
 treemap-beta
 "Catalog by category"
-    "finance": 3,571:::c_finance
+    "finance": 3,570:::c_finance
     "government": 1,064:::c_government
     "software": 476:::c_software
     "gaming": 358:::c_gaming
@@ -47,8 +55,8 @@ treemap-beta
     "travel": 80:::c_travel
     "ads": 74:::c_ads
     "ai": 68:::c_ai
+    "health": 68:::c_health
     "cdn": 67:::c_cdn
-    "health": 67:::c_health
     "social": 65:::c_social
     "search": 57:::c_search
     "transport": 42:::c_transport
@@ -75,8 +83,8 @@ classDef c_video fill:#AF52DE,stroke:#6B2EB5,color:#FFFFFF,fill-opacity:1
 classDef c_travel fill:#AD8F2E,stroke:#70570D,color:#FFFFFF,fill-opacity:1
 classDef c_ads fill:#FF9500,stroke:#A85400,color:#FFFFFF,fill-opacity:1
 classDef c_ai fill:#8F38F2,stroke:#631ABD,color:#FFFFFF,fill-opacity:1
-classDef c_cdn fill:#30B0C7,stroke:#00696B,color:#FFFFFF,fill-opacity:1
 classDef c_health fill:#29BD99,stroke:#08785C,color:#FFFFFF,fill-opacity:1
+classDef c_cdn fill:#30B0C7,stroke:#00696B,color:#FFFFFF,fill-opacity:1
 classDef c_social fill:#FF2D55,stroke:#B20F40,color:#FFFFFF,fill-opacity:1
 classDef c_search fill:#268CF2,stroke:#0D5CBD,color:#FFFFFF,fill-opacity:1
 classDef c_transport fill:#8A993D,stroke:#525E1A,color:#FFFFFF,fill-opacity:1
@@ -109,7 +117,7 @@ Bütünün payı olarak, uzun kuyruk `other` altında toplanmış:
 ```mermaid
 %%{init: {'theme':'base','themeVariables':{'pie1':'#148C57', 'pie2':'#6180B8', 'pie3':'#7880A8', 'pie4':'#5856D6', 'pie5':'#2180CC', 'pie6':'#F2731F', 'pie7':'#A2845E', 'pie8':'#AF52DE', 'pie9':'#C7C7CC'}}}%%
 pie title Catalog by category (share)
-    "finance" : 3571
+    "finance" : 3570
     "government" : 1064
     "software" : 476
     "gaming" : 358
@@ -117,7 +125,7 @@ pie title Catalog by category (share)
     "news" : 129
     "shopping" : 101
     "video" : 87
-    "other (19 smaller)" : 733
+    "other (19 smaller)" : 734
 ```
 
 <!-- category-pie:end -->
@@ -294,13 +302,13 @@ sayfaları tek bir uzaya eşler, böylece bag-of-words'ün ayrı tuttuğu küç�
   statik olanlar iyi yapar (`government` %87, `news` %89). Her sınıf-içi skor,
   kategoriyi değil metin üreten host'ları tanımlar. Tam tablo
   [`docs/analysis/README.md`](docs/analysis/README.md) içinde.
-- **Yüksek güvenli hatalar:** 69 host — model ≥%70 emin ve etiket ayrışıyor.
-  Liste, matris gibi fold dışında hesaplanır; önce listelediği beşi
-  (`guven.com.tr` `finance` → `health` %85, `display.ugc.bazaarvoice.com`
-  `software` → `finance` %82, `iqiyi.com` `video` → `finance` %82,
-  `googlesyndication.com` `ads` → `search` %83, `ilbank.gov.tr` `finance` →
-  `government` %87) hâlâ orada; yanlarına örnek-içi olasılıkların sakladığı
-  host'lar eklendi. 69'un 57'si `finance` tahmin ediyor — etiket kataloğun
+- **Yüksek güvenli hatalar:** 68 host — model ≥%70 emin ve etiket ayrışıyor.
+  Liste, matris gibi fold dışında hesaplanır; önce listelediği dördü
+  (`display.ugc.bazaarvoice.com` `software` → `finance` %82, `iqiyi.com`
+  `video` → `finance` %82, `googlesyndication.com` `ads` → `search` %83,
+  `ilbank.gov.tr` `finance` → `government` %87) hâlâ orada; yanlarına örnek-içi
+  olasılıkların sakladığı host'lar eklendi. 68'in 57'si `finance` tahmin
+  ediyor — etiket kataloğun
   %53'ü ve modelin geri düşüşü. Tam liste
   [`docs/analysis/out/high-confidence-errors.md`](docs/analysis/out/high-confidence-errors.md)
   içinde.
