@@ -9,6 +9,21 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Added
 
+- **A release helper** (`scripts/release/bump-version.sh`,
+  `scripts/release/README.md`): bumps the catalog **format version** — the integer
+  `version` field in `catalog.json` — across its canonical source
+  (`scripts/catalog/generate.py`) and its validator
+  (`scripts/catalog/catalog-core.py`), then regenerates the shipped file. The
+  format version changes only on a breaking shape change; the data changes on
+  every regenerate without touching it.
+- **A project audit** (`docs/audit.md`): a read-only review of the repository —
+  category imbalance and source concentration, a concrete mislabel, the
+  unmatched backlog, the seeds-provenance gap, the JS-coverage limit, and a side
+  effect of `generate.py` stamping today's date — each finding tied to the file
+  that proves it.
+- **Project metadata badges** in `README.md` and `README.tr.md`: a CI badge and
+  static shields (type, format, categories, checks, measured, licence) under the
+  title, coloured from the same palette the rest of the README uses.
 - **The ingest flow** (`docs/INGEST.md`): how a domain gets a category, as the
   mirror of `PIPELINE.md`'s removal flow. It names the **three doors** a host can
   enter through — a `harvest.py` source, the public-institution harvester, and a
@@ -218,6 +233,11 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Changed
 
+- **The README header is tidied** (`README.md`, `README.tr.md`): the hand-written
+  badge row dropped its duplicate `categories` badge — the generated
+  `catalog-badges` block already carries it — and the language selector moved
+  below the badges. The high-confidence error count is refreshed 69 → 68 after
+  the `guven.com.tr` relabel.
 - **The model comparison is a table in both READMEs.** `README.md` and
   `README.tr.md` now show the three text classifiers as a markdown table
   (accuracy / balanced accuracy / macro-F1 / weighted-F1) instead of a one-line
@@ -288,6 +308,11 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Fixed
 
+- **`guven.com.tr` was mislabeled `finance`; it is now `health`.** The host is
+  *Güven Hastanesi* — the live sweep reads its final title as "Ana Sayfa | Güven
+  Hastanesi", and the model already predicted `health` at 85%. The seed,
+  `catalog.json`, `docs/CATALOG.md`, `docs/COVERAGE.md` and the analysis prose
+  are updated; the high-confidence error list drops it (69 → 68).
 - **The registration sweep would have deleted live hosts, so it now reads a
   `404` before it trusts one.** `rdap.nic.ms` runs an ordinary web server that
   answers *every* lookup — including its own `nic.ms` — with a Tomcat HTML 404,

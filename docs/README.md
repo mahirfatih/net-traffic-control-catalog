@@ -1,6 +1,6 @@
 # docs
 
-Eleven documents, and the difference between them is who is allowed to write
+Twelve documents, and the difference between them is who is allowed to write
 them.
 
 | Document | Written by | Edit it? |
@@ -16,6 +16,7 @@ them.
 | [`PIPELINE.md`](PIPELINE.md) | a person | Yes |
 | [`SCHEDULE.md`](SCHEDULE.md) | a person | Yes |
 | [`SOURCES.md`](SOURCES.md) | a person | Yes |
+| [`audit.md`](audit.md) | a person; each finding cites the file that proves it | Yes |
 
 ## `CATALOG.md` — what is in the data
 
@@ -116,6 +117,15 @@ The operator's half of the README: how `catalog.json` is built from `seeds/`, th
 four doors a change comes through (harvest, hand-add, override, removal), and the
 two-round discipline behind the sweeps. The tasks, with their commands.
 
+## `audit.md` — what the review found
+
+The health report: category imbalance and source concentration, a concrete
+mislabel, the unmatched backlog, the seeds-provenance gap, the JS-coverage limit,
+and a side effect of `generate.py` stamping today's date — each finding tied to
+the file that proves it. A report rather than a routine doc: it lists the open
+problems, and a finding that gets closed is folded back into the doc that now
+explains it.
+
 ## Which one do I want?
 
 | You are asking… | Read |
@@ -131,5 +141,6 @@ two-round discipline behind the sweeps. The tasks, with their commands.
 | "how exactly is a dead domain removed?" | [`PIPELINE.md`](PIPELINE.md) |
 | "how often do we re-check?" | [`SCHEDULE.md`](SCHEDULE.md) |
 | "how do I add or remove a host?" | [`MAINTAINING.md`](MAINTAINING.md) |
+| "what is open right now?" | [`audit.md`](audit.md) |
 | "how do I add a host?" | [`../CONTRIBUTING.md`](../CONTRIBUTING.md) |
 | "why is non-commercial data refused?" | [`../SECURITY.md`](../SECURITY.md) |
