@@ -1,11 +1,11 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 1,
   "catalog": "catalog.json",
-  "format_version": 3,
+  "format_version": 1,
   "generated": "2026-10-20",
   "generated_unix": 1792443600,
-  "bytes": 232235,
-  "sha256": "3f8b503c36ed1a688f4ecd5f05d96da99779a501bfc0c59f07d85552faedbce4",
+  "bytes": 232151,
+  "sha256": "3ee54df0f7593f940e50806c7759511a685de0cd84447173b9d7b18407038f84",
   "hosts": 6731,
   "services": 22
 }
