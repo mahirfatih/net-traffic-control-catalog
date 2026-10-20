@@ -400,7 +400,7 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
 - **`bump-version.sh` had never run end to end, and the first time it did it
   shipped a stale checksum.** `version` has been `1` since the seed commit, so
   both gaps sat latent. It missed `manifest.json`, which mirrors the field as
-  `formatVersion` and carries the catalog's sha256 — its own output therefore
+  `format_version` and carries the catalog's sha256 — its own output therefore
   failed `build-manifest.py --check`, and the committed manifest would have
   advertised the previous release's bytes to consumers. It now re-derives the
   manifest from the new catalog instead of leaving it behind. It also missed
