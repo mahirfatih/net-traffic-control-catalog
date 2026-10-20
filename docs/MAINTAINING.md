@@ -243,5 +243,6 @@ Full guide: [`CONTRIBUTING.md`](../CONTRIBUTING.md).
 - The app reads `version`; it accepts the versions it knows and ignores the rest.
 - Unknown fields and unknown category names are ignored, never fatal.
 - `version` is bumped only on a breaking format change. `scripts/release/bump-version.sh`
-  does it: it edits the writer (`scripts/catalog/generate.py`) and the validator
-  (`scripts/catalog/catalog-core.py`), then regenerates `catalog.json`.
+  does it: it updates the writer (`scripts/catalog/generate.py`), validator
+  (`scripts/catalog/catalog-core.py`), schema (`schema.json`) and test contract,
+  then regenerates `catalog.json`. It rejects zero and backwards bumps.

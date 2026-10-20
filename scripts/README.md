@@ -48,6 +48,7 @@ dead.
 | [`harvest.py`](sources/harvest.py) | Fetches allowed sources, drops hosts the catalog already covers, applies `rules.json`, and reports what no rule matched. |
 | [`merge.py`](sources/merge.py) | Applies harvested categories to `seeds/categories.json`. Refuses to overwrite an existing label, and never overwrites an overridden host. |
 | [`pending.py`](sources/pending.py) | Names the whole review backlog — every source host no rule matched — offline, from the committed caches, and writes `evidence/pending-source-hosts.json`. `--check` verifies the file is current. `harvest.py` prints this set per run; this keeps it. |
+| [`triage-pending.py`](sources/triage-pending.py) | Collects DNS, HTTP status, final URL and page title for pending hosts into an ignored operator worksheet. It never assigns categories or edits catalog data. |
 | [`harvest-public-institutions.py`](sources/harvest-public-institutions.py) | Fetches curated Turkish public-directory pages and merges closed-suffix hosts: `*.bel.tr` / `*.gov.tr` as `government`, `*.edu.tr` as `education`. Existing labels, explicit overrides and parked exclusions win. |
 | [`source-policies.py`](sources/source-policies.py) | Per-source review policy: the expected category, weak-signal patterns, page signals, and known false positives. Not run on its own. |
 | [`audit-source-import.py`](sources/audit-source-import.py) | Offline guardrail for broad imports: catches known false positives, same-category redundant rows, and warns on weakly evidenced rows. **In `test/test.sh`.** |

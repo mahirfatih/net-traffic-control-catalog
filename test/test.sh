@@ -26,6 +26,7 @@ step() { printf '\n\033[1m== %s\033[0m\n' "$1"; }
 
 step "1. Source registry — licences and verdicts"
 python3 scripts/sources/sources.py --check
+python3 scripts/sources/triage-pending.py --self-test
 
 step "2. Seeds parse and use the vocabulary"
 python3 - <<'PY'

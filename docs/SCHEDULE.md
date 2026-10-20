@@ -51,13 +51,12 @@ python3 scripts/catalog/probe-dead.py --apply        # only after you read it
 ## Automating it
 
 The DNS sweep has a workflow —
-[`.github/workflows/sweep.yml`](../.github/workflows/sweep.yml) — but **no
-schedule**: start it by hand from the Actions tab (or `gh workflow run sweeps`)
-when the weekly slot comes around. It probes two rounds ten minutes apart and
-files or updates one tracking issue with the proposal. It is **non-blocking** —
-never a required check — and it cannot touch catalog data: the result of a sweep
-is a human decision (the four rules in `PIPELINE.md`), and a job that could
-auto-delete a live host because a resolver hiccuped is the failure this page is
-arranged to avoid. The live and registration sweeps stay a manual checklist too:
-they need a real browser, so they run from [`SOURCES.md`](SOURCES.md) on the
-cadence above.
+[`.github/workflows/sweep.yml`](../.github/workflows/sweep.yml) — with a weekly
+Monday schedule and a manual dispatch option. It probes two rounds ten minutes
+apart and files or updates one tracking issue with the proposal. It is
+**non-blocking** — never a required check — and it cannot touch catalog data: the
+result of a sweep is a human decision (the four rules in `PIPELINE.md`), and a
+job that could auto-delete a live host because a resolver hiccuped is the failure
+this page is arranged to avoid. The live and registration sweeps stay a manual
+checklist too: they need a real browser, so they run from [`SOURCES.md`](SOURCES.md)
+on the cadence above.

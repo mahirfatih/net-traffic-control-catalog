@@ -8,10 +8,10 @@
 # data changes on every regenerate without touching it.
 #
 # The canonical source is `scripts/catalog/generate.py`, which writes the field;
-# `scripts/catalog/catalog-core.py` validates it. This script edits both, then
-# regenerates `catalog.json` so the shipped file matches. `docs/FORMAT.md`
-# shows the shape by hand, and `test/test.sh` hardcodes the version in its
-# fixtures, so both are printed as a reminder rather than edited blindly.
+# `scripts/catalog/catalog-core.py` validates it. This script updates every
+# checked-in format contract, then regenerates `catalog.json` so the shipped
+# file matches. `docs/FORMAT.md` is intentionally not rewritten: its example
+# describes the shape, not a version-specific release note.
 #
 # Usage:
 #   ./scripts/release/bump-version.sh           # print the current version
@@ -21,6 +21,8 @@ set -euo pipefail
 
 GENERATE="scripts/catalog/generate.py"
 CORE="scripts/catalog/catalog-core.py"
+SCHEMA="schema.json"
+TEST="test/test.sh"
 CATALOG="catalog.json"
 
 usage() {
@@ -32,7 +34,7 @@ case "${1:-}" in
   -h|--help) usage 0 ;;
 esac
 
-for f in "$GENERATE" "$CORE" "$CATALOG"; do
+for f in "$GENERATE" "$CORE" "$SCHEMA" "$TEST" "$CATALOG"; do
   if [[ ! -f "$f" ]]; then
     echo "error: $f not found (run from the repo root)" >&2
     exit 1
@@ -49,13 +51,18 @@ fi
 
 new="$1"
 
-if ! [[ "$new" =~ ^[0-9]+$ ]]; then
+if ! [[ "$new" =~ ^[1-9][0-9]*$ ]]; then
   echo "error: version must be a positive integer, got '$new'" >&2
   exit 1
 fi
 
 if [[ "$new" -eq "$current" ]]; then
   echo "error: version is already $current" >&2
+  exit 1
+fi
+
+if [[ "$new" -lt "$current" ]]; then
+  echo "error: version cannot move backwards ($current -> $new)" >&2
   exit 1
 fi
 
@@ -71,12 +78,17 @@ write_exp='s/("version": )[0-9]+,/\1'"${new}"',/'
 # 2. The validator:  doc.get("version") != 1   and   "version must be 1"
 check_exp='s/("version"\)) != [0-9]+/\1 != '"${new}"'/'
 must_exp='s/version must be [0-9]+/version must be '"${new}"'/'
+# 3. The JSON Schema and test contract.
+schema_exp='s/("const": )[0-9]+/\1'"${new}"'/'
+test_exp='s/(expected )[0-9]+/\1'"${new}"'/; s/("version": )[0-9]+/\1'"${new}"'/g'
 
 "${SED_INPLACE[@]}" -E "$write_exp" "$GENERATE"
 "${SED_INPLACE[@]}" -E "$check_exp" "$CORE"
 "${SED_INPLACE[@]}" -E "$must_exp" "$CORE"
+"${SED_INPLACE[@]}" -E "$schema_exp" "$SCHEMA"
+"${SED_INPLACE[@]}" -E "$test_exp" "$TEST"
 
-# 3. Regenerate the shipped file from the seeds.
+# 4. Regenerate the shipped file from the seeds.
 python3 "$GENERATE" \
   --categories seeds/categories.json \
   --services   seeds/services.json \
@@ -84,5 +96,5 @@ python3 "$GENERATE" \
   --out        "$CATALOG"
 
 echo "Bumped catalog format version: $current -> $new"
-echo "Next: update docs/FORMAT.md (Format (v${current}) -> v${new}) and the"
-echo "version fixtures in test/test.sh if the shape changed, then commit."
+echo "Updated generator, validator, schema and test contract."
+echo "Next: update docs/FORMAT.md if the shape changed, then commit."
