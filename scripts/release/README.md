@@ -12,7 +12,10 @@ The canonical source is [`../catalog/generate.py`](../catalog/generate.py), whic
 writes the field, and [`../catalog/catalog-core.py`](../catalog/catalog-core.py),
 which validates it. The script updates both, [`../../schema.json`](../../schema.json)
 and the version fixtures in [`../../test/test.sh`](../../test/test.sh), then
-regenerates `catalog.json` from the seeds so the shipped file matches:
+regenerates `catalog.json` from the seeds so the shipped file matches, and
+re-derives [`../../manifest.json`](../../manifest.json) from the new bytes — it
+mirrors this field as `formatVersion` and carries the catalog's sha256, so
+leaving it behind would hand a consumer the previous release's checksum:
 
     ./scripts/release/bump-version.sh          # print the current version
     ./scripts/release/bump-version.sh 2        # set the format version to 2

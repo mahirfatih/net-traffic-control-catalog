@@ -6,6 +6,12 @@ homepage text for the hosts in `catalog.json`, compares nine text classifiers
 TF-IDF + LinearSVC as the witness, and produces a confusion matrix showing how
 consistently our labels agree with what a text model can recover.
 
+**Why those models and that evaluation design is in [`METHOD.md`](METHOD.md)** —
+the run walked through scikit-learn's own estimator-selection chart gate by
+gate, including the three places this audit deliberately leaves it: the classes
+too small for the chart's first answer, the fact that the labels are the thing
+under audit, and the owner-leakage split the chart has no box for.
+
 **Provenance.** The committed `out/` was produced by `scripts/analysis/build-matrix.py`
 at commit `84f549d` (2026-10-18) on 4,563 of the 6,731 catalog hosts. Re-run it
 against each catalog release so the figures describe the current data rather than a
@@ -78,7 +84,8 @@ never predicts it, correctly.
 
 ### Model comparison
 
-Nine models, two representations. Eight heads run on the same TF-IDF (1–2 grams,
+Nine models, two representations. The choice, and the chart it was made against,
+is argued in [`METHOD.md`](METHOD.md); the numbers are here. Eight heads run on the same TF-IDF (1–2 grams,
 20k features); the ninth runs on multilingual sentence embeddings. All are
 reweighted toward the rare classes where the classifier supports it —
 `class_weight="balanced"` for the linear, tree and forest heads, and a

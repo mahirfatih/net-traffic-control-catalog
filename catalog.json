@@ -1,6 +1,7 @@
 {
-  "version": 1,
+  "version": 3,
   "generated": "2026-10-20",
+  "generated_unix": 1792443600,
   "categories": {
     "1.elecsnet.ru": "finance",
     "1822direkt-banking.de": "finance",
@@ -6962,5 +6963,8 @@
         "youtube-nocookie.com"
       ]
     }
-  ]
+  ],
+  "format_version": 3,
+  "manifest_version": 2,
+  "manifest_file": "manifest.json"
 }

@@ -245,7 +245,9 @@ Full guide: [`CONTRIBUTING.md`](../CONTRIBUTING.md).
 - `version` is bumped only on a breaking format change. `scripts/release/bump-version.sh`
   does it: it updates the writer (`scripts/catalog/generate.py`), validator
   (`scripts/catalog/catalog-core.py`), schema (`schema.json`) and test contract,
-  then regenerates `catalog.json`. It rejects zero and backwards bumps.
+  then regenerates `catalog.json` **and `manifest.json`** — the manifest mirrors
+  the field as `formatVersion` and carries the catalog's sha256, so it is
+  re-derived rather than edited. It rejects zero and backwards bumps.
 
 ### Cutting a release
 

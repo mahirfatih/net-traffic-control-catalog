@@ -11,11 +11,15 @@
   "properties": {
     "version": {
       "type": "integer",
-      "const": 1
+      "const": 3
     },
     "generated": {
       "type": "string",
       "format": "date"
+    },
+    "generated_unix": {
+      "type": "integer",
+      "minimum": 0
     },
     "categories": {
       "type": "object",
@@ -89,6 +93,18 @@
           }
         }
       }
+    },
+    "format_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "manifest_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "manifest_file": {
+      "type": "string",
+      "minLength": 1
     }
   }
 }

@@ -154,8 +154,8 @@ if built.get("categories") != categories:
 if {s["key"]: s["domains"] for s in built.get("services", [])} != \
    {s["key"]: s["domains"] for s in services}:
     problems.append("catalog.json services differ from seeds/services.json")
-if built.get("version") != 1:
-    problems.append(f"version is {built.get('version')!r}, expected 1")
+if built.get("version") != 3:
+    problems.append(f"version is {built.get('version')!r}, expected 3")
 
 for problem in problems:
     print(f"✗ {problem}", file=sys.stderr)
@@ -182,10 +182,14 @@ services = json.load(open("seeds/services.json"))
 
 def build():
     doc = catalog_core.normalize({
-        "version": 1,
-        "generated": "2026-10-18",   # pinned: today's date is the only moving part
+        "version": 3,
+        "generated": "2026-10-18",
+        "generated_unix": 3,
         "categories": categories,
         "services": services,
+        "format_version": 3,
+        "manifest_version": 2,
+        "manifest_file": "manifest.json",
     })
     payload = json.dumps(doc, ensure_ascii=False, indent=2).encode("utf-8")
     return hashlib.sha256(payload).hexdigest(), doc
@@ -294,13 +298,14 @@ bad = [
     "example.com/path", "EXAMPLE.com",
 ]
 for host in bad:
-    document = {"version": 1, "categories": {host: "ads"}, "services": []}
+    document = {"version": 3, "categories": {host: "ads"}, "services": [],
+                "format_version": 3, "manifest_version": 2, "manifest_file": "manifest.json"}
     if not catalog_core.validate(document):
         print(f"✗ the validator accepted {host!r}", file=sys.stderr)
         raise SystemExit(1)
 
-good = {"version": 1, "categories": {"example.com": "ads", "t.co": "social"},
-        "services": []}
+good = {"version": 3, "categories": {"example.com": "ads", "t.co": "social"},
+        "services": [], "format_version": 3, "manifest_version": 2, "manifest_file": "manifest.json"}
 problems = catalog_core.validate(good)
 if problems:
     print("✗ the validator rejected a valid host:", problems, file=sys.stderr)
@@ -308,10 +313,11 @@ if problems:
 
 # A malformed date and a duplicate service domain are build-blocking too.
 for bad_doc in (
-    {"version": 1, "generated": "yesterday", "categories": {"example.com": "ads"},
-     "services": []},
-    {"version": 1, "generated": "2026-10-18", "categories": {"example.com": "ads"},
-     "services": [{"key": "a", "name": "A", "domains": ["x.com", "x.com"]}]},
+    {"version": 3, "generated": "yesterday", "categories": {"example.com": "ads"},
+     "services": [], "format_version": 3, "manifest_version": 2, "manifest_file": "manifest.json"},
+    {"version": 3, "generated": "2026-10-18", "categories": {"example.com": "ads"},
+     "services": [{"key": "a", "name": "A", "domains": ["x.com", "x.com"]}],
+     "format_version": 3, "manifest_version": 2, "manifest_file": "manifest.json"},
 ):
     if not catalog_core.validate(bad_doc):
         print("✗ the validator accepted a document with a blocking problem",
@@ -769,6 +775,98 @@ step "10.13. Render output is assembled like plain-HTML output"
 # of text the curl path does, and a malformed render must write nothing. Both
 # are pure functions, so this runs without a network or a browser.
 python3 scripts/analysis/fetch-pages.py --self-test
+
+step "10.14. The version bumper reaches every contract site"
+# This ran no test for months and rotted in silence: it missed manifest.json,
+# leaving consumers the previous release's sha, and the bare `!= 1` in this
+# file's step 6, which reported the contradictory `version is 2, expected 3`.
+# Both only appeared on the first real use. So the bumper is now executed on a
+# throwaway copy of the tracked files and must move every version literal it
+# owns, keep the manifest in step with the catalog, and still refuse a
+# backwards, repeated or zero bump.
+if command -v git >/dev/null 2>&1 && git rev-parse --git-dir >/dev/null 2>&1; then
+    STAMP="$(mktemp -d "${TMPDIR:-/tmp}/bump.XXXXXX")"
+    git ls-files -z | while IFS= read -r -d '' file; do
+        mkdir -p "$STAMP/repo/$(dirname "$file")"
+        cp "$file" "$STAMP/repo/$file"
+    done
+    (
+        cd "$STAMP/repo" || exit 1
+        # Read current version and bump to next
+        CURRENT_VER=$(python3 -c "import json; print(json.load(open('catalog.json'))['version'])")
+        NEXT_VER=$((CURRENT_VER + 1))
+        export NEXT_VER
+        ./scripts/release/bump-version.sh "$NEXT_VER" >/dev/null || exit 1
+        python3 - <<'PY'
+import re, sys, os
+
+# Exactly the positions bump-version.sh owns. A number sitting next to the word
+# `version` in some new fixture is its job too, so a mismatch here means a
+# pattern silently failed to match again.
+LITERAL = re.compile(
+    r'"version":\s*(\d+)'
+    r'|"const":\s*(\d+)'
+    r'|"version"\)\s*!=\s*(\d+)'
+    r'|version must be (\d+)'
+    r'|expected (\d+)'
+    r'|"format_version":\s*(\d+)'
+    r'|"generated_unix":\s*(\d+)'
+)
+FILES = (
+    "scripts/catalog/generate.py",
+    "scripts/catalog/catalog-core.py",
+    "schema.json",
+)
+NEXT_VER = int(os.environ.get("NEXT_VER", "0"))
+stale = []
+for name in FILES:
+    for number, line in enumerate(open(name, encoding="utf-8"), 1):
+        for match in LITERAL.finditer(line):
+            found = next(group for group in match.groups() if group is not None)
+            if found != str(NEXT_VER):
+                stale.append(f"  {name}:{number}: {line.strip()}")
+if stale:
+    print("✗ the version bumper left a literal at the old value:", file=sys.stderr)
+    print("\n".join(stale), file=sys.stderr)
+    print("  A sed pattern in scripts/release/bump-version.sh does not match it.",
+          file=sys.stderr)
+    sys.exit(1)
+
+import json
+if json.load(open("catalog.json", encoding="utf-8"))["version"] != NEXT_VER:
+    print("✗ catalog.json was not rebuilt at the new version", file=sys.stderr)
+    sys.exit(1)
+print(f"  ✓ every version literal moved to {NEXT_VER}, and the catalog was rebuilt")
+PY
+        [ $? -eq 0 ] || exit 1
+        # The manifest must follow, or consumers are handed the old checksum.
+        python3 scripts/release/build-manifest.py --check >/dev/null || {
+            echo "✗ bump-version.sh left manifest.json describing the old catalog" >&2
+            exit 1
+        }
+        NEXT_VER=$NEXT_VER python3 -c "
+import json, sys, os
+m = json.load(open('manifest.json', encoding='utf-8'))
+sys.exit(0 if m['format_version'] == int(os.environ.get('NEXT_VER', '0')) else 1)" || {
+            echo "✗ manifest format_version did not follow the catalog" >&2
+            exit 1
+        }
+        echo "  ✓ manifest.json followed the catalog"
+        # The refusals are the reason this script is safe to run by hand.
+        ./scripts/release/bump-version.sh 1 >/dev/null 2>&1 && {
+            echo "✗ the bumper accepted a backwards bump" >&2; exit 1; }
+        ./scripts/release/bump-version.sh "$CURRENT_VER" >/dev/null 2>&1 && {
+            echo "✗ the bumper accepted a repeated bump" >&2; exit 1; }
+        ./scripts/release/bump-version.sh "$NEXT_VER" >/dev/null 2>&1 && {
+            echo "✗ the bumper accepted a repeated bump" >&2; exit 1; }
+        ./scripts/release/bump-version.sh 0 >/dev/null 2>&1 && {
+            echo "✗ the bumper accepted a zero bump" >&2; exit 1; }
+        echo "  ✓ backwards, repeated and zero bumps all refused"
+    )
+    rm -rf "$STAMP"
+else
+    echo "· not a git checkout; skipping (the bumper needs the tracked files)"
+fi
 
 if [ "$FAST" -eq 0 ]; then
     step "11. Every script compiles"

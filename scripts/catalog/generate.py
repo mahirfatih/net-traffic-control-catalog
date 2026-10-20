@@ -23,6 +23,7 @@ import datetime
 import importlib.util
 import os
 import sys
+import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -142,11 +143,17 @@ def main(argv):
         print("\nrefusing to write; fix rules.json drop.override first", file=sys.stderr)
         return 1
 
+    today = datetime.date.today()
+    generated_unix = int(time.mktime(today.timetuple()))
     document = catalog_core.normalize({
-        "version": 1,
-        "generated": datetime.date.today().isoformat(),
+        "version": 3,
+        "generated": today.isoformat(),
+        "generated_unix": generated_unix,
         "categories": categories,
         "services": services,
+        "format_version": 3,
+        "manifest_version": 2,
+        "manifest_file": "manifest.json",
     })
 
     problems = catalog_core.validate(document)

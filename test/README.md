@@ -12,7 +12,7 @@ step — Python 3 standard library and Node are the only requirements.
 documents.** Any non-zero stops the run at the first failure, because a later
 step reporting a problem that an earlier one caused is noise.
 
-## Every step, in order (27 of them)
+## Every step, in order (28 of them)
 
 `./test/test.sh` runs these in exactly this order and stops at the first
 failure. `./test/test.sh --fast` runs the same list minus step 11.
@@ -45,6 +45,7 @@ failure. `./test/test.sh --fast` runs the same list minus step 11.
 | 10.11 | A registration sweep keeps what it cannot prove | an RDAP record parsed wrong, a gone/expired/registered/recently-registered decision flipped, an `inactive`/`clientHold` name called gone, a DNS-resolving host called gone, an HTML 404 mistaken for an RDAP negative, a DENIC/TRABIS whois verdict misread, a candidate that is not the intersection of both rounds |
 | 10.12 | A hand-added host records who, when and why | a hand-added record missing `by`/`at`/`reason`, naming a host that is not in the seeds, or carrying a bad date |
 | 10.13 | Render output is assembled like plain-HTML output | the browser-rendered path parsing or assembling page text differently from the plain-HTML one |
+| 10.14 | The version bumper reaches every contract site | `bump-version.sh` leaving a version literal at the old value, failing to rebuild the catalog, leaving `manifest.json` describing the old bytes, or accepting a backwards, repeated or zero bump |
 | 11 | Every script compiles | a script that no longer parses (**skipped by `--fast`**) |
 
 ### Step 8 runs twenty-three sub-checks

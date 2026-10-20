@@ -20,8 +20,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 CATALOG = ROOT / "catalog.json"
 DEFAULT_OUT = ROOT / "manifest.json"
-MANIFEST_VERSION = 1
-REQUIRED = ("version", "generated", "categories", "services")
+MANIFEST_VERSION = 2
+REQUIRED = ("version", "generated", "categories", "services", "format_version", "manifest_version", "manifest_file")
 
 
 def build(catalog=CATALOG):
@@ -35,10 +35,11 @@ def build(catalog=CATALOG):
     if missing:
         raise SystemExit(f"✗ {catalog.name} has no {', '.join(map(repr, missing))}")
     return {
-        "manifestVersion": MANIFEST_VERSION,
+        "manifest_version": MANIFEST_VERSION,
         "catalog": catalog.name,
-        "formatVersion": document["version"],
+        "format_version": document["version"],
         "generated": document["generated"],
+        "generated_unix": document.get("generated_unix"),
         "bytes": len(payload),
         "sha256": hashlib.sha256(payload).hexdigest(),
         "hosts": len(document["categories"]),

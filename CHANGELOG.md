@@ -1,14 +1,32 @@
 # Changelog
 
 All notable changes to this repository are recorded here. The format follows
-[Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
-[semantic versioning](https://semver.org/spec/v2.0.0.html) for the **format**,
-not for the data: `version` is bumped only on a breaking format change.
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+Two version numbers live here, and they answer different questions. The
+catalog's `version` is a **single integer** — it is SemVer's *major* axis alone,
+because a data file has no minor or patch: a field added, removed or renamed is
+the only thing that can make a reader change code, and that is a breaking
+change. It is not a data version; the data changes on every regenerate without
+touching it. The release tags (`v0.1.0`) are what move when the data moves, and
+`manifest.json`'s `sha256` says whether two files are the same bytes at all.
 
 ## [Unreleased]
 
 ### Added
 
+- **A method note for the classifier audit** (`docs/analysis/METHOD.md`): the
+  run walked through scikit-learn's own estimator-selection chart gate by gate,
+  with every answer taken from `matrix-data.json` rather than asserted. It
+  records where the chart decides — sparse text and 4,563 samples is the linear
+  case, and four of the top five heads by balanced accuracy are exactly that —
+  and the three places the audit leaves it on purpose: "get more data" is refused
+  for the eight classes under twenty examples (priced as 3 folds and a
+  `thin_classes` list, not hidden by dropping them), the labels are the object
+  under audit rather than ground truth, and the chart has no box for the
+  `GroupKFold` owner-leakage split that moves balanced accuracy 0.605 → 0.553.
+  Drawn as a mermaid path annotated with the run's own numbers instead of
+  copying the upstream chart in.
 - **A distribution contract for other applications**
   (`manifest.json`, `docs/INTEGRATION.md`,
   `scripts/release/build-manifest.py`): the catalog stays plain JSON — no gzip —
@@ -330,6 +348,22 @@ not for the data: `version` is bumped only on a breaking format change.
 
 ### Fixed
 
+- **`bump-version.sh` had never run end to end, and the first time it did it
+  shipped a stale checksum.** `version` has been `1` since the seed commit, so
+  both gaps sat latent. It missed `manifest.json`, which mirrors the field as
+  `formatVersion` and carries the catalog's sha256 — its own output therefore
+  failed `build-manifest.py --check`, and the committed manifest would have
+  advertised the previous release's bytes to consumers. It now re-derives the
+  manifest from the new catalog instead of leaving it behind. It also missed
+  the bare `built.get("version") != 1` in `test/test.sh` step 6: `test_exp` only
+  matched `expected N` and `"version": N,`, so the check kept testing `1`
+  against a version-2 file and reported the contradictory `version is 2,
+  expected 2`. The `check_exp` pattern, which already existed for the same
+  shape in `catalog-core.py`, is now applied to `test.sh` as well. A new step
+  10.14 runs the bumper on a throwaway copy of the tracked files on every suite
+  run, so it cannot rot silently again: every version literal must move, the
+  catalog must be rebuilt, the manifest must follow, and a backwards, repeated
+  or zero bump must still be refused.
 - **`guven.com.tr` was mislabeled `finance`; it is now `health`.** The host is
   *Güven Hastanesi* — the live sweep reads its final title as "Ana Sayfa | Güven
   Hastanesi", and the model already predicted `health` at 85%. The seed,
