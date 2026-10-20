@@ -11,7 +11,7 @@
   "properties": {
     "version": {
       "type": "integer",
-      "const": 3
+      "const": 1
     },
     "generated": {
       "type": "string",

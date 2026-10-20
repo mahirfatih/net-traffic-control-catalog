@@ -76,9 +76,6 @@ def normalize(doc):
         "generated_unix": int(doc.get("generated_unix", 0)),
         "categories": {host: categories[host] for host in sorted(categories)},
         "services": sorted(services, key=lambda s: s["key"]),
-        "format_version": int(doc.get("format_version", 2)),
-        "manifest_version": int(doc.get("manifest_version", 1)),
-        "manifest_file": str(doc.get("manifest_file", "manifest.json")),
     }
 
 
@@ -88,8 +85,8 @@ def validate(doc):
     if not isinstance(doc, dict):
         return ["root is not a JSON object"]
 
-    if doc.get("version") != 3:
-        problems.append(f"version must be 3 (got {doc.get('version')!r})")
+    if doc.get("version") != 1:
+        problems.append(f"version must be 1 (got {doc.get('version')!r})")
 
     generated = doc.get("generated")
     if generated is not None and (
@@ -104,18 +101,6 @@ def validate(doc):
         or generated_unix < 0
     ):
         problems.append("generated_unix must be a non-negative integer")
-
-    fv = doc.get("format_version")
-    if fv is not None and (not isinstance(fv, int) or fv < 1):
-        problems.append("format_version must be a positive integer")
-
-    mv = doc.get("manifest_version")
-    if mv is not None and (not isinstance(mv, int) or mv < 1):
-        problems.append("manifest_version must be a positive integer")
-
-    mf = doc.get("manifest_file")
-    if mf is not None and (not isinstance(mf, str) or not mf.strip()):
-        problems.append("manifest_file must be a non-empty string")
 
     categories = doc.get("categories")
     if not isinstance(categories, dict):

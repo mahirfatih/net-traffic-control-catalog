@@ -20,8 +20,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 CATALOG = ROOT / "catalog.json"
 DEFAULT_OUT = ROOT / "manifest.json"
-MANIFEST_VERSION = 2
-REQUIRED = ("version", "generated", "categories", "services", "format_version", "manifest_version", "manifest_file")
+MANIFEST_VERSION = 1
+REQUIRED = ("version", "generated", "categories", "services", "generated_unix")
 
 
 def build(catalog=CATALOG):

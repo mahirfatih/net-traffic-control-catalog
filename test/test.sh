@@ -154,8 +154,8 @@ if built.get("categories") != categories:
 if {s["key"]: s["domains"] for s in built.get("services", [])} != \
    {s["key"]: s["domains"] for s in services}:
     problems.append("catalog.json services differ from seeds/services.json")
-if built.get("version") != 3:
-    problems.append(f"version is {built.get('version')!r}, expected 3")
+if built.get("version") != 1:
+    problems.append(f"version is {built.get('version')!r}, expected 1")
 
 for problem in problems:
     print(f"✗ {problem}", file=sys.stderr)
@@ -182,14 +182,11 @@ services = json.load(open("seeds/services.json"))
 
 def build():
     doc = catalog_core.normalize({
-        "version": 3,
+        "version": 1,
         "generated": "2026-10-18",
-        "generated_unix": 3,
+        "generated_unix": 1792443600,
         "categories": categories,
         "services": services,
-        "format_version": 3,
-        "manifest_version": 2,
-        "manifest_file": "manifest.json",
     })
     payload = json.dumps(doc, ensure_ascii=False, indent=2).encode("utf-8")
     return hashlib.sha256(payload).hexdigest(), doc
@@ -298,14 +295,13 @@ bad = [
     "example.com/path", "EXAMPLE.com",
 ]
 for host in bad:
-    document = {"version": 3, "categories": {host: "ads"}, "services": [],
-                "format_version": 3, "manifest_version": 2, "manifest_file": "manifest.json"}
+    document = {"version": 1, "categories": {host: "ads"}, "services": []}
     if not catalog_core.validate(document):
         print(f"✗ the validator accepted {host!r}", file=sys.stderr)
         raise SystemExit(1)
 
-good = {"version": 3, "categories": {"example.com": "ads", "t.co": "social"},
-        "services": [], "format_version": 3, "manifest_version": 2, "manifest_file": "manifest.json"}
+good = {"version": 1, "categories": {"example.com": "ads", "t.co": "social"},
+        "services": []}
 problems = catalog_core.validate(good)
 if problems:
     print("✗ the validator rejected a valid host:", problems, file=sys.stderr)
@@ -313,11 +309,10 @@ if problems:
 
 # A malformed date and a duplicate service domain are build-blocking too.
 for bad_doc in (
-    {"version": 3, "generated": "yesterday", "categories": {"example.com": "ads"},
-     "services": [], "format_version": 3, "manifest_version": 2, "manifest_file": "manifest.json"},
-    {"version": 3, "generated": "2026-10-18", "categories": {"example.com": "ads"},
-     "services": [{"key": "a", "name": "A", "domains": ["x.com", "x.com"]}],
-     "format_version": 3, "manifest_version": 2, "manifest_file": "manifest.json"},
+    {"version": 1, "generated": "yesterday", "categories": {"example.com": "ads"},
+     "services": []},
+    {"version": 1, "generated": "2026-10-18", "categories": {"example.com": "ads"},
+     "services": [{"key": "a", "name": "A", "domains": ["x.com", "x.com"]}]},
 ):
     if not catalog_core.validate(bad_doc):
         print("✗ the validator accepted a document with a blocking problem",
