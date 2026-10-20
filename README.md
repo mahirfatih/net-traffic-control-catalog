@@ -1,11 +1,8 @@
 # Net Traffic Control — Catalog
 
-**English** · [Türkçe](README.tr.md)
-
 [![CI](https://github.com/mahirfatih/net-traffic-control-catalog/actions/workflows/ci.yml/badge.svg)](https://github.com/mahirfatih/net-traffic-control-catalog/actions/workflows/ci.yml)
 ![Type](https://img.shields.io/badge/type-data%20catalog-blue)
 ![Format](https://img.shields.io/badge/format-JSON%20v1-blue)
-![Categories](https://img.shields.io/badge/categories-27-brightgreen)
 ![Checks](https://img.shields.io/badge/checks-26%20defined-brightgreen)
 ![Measured](https://img.shields.io/badge/measured-68%25-brightgreen)
 ![License](https://img.shields.io/badge/license-CC0%201.0-lightgrey)
@@ -17,6 +14,7 @@ source). It maps host names to a **category** (what a name is) and to the
 **service/product** it belongs to (whose it is), so the Live Traffic and Allowed
 Sites screens group and label domains correctly.
 
+**English** · [Türkçe](README.tr.md)
 <!-- catalog-badges:start -->
 
 ![hosts](https://img.shields.io/badge/hosts-6731-blue) ![categories](https://img.shields.io/badge/categories-27-brightgreen) ![services](https://img.shields.io/badge/services-22-blueviolet) ![removed](https://img.shields.io/badge/removed-489-red)

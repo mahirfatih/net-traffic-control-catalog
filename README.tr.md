@@ -1,11 +1,8 @@
 # Net Traffic Control — Catalog
 
-[English](README.md) · **Türkçe**
-
 [![CI](https://github.com/mahirfatih/net-traffic-control-catalog/actions/workflows/ci.yml/badge.svg)](https://github.com/mahirfatih/net-traffic-control-catalog/actions/workflows/ci.yml)
 ![Type](https://img.shields.io/badge/type-data%20catalog-blue)
 ![Format](https://img.shields.io/badge/format-JSON%20v1-blue)
-![Categories](https://img.shields.io/badge/categories-27-brightgreen)
 ![Checks](https://img.shields.io/badge/checks-26%20defined-brightgreen)
 ![Measured](https://img.shields.io/badge/measured-68%25-brightgreen)
 ![License](https://img.shields.io/badge/license-CC0%201.0-lightgrey)
@@ -17,6 +14,7 @@ Data → Add source). Host adlarını bir **kategoriye** (adın ne olduğu) ve a
 olduğu **servise/ürüne** (kimin olduğu) eşler; böylece Live Traffic ve Allowed
 Sites ekranları alan adlarını doğru gruplar ve etiketler.
 
+[English](README.md) · **Türkçe**
 <!-- catalog-badges:start -->
 
 ![hosts](https://img.shields.io/badge/hosts-6731-blue) ![categories](https://img.shields.io/badge/categories-27-brightgreen) ![services](https://img.shields.io/badge/services-22-blueviolet) ![removed](https://img.shields.io/badge/removed-489-red)
