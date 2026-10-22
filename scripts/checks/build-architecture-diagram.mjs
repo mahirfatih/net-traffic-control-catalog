@@ -55,7 +55,7 @@ function build(src, template) {
 
   // 1. title + header
   t = t.replace(/<title>[^<]*<\/title>/, `<title>${src.system} — Architecture</title>`);
-  t = t.replace('{{PROJECT_LABEL}}', src.projectLabel ?? 'architecture · didactic walkthrough');
+  t = t.replace('{{PROJECT_LABEL}}', src.project_label ?? 'architecture · didactic walkthrough');
   t = t.replace('{{SYSTEM_NAME}}', src.system);
   t = t.replace('{{TAGLINE}}', src.tagline ?? '');
   t = t.replace('{{SUBTITLE}}', src.subtitle ?? '');

@@ -6,7 +6,7 @@
   "language": "en",
   "modes": ["offline", "online"],
   "mode_hints": { "offline": "seeds only", "online": "network · browser" },
-  "projectLabel": "data pipeline · didactic walkthrough",
+  "project_label": "data pipeline · didactic walkthrough",
   "legend": [
     { "role": "user", "label": "Actor" },
     { "role": "orch", "label": "Coordinator" },
