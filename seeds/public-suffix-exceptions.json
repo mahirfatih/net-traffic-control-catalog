@@ -1,5 +1,5 @@
 {
-  "_comment": "Multi-tenant suffixes that are deliberately listed as a product or platform. A bare suffix like github.io swallows every tenant beneath it (someone.github.io), so listing one is a choice, not a default: every entry here needs a reason. check-overlaps.py fails on any multi-tenant suffix that is listed without one. See docs/FORMAT.md, 'Matching'.",
+  "_comment": "Multi-tenant suffixes that are deliberately listed as a product or platform. A bare suffix like github.io swallows every tenant beneath it (someone.github.io), so listing one is a choice, not a default: every entry here needs a reason. check-overlaps.py fails on any multi-tenant suffix that is listed without one. See docs/reference/FORMAT.md, 'Matching'.",
   "amazonaws.com": "AWS — the suffix is the cloud product; also an Amazon service domain",
   "azurewebsites.net": "Azure App Service default host — the suffix is the platform",
   "cloudfront.net": "CloudFront — content served from this suffix is a CDN",

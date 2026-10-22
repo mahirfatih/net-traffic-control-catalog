@@ -8,7 +8,7 @@ question into a claim, and `other` on screen looks like an answer.
 This file is the *investigated* half of that state — the hosts a person actually
 looked at, with what was tried and why the question is still open. The full,
 un-investigated backlog is machine-recorded in
-[`../evidence/pending-source-hosts.json`](../evidence/pending-source-hosts.json),
+[`../evidence/pending-source-hosts.json`](../../evidence/pending-source-hosts.json),
 so the number of open questions is on the record instead of only in a run's
 scrollback.
 
@@ -28,7 +28,7 @@ scrollback held them: a source that contributed nothing *this* run left the
 thousands it offered with no record at all. That made the catalog look as if
 every candidate had been either imported or dismissed.
 
-[`../evidence/pending-source-hosts.json`](../evidence/pending-source-hosts.json)
+[`../evidence/pending-source-hosts.json`](../../evidence/pending-source-hosts.json)
 is the whole set, recomputed offline from the committed source caches rather than
 from a live fetch — **3,611 distinct hosts across 3,618 source mentions** at the
 last run. Regenerate and verify it with:

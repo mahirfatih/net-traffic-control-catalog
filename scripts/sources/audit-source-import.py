@@ -10,7 +10,7 @@ checks that should survive future imports: no same-category redundant
 subdomains, no known false-positive hosts from broad sources, a reviewable
 report for weakly signalled finance names, and a warning when one source owns
 more than 40% of a category. See also `scripts/catalog/build-coverage.py`, which
-writes the same concentration picture into `docs/COVERAGE.md`.
+writes the same concentration picture into `docs/reference/COVERAGE.md`.
 """
 import argparse
 from collections import Counter, defaultdict

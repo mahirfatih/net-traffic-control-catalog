@@ -15,7 +15,7 @@ and `government` (1,064, 16%) — together
 **69%** of the catalog. This is the single
 most important fact about the data: a page-text model trained on it learns
 the majority class first, which is why accuracy (89%) and balanced accuracy
-(61%) disagree — see [`docs/analysis/README.md`](analysis/README.md).
+(61%) disagree — see [`docs/analysis/README.md`](../analysis/README.md).
 
 | Category | Hosts | Share |
 | :--- | --: | --: |
@@ -95,6 +95,6 @@ much of each category it could actually measure.
 | Ambiguous predictions | 5% (223) | measured hosts whose top two categories are within 10 points |
 
 The full analysis, and what each score does and does not cover, is in
-[`docs/analysis/README.md`](analysis/README.md). The licensing and the shape
-of each source is in [`docs/SOURCES.md`](SOURCES.md).
+[`docs/analysis/README.md`](../analysis/README.md). The licensing and the shape
+of each source is in [`docs/reference/SOURCES.md`](SOURCES.md).
 

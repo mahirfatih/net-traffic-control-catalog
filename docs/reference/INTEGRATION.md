@@ -24,7 +24,7 @@ is exactly what is in the repository.
 
 ## The cheap probe: `manifest.json`
 
-Before pulling 232 KB, pull [`manifest.json`](../manifest.json) — about a
+Before pulling 232 KB, pull [`manifest.json`](../../manifest.json) — about a
 kilobyte, sitting next to the catalog at the same address base:
 
 ```
@@ -93,7 +93,7 @@ assert len(payload) == manifest["bytes"]
 - **A host matches by longest suffix**, with the refusal and tie rules in
   [`FORMAT.md`](FORMAT.md). Those rules do not change to suit one consumer.
 - **`schema.json`** describes the shipped shape and is kept in step with the
-  format version by [`../scripts/release/bump-version.sh`](../scripts/release/bump-version.sh).
+  format version by [`../scripts/release/bump-version.sh`](../../scripts/release/bump-version.sh).
 
 ## What is not guaranteed
 
@@ -119,5 +119,5 @@ regenerated without its manifest fails the suite rather than shipping a
 checksum that lies. The release workflow rebuilds the checksum file from the
 manifest and publishes both.
 
-To cut a version, see [`MAINTAINING.md`](MAINTAINING.md) and the changelog:
-[`../CHANGELOG.md`](../CHANGELOG.md).
+To cut a version, see [`MAINTAINING.md`](../guides/MAINTAINING.md) and the changelog:
+[`../CHANGELOG.md`](../../CHANGELOG.md).

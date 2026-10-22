@@ -211,12 +211,12 @@ PY
 step "7. Regenerate the documentation and confirm it is current"
 python3 scripts/catalog/build-catalog-docs.py
 if command -v git >/dev/null 2>&1 && git rev-parse --git-dir >/dev/null 2>&1; then
-    if ! git diff --quiet -- docs/CATALOG.md; then
-        echo "✗ docs/CATALOG.md changed when regenerated — it was edited by hand" >&2
-        git --no-pager diff -- docs/CATALOG.md | head -40
+    if ! git diff --quiet -- docs/reference/CATALOG.md; then
+        echo "✗ docs/reference/CATALOG.md changed when regenerated — it was edited by hand" >&2
+        git --no-pager diff -- docs/reference/CATALOG.md | head -40
         exit 1
     fi
-    echo "✓ docs/CATALOG.md is current"
+    echo "✓ docs/reference/CATALOG.md is current"
 else
     echo "· not a git checkout; skipping the staleness comparison"
 fi
@@ -229,17 +229,17 @@ step "7b. The document writer is deterministic (--check)"
 python3 scripts/catalog/build-catalog-docs.py --check
 
 step "7c. The coverage report is current"
-# docs/COVERAGE.md is generated from the catalog, the rules and the analysis, so
-# it rots the same way docs/CATALOG.md does. Regenerate and compare, then exercise
+# docs/reference/COVERAGE.md is generated from the catalog, the rules and the analysis, so
+# it rots the same way docs/reference/CATALOG.md does. Regenerate and compare, then exercise
 # the writer's own --check.
 python3 scripts/catalog/build-coverage.py
 if command -v git >/dev/null 2>&1 && git rev-parse --git-dir >/dev/null 2>&1; then
-    if ! git diff --quiet -- docs/COVERAGE.md; then
-        echo "✗ docs/COVERAGE.md changed when regenerated — it was edited by hand" >&2
-        git --no-pager diff -- docs/COVERAGE.md | head -40
+    if ! git diff --quiet -- docs/reference/COVERAGE.md; then
+        echo "✗ docs/reference/COVERAGE.md changed when regenerated — it was edited by hand" >&2
+        git --no-pager diff -- docs/reference/COVERAGE.md | head -40
         exit 1
     fi
-    echo "✓ docs/COVERAGE.md is current"
+    echo "✓ docs/reference/COVERAGE.md is current"
 else
     echo "· not a git checkout; skipping the staleness comparison"
 fi
@@ -325,7 +325,7 @@ step "10.5. Catalog overlap and distribution check"
 python3 scripts/catalog/check-overlaps.py
 
 step "10.5b. A multi-tenant suffix and a two-service domain are refused"
-# docs/FORMAT.md promises two rules the catalog must obey; this proves the
+# docs/reference/FORMAT.md promises two rules the catalog must obey; this proves the
 # guard catches a violation rather than only passing on the current data.
 python3 - <<'PY'
 import importlib.util

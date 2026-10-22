@@ -21,7 +21,7 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
   keys and `generated_unix`.
 - **Distribution contract** — `manifest.json` (sha256, byte count, format
   version, totals) enables consumers to verify freshness before downloading the
-  full catalog. `docs/INTEGRATION.md` documents the contract.
+  full catalog. `docs/reference/INTEGRATION.md` documents the contract.
 - **Release workflow** — `.github/workflows/release.yml` with `workflow_dispatch`
   for manual rehearsal runs; `v*` tag pushes publish `catalog.json`,
   `manifest.json`, `catalog.json.sha256` as a GitHub Release.
@@ -35,7 +35,7 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
 - **Method note** — `docs/analysis/METHOD.md` walks the scikit-learn estimator
   selection chart gate-by-gate with real `matrix-data.json` numbers, includes a
   mermaid flowchart, and documents three deliberate departures from the chart.
-- **Project audit** — `docs/audit.md` read-only review: category imbalance,
+- **Project audit** — `docs/security/audit.md` read-only review: category imbalance,
   source concentration, mislabel, backlog, provenance gaps.
 
 ### Changed
@@ -77,13 +77,13 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
   Drawn as a mermaid path annotated with the run's own numbers instead of
   copying the upstream chart in.
 - **A distribution contract for other applications**
-  (`manifest.json`, `docs/INTEGRATION.md`,
+  (`manifest.json`, `docs/reference/INTEGRATION.md`,
   `scripts/release/build-manifest.py`): the catalog stays plain JSON — no gzip —
   and gains the surface around it an integrating app needs. `manifest.json` is a
   kilobyte holding the catalog's SHA-256, byte count, format version and totals,
   so a consumer can learn whether the data changed before pulling the whole file;
   `--check` proves it still describes `catalog.json` and runs as **step 3c** of
-  `test/test.sh`. `docs/INTEGRATION.md` states the two addresses (moving `main`
+  `test/test.sh`. `docs/reference/INTEGRATION.md` states the two addresses (moving `main`
   versus an immutable `v*` tag) and draws the line between what is guaranteed —
   `version`, `services[].key`, the vocabulary — and what moves on every
   regenerate.
@@ -99,7 +99,7 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
   (`scripts/catalog/catalog-core.py`), then regenerates the shipped file. The
   format version changes only on a breaking shape change; the data changes on
   every regenerate without touching it.
-- **A project audit** (`docs/audit.md`): a read-only review of the repository —
+- **A project audit** (`docs/security/audit.md`): a read-only review of the repository —
   category imbalance and source concentration, a concrete mislabel, the
   unmatched backlog, the seeds-provenance gap, the JS-coverage limit, and a side
   effect of `generate.py` stamping today's date — each finding tied to the file
@@ -107,16 +107,16 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
 - **Project metadata badges** in `README.md` and `README.tr.md`: a CI badge and
   static shields (type, format, categories, checks, measured, licence) under the
   title, coloured from the same palette the rest of the README uses.
-- **The ingest flow** (`docs/INGEST.md`): how a domain gets a category, as the
+- **The ingest flow** (`docs/guides/INGEST.md`): how a domain gets a category, as the
   mirror of `PIPELINE.md`'s removal flow. It names the **three doors** a host can
   enter through — a `harvest.py` source, the public-institution harvester, and a
   person editing `seeds/categories.json` by hand — each with its own flow chart,
   and repeats the point that a source carries names, never categories. `README.md`
   and `README.tr.md` grow the entry branch in their pipeline chart and link it;
-  `docs/README.md`, `CONTRIBUTING.md`, `seeds/README.md` and `docs/SOURCES.md`
+  `docs/README.md`, `CONTRIBUTING.md`, `seeds/README.md` and `docs/reference/SOURCES.md`
   point at it too.
 - **Seeds provenance** (`scripts/catalog/seeds-provenance.py`,
-  `docs/FOUNDING.md`): names the hosts in `catalog.json` that **neither a rule
+  `docs/overview/FOUNDING.md`): names the hosts in `catalog.json` that **neither a rule
   nor a source accounts for** — the founding layer. Of 6,731 hosts, 4,451 come
   from a rule, 126 from a source, 1,233 from the Turkish public-institution
   harvester, and **921 were typed in by hand**; the full list of the 2,154
@@ -160,7 +160,7 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
   online?", "keep it" / "remove it") rather than by script name, with the two
   points that are easy to confuse kept apart: the category is a decision, and
   reading a host's page is only a check, never the labeler.
-- **Pipeline detail** (`docs/PIPELINE.md`): the machinery behind the README's
+- **Pipeline detail** (`docs/guides/PIPELINE.md`): the machinery behind the README's
   pipeline chart — the three independent checks (the DNS sweep's nine questions,
   the live sweep's real-browser visit, the registration sweep's RDAP → WHOIS → IP
   RDAP chain), every verdict and whether it removes a host, and the four
@@ -202,7 +202,7 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
   Its decision table is checked in `test/test.sh` step 10.11.
 - **`--check` on the generators** (`scripts/catalog/generate.py --check`,
   `scripts/catalog/build-catalog-docs.py --check`): rebuild in memory and compare
-  with the committed `catalog.json`, `docs/CATALOG.md` and the README blocks,
+  with the committed `catalog.json`, `docs/reference/CATALOG.md` and the README blocks,
   writing nothing. The comparison ignores only the `generated` date stamp, so it
   answers "is the committed artifact current?" without git and is not fooled by a
   re-dated file. `test/test.sh` runs `generate.py --check` at step 3b, before the
@@ -245,7 +245,7 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
     `high-confidence-errors.md`).
   - **Catalog-order class sorting** so output tables match the catalogue
     vocabulary order.
-- **`docs/CATALOG.md` "Reliability" section** — auto-generated from
+- **`docs/reference/CATALOG.md` "Reliability" section** — auto-generated from
   `matrix-data.json` by `build-catalog-docs.py`, showing accuracy, host count,
   and link to analysis outputs.
 - **Confusion matrix PNG** committed to `docs/analysis/out/confusion-matrix.png`
@@ -266,7 +266,7 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
 - **Harvest parsers for structured/mixed allowlists**: a small YAML subset parser
   for proxy exception lists and a stricter Ultimate whitelist parser that skips
   `ALL`, `REG`, `RZD`, IP, local and sample-domain rows.
-- **Coverage report** (`scripts/catalog/build-coverage.py`, `docs/COVERAGE.md`):
+- **Coverage report** (`scripts/catalog/build-coverage.py`, `docs/reference/COVERAGE.md`):
   how much of each category the analysis can actually read, and which single
   source carries it. `finance` is over half the rows and 98% of it comes from one
   bank list; both are reported as warnings (or allowlisted as expected) rather
@@ -287,7 +287,7 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
   longer text. `--self-test` covers the parsing without a network, and
   `test/test.sh` step 10.13 runs it.
 - **Tenant-suffix and two-service guard** (`scripts/catalog/check-overlaps.py`,
-  `seeds/public-suffix-exceptions.json`): `docs/FORMAT.md` promised two rules
+  `seeds/public-suffix-exceptions.json`): `docs/reference/FORMAT.md` promised two rules
   that nothing enforced — a bare multi-tenant suffix (`github.io`,
   `amazonaws.com`, …) is refused unless it carries a reason, and a domain claimed
   by two services is flagged. Both now fail the check, the nine existing listings
@@ -304,7 +304,7 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
   the Actions tab (`gh workflow run sweeps`) — two rounds ten minutes apart, one
   tracking issue as the proposal, never on a push, and it cannot touch catalog
   data. `CODEOWNERS` routes a seed, catalog, test or check change to the
-  maintainer who knows `docs/PIPELINE.md`.
+  maintainer who knows `docs/guides/PIPELINE.md`.
 
 ### Removed
 
@@ -391,7 +391,7 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
   Infrastructure classes (`cdn`, `social`, `travel`, `encyclopedia`) remain
   low-F1 due to minimal page text.
 - **README counts updated** to 2,803 categories, 22 services.
-- **`docs/CATALOG.md` category table regenerated** with new counts.
+- **`docs/reference/CATALOG.md` category table regenerated** with new counts.
 - **`merge.py` now skips redundant same-category subdomains** when a listed
   ancestor already covers the host.
 
@@ -416,7 +416,7 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
 - **`guven.com.tr` was mislabeled `finance`; it is now `health`.** The host is
   *Güven Hastanesi* — the live sweep reads its final title as "Ana Sayfa | Güven
   Hastanesi", and the model already predicted `health` at 85%. The seed,
-  `catalog.json`, `docs/CATALOG.md`, `docs/COVERAGE.md` and the analysis prose
+  `catalog.json`, `docs/reference/CATALOG.md`, `docs/reference/COVERAGE.md` and the analysis prose
   are updated; the high-confidence error list drops it (69 → 68).
 - **The registration sweep would have deleted live hosts, so it now reads a
   `404` before it trusts one.** `rdap.nic.ms` runs an ordinary web server that
@@ -474,7 +474,7 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
   `email` (18) and `cdn` (19) fall below the 20-example class floor. The audit
   reported none of it: `cdn` had already left the matrix once with nothing in
   the output to explain it. Dropped classes are now printed, stored as
-  `dropped_classes`, and listed in `docs/CATALOG.md`.
+  `dropped_classes`, and listed in `docs/reference/CATALOG.md`.
 - **The documents quoted a sweep duration nobody had measured.** README, SOURCES,
   CONTRIBUTING and `scripts/README.md` all said the dead-domain sweep takes
   "~30 minutes". It takes about ten: 605 s and 583 s for the two real runs.
@@ -535,12 +535,12 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
   no category; caches everything it learns in `evidence/probes.json`.
 - **`rules.json`** — the categories an external list cannot supply, written down
   with a reason each.
-- **`build-catalog-docs.py`** and generated [`docs/CATALOG.md`](docs/CATALOG.md).
+- **`build-catalog-docs.py`** and generated [`docs/reference/CATALOG.md`](docs/reference/CATALOG.md).
 - **`check-docs-fresh.mjs`** — catches a renamed file, a stale count, a broken
   link, or a licence verdict that contradicts itself.
 - **`test/test.sh`** — the whole suite in one command, no dependencies.
-- **Documents** — [`docs/SOURCES.md`](docs/SOURCES.md),
-  [`docs/NEEDS-REVIEW.md`](docs/NEEDS-REVIEW.md), [`CONTRIBUTING.md`](CONTRIBUTING.md),
+- **Documents** — [`docs/reference/SOURCES.md`](docs/reference/SOURCES.md),
+  [`docs/guides/NEEDS-REVIEW.md`](docs/guides/NEEDS-REVIEW.md), [`CONTRIBUTING.md`](CONTRIBUTING.md),
   [`SECURITY.md`](SECURITY.md).
 - **A host-shape rule in the validator.** `catalog-core.py`'s `host_problems` refuses a
   wildcard (`*.example.com`), a URL, an IDNA label, a trailing dot, a stray

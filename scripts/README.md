@@ -31,7 +31,7 @@ dead.
 | :--- | :--- |
 | [`generate.py`](catalog/generate.py) | Builds `catalog.json` from the `seeds/` files. Deterministic, and validates **before** writing — a bad seed writes nothing. Applies `rules.json` → `drop.override` last. `--check` rebuilds in memory and compares with the committed file (ignoring the `generated` date), writing nothing. |
 | [`validate.py`](catalog/validate.py) | Checks a `catalog.json` against the format and the category vocabulary. Exits non-zero on any problem. |
-| [`build-catalog-docs.py`](catalog/build-catalog-docs.py) | Generates `docs/CATALOG.md` and the marked README blocks from `catalog.json`, so the counts in the prose cannot drift from the shipped data. `--check` verifies they are current without writing. |
+| [`build-catalog-docs.py`](catalog/build-catalog-docs.py) | Generates `docs/reference/CATALOG.md` and the marked README blocks from `catalog.json`, so the counts in the prose cannot drift from the shipped data. `--check` verifies they are current without writing. |
 | [`seeds-provenance.py`](catalog/seeds-provenance.py) | Names the hosts in `catalog.json` that neither a rule nor a source accounts for — the hand-entered and public-institution founding layers — and writes `evidence/seeds-only.json`. `--check` verifies the file is current without writing. |
 | [`overrides.py`](catalog/overrides.py) | Manages `rules.json` → `drop.override`, the per-host decision that beats every rule and every source. `set` / `remove` / `list` / `check`. A reason is mandatory. |
 | [`check-overlaps.py`](catalog/check-overlaps.py) | Reports category distribution, deliberate subdomain overrides, and manual overrides. Fails if a subdomain carries the same category as an ancestor, which suffix matching already covers. |
@@ -82,7 +82,7 @@ dead.
 python3 scripts/sources/harvest.py                    # fetch, filter, apply rules
 python3 scripts/sources/merge.py evidence/harvested-categories.json --dry-run
 python3 scripts/sources/merge.py evidence/harvested-categories.json
-python3 scripts/catalog/build-catalog-docs.py         # refresh docs/CATALOG.md
+python3 scripts/catalog/build-catalog-docs.py         # refresh docs/reference/CATALOG.md
 ./test/test.sh
 ```
 
@@ -106,7 +106,7 @@ and skips parked names that the iOS catalog builder rejects via `excluded.csv`.
 ### What the harvest will not do
 
 - **Invent a category.** No rule, no label — the host goes to
-  `docs/NEEDS-REVIEW.md`.
+  `docs/guides/NEEDS-REVIEW.md`.
 - **Write `other` automatically.** `other` means a person looked and did not
   know, so only a rule may produce it.
 - **Overwrite a label.** Conflicts are printed; the seed wins.
@@ -257,7 +257,7 @@ change to `rules.json` without re-downloading.
 
 ## Adding a source
 
-See [`../docs/SOURCES.md`](../docs/SOURCES.md). Append to `sources.json`, then
+See [`../docs/reference/SOURCES.md`](../docs/reference/SOURCES.md). Append to `sources.json`, then
 run `python3 scripts/sources/sources.py --check`.
 
 A blocking licence (`NC`, `SA`) with `allowed: true` is a hard error. That is

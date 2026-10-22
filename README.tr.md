@@ -26,9 +26,9 @@ Sites ekranları alan adlarını doğru gruplar ve etiketler.
 - **6,731 host** — `host → kategori`.
 - **22 servis** — `ürün → host`.
 
-Kategoriye göre döküm için [`docs/CATALOG.md`](docs/CATALOG.md); analizin ne
+Kategoriye göre döküm için [`docs/reference/CATALOG.md`](docs/reference/CATALOG.md); analizin ne
 kadarını gerçekten okuyabildiği ve hangi kaynağın hangi kategoriyi taşıdığı için
-[`docs/COVERAGE.md`](docs/COVERAGE.md).
+[`docs/reference/COVERAGE.md`](docs/reference/COVERAGE.md).
 
 ## İçinde ne var
 
@@ -157,20 +157,20 @@ flowchart TD
 iki turda, giderse önerilir. Varsayılan olarak live sweep yalnız `parked` önerir
 — boş 200 ya da 404 canlı altyapıda sıradandır (`adnxs.com`,
 `3dsecure.akbank.com.tr`). Tam metod, her verdict ve koruma kuralları:
-[`docs/PIPELINE.md`](docs/PIPELINE.md).
+[`docs/guides/PIPELINE.md`](docs/guides/PIPELINE.md).
 
 Karışması kolay iki şey ayrı tutulur:
 
 - **Kategori bir karardır, tahmin değil.** Onu bir kural ya da bir kişi belirler;
   sayfaya asla kategori uydurtulmaz. Hiçbir kuralın eşlemediği bir ad, bir kişi
-  için [`docs/NEEDS-REVIEW.md`](docs/NEEDS-REVIEW.md) içinde listelenir.
+  için [`docs/guides/NEEDS-REVIEW.md`](docs/guides/NEEDS-REVIEW.md) içinde listelenir.
 - **Sayfayı okumak yalnızca bir kontroldür.** Kategorinin sayfayla uyup
   uymadığını ölçer; listeyi asla yazmaz. Düşük skor, etiketin sayfayla
   çeliştiğini söyler; etiketin yanlış olduğunu değil.
 - **Her host bir listeden gelmedi.** Bir host üç kapıdan birinden girer — bir
   kaynak, kamu-kurumu tarayıcısı ya da bir kişinin eli — ve son ikisini hiçbir
   kayıt adlandırmaz. Ne bir kuralın ne bir kaynağın getirmediği host'ları
-  [`docs/FOUNDING.md`](docs/FOUNDING.md) hesaba katar.
+  [`docs/overview/FOUNDING.md`](docs/overview/FOUNDING.md) hesaba katar.
 
 Ortadaki üç kontrol bir sonraki bölümün konusudur. Arkalarındaki araçlar:
 [`probe-dead.py`](scripts/catalog/probe-dead.py),
@@ -178,10 +178,10 @@ Ortadaki üç kontrol bir sonraki bölümün konusudur. Arkalarındaki araçlar:
 [`sweep-live.py`](scripts/analysis/sweep-live.py).
 
 Bir kategorinin nasıl belirlendiği — bir host'un girebileceği üç kapı —
-[`docs/INGEST.md`](docs/INGEST.md) içinde. Silme mekanizması — dokuz DNS sorusu,
+[`docs/guides/INGEST.md`](docs/guides/INGEST.md) içinde. Silme mekanizması — dokuz DNS sorusu,
 her verdict ve arkalarındaki koruma kuralları —
-[`docs/PIPELINE.md`](docs/PIPELINE.md) içinde; her taramanın ne sıklıkla
-çalışması gerektiği ise [`docs/SCHEDULE.md`](docs/SCHEDULE.md) içinde.
+[`docs/guides/PIPELINE.md`](docs/guides/PIPELINE.md) içinde; her taramanın ne sıklıkla
+çalışması gerektiği ise [`docs/guides/SCHEDULE.md`](docs/guides/SCHEDULE.md) içinde.
 
 ## Varlığı nasıl doğrulanır
 
@@ -222,11 +222,11 @@ olmayabilir. Tam yöntem, kanıt ve kaldırma politikası:
 ## Format ve bakım
 
 Dosya formatı — şema, eşleşme kuralları, sözlük ve öncelik sırası —
-[`docs/FORMAT.md`](docs/FORMAT.md) içinde. Bir host'un nasıl üretileceği,
+[`docs/reference/FORMAT.md`](docs/reference/FORMAT.md) içinde. Bir host'un nasıl üretileceği,
 ekleneceği, düzeltileceği ve kaldırılacağı ile arkasındaki disiplin ise
-[`docs/MAINTAINING.md`](docs/MAINTAINING.md) içinde. Katalogı **başka bir
+[`docs/guides/MAINTAINING.md`](docs/guides/MAINTAINING.md) içinde. Katalogı **başka bir
 uygulamadan** okumak — sabit URL, `manifest.json` ve SHA-256 doğrulaması — ise
-[`docs/INTEGRATION.md`](docs/INTEGRATION.md) içinde.
+[`docs/reference/INTEGRATION.md`](docs/reference/INTEGRATION.md) içinde.
 
 Katalog ham hâlde şuradan sunulur:
 

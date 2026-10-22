@@ -31,5 +31,5 @@ non-names, and the row would sit silently doing nothing. If an address really
 needs a category, that is a routing or policy question for the app, not a row in
 this file.
 
-See [`PIPELINE.md`](PIPELINE.md) for how a *name* is decided, and
+See [`PIPELINE.md`](../guides/PIPELINE.md) for how a *name* is decided, and
 [`SOURCES.md`](SOURCES.md) for where those names come from.

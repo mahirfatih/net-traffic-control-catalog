@@ -2,7 +2,7 @@
 
 Build and validate the catalog. `generate.py` writes `catalog.json` from the
 `seeds/`, `validate.py` checks a `catalog.json` against the format and the
-vocabulary, `build-catalog-docs.py` writes `docs/CATALOG.md` and the generated
+vocabulary, `build-catalog-docs.py` writes `docs/reference/CATALOG.md` and the generated
 blocks in `README.md` and its translation `README.tr.md`, `check-overlaps.py`
 checks for category distribution and redundant domain overlaps,
 `check-hand-added.py` validates `seeds/hand-added.json` — the who/when/why a
@@ -17,7 +17,7 @@ others import by path (the hyphen in its name is legal on disk but not in an
 
 Both writers take `--check`: `generate.py --check` rebuilds from the seeds and
 compares the result with the committed `catalog.json`, and
-`build-catalog-docs.py --check` does the same for `docs/CATALOG.md` and the
+`build-catalog-docs.py --check` does the same for `docs/reference/CATALOG.md` and the
 README blocks in both languages. They write nothing, so "is the committed
 artifact current?" is answerable without touching it — and without git, which is
 what lets `test/test.sh` prove it in a plain checkout.

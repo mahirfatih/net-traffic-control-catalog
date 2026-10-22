@@ -8,7 +8,7 @@ page sets a cadence, so "when do we re-check?" has an answer that is not "when
 someone remembers".
 
 None of this blocks a pull request. The sweeps need the network and a browser,
-and `test/test.sh` deliberately never calls them — see [`SOURCES.md`](SOURCES.md).
+and `test/test.sh` deliberately never calls them — see [`SOURCES.md`](../reference/SOURCES.md).
 
 | Sweep | Cadence | Round gap | What it catches | Cost of being late |
 | :--- | :--- | :--- | :--- | :--- |
@@ -38,7 +38,7 @@ that is the signal to shorten it.
 
 Every sweep has the same shape — two rounds that must agree, a summary that
 proposes and changes nothing, and an `--apply` that is a separate, deliberate
-step. The commands are in [`SOURCES.md`](SOURCES.md), and the policy that makes a
+step. The commands are in [`SOURCES.md`](../reference/SOURCES.md), and the policy that makes a
 proposal safe is in [`PIPELINE.md`](PIPELINE.md).
 
 ```sh
@@ -58,5 +58,5 @@ minutes apart and files or updates one tracking issue with the proposal. It is
 result of a sweep is a human decision (the four rules in `PIPELINE.md`), and a
 job that could auto-delete a live host because a resolver hiccuped is the failure
 this page is arranged to avoid. The live and registration sweeps stay a manual
-checklist too: they need a real browser, so they run from [`SOURCES.md`](SOURCES.md)
+checklist too: they need a real browser, so they run from [`SOURCES.md`](../reference/SOURCES.md)
 on the cadence above.

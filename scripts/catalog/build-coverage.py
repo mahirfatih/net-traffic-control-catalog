@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Build docs/COVERAGE.md — how much of the catalog is measured, and from where.
+"""Build docs/reference/COVERAGE.md — how much of the catalog is measured, and from where.
 
     python3 scripts/catalog/build-coverage.py
     python3 scripts/catalog/build-coverage.py --check
 
-`docs/CATALOG.md` says how big the catalog is. This page answers the questions a
+`docs/reference/CATALOG.md` says how big the catalog is. This page answers the questions a
 size does not: which category the sample leans on, how much of each category the
 page-text analysis could actually read, and whether one source is carrying a
 category on its own. A catalog that is 53% `finance` from a single bank list is a
@@ -26,7 +26,7 @@ RULES = os.path.join(ROOT, "config/rules.json")
 CATEGORIES = os.path.join(ROOT, "seeds", "categories.json")
 SUMMARY = os.path.join(ROOT, "evidence", "harvest-summary.json")
 MATRIX = os.path.join(ROOT, "docs", "analysis", "out", "matrix-data.json")
-OUT = os.path.join(ROOT, "docs", "COVERAGE.md")
+OUT = os.path.join(ROOT, "docs", "reference", "COVERAGE.md")
 
 # A category that gets more than this share of its rows from one harvest source
 # inherits that source's blind spots wholesale. The threshold is a warning, not a
@@ -115,7 +115,7 @@ def build(catalog, rules, categories, summary, matrix):
     add(f"**{(finance + government) / total:.0%}** of the catalog. This is the single")
     add("most important fact about the data: a page-text model trained on it learns")
     add("the majority class first, which is why accuracy (89%) and balanced accuracy")
-    add("(61%) disagree — see [`docs/analysis/README.md`](analysis/README.md).")
+    add("(61%) disagree — see [`docs/analysis/README.md`](../analysis/README.md).")
     add("")
     add("| Category | Hosts | Share |")
     add("| :--- | --: | --: |")
@@ -219,15 +219,15 @@ def build(catalog, rules, categories, summary, matrix):
         add(f"| {name} | {value} | {meaning} |")
     add("")
     add("The full analysis, and what each score does and does not cover, is in")
-    add("[`docs/analysis/README.md`](analysis/README.md). The licensing and the shape")
-    add("of each source is in [`docs/SOURCES.md`](SOURCES.md).")
+    add("[`docs/analysis/README.md`](../analysis/README.md). The licensing and the shape")
+    add("of each source is in [`docs/reference/SOURCES.md`](SOURCES.md).")
     add("")
 
     return "\n".join(lines)
 
 
 def main(argv):
-    parser = argparse.ArgumentParser(description="Build or check docs/COVERAGE.md.")
+    parser = argparse.ArgumentParser(description="Build or check docs/reference/COVERAGE.md.")
     parser.add_argument("--check", action="store_true",
                         help="verify the committed file is current; write nothing")
     args = parser.parse_args(argv[1:])

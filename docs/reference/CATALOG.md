@@ -100,7 +100,7 @@ Every source, and every source refused, is in [`SOURCES.md`](SOURCES.md).
 External sources propose hosts; **no source assigns a category**. A category
 is either a rule in `rules.json` or a person with a reason.
 
-Hosts still missing a label are in [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md).
+Hosts still missing a label are in [`NEEDS-REVIEW.md`](../guides/NEEDS-REVIEW.md).
 
 ## Reliability
 
@@ -124,7 +124,7 @@ The audit reaches 4,563 of the catalog's
 The failures are uneven — some categories are measured on a small
 fraction of their hosts. A per-class score describes the hosts that
 produced text, not the category. Per-category coverage is in
-[`analysis/README.md`](analysis/README.md).
+[`analysis/README.md`](../analysis/README.md).
 
 8 categories rest on under 20 examples, so their scores are
 indicative rather than measured: `maps` 3, `sports` 7, `music` 8, `crypto` 8, `other` 10, `crash` 11, `telecom` 11, `email` 19.
@@ -135,6 +135,6 @@ The audit output also records each host's top three predicted categories
 and confidence score, and the correlated-terms report shows both
 chi-squared terms and the fitted LinearSVC weights.
 
-![Confusion matrix](analysis/out/confusion-matrix.png)
+![Confusion matrix](../analysis/out/confusion-matrix.png)
 
-Methodology, per-class metrics and the error list: [`analysis/`](analysis/README.md).
+Methodology, per-class metrics and the error list: [`analysis/`](../analysis/README.md).

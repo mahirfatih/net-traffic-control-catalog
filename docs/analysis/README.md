@@ -340,7 +340,7 @@ with [Lightpanda](https://lightpanda.io) (`--engine lightpanda`) — so a JS she
 that `curl` sees as empty becomes a page with a title and prose. What that still
 cannot fix is a host that never returns a document at all; those need a
 different signal, not a different renderer. Read a thin category's score next to
-its coverage, which [`../COVERAGE.md`](../COVERAGE.md) reports as its own column.
+its coverage, which [`../COVERAGE.md`](../reference/COVERAGE.md) reports as its own column.
 
 ## Methodology
 

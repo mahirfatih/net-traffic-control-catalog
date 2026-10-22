@@ -6,7 +6,7 @@ other half: once a host is in, how does it get out? Every host in the catalog
 goes through three independent checks. Each asks a
 different question, runs its own tool, and a host is only removed when every
 round of every check agrees it should go. This is the machinery behind the
-README's [“Pipeline — from a list to a kept host”](../README.md#pipeline--from-a-list-to-a-kept-host).
+README's [“Pipeline — from a list to a kept host”](../../README.md#pipeline--from-a-list-to-a-kept-host).
 How a host got *in* is [`INGEST.md`](INGEST.md).
 
 ```mermaid
@@ -24,12 +24,12 @@ flowchart TD
 
 The three checks are independent on purpose: a name can be alive in DNS, serving
 nothing, and still registered to its owner, and only the last of those is a
-reason to remove it. A run of each is cached under [`../evidence/`](../evidence/README.md)
+reason to remove it. A run of each is cached under [`../evidence/`](../../evidence/README.md)
 so a verdict can be read without the network.
 
 ## 1 · DNS sweep — is it still there?
 
-[`scripts/catalog/probe-dead.py`](../scripts/catalog/probe-dead.py) asks
+[`scripts/catalog/probe-dead.py`](../../scripts/catalog/probe-dead.py) asks
 **Cloudflare**, **Google** and **AdGuard** (its *unfiltered* endpoint, because
 the default one answers blocked ad and tracker names with `0.0.0.0`) directly
 about three record types: **A, AAAA, NS** — nine questions per host, per round.
@@ -50,7 +50,7 @@ almost dropped on `nodata` alone.
 
 ## 2 · Live sweep — does it still serve?
 
-[`scripts/analysis/sweep-live.py`](../scripts/analysis/sweep-live.py) visits
+[`scripts/analysis/sweep-live.py`](../../scripts/analysis/sweep-live.py) visits
 each host with a real browser ([agent-browser](https://github.com/vercel-labs/agent-browser)
 driving [Lightpanda](https://lightpanda.io)), because a fetch that does not run
 JavaScript sees an empty shell where a modern page lives. It records the status,
@@ -71,7 +71,7 @@ infrastructure (`adnxs.com`, `3dsecure.akbank.com.tr`).
 
 ## 3 · Registration sweep — same owner?
 
-[`scripts/catalog/verify-registrations.py`](../scripts/catalog/verify-registrations.py)
+[`scripts/catalog/verify-registrations.py`](../../scripts/catalog/verify-registrations.py)
 checks the registration itself, because a lapsed name can be re-registered by
 someone else and inherit the previous owner's category. Four sources, in order:
 

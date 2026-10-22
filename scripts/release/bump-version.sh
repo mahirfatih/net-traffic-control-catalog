@@ -12,7 +12,7 @@
 # checked-in format contract, then regenerates `catalog.json` *and*
 # `manifest.json` so the shipped files match — `manifest.json` mirrors the field
 # as `formatVersion` and carries the catalog's sha256, so leaving it stale would
-# hand a consumer the previous release's checksum. `docs/FORMAT.md` is
+# hand a consumer the previous release's checksum. `docs/reference/FORMAT.md` is
 # intentionally not rewritten: its example describes the shape, not a
 # version-specific release note.
 #
@@ -118,4 +118,4 @@ python3 "$BUILD_MANIFEST"
 
 echo "Bumped catalog format version: $current -> $new"
 echo "Updated generator, validator, schema, test contract and manifest."
-echo "Next: update docs/FORMAT.md if the shape changed, then commit."
+echo "Next: update docs/reference/FORMAT.md if the shape changed, then commit."

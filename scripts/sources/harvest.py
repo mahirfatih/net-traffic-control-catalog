@@ -12,7 +12,7 @@ The pipeline is: fetch -> parse -> drop what is already covered -> apply
 Three things it deliberately does not do:
 
 - It never writes a category. A host that no rule matches is written to
-  `docs/NEEDS-REVIEW.md` and left out of the seeds, because a wrong label is
+  `docs/guides/NEEDS-REVIEW.md` and left out of the seeds, because a wrong label is
   worse than no label — it looks authoritative.
 - It never writes `other` automatically. `other` means "we looked and did not
   know", so only a rule may produce it.
@@ -48,7 +48,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 RULES = os.path.join(ROOT, "config/rules.json")
 EVIDENCE = os.path.join(ROOT, "evidence")
 SEEDS = os.path.join(ROOT, "seeds")
-REVIEW = os.path.join(ROOT, "docs", "NEEDS-REVIEW.md")
+REVIEW = os.path.join(ROOT, "docs", "guides", "NEEDS-REVIEW.md")
 
 USER_AGENT = "net-traffic-control-catalog/1.0 (catalog harvest; +https://github.com/mahirfatih/net-traffic-control-catalog)"
 TIMEOUT = 30
@@ -308,7 +308,7 @@ def main(argv):
         handle.write("\n")
     print(f"\n✓ wrote {out} ({len(payload)} hosts)")
     print(f"  apply with: python3 scripts/sources/merge.py {os.path.relpath(out, ROOT)}")
-    print(f"  review {len(review)} hand-written entries in docs/NEEDS-REVIEW.md")
+    print(f"  review {len(review)} hand-written entries in docs/guides/NEEDS-REVIEW.md")
 
     # A run that categorised nothing is a no-op: every host it found is already
     # in the seeds. Overwriting the summary would erase the record of the run

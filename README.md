@@ -26,8 +26,8 @@ Sites screens group and label domains correctly.
 - **6,731 hosts** — `host → category`.
 - **22 services** — `product → hosts`.
 
-See [`docs/CATALOG.md`](docs/CATALOG.md) for the breakdown by category, and
-[`docs/COVERAGE.md`](docs/COVERAGE.md) for how much of it the analysis can
+See [`docs/reference/CATALOG.md`](docs/reference/CATALOG.md) for the breakdown by category, and
+[`docs/reference/COVERAGE.md`](docs/reference/COVERAGE.md) for how much of it the analysis can
 actually read — and which source carries which category.
 
 ## What is in it
@@ -156,19 +156,19 @@ The three checks are **independent** and the gate is an **intersection**: a
 host is proposed only when every check, in two rounds, agrees it should go.
 By default the live sweep proposes only `parked` — an empty 200 or a 404 is
 common on live infrastructure (`adnxs.com`, `3dsecure.akbank.com.tr`). Full
-method, every verdict and the guardrails: [`docs/PIPELINE.md`](docs/PIPELINE.md).
+method, every verdict and the guardrails: [`docs/guides/PIPELINE.md`](docs/guides/PIPELINE.md).
 
 Two things are easy to confuse, so they are kept apart:
 
 - **The category is a decision, not a guess.** A rule or a person sets it; the
   page is never asked to invent one. A name no rule matches is listed for a
-  person in [`docs/NEEDS-REVIEW.md`](docs/NEEDS-REVIEW.md).
+  person in [`docs/guides/NEEDS-REVIEW.md`](docs/guides/NEEDS-REVIEW.md).
 - **Reading the page is only a check.** It measures whether a category matches
   the page; it never writes the list. A low score means a label disagrees with
   its page, not that the label is wrong.
 - **Not every host came from a list.** A host enters through one of three doors —
   a source, the public-institution harvester, or a person's hand — and nothing
-  names the last two. [`docs/FOUNDING.md`](docs/FOUNDING.md) accounts for the
+  names the last two. [`docs/overview/FOUNDING.md`](docs/overview/FOUNDING.md) accounts for the
   hosts that came from neither a rule nor a source.
 
 The three checks in the middle are the subject of the next section. The tools
@@ -177,10 +177,10 @@ behind them are [`probe-dead.py`](scripts/catalog/probe-dead.py),
 [`sweep-live.py`](scripts/analysis/sweep-live.py).
 
 How a category is decided — the three doors a host can arrive through — is in
-[`docs/INGEST.md`](docs/INGEST.md). The removal machinery — the nine DNS
+[`docs/guides/INGEST.md`](docs/guides/INGEST.md). The removal machinery — the nine DNS
 questions, every verdict, and the guardrails behind them — is in
-[`docs/PIPELINE.md`](docs/PIPELINE.md); how often each sweep should run is in
-[`docs/SCHEDULE.md`](docs/SCHEDULE.md).
+[`docs/guides/PIPELINE.md`](docs/guides/PIPELINE.md); how often each sweep should run is in
+[`docs/guides/SCHEDULE.md`](docs/guides/SCHEDULE.md).
 
 ## How presence is verified
 
@@ -221,11 +221,11 @@ catalog's. Full method, evidence and the removal policy:
 ## Format and maintaining
 
 The file format — the schema, the matching rules, the vocabulary and the
-precedence order — is in [`docs/FORMAT.md`](docs/FORMAT.md). How to generate,
+precedence order — is in [`docs/reference/FORMAT.md`](docs/reference/FORMAT.md). How to generate,
 add, correct and remove a host, and the discipline behind it, is in
-[`docs/MAINTAINING.md`](docs/MAINTAINING.md). Reading it from **another
+[`docs/guides/MAINTAINING.md`](docs/guides/MAINTAINING.md). Reading it from **another
 application** — the pinned URL, `manifest.json` and the SHA-256 check — is in
-[`docs/INTEGRATION.md`](docs/INTEGRATION.md).
+[`docs/reference/INTEGRATION.md`](docs/reference/INTEGRATION.md).
 
 The catalog is served raw from:
 

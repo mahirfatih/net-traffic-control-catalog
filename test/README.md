@@ -31,7 +31,7 @@ failure. `./test/test.sh --fast` runs the same list minus step 11.
 | 6b | The same seeds build byte-identical output (determinism) | a build that is not a pure function of its seeds — same seeds, same SHA-256, with only the date pinned |
 | 7 | Regenerate the documentation and confirm it is current | a document that changed when regenerated — i.e. edited by hand |
 | 7b | The document writer is deterministic (`build-catalog-docs.py --check`) | a writer that renders the same input two different ways; exercises `--check` on the just-written files |
-| 7c | The coverage report is current | `docs/COVERAGE.md` edited by hand or left behind by a regenerate, then the writer's own `--check` |
+| 7c | The coverage report is current | `docs/reference/COVERAGE.md` edited by hand or left behind by a regenerate, then the writer's own `--check` |
 | 8 | Documentation describes the files that exist | broken links, renamed scripts, stale counts, a licence verdict that contradicts itself, a removal that undid itself, a sweep that no longer covers the catalog, a category treemap that disagrees with `catalog.json`, a stale seeds-provenance file, a stale review backlog, a Turkish README whose blocks diverged from the English one (see the twenty-three sub-checks below) |
 | 9 | The licence gate refuses, whatever the registry happens to list | `NC` and `SA` licences refused even when a record claims `allowed` — tested against synthetic records, so it does not depend on a blocked source being present |
 | 10 | A malformed host is refused, a valid one accepted | 11 malformed names (`*.example.com`, `exa mple.com`, `exämple.com`, `example.com.`…) the app could never match |
@@ -56,9 +56,9 @@ this order:
 1. `checkLinks` — every relative link in the docs points at a file that exists.
 2. `checkScriptNames` — every script named in the docs exists, and is listed.
 3. `checkSourceIds` — every source id cited in the docs is in the registry.
-4. `checkGeneratedDocs` — `docs/CATALOG.md`'s host and service totals match `catalog.json`.
-5. `checkCategoryTable` — `docs/CATALOG.md`'s category table matches the seeds.
-6. `checkCoverageDoc` — `docs/COVERAGE.md`'s host total and its `finance` row match `catalog.json`.
+4. `checkGeneratedDocs` — `docs/reference/CATALOG.md`'s host and service totals match `catalog.json`.
+5. `checkCategoryTable` — `docs/reference/CATALOG.md`'s category table matches the seeds.
+6. `checkCoverageDoc` — `docs/reference/COVERAGE.md`'s host total and its `finance` row match `catalog.json`.
 7. `checkLicenseGate` — no doc advertises a licence the gate refuses.
 8. `checkDirectoryReadmes` — every directory with content has a README.
 9. `checkAnalysisFigures` — the analysis numbers match `matrix-data.json`.
@@ -73,9 +73,9 @@ this order:
 18. `checkCatalogBadges` — the README badges' headline numbers match `catalog.json`.
 19. `checkVerificationStatus` — the README verification chart matches the DNS sweep's last round.
 20. `checkTurkishMirror` — `README.tr.md` exists and carries the same generated blocks as `README.md`, and the same number of headings and diagrams, so the Turkish translation cannot drift from the English source.
-21. `checkSeedsProvenance` — `evidence/seeds-only.json` is current (`scripts/catalog/seeds-provenance.py --check`), and the counts `docs/INGEST.md` and `docs/FOUNDING.md` quote are the ones it holds.
+21. `checkSeedsProvenance` — `evidence/seeds-only.json` is current (`scripts/catalog/seeds-provenance.py --check`), and the counts `docs/guides/INGEST.md` and `docs/overview/FOUNDING.md` quote are the ones it holds.
 22. `checkHandAdded` — every host in `seeds/hand-added.json` records who, when and why, and names a host that is actually in the seeds.
-23. `checkPendingBacklog` — `evidence/pending-source-hosts.json` is current (`scripts/sources/pending.py --check`), and the counts `docs/NEEDS-REVIEW.md` quotes are the ones it holds.
+23. `checkPendingBacklog` — `evidence/pending-source-hosts.json` is current (`scripts/sources/pending.py --check`), and the counts `docs/guides/NEEDS-REVIEW.md` quotes are the ones it holds.
 
 ## Why step 3 is where it is
 

@@ -21,7 +21,7 @@ leaving it behind would hand a consumer the previous release's checksum:
     ./scripts/release/bump-version.sh 2        # set the format version to 2
 
 One place is left to a person, because a format change is exactly when it needs
-a second look: [`../../docs/FORMAT.md`](../../docs/FORMAT.md) shows the shape by
+a second look: [`../../docs/reference/FORMAT.md`](../../docs/reference/FORMAT.md) shows the shape by
 hand. Update that document when the JSON shape changes.
 
 ## `build-manifest.py`
@@ -46,6 +46,6 @@ checks, the tagged bytes restored over the rebuild's re-stamped date, the
 checksum rebuilt from the manifest, then a GitHub Release carrying `catalog.json`,
 `manifest.json` and `catalog.json.sha256`. The file ships **plain** — no gzip.
 The contract an integrating application reads is
-[`../../docs/INTEGRATION.md`](../../docs/INTEGRATION.md).
+[`../../docs/reference/INTEGRATION.md`](../../docs/reference/INTEGRATION.md).
 
 Standard library only. See [`../README.md`](../README.md).

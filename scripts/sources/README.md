@@ -18,4 +18,4 @@ It refuses to overwrite an existing label, keeps explicit overrides such as
 from vendored catalog data.
 
 Standard library only. See [`../README.md`](../README.md) and
-[`../../docs/SOURCES.md`](../../docs/SOURCES.md).
+[`../../docs/reference/SOURCES.md`](../../docs/reference/SOURCES.md).

@@ -51,12 +51,12 @@ the one thing on this page the app itself cites.
   or `herokuapp.com`, does **not** swallow unrelated subdomains. Listing one
   mislabels every tenant on that suffix, so it is refused unless the suffix is
   named in
-  [`seeds/public-suffix-exceptions.json`](../seeds/public-suffix-exceptions.json)
+  [`seeds/public-suffix-exceptions.json`](../../seeds/public-suffix-exceptions.json)
   with a reason — enforced by
-  [`scripts/catalog/check-overlaps.py`](../scripts/catalog/check-overlaps.py).
+  [`scripts/catalog/check-overlaps.py`](../../scripts/catalog/check-overlaps.py).
 - **Conflicts are reported, never silently resolved.** A host listed in two
   `services`, or carrying two categories, is flagged by
-  [`scripts/catalog/check-overlaps.py`](../scripts/catalog/check-overlaps.py) and
+  [`scripts/catalog/check-overlaps.py`](../../scripts/catalog/check-overlaps.py) and
   must be resolved before merge. Two records of *equal* specificity are a tie,
   and a tie must be broken deterministically (specificity, then host, then
   service key) — never by order of appearance.
@@ -142,4 +142,4 @@ at the name and said otherwise, and the app treats that as a label, not a rule.
 https://raw.githubusercontent.com/mahirfatih/net-traffic-control-catalog/main/catalog.json
 ```
 
-To change what is in the file, see [`MAINTAINING.md`](MAINTAINING.md).
+To change what is in the file, see [`MAINTAINING.md`](../guides/MAINTAINING.md).

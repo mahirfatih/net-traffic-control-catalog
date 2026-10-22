@@ -36,7 +36,7 @@ the rule that matched it — not by re-running something and trusting the output
 **The upstream lists change.** They are third-party files that can be edited or
 disappear. Without a committed copy, a rule written from what a source said
 last month cannot be justified next year, because nobody can see what it said.
-See [`../docs/SOURCES.md`](../docs/SOURCES.md) on why a published figure is
+See [`../docs/reference/SOURCES.md`](../docs/reference/SOURCES.md) on why a published figure is
 only valid together with the source it was measured against.
 
 ## Offline

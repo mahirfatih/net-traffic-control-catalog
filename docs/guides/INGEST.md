@@ -27,7 +27,7 @@ flowchart TD
 | :--- | :--- | :--- |
 | **1. A source list** | `scripts/sources/harvest.py` fetches a licence-gated list from `sources.json`, parses it, drops what the catalog already covers, and applies `rules.json` | a rule in `rules.json` — or nothing, in which case the host is not imported |
 | **2. The public-institution harvester** | `scripts/sources/harvest-public-institutions.py --write` reads curated Turkish public-directory pages | the closed suffix: `*.bel.tr` / `*.gov.tr` → `government`, `*.edu.tr` → `education` |
-| **3. By hand** | a person writes a line into `seeds/categories.json`, and records who/when/why in [`seeds/hand-added.json`](../seeds/hand-added.json) | that person |
+| **3. By hand** | a person writes a line into `seeds/categories.json`, and records who/when/why in [`seeds/hand-added.json`](../../seeds/hand-added.json) | that person |
 
 Plus one correction layer: `scripts/catalog/overrides.py` writes
 `rules.json → drop.override`, the single-host decision that beats every rule and
@@ -42,7 +42,7 @@ suffix. Door 3 is the one that used to record nothing: a line in
 no reason. That is the gap a wrong label gets lost in.
 
 So a host a person adds by hand also gets a record in
-[`seeds/hand-added.json`](../seeds/hand-added.json):
+[`seeds/hand-added.json`](../../seeds/hand-added.json):
 
 ```json
 { "example.com": { "by": "github-handle", "at": "2026-10-18",
@@ -97,8 +97,8 @@ override  >  rules  >  harvested source
 
 `generate.py` applies overrides last; `merge.py` refuses to overwrite an
 overridden host; the audits treat an override as deliberate. See
-[`SOURCES.md`](SOURCES.md) for the harvest in full and
-[`../scripts/README.md`](../scripts/README.md) for the commands.
+[`SOURCES.md`](../reference/SOURCES.md) for the harvest in full and
+[`../scripts/README.md`](../../scripts/README.md) for the commands.
 
 ## How much of the catalog came from where
 
@@ -116,5 +116,5 @@ The three doors are not equally sized. Measured over the committed catalog
 That last pair is the interesting one: **2,154 of the 6,731 hosts come from
 neither a rule nor a source.** Most of them (1,233) are Turkish public bodies
 imported by the suffix harvester; the remaining 921 were entered by hand. They
-are the catalog's founding layer, and [`FOUNDING.md`](FOUNDING.md) accounts for
+are the catalog's founding layer, and [`FOUNDING.md`](../overview/FOUNDING.md) accounts for
 them.

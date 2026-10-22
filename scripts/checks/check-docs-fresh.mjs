@@ -106,23 +106,23 @@ function checkSourceIds() {
   notes.push(`checked ${ids.size} source record(s)`);
 }
 
-/** 4. docs/CATALOG.md is generated — it must not be stale. */
+/** 4. docs/reference/CATALOG.md is generated — it must not be stale. */
 function checkGeneratedDocs() {
-  const docPath = join(ROOT, "docs", "CATALOG.md");
+  const docPath = join(ROOT, "docs", "reference", "CATALOG.md");
   if (!existsSync(docPath)) {
-    problems.push("docs/CATALOG.md is missing — run scripts/catalog/build-catalog-docs.py");
+    problems.push("docs/reference/CATALOG.md is missing — run scripts/catalog/build-catalog-docs.py");
     return;
   }
   const catalog = json("catalog.json");
-  const text = read("docs/CATALOG.md");
+  const text = read("docs/reference/CATALOG.md");
 
   const total = Object.keys(catalog.categories || {}).length;
   const claimed = text.match(/\*\*([\d,]+) names\*\*/);
   if (!claimed) {
-    problems.push("docs/CATALOG.md: no host total found — is the file hand-edited?");
+    problems.push("docs/reference/CATALOG.md: no host total found — is the file hand-edited?");
   } else if (Number(claimed[1].replace(/,/g, "")) !== total) {
     problems.push(
-      `docs/CATALOG.md says ${claimed[1]} names, catalog.json has ${total} — regenerate it`
+      `docs/reference/CATALOG.md says ${claimed[1]} names, catalog.json has ${total} — regenerate it`
     );
   }
 
@@ -130,16 +130,16 @@ function checkGeneratedDocs() {
   const claimedServices = text.match(/\*\*([\d,]+) services?\*\*/);
   if (claimedServices && Number(claimedServices[1].replace(/,/g, "")) !== services) {
     problems.push(
-      `docs/CATALOG.md says ${claimedServices[1]} services, catalog.json has ${services}`
+      `docs/reference/CATALOG.md says ${claimedServices[1]} services, catalog.json has ${services}`
     );
   }
-  notes.push(`checked docs/CATALOG.md against ${total} names / ${services} services`);
+  notes.push(`checked docs/reference/CATALOG.md against ${total} names / ${services} services`);
 }
 
 /** 5. Host counts quoted per category must match the catalog. */
 function checkCategoryTable() {
   const catalog = json("catalog.json");
-  const text = read("docs/CATALOG.md");
+  const text = read("docs/reference/CATALOG.md");
   const counts = {};
   for (const [host, category] of Object.entries(catalog.categories || {})) {
     counts[category] = (counts[category] || 0) + 1;
@@ -153,22 +153,22 @@ function checkCategoryTable() {
     const actual = counts[category] ?? 0;
     if (Number(quoted.replace(/,/g, "")) !== actual) {
       problems.push(
-        `docs/CATALOG.md: \`${category}\` says ${quoted}, catalog has ${actual}`
+        `docs/reference/CATALOG.md: \`${category}\` says ${quoted}, catalog has ${actual}`
       );
     }
   }
   notes.push(`checked ${checked} per-category count(s)`);
 }
 
-/** 5b. docs/COVERAGE.md is generated — its headline numbers must match the data. */
+/** 5b. docs/reference/COVERAGE.md is generated — its headline numbers must match the data. */
 function checkCoverageDoc() {
-  const docPath = join(ROOT, "docs", "COVERAGE.md");
+  const docPath = join(ROOT, "docs", "reference", "COVERAGE.md");
   if (!existsSync(docPath)) {
-    problems.push("docs/COVERAGE.md is missing — run scripts/catalog/build-coverage.py");
+    problems.push("docs/reference/COVERAGE.md is missing — run scripts/catalog/build-coverage.py");
     return;
   }
   const catalog = json("catalog.json");
-  const text = read("docs/COVERAGE.md");
+  const text = read("docs/reference/COVERAGE.md");
   const counts = {};
   for (const category of Object.values(catalog.categories || {})) {
     counts[category] = (counts[category] || 0) + 1;
@@ -177,10 +177,10 @@ function checkCoverageDoc() {
 
   const claimed = text.match(/\*\*([\d,]+) names\*\*/);
   if (!claimed) {
-    problems.push("docs/COVERAGE.md: no host total found — is the file hand-edited?");
+    problems.push("docs/reference/COVERAGE.md: no host total found — is the file hand-edited?");
   } else if (Number(claimed[1].replace(/,/g, "")) !== total) {
     problems.push(
-      `docs/COVERAGE.md says ${claimed[1]} names, catalog.json has ${total} — regenerate it`
+      `docs/reference/COVERAGE.md says ${claimed[1]} names, catalog.json has ${total} — regenerate it`
     );
   }
 
@@ -188,16 +188,16 @@ function checkCoverageDoc() {
   // would understate the majority class the whole analysis is balanced against.
   const row = text.match(/^\| `finance` \| ([\d,]+) \| ([\d.]+)% \|/m);
   if (!row) {
-    problems.push("docs/COVERAGE.md: no finance row in the skew table");
+    problems.push("docs/reference/COVERAGE.md: no finance row in the skew table");
   } else {
     const quoted = Number(row[1].replace(/,/g, ""));
     if (quoted !== (counts.finance ?? 0)) {
       problems.push(
-        `docs/COVERAGE.md: finance says ${row[1]}, catalog has ${counts.finance ?? 0}`
+        `docs/reference/COVERAGE.md: finance says ${row[1]}, catalog has ${counts.finance ?? 0}`
       );
     }
   }
-  notes.push(`checked docs/COVERAGE.md against ${total} names / finance ${counts.finance ?? 0}`);
+  notes.push(`checked docs/reference/COVERAGE.md against ${total} names / finance ${counts.finance ?? 0}`);
 }
 
 /** 6. A source may not claim to be allowed when its licence blocks it. */
@@ -320,7 +320,7 @@ function checkAnalysisFigures() {
   }
 
   // "accuracy 84% over 1,844 hosts across 19 categories"
-  const catalogDoc = "docs/CATALOG.md";  const summary = read(catalogDoc).match(
+  const catalogDoc = "docs/reference/CATALOG.md";  const summary = read(catalogDoc).match(
     /\*\*accuracy (\d+)%\*\*\s*over ([\d,]+) hosts across ([\d,]+) categories/
   );
   if (summary) {
@@ -1261,7 +1261,7 @@ function checkTurkishMirror() {
  * `evidence/seeds-only.json` is generated by `scripts/catalog/seeds-provenance.py`
  * from `catalog.json`, `rules.json` and the committed source caches. Re-run the
  * script's `--check` so the file cannot drift, then confirm the figures
- * `docs/INGEST.md` and `docs/FOUNDING.md` quote are the ones the file holds.
+ * `docs/guides/INGEST.md` and `docs/overview/FOUNDING.md` quote are the ones the file holds.
  */
 function checkSeedsProvenance() {
   const script = "scripts/catalog/seeds-provenance.py";
@@ -1275,14 +1275,14 @@ function checkSeedsProvenance() {
   const data = json("evidence/seeds-only.json");
   const n = (v) => v.toLocaleString("en-US");
   const figures = {
-    "docs/INGEST.md": [
+    "docs/guides/INGEST.md": [
       n(data.attributed_to_rule),
       n(data.attributed_to_source),
       n(data.unattributed.public_institution.count),
       n(data.unattributed.hand_entered.count),
       n(data.unattributed.total),
     ],
-    "docs/FOUNDING.md": [
+    "docs/overview/FOUNDING.md": [
       n(data.catalog_hosts),
       n(data.attributed_to_rule),
       n(data.attributed_to_source),
@@ -1302,8 +1302,8 @@ function checkSeedsProvenance() {
   // The founding commit is a hash, so it is not covered by the figures above.
   // A history rewrite changes that hash; FOUNDING.md must follow it or the page
   // would point at a commit that no longer exists.
-  if (data.founding && data.founding.commit && !read("docs/FOUNDING.md").includes(data.founding.commit)) {
-    problems.push(`docs/FOUNDING.md: does not quote the founding commit ${data.founding.commit}`);
+  if (data.founding && data.founding.commit && !read("docs/overview/FOUNDING.md").includes(data.founding.commit)) {
+    problems.push(`docs/overview/FOUNDING.md: does not quote the founding commit ${data.founding.commit}`);
   }
   notes.push(
     `checked seeds provenance (${n(data.unattributed.total)} unattributed of ${n(data.catalog_hosts)})`
@@ -1343,14 +1343,14 @@ function checkPendingBacklog() {
   }
   const data = json("evidence/pending-source-hosts.json");
   const n = (v) => v.toLocaleString("en-US");
-  const text = read("docs/NEEDS-REVIEW.md");
+  const text = read("docs/guides/NEEDS-REVIEW.md");
   for (const [what, value] of [
     ["distinct hosts", n(data.unique_hosts)],
     ["source mentions", n(data.mentions)],
   ]) {
     if (!text.includes(value)) {
       problems.push(
-        `docs/NEEDS-REVIEW.md: does not quote the backlog's ${what} figure ${value}`
+        `docs/guides/NEEDS-REVIEW.md: does not quote the backlog's ${what} figure ${value}`
       );
     }
   }

@@ -7,7 +7,7 @@ points here.
 
 ## Generating
 
-`seeds/` is the source of truth (see [`scripts/`](../scripts/README.md));
+`seeds/` is the source of truth (see [`scripts/`](../../scripts/README.md));
 `catalog.json` is the build output. Regenerate and validate:
 
 ```sh
@@ -22,7 +22,7 @@ Do not edit `catalog.json` by hand — edit `seeds/` instead.
 
 To check the committed output is current without writing anything, use `--check`:
 `generate.py --check` rebuilds from the seeds and compares with `catalog.json`,
-and `build-catalog-docs.py --check` does the same for `docs/CATALOG.md` and the
+and `build-catalog-docs.py --check` does the same for `docs/reference/CATALOG.md` and the
 marked README blocks. Neither needs git; `./test/test.sh` runs both. `--check`
 ignores the `generated` field on purpose: it is the date of the build, so it always
 differs from a committed copy, while everything else must match exactly.
@@ -35,17 +35,17 @@ Run everything — registry, schema, build, validator, docs, licence gate — wi
 
 Rules for a generator:
 
-- **Output must use our vocabulary** (see [`FORMAT.md`](FORMAT.md)). An unknown
+- **Output must use our vocabulary** (see [`FORMAT.md`](../reference/FORMAT.md)). An unknown
   category is not reported by the app — it is silently ignored, so `validate.py`
   fails the build instead.
 - **`key` must stay stable.** The app may cache by it; changing a key re-labels data.
 - **Deterministic output** (sorted keys) so diffs stay reviewable.
 - **Only permitted sources**, enforced in code rather than by convention: every
-  source lives in [`sources.json`](../config/sources.json) with its licence, and
-  [`scripts/sources/sources.py`](../scripts/sources/sources.py) refuses a non-commercial or
+  source lives in [`sources.json`](../../config/sources.json) with its licence, and
+  [`scripts/sources/sources.py`](../../scripts/sources/sources.py) refuses a non-commercial or
   share-alike licence *before* fetching it. See
-  [`SOURCES.md`](SOURCES.md) for the reasoning, and
-  [`SECURITY.md`](../SECURITY.md) for why it is a gate rather than a note.
+  [`SOURCES.md`](../reference/SOURCES.md) for the reasoning, and
+  [`SECURITY.md`](../../SECURITY.md) for why it is a gate rather than a note.
 
 ### Harvesting from an external source
 
@@ -73,13 +73,13 @@ evidence under `evidence/`; use it for spot-checking weak or new source rows.
 Source-specific review policies live in `scripts/sources/source-policies.py`; add
 new broad-source policies there, then move confirmed mistakes to `rules.json` →
 `drop.hosts`. The source-and-category picture is written to
-[`COVERAGE.md`](COVERAGE.md) by `scripts/catalog/build-coverage.py`.
+[`COVERAGE.md`](../reference/COVERAGE.md) by `scripts/catalog/build-coverage.py`.
 
 ### Adding a host by hand
 
 For a few hosts, editing `seeds/categories.json` directly is the normal path.
 Because that door records no author, date or reason on its own, a host you add
-by hand also gets a line in [`seeds/hand-added.json`](../seeds/hand-added.json):
+by hand also gets a line in [`seeds/hand-added.json`](../../seeds/hand-added.json):
 
 ```json
 { "example.com": { "by": "your-handle", "at": "2026-10-18", "reason": "why it belongs" } }
@@ -87,7 +87,7 @@ by hand also gets a line in [`seeds/hand-added.json`](../seeds/hand-added.json):
 
 `by`, `at` and `reason` are all required, and the host must already be in
 `seeds/categories.json` — this file records *who added it*, not a second list of
-hosts. [`scripts/catalog/check-hand-added.py`](../scripts/catalog/check-hand-added.py)
+hosts. [`scripts/catalog/check-hand-added.py`](../../scripts/catalog/check-hand-added.py)
 enforces it, and both the test suite and the freshness check run it. See
 [`INGEST.md`](INGEST.md) for the three doors a host can enter through.
 
@@ -149,7 +149,7 @@ Two verdicts are never proposed for removal, by design:
 
 The script is deliberately absent from `test/test.sh`: it needs the network, and
 CI must never depend on a network to tell a real bank it is dead. See
-[`SOURCES.md`](SOURCES.md) for the full workflow, and [`SCHEDULE.md`](SCHEDULE.md)
+[`SOURCES.md`](../reference/SOURCES.md) for the full workflow, and [`SCHEDULE.md`](SCHEDULE.md)
 for how often to run it.
 
 The same probe runs without typing the commands by hand via a **manual GitHub
@@ -190,7 +190,7 @@ network; `3dsecure.akbank.com.tr`, a bank's 3-D Secure endpoint) is kept on an
 real endpoint that serves no human-facing page is not a dead site. The script
 needs the network and a
 `lightpanda` binary, so it stays out of `test/test.sh`, like the DNS sweep.
-Method and tools: [`scripts/analysis/`](../scripts/analysis/README.md).
+Method and tools: [`scripts/analysis/`](../../scripts/analysis/README.md).
 
 ### Verifying a host is still the same owner
 
@@ -217,8 +217,8 @@ python3 scripts/catalog/verify-registrations.py --summary
 The same discipline applies: a canary before the run, two rounds that must agree,
 and a host is only proposed on a strong signal (`gone`, `expired`). Unknown and
 unsupported TLDs are reported, never deleted. Reference data:
-[`reference/rdap/`](../reference/rdap/README.md). Method and tools:
-[`scripts/catalog/`](../scripts/catalog/README.md).
+[`reference/rdap/`](../../reference/rdap/README.md). Method and tools:
+[`scripts/catalog/`](../../scripts/catalog/README.md).
 
 ## Contributing
 
@@ -232,11 +232,11 @@ unsupported TLDs are reported, never deleted. Reference data:
 - **Do not commit NonCommercial or share-alike data.** `NC` forbids use in a
   commercial app and `SA` would stop the derivative being CC0 — the two terms in
   `CC BY-NC-SA 4.0`. This is no longer a convention:
-  [`sources.json`](../config/sources.json) records the licence of every source and
-  [`scripts/sources/sources.py`](../scripts/sources/sources.py) refuses the blocked ones before
+  [`sources.json`](../../config/sources.json) records the licence of every source and
+  [`scripts/sources/sources.py`](../../scripts/sources/sources.py) refuses the blocked ones before
   fetching, and `./test/test.sh` fails if a record claims otherwise.
 
-Full guide: [`CONTRIBUTING.md`](../CONTRIBUTING.md).
+Full guide: [`CONTRIBUTING.md`](../../CONTRIBUTING.md).
 
 ## Versioning
 
@@ -261,7 +261,7 @@ git tag v0.0.1
 git push origin main v0.0.1
 ```
 
-Pushing the tag runs [`.github/workflows/release.yml`](../.github/workflows/release.yml):
+Pushing the tag runs [`.github/workflows/release.yml`](../../.github/workflows/release.yml):
 the checks, the tagged bytes restored over the rebuild's re-stamped `generated`
 date, then a GitHub Release carrying `catalog.json`, `manifest.json` and
 `catalog.json.sha256`. The file ships plain — no gzip.
@@ -269,8 +269,8 @@ date, then a GitHub Release carrying `catalog.json`, `manifest.json` and
 Regenerating `catalog.json` without `scripts/release/build-manifest.py` fails
 `./test/test.sh` at **step 3c**: a manifest that no longer quotes the bytes it
 sits next to is the one thing an integrating application is told to trust. The
-contract those consumers read is [`INTEGRATION.md`](INTEGRATION.md).
+contract those consumers read is [`INTEGRATION.md`](../reference/INTEGRATION.md).
 
-> **Note:** The release workflow ([`.github/workflows/release.yml`](../.github/workflows/release.yml))
+> **Note:** The release workflow ([`.github/workflows/release.yml`](../../.github/workflows/release.yml))
 > uses `format_version` (snake_case) in the generated notes, matching the
 > `manifest.json` schema.

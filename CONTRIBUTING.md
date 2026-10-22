@@ -34,7 +34,7 @@ decision nobody can explain is indistinguishable from a mistake.
 
 `generate.py --check` asks the same question without git — it rebuilds from the
 seeds and compares the result with the committed `catalog.json`, writing nothing
-— and `build-catalog-docs.py --check` does it for `docs/CATALOG.md` and the
+— and `build-catalog-docs.py --check` does it for `docs/reference/CATALOG.md` and the
 README blocks. `test/test.sh` runs both, at steps 3b and 7b.
 
 The documentation is bilingual: `README.md` is the source of truth and
@@ -147,14 +147,14 @@ python3 scripts/sources/merge.py evidence/harvested-categories.json
 
 The pipeline is fetch → parse → drop what the catalog already covers → apply
 `rules.json` → report what is left. Read
-[`docs/SOURCES.md`](docs/SOURCES.md) before adding a source. The three doors a
+[`docs/reference/SOURCES.md`](docs/reference/SOURCES.md) before adding a source. The three doors a
 host can enter through — and what sets its category — are in
-[`docs/INGEST.md`](docs/INGEST.md).
+[`docs/guides/INGEST.md`](docs/guides/INGEST.md).
 
 What `harvest.py` will not do, on purpose:
 
 - **Invent a category.** No rule, no label. The host goes to
-  [`docs/NEEDS-REVIEW.md`](docs/NEEDS-REVIEW.md) instead.
+  [`docs/guides/NEEDS-REVIEW.md`](docs/guides/NEEDS-REVIEW.md) instead.
 - **Write `other` by default.** `other` means a person looked and did not know.
 - **Overwrite an existing label.** A conflict is printed and the seed wins.
 - **Drop a line it does not understand.** A parser that skips silently is how
@@ -176,7 +176,7 @@ What `harvest.py` will not do, on purpose:
 
 ## Adding a source
 
-See [`docs/SOURCES.md`](docs/SOURCES.md). In short: append to `sources.json`
+See [`docs/reference/SOURCES.md`](docs/reference/SOURCES.md). In short: append to `sources.json`
 with a licence and an `allowed` verdict, then run `python3 scripts/sources/sources.py
 --check`.
 

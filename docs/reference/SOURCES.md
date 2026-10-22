@@ -1,7 +1,7 @@
 # Sources
 
 Every external list this repository has ever drawn on, and the verdict on each.
-The machine-readable version is [`../config/sources.json`](../config/sources.json); this file
+The machine-readable version is [`../config/sources.json`](../../config/sources.json); this file
 is where the reasoning lives, so a refusal is never a mystery.
 
 ## The rule this repository runs on
@@ -11,7 +11,7 @@ is where the reasoning lives, so a refusal is never a mystery.
 An external list can tell you that `plex.tv` exists. It cannot tell you that
 Plex is a media server, and a list that claimed to would be wrong often enough
 to be useless. So a host's category is always either **a rule in
-[`rules.json`](../config/rules.json)** or **a person who wrote down why**. Harvesting
+[`rules.json`](../../config/rules.json)** or **a person who wrote down why**. Harvesting
 only ever *proposes hosts*; `merge.py` refuses to overwrite a label somebody
 already decided, and refuses any category outside the vocabulary.
 
@@ -71,7 +71,7 @@ A registry record may set **`harvest: false`** when a different script imports i
 `harvest.py` skips such records; the record still carries the licence verdict, so
 the gate stays the one place a source's terms are decided. The only such record
 today is `turkish-public-directories`, read by
-[`../scripts/sources/harvest-public-institutions.py`](../scripts/sources/harvest-public-institutions.py).
+[`../scripts/sources/harvest-public-institutions.py`](../../scripts/sources/harvest-public-institutions.py).
 
 For a new broad source, use this workflow instead of hand-checking every row:
 
@@ -114,7 +114,7 @@ is what `harvest.py` uses them for.
 source of names, not labels: `bing.com` is `search`, `xbox.com` is `gaming`,
 `linkedin.com` is `social`, `clarity.ms` is `analytics`, `msads.net` is `ads`,
 and broad platform names stay `software`. Anything not covered by an explicit
-rule remains in `docs/NEEDS-REVIEW.md`.
+rule remains in `docs/guides/NEEDS-REVIEW.md`.
 
 ## Removing a host that no longer exists
 
@@ -168,7 +168,7 @@ CI must never depend on a network to tell a real bank it is dead. It can be run
 manually via a GitHub Actions workflow (create `.github/workflows/sweep.yml` from
 the template in `scripts/catalog/README.md`): start it from the Actions tab (or
 `gh workflow run sweeps`) and it probes both rounds, then files or updates one
-tracking issue with the proposal. See [`SCHEDULE.md`](SCHEDULE.md) for the cadence.
+tracking issue with the proposal. See [`SCHEDULE.md`](../guides/SCHEDULE.md) for the cadence.
 
 ## Blocked
 
@@ -187,7 +187,7 @@ of sources:
 
 So the next DuckDuckGo Tracker Radar — or any other `NC` list — is refused by
 name appearing nowhere in this repository.
-[`../scripts/sources/sources.py`](../scripts/sources/sources.py) is where that table lives, and
+[`../scripts/sources/sources.py`](../../scripts/sources/sources.py) is where that table lives, and
 `harvest.py` applies it before a byte is fetched.
 
 If you hold an agreement that permits a use the free tier does not, record it
@@ -209,10 +209,10 @@ in `sources.json` with a `reason` that says so. Do not edit the gate.
 
 Some sources are not broad blocklists; they are curated public directories whose
 hosts are already scoped by closed Turkish public suffixes. Use
-[`../scripts/sources/harvest-public-institutions.py`](../scripts/sources/harvest-public-institutions.py)
+[`../scripts/sources/harvest-public-institutions.py`](../../scripts/sources/harvest-public-institutions.py)
 for those pages. This is the second of the three doors a host can enter through
 (the first is a `harvest.py` source; the third is a person's hand) — see
-[`INGEST.md`](INGEST.md). The pages are recorded in the registry as
+[`INGEST.md`](../guides/INGEST.md). The pages are recorded in the registry as
 `turkish-public-directories` with `harvest: false`, so their licence verdict
 lives with every other source's rather than only in this prose.
 
@@ -256,6 +256,6 @@ code is not caught by a test — it is caught by the next source that tries it.
 - **Overwrite a label.** A disagreement is printed and the seed is kept.
 - **Add `other` by default.** `other` means "a person looked and did not know",
   so only a rule may produce it. Hosts with no rule go to
-  [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md) instead.
+  [`NEEDS-REVIEW.md`](../guides/NEEDS-REVIEW.md) instead.
 - **Silently lose hosts.** A line the parser does not understand is reported,
   not dropped.

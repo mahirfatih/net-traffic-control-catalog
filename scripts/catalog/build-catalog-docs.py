@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Generate `docs/CATALOG.md` from `catalog.json`.
+"""Generate `docs/reference/CATALOG.md` from `catalog.json`.
 
     python3 scripts/catalog/build-catalog-docs.py
 
-Add `--check` to verify the committed `docs/CATALOG.md` and README blocks are
+Add `--check` to verify the committed `docs/reference/CATALOG.md` and README blocks are
 current without writing anything.
 
 The catalog ships as a binary-ish JSON blob, so a prose summary of it would be
@@ -26,7 +26,7 @@ The category colours in those blocks are not written here: they come from
 so a colour is edited in one place. A catalog category with no colour there is an
 error, not a silent grey.
 
-`docs/NEEDS-REVIEW.md` is written by hand, not by this script — it explains
+`docs/guides/NEEDS-REVIEW.md` is written by hand, not by this script — it explains
 why a host is unresolved, which needs a person.
 """
 import argparse
@@ -38,7 +38,7 @@ from collections import Counter
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CATALOG = os.path.join(ROOT, "catalog.json")
 RULES = os.path.join(ROOT, "config/rules.json")
-OUT = os.path.join(ROOT, "docs", "CATALOG.md")
+OUT = os.path.join(ROOT, "docs", "reference", "CATALOG.md")
 README = os.path.join(ROOT, "README.md")
 README_TR = os.path.join(ROOT, "README.tr.md")
 # README.md is the source of truth; README.tr.md is its translation. Both carry
@@ -328,7 +328,7 @@ ORDER = [
 def check_artifacts(rendered, counts, catalog, rules, colors, folded_tail):
     """Report whether the committed artifacts match what this run would write.
 
-    Nothing is written. `docs/CATALOG.md` is compared byte for byte; each README
+    Nothing is written. `docs/reference/CATALOG.md` is compared byte for byte; each README
     is compared as the text it would become, so a hand-written README with no
     marked blocks is left alone, exactly as the writer leaves it.
     """
@@ -339,7 +339,7 @@ def check_artifacts(rendered, counts, catalog, rules, colors, folded_tail):
     except OSError:
         committed = None
     if committed != rendered:
-        problems.append("docs/CATALOG.md is stale — rerun build-catalog-docs.py")
+        problems.append("docs/reference/CATALOG.md is stale — rerun build-catalog-docs.py")
 
     for path in READMES:
         try:
@@ -357,7 +357,7 @@ def check_artifacts(rendered, counts, catalog, rules, colors, folded_tail):
         for problem in problems:
             print(f"✗ {problem}", file=sys.stderr)
         return 1
-    print("✓ docs/CATALOG.md and the README blocks are current")
+    print("✓ docs/reference/CATALOG.md and the README blocks are current")
     return 0
 
 
@@ -469,7 +469,7 @@ def main(argv):
     add("External sources propose hosts; **no source assigns a category**. A category")
     add("is either a rule in `rules.json` or a person with a reason.")
     add("")
-    add("Hosts still missing a label are in [`NEEDS-REVIEW.md`](NEEDS-REVIEW.md).")
+    add("Hosts still missing a label are in [`NEEDS-REVIEW.md`](../guides/NEEDS-REVIEW.md).")
 
     if os.path.exists(ANALYSIS):
         with open(ANALYSIS, encoding="utf-8") as handle:
@@ -509,7 +509,7 @@ def main(argv):
                 add("The failures are uneven — some categories are measured on a small")
                 add("fraction of their hosts. A per-class score describes the hosts that")
                 add("produced text, not the category. Per-category coverage is in")
-                add("[`analysis/README.md`](analysis/README.md).")
+                add("[`analysis/README.md`](../analysis/README.md).")
                 add("")
             if dropped:
                 names = ", ".join(f"`{c}` {n}" for c, n in sorted(dropped.items(), key=lambda kv: -kv[1]))
@@ -530,9 +530,9 @@ def main(argv):
                 add("and confidence score, and the correlated-terms report shows both")
                 add("chi-squared terms and the fitted LinearSVC weights.")
                 add("")
-            add("![Confusion matrix](analysis/out/confusion-matrix.png)")
+            add("![Confusion matrix](../analysis/out/confusion-matrix.png)")
             add("")
-            add("Methodology, per-class metrics and the error list: [`analysis/`](analysis/README.md).")
+            add("Methodology, per-class metrics and the error list: [`analysis/`](../analysis/README.md).")
 
     rendered = "\n".join(lines) + "\n"
 
@@ -547,7 +547,7 @@ def main(argv):
 
     with open(OUT, "w", encoding="utf-8") as handle:
         handle.write(rendered)
-    print(f"✓ wrote docs/CATALOG.md: {total} names, {len(used)} categories, {len(services)} services")
+    print(f"✓ wrote docs/reference/CATALOG.md: {total} names, {len(used)} categories, {len(services)} services")
 
     for path in READMES:
         this_changed, this_skipped = update_readme_blocks(path, counts, doc, rules, colors, folded_tail)

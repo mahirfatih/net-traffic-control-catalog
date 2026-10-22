@@ -7,7 +7,7 @@
   (since prefix matching already covers them).
 - Reports deliberate category overrides (subdomain with a different category than ancestor).
 - Prints category distribution statistics.
-- **Fails** on the two rules docs/FORMAT.md states and nothing else enforced:
+- **Fails** on the two rules docs/reference/FORMAT.md states and nothing else enforced:
   a bare multi-tenant suffix listed without a reasoned exception
   (``seeds/public-suffix-exceptions.json``), and a domain claimed by two
   services. Both swallow or mislabel every tenant/claimant beneath them, which
@@ -181,7 +181,7 @@ def main():
         print("  None found.")
 
     if problems:
-        print(f"\n✗ {problems} problem(s) — see docs/FORMAT.md, 'Matching'.")
+        print(f"\n✗ {problems} problem(s) — see docs/reference/FORMAT.md, 'Matching'.")
         return 1
 
     print(f"\n✓ Overlap and distribution check completed successfully.")

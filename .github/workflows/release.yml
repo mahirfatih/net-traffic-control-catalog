@@ -79,7 +79,7 @@ jobs:
           ```
 
           Verify with `sha256sum -c catalog.json.sha256`. How to consume it is in
-          `docs/INTEGRATION.md`; what changed is in `CHANGELOG.md`.
+          `docs/reference/INTEGRATION.md`; what changed is in `CHANGELOG.md`.
           """)
           PY
       # A rehearsal stops here and shows what would have shipped, so the notes

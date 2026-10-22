@@ -65,7 +65,7 @@ choice, not a default, and each entry needs a reason. If a host in
 `categories.json` or a `services.json` domain is a multi-tenant suffix, it must
 be named here with a reason — `scripts/catalog/check-overlaps.py` fails
 otherwise. The rule and the current set are in
-[`../docs/FORMAT.md`](../docs/FORMAT.md), "Matching".
+[`../docs/reference/FORMAT.md`](../docs/reference/FORMAT.md), "Matching".
 
 ## Editing by hand
 
@@ -78,4 +78,4 @@ For a bulk change, do not paste a list in — see
 
 Editing by hand is one of three doors a host can enter through. The other two —
 a source list and the public-institution harvester — and what sets the category
-in each case are in [`../docs/INGEST.md`](../docs/INGEST.md).
+in each case are in [`../docs/guides/INGEST.md`](../docs/guides/INGEST.md).
