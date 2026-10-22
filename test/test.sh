@@ -248,6 +248,13 @@ python3 scripts/catalog/build-coverage.py --check
 step "8. Documentation describes the files that exist"
 node scripts/checks/check-docs-fresh.mjs
 
+step "8b. The architecture diagram matches its outline"
+# The diagram is generated from docs/architecture/source.json by the checks
+# folder's one writer. Rebuilding and comparing catches a hand-edited HTML, a
+# changed outline that was never regenerated, and a template change that the
+# committed artifact predates.
+node scripts/checks/build-architecture-diagram.mjs --check
+
 step "9. The licence gate refuses, whatever the registry happens to list"
 python3 - <<'PY'
 import sys

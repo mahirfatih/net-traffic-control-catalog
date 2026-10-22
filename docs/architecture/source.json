@@ -1,0 +1,275 @@
+{
+  "system": "Net Traffic Control — Catalog",
+  "tagline": "every host, labelled and kept on purpose",
+  "subtitle": "How a host enters the catalog, how its category is decided, how the shipped file is built from the seeds, and how a release is verified. Every node below is a real script or file in the repository.",
+  "audience": "Engineers onboarding onto the catalog build and release path",
+  "language": "en",
+  "modes": ["offline", "online"],
+  "mode_hints": { "offline": "seeds only", "online": "network · browser" },
+  "projectLabel": "data pipeline · didactic walkthrough",
+  "legend": [
+    { "role": "user", "label": "Actor" },
+    { "role": "orch", "label": "Coordinator" },
+    { "role": "compute", "label": "Compute" },
+    { "role": "vector", "label": "Storage" },
+    { "role": "embed", "label": "Gate" },
+    { "role": "seed", "label": "Deliverable" }
+  ],
+  "nodes": [
+    {
+      "id": "cli",
+      "role": "user",
+      "position": "left: 2%; top: 44%",
+      "label": { "default": "Maintainer · CI" },
+      "tech": { "default": "scripts/ · make" },
+      "port": { "default": "run" }
+    },
+    {
+      "id": "harvest",
+      "role": "compute",
+      "position": "left: 22%; top: 12%",
+      "label": { "default": "sources/harvest.py" },
+      "tech": { "default": "fetch · parse · filter" },
+      "port": { "offline": "not run", "online": "https" }
+    },
+    {
+      "id": "registry",
+      "role": "orch",
+      "position": "left: 22%; top: 44%",
+      "label": { "default": "config/ · rules.json" },
+      "tech": { "default": "licence gate · overrides" },
+      "port": { "default": "allow / refuse" }
+    },
+    {
+      "id": "sweeps",
+      "role": "compute",
+      "position": "left: 42%; top: 12%",
+      "label": { "default": "The three sweeps" },
+      "tech": { "default": "probe-dead · verify-registrations · sweep-live" },
+      "port": { "default": "two rounds" }
+    },
+    {
+      "id": "seeds",
+      "role": "vector",
+      "position": "left: 42%; top: 44%",
+      "label": { "default": "seeds/" },
+      "tech": { "default": "categories · services · hand-added" },
+      "port": { "default": "source of truth" }
+    },
+    {
+      "id": "review",
+      "role": "seed",
+      "position": "left: 42%; top: 80%",
+      "label": { "default": "guides/NEEDS-REVIEW.md" },
+      "tech": { "default": "no label yet" },
+      "port": { "default": "open" }
+    },
+    {
+      "id": "analysis",
+      "role": "compute",
+      "position": "left: 62%; top: 12%",
+      "label": { "default": "analysis/build-matrix.py" },
+      "tech": { "default": "TF-IDF · LinearSVC" },
+      "port": { "offline": "cached", "online": "fetch pages" }
+    },
+    {
+      "id": "generate",
+      "role": "orch",
+      "position": "left: 62%; top: 44%",
+      "label": { "default": "catalog/generate.py" },
+      "tech": { "default": "normalize · validate" },
+      "port": { "default": "deterministic" }
+    },
+    {
+      "id": "checks",
+      "role": "embed",
+      "position": "left: 62%; top: 80%",
+      "label": { "default": "test/test.sh" },
+      "tech": { "default": "every gate · --check" },
+      "port": { "default": "block / allow" }
+    },
+    {
+      "id": "catalog",
+      "role": "vector",
+      "position": "left: 82%; top: 30%",
+      "label": { "default": "catalog.json" },
+      "tech": { "default": "sorted · UTF-8" },
+      "port": { "default": "232 KB" }
+    },
+    {
+      "id": "release",
+      "role": "seed",
+      "position": "left: 82%; top: 72%",
+      "label": { "default": "GitHub Release" },
+      "tech": { "default": "manifest.json · sha256" },
+      "port": { "default": "vX.Y.Z" }
+    }
+  ],
+  "flows": [
+    {
+      "key": "ingest",
+      "name": "Ingest — how a host gets a label",
+      "short": "Ingest",
+      "note": "A source carries names, never categories; a rule or a person decides the label.",
+      "steps": [
+        {
+          "from": "cli", "to": "harvest", "route": "GET a source",
+          "title": "Pull a trusted list",
+          "desc": "The harvester fetches a list already cleared in the registry. It sends no key, no cookie and no account — the publisher cannot tell who asked.",
+          "payload": "GET https://…/hosts\nIf-None-Match: \"<etag>\"\n\n# no Authorization, no cookie, no query string",
+          "chips": ["anonymous", "ETag"]
+        },
+        {
+          "from": "harvest", "to": "registry", "route": "host names",
+          "title": "The licence gate",
+          "desc": "<code>sources.py</code> refuses a non-commercial or blocked licence before a single name is stored. The refusal is keyed on the licence, not on a list of names, so the next NC source is refused without anyone adding it.",
+          "payload": "sources.py: licence == MIT   → allow\n             licence == NC    → refuse\n\n# the gate is a table, not a changelog",
+          "chips": ["licence keyed", "fails closed"]
+        },
+        {
+          "from": "cli", "to": "registry", "route": "a rule or a reason",
+          "title": "A person labels it",
+          "desc": "A category is a decision, never a guess. It is either a rule in <code>rules.json</code> or a person who wrote down a reason. The host's page is never asked to invent one.",
+          "payload": "rules.json:\n  drop.hosts[\"banco.com\"] = \"closed\"\n\n# or a hand-added line with by / at / reason",
+          "chips": ["rule or reason", "never guessed"]
+        },
+        {
+          "from": "registry", "to": "seeds", "route": "categories",
+          "title": "The seeds are the source of truth",
+          "desc": "<code>catalog.json</code> is a build output. Every change lands in <code>seeds/</code> first, and the shipped file is rebuilt from it — so a reviewer reads a seed diff, not a data diff.",
+          "payload": "seeds/categories.json\n  \"halkbank.com.tr\": \"finance\"\nseeds/services.json\n  { key, name, domains }",
+          "chips": ["seeds first", "reviewable"]
+        }
+      ]
+    },
+    {
+      "key": "verify",
+      "name": "Verify — is the host still real?",
+      "short": "Verify",
+      "note": "Three independent checks, two rounds, and an intersection — one signal never removes a host.",
+      "steps": [
+        {
+          "from": "seeds", "to": "sweeps", "route": "every host",
+          "title": "Three independent checks",
+          "desc": "DNS asks nine questions; the live sweep reads the page; the registration sweep asks a registrar. They are independent on purpose, so no single failure can remove a good host.",
+          "payload": "probe-dead.py          # nine DNS questions\nsweep-live.py          # parked / empty / real\nverify-registrations.py # who owns it now",
+          "chips": ["independent", "nine questions"]
+        },
+        {
+          "from": "sweeps", "to": "sweeps", "route": "two rounds",
+          "title": "Agreement, not a single signal",
+          "desc": "Two rounds must agree before anything is proposed. Unsure keeps the host — an empty 200 or a flaky TCP failure is common on live infrastructure.",
+          "payload": "round 1 == round 2  → propose removal\nround 1 != round 2  → keep (unsure)\n\n# a single signal never removes",
+          "chips": ["intersection", "defaults to keep"]
+        },
+        {
+          "from": "sweeps", "to": "registry", "route": "drop.hosts",
+          "title": "A removal is written down",
+          "desc": "Nothing leaves because a sweep said so. The removal becomes an entry in <code>rules.json → drop.hosts</code> with a reason and a date — a decision a person can audit.",
+          "payload": "rules.json → drop.hosts\n  host:   \"old-bank.com.tr\"\n  reason: \"gone, two rounds agree\"\n  date:   \"2026-10-15\"",
+          "chips": ["logged", "auditable"]
+        },
+        {
+          "from": "registry", "to": "seeds", "route": "removed",
+          "title": "Nothing returns quietly",
+          "desc": "The dropped host is absent from the seeds, and a check proves it — so a later harvest that lists it again cannot silently restore it.",
+          "payload": "# test/test.sh\nchecked N dropped host(s)\n  are absent from the seeds",
+          "chips": ["stays gone", "proved"]
+        },
+        {
+          "from": "sweeps", "to": "review", "route": "no label",
+          "title": "Unlabelled stays unlabelled",
+          "desc": "A host a source listed that no rule matches is an open question, not a row. Writing it as <code>other</code> would turn the question into a claim, and on screen <code>other</code> looks like an answer.",
+          "payload": "# guides/NEEDS-REVIEW.md\nhost, what was tried, what happened\n\n# in neither seeds nor catalog.json",
+          "chips": ["open question", "not shipped"]
+        }
+      ]
+    },
+    {
+      "key": "build",
+      "name": "Build — from seeds to shipped file",
+      "short": "Build",
+      "note": "catalog.json is a pure function of the seeds: regenerate, and the diff is empty unless something really changed.",
+      "steps": [
+        {
+          "from": "seeds", "to": "generate", "route": "seeds + rules",
+          "title": "Rebuild from the seeds",
+          "desc": "The generator reads the seeds and the rules and writes <code>catalog.json</code>. It validates before it writes, so a bad seed writes nothing — there is never a half-written catalog.",
+          "payload": "python3 scripts/catalog/generate.py \\\n  --categories seeds/categories.json \\\n  --services   seeds/services.json \\\n  --out        catalog.json",
+          "chips": ["validates first", "writes nothing bad"]
+        },
+        {
+          "from": "generate", "to": "generate", "route": "normalize",
+          "title": "Deterministic by construction",
+          "desc": "Hosts are sorted, services are sorted by key and the indent is fixed, so the same seeds build the same bytes. A rebuild diff is a real change, never a reshuffle.",
+          "payload": "normalize(doc)\n  categories: {host: category}  # sorted\n  services:   sorted by key\n  indent:     2",
+          "chips": ["sorted", "byte-stable"]
+        },
+        {
+          "from": "generate", "to": "catalog", "route": "write",
+          "title": "catalog.json",
+          "desc": "One JSON file, about 232 KB, carrying the category of every kept host and the service table. This is the artifact a consumer reads.",
+          "payload": "catalog.json\n  version:    1\n  generated:  date\n  categories: 6731\n  services:   22",
+          "chips": ["one file", "plain UTF-8"]
+        },
+        {
+          "from": "catalog", "to": "analysis", "route": "page text",
+          "title": "Measure the labels",
+          "desc": "The reliability audit reads each host's own page and recovers the label with a text model. It measures the labels; it never writes them. A low score is a label worth a look, not a wrong one.",
+          "payload": "build-matrix.py\n  TF-IDF + LinearSVC, cross-validated\n  → docs/analysis/out/matrix-data.json",
+          "chips": ["reads only", "not a writer"]
+        },
+        {
+          "from": "catalog", "to": "release", "route": "manifest.json",
+          "title": "A checksum travels with it",
+          "desc": "<code>manifest.json</code> records the SHA-256 and size of the exact bytes shipped. A consumer pulls the kilobyte manifest first, and only fetches the catalog when it changed — then verifies the hash.",
+          "payload": "scripts/release/build-manifest.py\n  sha256(catalog.json)\n  bytes, size\n→ manifest.json  (~232 B)",
+          "chips": ["SHA-256", "cheap check first"]
+        }
+      ]
+    },
+    {
+      "key": "ship",
+      "name": "Verify & ship — nothing leaves red",
+      "short": "Ship",
+      "note": "A release is a tag, and every gate has already passed on the same bytes.",
+      "steps": [
+        {
+          "from": "cli", "to": "checks", "route": "test/test.sh",
+          "title": "Every gate runs",
+          "desc": "One command runs the whole suite: the registry, the seeds, the hand-edit traps, the build, the validation and the documentation freshness. It is the single definition of \"green\".",
+          "payload": "./test/test.sh\n  registry → seeds → build\n  → validate → docs → release",
+          "chips": ["one command", "the contract"]
+        },
+        {
+          "from": "checks", "to": "generate", "route": "--check",
+          "title": "Docs cannot drift",
+          "desc": "The generated documents are rebuilt and compared byte for byte. If a regenerate moves anything, the run fails — a hand edit is caught rather than tolerated.",
+          "payload": "build-catalog-docs.py --check\nbuild-coverage.py     --check\n→ stale docs fail the run",
+          "chips": ["byte for byte", "hand edits caught"]
+        },
+        {
+          "from": "checks", "to": "catalog", "route": "validate",
+          "title": "The file validates",
+          "desc": "The built catalog is checked against its own schema: the version, the services and every host. A document that does not validate never reaches a release.",
+          "payload": "python3 scripts/catalog/validate.py\n✓ 6731 categories, 22 services",
+          "chips": ["schema-checked", "blocks the tag"]
+        },
+        {
+          "from": "catalog", "to": "release", "route": "on green",
+          "title": "A tag publishes the bytes",
+          "desc": "When the tag is pushed, the release workflow attaches the catalog and its manifest. The moving <code>main</code> always points at the current file; a tag never moves.",
+          "payload": ".github/workflows/release.yml\ntag vX.Y.Z\n→ GitHub Release\n   catalog.json\n   manifest.json",
+          "chips": ["immutable tag", "main moves"]
+        },
+        {
+          "from": "release", "to": "cli", "route": "manifest.json",
+          "title": "Consumers verify before they pull",
+          "desc": "Another application reads the manifest, compares the hash, and pulls the catalog only when it actually changed. The contract for that is in the reference docs.",
+          "payload": "GET …/releases/download/vX.Y.Z/\n  manifest.json   (~232 B)\n  catalog.json    (~232 KB)\n\nverify sha256, then read",
+          "chips": ["pinned URL", "verified"]
+        }
+      ]
+    }
+  ]
+}

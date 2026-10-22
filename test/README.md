@@ -33,6 +33,7 @@ failure. `./test/test.sh --fast` runs the same list minus step 11.
 | 7b | The document writer is deterministic (`build-catalog-docs.py --check`) | a writer that renders the same input two different ways; exercises `--check` on the just-written files |
 | 7c | The coverage report is current | `docs/reference/COVERAGE.md` edited by hand or left behind by a regenerate, then the writer's own `--check` |
 | 8 | Documentation describes the files that exist | broken links, renamed scripts, stale counts, a licence verdict that contradicts itself, a removal that undid itself, a sweep that no longer covers the catalog, a category treemap that disagrees with `catalog.json`, a stale seeds-provenance file, a stale review backlog, a Turkish README whose blocks diverged from the English one (see the twenty-three sub-checks below) |
+| 8b | The architecture diagram matches its outline | `docs/diagrams/architecture/architecture.html` hand-edited, or its outline in `docs/architecture/source.json` changed without a regenerate |
 | 9 | The licence gate refuses, whatever the registry happens to list | `NC` and `SA` licences refused even when a record claims `allowed` — tested against synthetic records, so it does not depend on a blocked source being present |
 | 10 | A malformed host is refused, a valid one accepted | 11 malformed names (`*.example.com`, `exa mple.com`, `exämple.com`, `example.com.`…) the app could never match |
 | 10.5 | Catalog overlap and distribution check | one host claimed by two categories, an implausible category split |

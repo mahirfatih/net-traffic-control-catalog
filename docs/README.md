@@ -13,7 +13,8 @@ read the one that matches what you are doing.
 | [`guides/`](guides) | How do I work on it | written |
 | [`reference/`](reference) | What is in it right now | mostly **generated** |
 | [`security/`](security) | What the review found | written |
-| [`analysis/`](analysis) | How reliable are the labels | the source of generated artifacts |
+| [`architecture/`](architecture) | The diagram's input | the source of a generated pair |
+| [`diagrams/`](diagrams) · [`analysis/`](analysis) | Assets and generated artifacts | **generated** or imported |
 
 A file marked **generated** is an output: editing it by hand is lost on the next
 run, and each one is named with the script that rebuilds it. `./test/test.sh`
@@ -49,6 +50,12 @@ tolerated.
 
 - [`analysis/README.md`](analysis/README.md) — the reliability audit: how consistently each host's own page recovers its label.
 - [`analysis/out/README.md`](analysis/out/README.md) — the **generated** audit artifacts (matrix, term lists, error list).
+
+## Diagrams — the catalog pipeline
+
+- [`architecture/source.json`](architecture/source.json) — the outline the diagram is built from.
+- [`diagrams/architecture/architecture.html`](diagrams/architecture/architecture.html) — the interactive diagram. **Generated** by `scripts/checks/build-architecture-diagram.mjs`.
+- [`diagrams/architecture/architecture.md`](diagrams/architecture/architecture.md) — the written companion.
 
 ## Which one do I want?
 

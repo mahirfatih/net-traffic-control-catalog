@@ -26,4 +26,11 @@ backlog: `evidence/pending-source-hosts.json` must be current
 counts it holds.
 No network, no build. Run it (and `test/test.sh`) before pushing.
 
+`build-architecture-diagram.mjs` is the one writer here: it regenerates
+`docs/diagrams/architecture/architecture.html` from the `architecture-diagram`
+skill template and the outline in `docs/architecture/source.json`. Add `--check`
+to fail when the committed HTML is stale; `./test/test.sh` runs that check, so
+the diagram cannot drift from its outline. Never hand-edit the HTML — the next
+build overwrites it.
+
 See [`../README.md`](../README.md).
