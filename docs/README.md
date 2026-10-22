@@ -34,6 +34,7 @@ tolerated.
 - [`guides/PIPELINE.md`](guides/PIPELINE.md) — how a domain is removed: the DNS, live and registration sweeps.
 - [`guides/SCHEDULE.md`](guides/SCHEDULE.md) — when each sweep runs, and why at that cadence.
 - [`guides/NEEDS-REVIEW.md`](guides/NEEDS-REVIEW.md) — the hosts a source listed that no rule matched; what is still open.
+- [`guides/NAMING.md`](guides/NAMING.md) — what to name a file, and why the repository deviates from PEP 8's module rule.
 
 ## Reference — what is in it right now
 
@@ -83,6 +84,7 @@ tolerated.
 | "how exactly is a dead domain removed?" | [`guides/PIPELINE.md`](guides/PIPELINE.md) |
 | "how often do we re-check?" | [`guides/SCHEDULE.md`](guides/SCHEDULE.md) |
 | "how do I add or remove a host?" | [`guides/MAINTAINING.md`](guides/MAINTAINING.md) |
+| "what do I name a new file?" | [`guides/NAMING.md`](guides/NAMING.md) |
 | "how do I verify it, and what runs offline?" | [`testing/README.md`](testing/README.md) |
 | "how do I ship a release?" | [`release/README.md`](release/README.md) |
 | "what is open right now?" | [`security/audit.md`](security/audit.md) |

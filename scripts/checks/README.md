@@ -26,6 +26,13 @@ backlog: `evidence/pending-source-hosts.json` must be current
 counts it holds.
 No network, no build. Run it (and `test/test.sh`) before pushing.
 
+`check-naming.mjs` is the naming guard: every `.py`, `.mjs`, `.js`, `.sh` and
+`.json` file must be named in kebab-case. Markdown is deliberately out of scope —
+the documentation set is UPPER-CASE named by convention — and JSON *contents*
+are never inspected, only the file name, so a hostname inside a catalog is not
+mistaken for one. The rule, its reason and its exceptions are in
+[`../../docs/guides/NAMING.md`](../../docs/guides/NAMING.md).
+
 `build-architecture-diagram.mjs` is the one writer here: it regenerates
 `docs/diagrams/architecture/architecture.html` from the `architecture-diagram`
 skill template and the outline in `docs/architecture/source.json`. Add `--check`

@@ -193,6 +193,15 @@ is what a person recognises.
 `services[].key` **must stay stable** — the app may cache by it, so renaming
 one re-labels data on somebody's device.
 
+## Naming
+
+Scripts and data files are named in **kebab-case** (`build-matrix.py`,
+`check-docs-fresh.mjs`, `harvest-summary.json`); the identifiers inside them
+follow PEP 8 for Python and the MDN guide for JavaScript, and JSON keys are
+`snake_case`. The full rule, the deliberate exceptions and the reason the
+repository deviates from PEP 8's module rule are in
+[`docs/guides/NAMING.md`](docs/guides/NAMING.md).
+
 ## Before you open a pull request
 
 ```sh
@@ -204,8 +213,9 @@ the `--check` that the committed `catalog.json` and documents match what the
 seeds build, the validator, the documentation freshness check, the catalog's own
 quality guardrails (overlaps, category boundaries, source-import quality,
 override validity, the dead-domain, live-sweep and registration decision
-tables), and `python3 -m py_compile` over every script. All of it is Python 3
-standard library — no dependencies, no install step.
+tables), the naming-convention check, and `python3 -m py_compile` over every
+script. All of it is Python 3 standard library — no dependencies, no install
+step.
 
 If you changed a number that appears in a document, the freshness check will
 say so.

@@ -59,6 +59,7 @@ dead.
 | Script | What it does |
 | :--- | :--- |
 | [`check-docs-fresh.mjs`](checks/check-docs-fresh.mjs) | Static drift check: broken links, renamed scripts, stale counts, unmeasured durations, a licence verdict that contradicts itself, a removed host that reappeared in the seeds. |
+| [`check-naming.mjs`](checks/check-naming.mjs) | Naming guard: every `.py`, `.mjs`, `.js`, `.sh` and `.json` file must be kebab-case. Markdown is out of scope. See [`../docs/guides/NAMING.md`](../docs/guides/NAMING.md). |
 | [`build-architecture-diagram.mjs`](checks/build-architecture-diagram.mjs) | Regenerate [`docs/diagrams/architecture/architecture.html`](../docs/diagrams/architecture/architecture.html) from the `architecture-diagram` skill template and [`docs/architecture/source.json`](../docs/architecture/source.json). `--check` fails when the committed HTML is stale. |
 
 ### Analysis — [`analysis/`](analysis/)
