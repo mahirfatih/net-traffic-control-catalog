@@ -255,16 +255,14 @@ The format and the data move separately: `version` only on a breaking shape
 change, the data on every regenerate. A **tag** freezes both for a consumer that
 must reproduce a state.
 
-```sh
-# the changelog carries the entry and the tree is clean
-git tag v0.0.1
-git push origin main v0.0.1
-```
-
-Pushing the tag runs [`.github/workflows/release.yml`](../../.github/workflows/release.yml):
-the checks, the tagged bytes restored over the rebuild's re-stamped `generated`
-date, then a GitHub Release carrying `catalog.json`, `manifest.json` and
-`catalog.json.sha256`. The file ships plain — no gzip.
+Releases are **manual** — nothing runs on a push or a tag. Start
+[`.github/workflows/release.yml`](../../.github/workflows/release.yml) from the
+Actions tab with the tag name you want and `publish` left false; it runs the
+checks, restores the committed bytes over the rebuild's re-stamped `generated`
+date, and prints the notes and assets it would attach. Set `publish` true to
+create the tag and the GitHub Release carrying `catalog.json`, `manifest.json`
+and `catalog.json.sha256`. The file ships plain — no gzip; the recipe is in
+[`../release/README.md`](../release/README.md).
 
 Regenerating `catalog.json` without `scripts/release/build-manifest.py` fails
 `./test/test.sh` at **step 3c**: a manifest that no longer quotes the bytes it

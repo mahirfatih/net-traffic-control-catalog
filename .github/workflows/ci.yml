@@ -1,10 +1,9 @@
 name: checks
 
-# Every static check in one place, so a guarantee that only lives in
-# test/test.sh runs on every push and pull request instead of only when a
-# person remembers to run it.
+# Every static check in one place: the guarantee that also lives in
+# test/test.sh, runnable without a local checkout.
 #
-# Manual only (workflow_dispatch) — run from Actions tab when you want.
+# Manual only (workflow_dispatch) — run it from the Actions tab when you want it.
 on:
   workflow_dispatch:
 

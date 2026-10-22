@@ -25,9 +25,17 @@ touching it. The release tags (`v0.0.1`) are what move when the data moves, and
   offline/online modes, and eleven nodes that are real scripts and files. The
   previous placeholder (traffic signals, Redis, PDF reports) is gone. `--check`
   fails when the committed HTML is stale, and `test/test.sh` runs it as step 8b.
+- **`testing/` and `release/` docs** — `docs/testing/README.md` ("how do I
+  verify it") and `docs/release/README.md` ("how do I ship it") complete the
+  folder-per-question set, and `docs/README.md` maps both.
 
 ### Changed
 
+- **Releases are manual only** — `.github/workflows/release.yml` no longer runs
+  on a `v*` tag push. `workflow_dispatch` is the only trigger, with a `publish`
+  input (default `false` = rehearse) so a manual run either rehearses the whole
+  path or creates the tag and the release. `ci.yml` was already manual-only. The
+  release docs, `docs/guides/MAINTAINING.md` and the architecture diagram follow.
 - **Documentation paths** — every reference to the old flat locations is updated:
   the build scripts, `check-docs-fresh.mjs`, `test/test.sh`,
   `scripts/sources/harvest.py`, the `scripts/**/README.md` cross-links and the

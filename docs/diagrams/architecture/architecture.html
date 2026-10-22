@@ -1179,7 +1179,7 @@ host, what was tried, what happened
 
   ship: {
     name: "Verify & ship — nothing leaves red",
-    note: "A release is a tag, and every gate has already passed on the same bytes.",
+    note: "A release pins a tag by hand, and every gate has already passed on the same bytes.",
     steps: [
       {
         from:"cli", to:"checks", color:"--c-embed",
@@ -1208,19 +1208,19 @@ build-coverage.py     --check
         desc:"The built catalog is checked against its own schema: the version, the services and every host. A document that does not validate never reaches a release.",
         payload:`python3 scripts/catalog/validate.py
 ✓ 6731 categories, 22 services`,
-        chips:["schema-checked","blocks the tag"]
+        chips:["schema-checked","blocks the release"]
       },
       {
         from:"catalog", to:"release", color:"--c-seed",
-        title:"A tag publishes the bytes",
-        route:"on green",
-        desc:"When the tag is pushed, the release workflow attaches the catalog and its manifest. The moving <code>main</code> always points at the current file; a tag never moves.",
+        title:"A manual run publishes the bytes",
+        route:"on demand",
+        desc:"A maintainer starts the release workflow from the Actions tab; it creates the tag and attaches the catalog and its manifest. The moving <code>main</code> always points at the current file; a tag never moves.",
         payload:`.github/workflows/release.yml
-tag vX.Y.Z
+workflow_dispatch vX.Y.Z
 → GitHub Release
    catalog.json
    manifest.json`,
-        chips:["immutable tag","main moves"]
+        chips:["manual run","main moves"]
       },
       {
         from:"release", to:"cli", color:"--c-user",

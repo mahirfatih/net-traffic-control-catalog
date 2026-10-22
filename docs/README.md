@@ -12,6 +12,8 @@ read the one that matches what you are doing.
 | [`overview/`](overview) | What this catalog is | written |
 | [`guides/`](guides) | How do I work on it | written |
 | [`reference/`](reference) | What is in it right now | mostly **generated** |
+| [`testing/`](testing) | How do I verify it | written |
+| [`release/`](release) | How do I ship it | written |
 | [`security/`](security) | What the review found | written |
 | [`architecture/`](architecture) | The diagram's input | the source of a generated pair |
 | [`diagrams/`](diagrams) · [`analysis/`](analysis) | Assets and generated artifacts | **generated** or imported |
@@ -41,6 +43,14 @@ tolerated.
 - [`reference/INTEGRATION.md`](reference/INTEGRATION.md) — reading the file from another application: tag URLs, the manifest, the SHA-256 check.
 - [`reference/IPADDRESS.md`](reference/IPADDRESS.md) — why a bare address is never a host.
 - [`reference/SOURCES.md`](reference/SOURCES.md) — why each external source is allowed or refused.
+
+## Testing — how do I verify it
+
+- [`testing/README.md`](testing/README.md) — the suite, the offline proof of the network sweeps, and the reliability audit.
+
+## Release — how do I ship it
+
+- [`release/README.md`](release/README.md) — the manual release run, the manifest and checksum, and the version bump.
 
 ## Security
 
@@ -73,6 +83,8 @@ tolerated.
 | "how exactly is a dead domain removed?" | [`guides/PIPELINE.md`](guides/PIPELINE.md) |
 | "how often do we re-check?" | [`guides/SCHEDULE.md`](guides/SCHEDULE.md) |
 | "how do I add or remove a host?" | [`guides/MAINTAINING.md`](guides/MAINTAINING.md) |
+| "how do I verify it, and what runs offline?" | [`testing/README.md`](testing/README.md) |
+| "how do I ship a release?" | [`release/README.md`](release/README.md) |
 | "what is open right now?" | [`security/audit.md`](security/audit.md) |
 | "how do I add a host?" | [`../CONTRIBUTING.md`](../CONTRIBUTING.md) |
 | "why is non-commercial data refused?" | [`../SECURITY.md`](../SECURITY.md) |
