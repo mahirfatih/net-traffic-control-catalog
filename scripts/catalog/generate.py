@@ -8,7 +8,8 @@
 
 Add `--check` to answer "is the committed file current?" without writing:
 the seeds are rebuilt and compared to the file by content, ignoring only the
-`generated` date stamp (which is today's date whenever the file is rebuilt).
+`generated` and `generated_unix` date stamps (both derived from today's date
+whenever the file is rebuilt).
 
 - `--categories` is a JSON object `{ "host": "category" }`.
 - `--services`   is a JSON array `[ { "key", "name", "domains": [...] } ]`.
@@ -46,14 +47,15 @@ RULES = os.path.join(ROOT, "config/rules.json")
 
 
 def _structure(document):
-    """The catalog without its date stamp, for content comparison.
+    """The catalog without its date stamps, for content comparison.
 
-    `generated` is today's date whenever the file is rebuilt, so comparing it
-    would make the check fail every day for a reason that is not a change. Every
-    other field must match exactly; that is what "the committed file is current"
-    means.
+    `generated` and `generated_unix` are both derived from today's date whenever
+    the file is rebuilt, so comparing them would make the check fail every day
+    for a reason that is not a change. Every other field must match exactly; that
+    is what "the committed file is current" means.
     """
-    return {key: value for key, value in document.items() if key != "generated"}
+    _stamps = {"generated", "generated_unix"}
+    return {key: value for key, value in document.items() if key not in _stamps}
 
 
 def _describe_differences(expected, committed):
