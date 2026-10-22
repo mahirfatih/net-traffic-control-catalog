@@ -255,6 +255,14 @@ step "8b. The architecture diagram matches its outline"
 # committed artifact predates.
 node scripts/checks/build-architecture-diagram.mjs --check
 
+step "8c. Script and data files follow the naming convention"
+# Every `.py`, `.mjs`, `.js`, `.sh` and `.json` file is named in kebab-case.
+# This is the one rule the repository keeps for scripts and data files; the
+# reason (and why it deviates from PEP 8's `snake_case` for a Python module) is
+# written down in docs/guides/NAMING.md. Markdown is out of scope — the
+# documentation set is UPPER-CASE named by convention.
+node scripts/checks/check-naming.mjs
+
 step "9. The licence gate refuses, whatever the registry happens to list"
 python3 - <<'PY'
 import sys
