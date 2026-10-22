@@ -19,8 +19,16 @@ import { execSync } from 'node:child_process';
 const repoRoot = execSync('git rev-parse --show-toplevel', { encoding: 'utf8' }).trim();
 const srcPath = path.join(repoRoot, 'docs/architecture/source.json');
 const outPath = path.join(repoRoot, 'docs/diagrams/architecture/architecture.html');
-const SKILL = path.join(os.homedir(), '.config/opencode/skills/architecture-diagram');
-const templatePath = path.join(SKILL, 'assets/template.html');
+
+// The template belongs to the `architecture-diagram` skill, which is not part of
+// this repository. Look for a vendored copy first, then the installed skill, and
+// allow an explicit override so CI can point at one.
+const templateCandidates = [
+  process.env.ARCHITECTURE_DIAGRAM_TEMPLATE,
+  path.join(repoRoot, 'scripts/checks/architecture-diagram-template.html'),
+  path.join(os.homedir(), '.config/opencode/skills/architecture-diagram/assets/template.html'),
+].filter(Boolean);
+const templatePath = templateCandidates.find((p) => fs.existsSync(p));
 
 const ICONS = {
   user: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>',
@@ -143,10 +151,24 @@ ${steps}
 }
 
 const src = JSON.parse(fs.readFileSync(srcPath, 'utf8'));
+
+const check = process.argv.includes('--check');
+if (!templatePath) {
+  // The outline is committed but the template is not part of this repository, so
+  // `--check` cannot compare here — say so and pass, rather than block a run on
+  // a file the repo does not carry. A real build has nothing to fall back on.
+  if (check) {
+    console.log(`· architecture-diagram template not installed — skipping the ${path.relative(repoRoot, outPath)} check`);
+    console.log("  set ARCHITECTURE_DIAGRAM_TEMPLATE to enable it");
+    process.exit(0);
+  }
+  console.error("✗ cannot find the architecture-diagram template; set ARCHITECTURE_DIAGRAM_TEMPLATE to its path");
+  process.exit(1);
+}
+
 const template = fs.readFileSync(templatePath, 'utf8');
 const html = build(src, template);
 
-const check = process.argv.includes('--check');
 if (check) {
   const current = fs.existsSync(outPath) ? fs.readFileSync(outPath, 'utf8') : '';
   if (current !== html) {

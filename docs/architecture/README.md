@@ -13,3 +13,8 @@ hand-edit it, because the next build overwrites it. The prose companion is
 [`../diagrams/architecture/architecture.md`](../diagrams/architecture/architecture.md),
 and `./test/test.sh` runs the `--check` above so the diagram cannot drift from
 its outline.
+
+The build needs the `architecture-diagram` skill template
+(`~/.config/opencode/skills/architecture-diagram/assets/template.html`, or a path
+in `ARCHITECTURE_DIAGRAM_TEMPLATE`). When it is not installed, `--check` skips
+with a note instead of failing.

@@ -33,4 +33,11 @@ to fail when the committed HTML is stale; `./test/test.sh` runs that check, so
 the diagram cannot drift from its outline. Never hand-edit the HTML — the next
 build overwrites it.
 
+The template is not part of this repository. The script looks for a vendored
+`architecture-diagram-template.html` here, then the installed skill under
+`~/.config/opencode/skills/architecture-diagram/`, and honours
+`ARCHITECTURE_DIAGRAM_TEMPLATE` as an override. When none is present, `--check`
+skips with a note instead of failing, so a run does not depend on a file the
+repository does not carry; set the environment variable to enable it.
+
 See [`../README.md`](../README.md).
