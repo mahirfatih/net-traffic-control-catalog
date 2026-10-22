@@ -1,11 +1,18 @@
-# `docs/diagrams/` — diagrams rendered from JSON specs
+# `docs/diagrams/` — generated diagram output
 
-Each subfolder holds a diagram and nothing else. The HTML is **generated** from
-the `architecture-diagram` skill template plus a JSON outline; the outline lives
-in [`../architecture/`](../architecture/). Edit the outline, then run the build —
-never hand-edit the HTML.
+Every subfolder here holds a **generated** diagram: the interactive HTML plus its
+written companion. Both come out of a build, so edit the source outline and
+re-run the builder — never hand-edit the HTML.
+
+This repository has **one** diagram set:
 
 - [`architecture/`](architecture) — the click-through diagram of the catalog
-  pipeline. **Generated** by
+  pipeline. Generated from
+  [`../architecture/source.json`](../architecture/source.json) by
   [`../../scripts/checks/build-architecture-diagram.mjs`](../../scripts/checks/build-architecture-diagram.mjs),
-  and checked by `./test/test.sh` with `--check`.
+  which fills the `architecture-diagram` skill template. `./test/test.sh` runs the
+  builder's `--check`, so the committed HTML cannot drift from the outline.
+
+The outline is the source of truth and lives in
+[`../architecture/`](../architecture/), **not** here — nothing under
+`docs/diagrams/` is a diagram spec. There is no Archify set in this repository.
