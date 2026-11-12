@@ -929,6 +929,7 @@ if command -v mmdc >/dev/null 2>&1 && [ -n "$CHROME" ]; then
     tmpdir="$(mktemp -d)"
     trap 'rm -rf "$tmpdir"' EXIT
     fail=0
+    # shellcheck disable=SC2013
     for f in $(grep -rl '```mermaid' --include='*.md' . | grep -v .git | grep -v .venv); do
         python3 - "$f" "$tmpdir" <<'PY'
 import re, pathlib, sys
