@@ -885,3 +885,74 @@ if [ "$FAST" -eq 0 ]; then
 fi
 
 printf '\n\033[1;32mall checks passed\033[0m\n'
+
+step "12. Mermaid — every diagram is closed and renders"
+python3 - <<'PY'
+import pathlib, re, sys
+blocks = []
+for p in pathlib.Path(".").rglob("*.md"):
+    if ".git" in p.parts or "scripts/analysis/.venv" in str(p):
+        continue
+    text = p.read_text()
+    for m in re.finditer(r"```mermaid\n(.*?)```", text, re.S):
+        blocks.append((str(p), m.group(1)))
+if not blocks:
+    print("no mermaid blocks found")
+    sys.exit(0)
+bad = 0
+for path, body in blocks:
+    if not body.strip():
+        print(f"{path}: empty mermaid block")
+        bad += 1
+        continue
+    depth = 0
+    for line in body.splitlines():
+        t = line.strip()
+        if t.startswith("subgraph"):
+            depth += 1
+        elif t == "end":
+            depth -= 1
+            if depth < 0:
+                depth = 0
+    if depth != 0:
+        print(f"{path}: unbalanced subgraph/end (depth {depth})")
+        bad += 1
+print(f"{len(blocks)} mermaid blocks checked for structure")
+sys.exit(1 if bad else 0)
+PY
+CHROME=""
+for c in /Applications/Chromium.app/Contents/MacOS/Chromium \
+         /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome; do
+    if [ -x "$c" ]; then CHROME="$c"; break; fi
+done
+if command -v mmdc >/dev/null 2>&1 && [ -n "$CHROME" ]; then
+    tmpdir="$(mktemp -d)"
+    trap 'rm -rf "$tmpdir"' EXIT
+    fail=0
+    for f in $(grep -rl '```mermaid' --include='*.md' . | grep -v .git | grep -v .venv); do
+        python3 - "$f" "$tmpdir" <<'PY'
+import re, pathlib, sys
+src, outdir = sys.argv[1], sys.argv[2]
+text = pathlib.Path(src).read_text()
+for idx, m in enumerate(re.finditer(r"```mermaid\n(.*?)```", text, re.S)):
+    pathlib.Path(f"{outdir}/{idx}.mmd").write_text(m.group(1))
+PY
+        for mmd in "$tmpdir"/*.mmd; do
+            [ -e "$mmd" ] || continue
+            if ! PUPPETEER_EXECUTABLE_PATH="$CHROME" mmdc -i "$mmd" -o "$tmpdir/out.svg" >/dev/null 2>&1; then
+                echo "render failed: $f"
+                fail=1
+            fi
+        done
+        rm -f "$tmpdir"/*.mmd "$tmpdir"/out.svg
+    done
+    rm -rf "$tmpdir"
+    trap - EXIT
+    if [ "$fail" -ne 0 ]; then
+        echo "mermaid render FAILED"
+        exit 1
+    fi
+    echo "all mermaid blocks render with mmdc"
+else
+    echo "mmdc or a browser not found; structure check only"
+fi
